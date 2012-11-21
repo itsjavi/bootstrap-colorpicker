@@ -43,7 +43,7 @@
 					values = match && parser.parse( match ),
 					space = parser.space||'rgba';
 				if ( values ) {
-					if (space == 'hsla') {
+					if (space === 'hsla') {
 						that.value = CPGlobal.RGBtoHSB.apply(null, CPGlobal.HSLtoRGB.apply(null, values));
 					} else {
 						that.value = CPGlobal.RGBtoHSB.apply(null, values);
@@ -155,7 +155,7 @@
 				'click': $.proxy(this.show, this)
 			});
 		}
-		if (format == 'rgba' || format == 'hsla') {
+		if (format === 'rgba' || format === 'hsla') {
 			this.picker.addClass('alpha');
 			this.alpha = this.picker.find('.colorpicker-alpha')[0].style;
 		}
@@ -203,6 +203,19 @@
 			this.previewColor();
 		},
 		
+		setValue: function(newColor) {
+			this.color = new Color(newColor);
+			this.picker.find('i')
+				.eq(0).css({left: this.color.value.s*100, top: 100 - this.color.value.b*100}).end()
+				.eq(1).css('top', 100 * (1 - this.color.value.h)).end()
+				.eq(2).css('top', 100 * (1 - this.color.value.a));
+			this.previewColor();
+			this.element.trigger({
+				type: 'changeColor',
+				color: this.color
+			});
+		},
+		
 		hide: function(){
 			this.picker.hide();
 			$(window).off('resize', this.place);
@@ -233,7 +246,11 @@
 		
 		//preview color change
 		previewColor: function(){
-			this.preview.backgroundColor = this.format.call(this);
+			try {
+				this.preview.backgroundColor = this.format.call(this);
+			} catch(e) {
+				this.preview.backgroundColor = this.color.toHex();
+			}
 			//set the color for brightness/saturation slider
 			this.base.backgroundColor = this.color.toHex(this.color.value.h, 1, 1, 1);
 			//set te color for alpha slider
@@ -256,13 +273,15 @@
 			var zone = target.closest('div');
 			if (!zone.is('.colorpicker')) {
 				if (zone.is('.colorpicker-saturation')) {
-					this.slider = $.extend({}, CPGlobal.sliders['saturation']);
+					this.slider = $.extend({}, CPGlobal.sliders.saturation);
 				} 
 				else if (zone.is('.colorpicker-hue')) {
-					this.slider = $.extend({}, CPGlobal.sliders['hue']);
+					this.slider = $.extend({}, CPGlobal.sliders.hue);
 				}
 				else if (zone.is('.colorpicker-alpha')) {
-					this.slider = $.extend({}, CPGlobal.sliders['alpha']);
+					this.slider = $.extend({}, CPGlobal.sliders.alpha);
+				} else {
+					return false;
 				}
 				var offset = zone.offset();
 				//reference to knob's style
@@ -330,11 +349,11 @@
 		return this.each(function () {
 			var $this = $(this),
 				data = $this.data('colorpicker'),
-				options = typeof option == 'object' && option;
+				options = typeof option === 'object' && option;
 			if (!data) {
 				$this.data('colorpicker', (data = new Colorpicker(this, $.extend({}, $.fn.colorpicker.defaults,options))));
 			}
-			if (typeof option == 'string') data[option]();
+			if (typeof option === 'string') data[option]();
 		});
 	};
 
@@ -405,13 +424,13 @@
 			var H, S, V, C;
 			V = Math.max(r, g, b);
 			C = V - Math.min(r, g, b);
-			H = (C == 0 ? null :
-				 V == r ? (g - b) / C :
-				 V == g ? (b - r) / C + 2 :
-						  (r - g) / C + 4
+			H = (C === 0 ? null :
+				V == r ? (g - b) / C :
+				V == g ? (b - r) / C + 2 :
+					(r - g) / C + 4
 				);
 			H = ((H + 360) % 6) * 60 / 360;
-			S = C == 0 ? 0 : C / V;
+			S = C === 0 ? 0 : C / V;
 			return {h: H||1, s: S, b: V, a: a||1};
 		},
 		
@@ -433,15 +452,16 @@
 	
 		HSLtoRGB: function (h, s, l, a)
 		{
-
-			if (s < 0)
+			if (s < 0) {
 				s = 0;
-
-			if (l <= 0.5)
-				var q = l * (1 + s);
-			else
-				var q = l + s - (l * s);
-
+			}
+			var q;
+			if (l <= 0.5) {
+				q = l * (1 + s);
+			} else {
+				q = l + s - (l * s);
+			}
+			
 			var p = 2 * l - q;
 
 			var tr = h + (1 / 3);

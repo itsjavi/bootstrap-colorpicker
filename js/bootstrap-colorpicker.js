@@ -228,7 +228,9 @@
 				}
 				this.element.data('color', this.format.call(this));
 			} else {
-				this.element.prop('value', this.format.call(this));
+                if (this.element.val() != '') {
+				    this.element.prop('value', this.format.call(this));
+                }
 			}
 			this.element.trigger({
 				type: 'hide',

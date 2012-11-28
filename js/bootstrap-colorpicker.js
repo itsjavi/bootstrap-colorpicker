@@ -137,6 +137,9 @@
 		this.isInput = this.element.is('input');
 		this.component = this.element.is('.color') ? this.element.find('.add-on') : false;
 		
+		this.targetInput = !this.isInput && this.element.data('color-input') ? this.element.find(this.element.data('color-input')) : false;
+		this.palette = this.element.data('color-palette') && $.isArray(this.element.data('color-palette')) ? $(this.element.data('color-palette')) : false;
+
 		this.picker = $(CPGlobal.template)
 							.appendTo('body')
 							.on('mousedown', $.proxy(this.mousedown, this));
@@ -165,6 +168,22 @@
 			this.preview = this.element.find('i')[0].style;
 		} else {
 			this.preview = this.picker.find('div:last')[0].style;
+		}
+
+		if (!this.palette) {
+			this.picker.find('.colorpicker-palette').hide();
+		} else {
+			var that = this;
+			while( (slice = this.palette.splice(0,6)).length > 0 ) {
+				$('<tr>').append(
+					slice.map(function(color){ 
+						return $('<td>').append(
+							$('<i>').css({ 'background-color' : color }).on('click', function(){
+								that.setValue($(this).css('background-color'))
+						}) )[0] 
+					})
+				).appendTo(this.picker.find('.colorpicker-palette').find('tbody'));
+			}
 		}
 		
 		this.base = this.picker.find('div:first')[0].style;
@@ -223,7 +242,9 @@
 				$(document).off({
 					'mousedown': this.hide
 				});
-				if (this.component){
+				if (this.targetInput) {
+					this.targetInput.prop('value', this.format.call(this));
+				} else if (this.component){
 					this.element.find('input').prop('value', this.format.call(this));
 				}
 				this.element.data('color', this.format.call(this));
@@ -536,6 +557,7 @@
 							'<div class="colorpicker-hue"><i></i></div>'+
 							'<div class="colorpicker-alpha"><i></i></div>'+
 							'<div class="colorpicker-color"><div /></div>'+
+							'<div class="colorpicker-palette"><table><tbody></tbody></table></div>'+
 						'</div>'
 	};
 

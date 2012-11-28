@@ -136,7 +136,8 @@
 		this.format = CPGlobal.translateFormats[format];
 		this.isInput = this.element.is('input');
 		this.component = this.element.is('.color') ? this.element.find('.add-on') : false;
-		
+		this.targetInput = !this.isInput && this.element.data('color-input') ? this.element.find(this.element.data('color-input')) : false;
+
 		this.picker = $(CPGlobal.template)
 							.appendTo('body')
 							.on('mousedown', $.proxy(this.mousedown, this));
@@ -223,7 +224,9 @@
 				$(document).off({
 					'mousedown': this.hide
 				});
-				if (this.component){
+				if (this.targetInput) {
+					this.targetInput.prop('value', this.format.call(this));
+				} else if (this.component){
 					this.element.find('input').prop('value', this.format.call(this));
 				}
 				this.element.data('color', this.format.call(this));

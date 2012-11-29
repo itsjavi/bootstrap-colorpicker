@@ -61,9 +61,13 @@
                         <div class="well">
                             <input type="text" class="span3" value="#8fff00" id="cp1" >
                         </div>
-                        <p>Attachet to a field with the rgba format specified via data tag.</p>
+                        <p>Attached to a field with the rgba format specified via data tag.</p>
                         <div class="well">
                             <input type="text" class="span3" value="rgb(0,194,255,0.78)" id="cp2" data-color-format="rgba" >
+                        </div>
+                        <p>With a color palette.</p>
+                        <div class="well">
+                            <input type="text" class="span3" value="rgb(0,194,255,0.78)" id="cp5" data-color-format="rgba" data-color-palette='["rgba(0,0,0,1)","rgba(255,255,255,1)"]'>
                         </div>
                         <p>As component.</p>
                         <div class="well">
@@ -181,7 +185,7 @@ $(&#039;.colorpicker&#039;).colorpicker().on(&#039;changeColor&#039;, function(e
                     format: 'hex'
                 });
                 $('#cp2').colorpicker();
-                $('#cp3').colorpicker();
+                $('#cp3, #cp5').colorpicker();
                 var bodyStyle = $('body')[0].style;
                 $('#cp4').colorpicker().on('changeColor', function(ev){
                     bodyStyle.backgroundColor = ev.color.toHex();

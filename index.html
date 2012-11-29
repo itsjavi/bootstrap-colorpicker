@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Colorpicker for Bootstrap, from Twitter</title>
+        <link href="./css/bootstrap.css" rel="stylesheet">
+        <link href="./css/bootstrap-colorpicker.css" rel="stylesheet">
+        <style>
+            .container {
+                background: #fff;
+            }
+            .changelog li:first-child{
+                font-weight: bold;
+                margin-left:-15px;
+                list-style: none;
+            }
+        </style>
+        <link href="./js/google-code-prettify/prettify.css" rel="stylesheet">
+        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <div class="container">
+            <section id="typeahead">
+                <div class="page-header">
+                    <h1>Colorpicker for Bootstrap <small>bootstrap-colorpicker.js</small></h1>
+                </div>
+
+                <div class="row">
+                    <div class="span4 columns">
+                        <h3>About</h3>
+                        <p>
+                            Colorpicker plugin for the Twitter Bootstrap toolkit. Originally written by <a href="https://twitter.com/stefanpetre/" target="_blank">@eyecon</a>
+                            and maintained in Github by <a href="http://twitter.com/xaguilars/" target="_blank">@xaguilars</a> and the community
+                            <br><br> Adds a color picker to a field or any other element.
+                        </p>
+                        <ul>
+                            <li>can be used as a component</li>
+                            <li>alpha picker</li>
+                            <li>multiple formats: hex, rgb, rgba, hsl, hsla</li>
+                        </ul>
+                        <br>
+                        <p><a href="https://github.com/xaguilars/bootstrap-colorpicker/" target="_blank" class="btn btn-"><i class="icon-share-alt"></i> Fork me on Github</a></p>
+                        <p><a href="https://github.com/xaguilars/bootstrap-colorpicker/archive/master.zip" target="_blank" class="btn btn-primary btn-large"><i class="icon-download-alt icon-white"></i> Download</a></p>
+                        <h3>Change log</h3>
+                        <ul class="changelog">
+                            <li>29/11/2012</li>
+                            <li>Improved file naming to avoid collisions</li>
+                            <li>Allow to set an empty value to the input</li>
+                            <li>Fixed issues on IE7-8 when using alpha</li>
+                            <li>Fixed issue when clicking on the preview</li>
+                            <li>Updated the docs with information about the color object</li>
+                        </ul>
+                    </div>
+                    <div class="span8 columns">
+                        <h2>Example</h2>
+                        <p>Attached to a field with hex format specified via options.</p>
+                        <div class="well">
+                            <input type="text" class="span3" value="#8fff00" id="cp1" >
+                        </div>
+                        <p>Attachet to a field with the rgba format specified via data tag.</p>
+                        <div class="well">
+                            <input type="text" class="span3" value="rgb(0,194,255,0.78)" id="cp2" data-color-format="rgba" >
+                        </div>
+                        <p>As component.</p>
+                        <div class="well">
+                            <div class="input-append color" data-color="rgb(255, 146, 180)" data-color-format="rgb" id="cp3">
+                                <input type="text" class="span3" value="" readonly >
+                                <span class="add-on"><i style="background-color: rgb(255, 146, 180)"></i></span>
+                            </div>
+                        </div>
+                        <p>Using events to work with the color.</p>
+                        <div class="well">
+                            <a href="#" class="btn small" id="cp4" data-color-format="hex" data-color="rgb(255, 255, 255)">Change background color</a>
+                        </div>
+                        <hr>
+                        <h2>Using bootstrap-colorpicker.js</h2>
+                        <p>Call the colopicker via javascript:</p>
+                        <pre class="prettyprint linenums">$('.colorpicker').colorpicker()</pre>
+                        <h3>Options</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 100px;">Name</th>
+                                    <th style="width: 50px;">type</th>
+                                    <th style="width: 100px;">default</th>
+                                    <th>description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>format</td>
+                                    <td>string</td>
+                                    <td>'hex'</td>
+                                    <td>the color format - hex | rgb | rgba.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Markup</h3>
+                        <p>Format a component.</p>
+                        <pre class="prettyprint linenums">
+&lt;div class=&quot;input-append color&quot; data-color=&quot;rgb(255, 146, 180)&quot; data-color-format=&quot;rgb&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;span2&quot; value=&quot;&quot; &gt;
+  &lt;span class=&quot;add-on&quot;&gt;&lt;i style=&quot;background-color: rgb(255, 146, 180)&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;
+                        </pre>
+                        <h3>Methods</h3>
+                        <h4>.colorpicker(options)</h4>
+                        <p>Initializes an colorpicker.</p>
+                        <h4>.colorpicker('show')</h4>
+                        <p>Show the color picker</p>
+                        <h4>.colorpicker('hide')</h4>
+                        <p>Hide the color picker</p>
+                        <h4>.colorpicker('place')</h4>
+                        <p>Updates the color picker's position relative to the element</p>
+                        <h4>.colorpicker('setValue', value)</h4>
+                        <p>Set a new value for the color picker. Triggers 'changeColor' event.</p>
+                        <h3>Color object methods</h3>
+                        <p>Each triggered events have a color object used internally by the picker. This object has several usefull methods.</p>
+                        <h4>.setColor(value)</h4>
+                        <p>Set a new color. The value is parsed and tries to do a quess on the format.</p>
+                        <h4>.setHue(value)</h4>
+                        <p>Set the HUE with a value between 0 and 1.</p>
+                        <h4>.setSaturation(value)</h4>
+                        <p>Set the saturation with a value between 0 and 1.</p>
+                        <h4>.setLightness(value)</h4>
+                        <p>Set the lightness with a value between 0 and 1.</p>
+                        <h4>.setAlpha(value)</h4>
+                        <p>Set the transparency with a value between 0 and 1.</p>
+                        <h4>.toRGB()</h4>
+                        <p>Returns a hash with red, green, blue and alpha.</p>
+                        <h4>.toHex()</h4>
+                        <p>Returns a string with HEX format for the current color.</p>
+                        <h4>.toHSL()</h4>
+                        <p>Returns a hash with HSLA values.</p>
+
+                        <h3>Events</h3>
+                        <p>Colopicker class exposes a few events for manipulating the colors.</p>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 150px;">Event</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>show</td>
+                                    <td>This event fires immediately when the color picker is displayed.</td>
+                                </tr>
+                                <tr>
+                                    <td>hide</td>
+                                    <td>This event is fired immediately when the color picker is hidden.</td>
+                                </tr>
+                                <tr>
+                                    <td>changeColor</td>
+                                    <td>This event is fired when the color is changed.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pre class="prettyprint linenums">
+$(&#039;.colorpicker&#039;).colorpicker().on(&#039;changeColor&#039;, function(ev){
+  bodyStyle.backgroundColor = ev.color.toHex();
+});
+                        </pre>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <script src="./js/google-code-prettify/prettify.js"></script>
+        <script src="./js/jquery.min.js"></script>
+        <script src="./js/bootstrap.min.js"></script>
+        <script src="./js/bootstrap-colorpicker.js"></script>
+        <script>
+            $(function(){
+                window.prettyPrint && prettyPrint()
+                $('#cp1').colorpicker({
+                    format: 'hex'
+                });
+                $('#cp2').colorpicker();
+                $('#cp3').colorpicker();
+                var bodyStyle = $('body')[0].style;
+                $('#cp4').colorpicker().on('changeColor', function(ev){
+                    bodyStyle.backgroundColor = ev.color.toHex();
+                });
+            });
+        </script>
+    </body>
+</html>

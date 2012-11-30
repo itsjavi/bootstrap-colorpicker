@@ -175,10 +175,6 @@
 		constructor: Colorpicker,
 		
 		show: function(e) {
-                        //if the input value is empty, set the current picked color
-                        if (this.element.val() == '') {
-                            this.element.prop('value', this.format.call(this));
-                        }
 			this.picker.show();
 			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
 			this.place();
@@ -199,15 +195,12 @@
 		},
 		
 		update: function(){
-                        var colorStr = this.isInput ? this.element.prop('value') : this.element.data('color');
-                        if(colorStr != ""){
-                            this.color = new Color(colorStr);
-                            this.picker.find('i')
-                                    .eq(0).css({left: this.color.value.s*100, top: 100 - this.color.value.b*100}).end()
-                                    .eq(1).css('top', 100 * (1 - this.color.value.h)).end()
-                                    .eq(2).css('top', 100 * (1 - this.color.value.a));
-                            this.previewColor();
-                        }
+			this.color = new Color(this.isInput ? this.element.prop('value') : this.element.data('color'));
+			this.picker.find('i')
+				.eq(0).css({left: this.color.value.s*100, top: 100 - this.color.value.b*100}).end()
+				.eq(1).css('top', 100 * (1 - this.color.value.h)).end()
+				.eq(2).css('top', 100 * (1 - this.color.value.a));
+			this.previewColor();
 		},
 		
 		setValue: function(newColor) {
@@ -235,10 +228,10 @@
 				}
 				this.element.data('color', this.format.call(this));
 			} else {
-                            //if the input value is empty, do not set any color
-                            if (this.element.val() != '') {
-                                this.element.prop('value', this.format.call(this));
-                            }
+                //if the input value is empty, do not set any color
+                if (this.element.val() != '') {
+				    this.element.prop('value', this.format.call(this));
+                }
 			}
 			this.element.trigger({
 				type: 'hide',
@@ -337,6 +330,14 @@
 				this.color[this.slider.callTop].call(this.color, top/100);
 			}
 			this.previewColor();
+
+            // Set input value on mousemove
+            try {
+                this.element.val(this.format.call(this));
+            } catch(e) {
+                this.element.val(this.color.toHex());
+            }
+
 			this.element.trigger({
 				type: 'changeColor',
 				color: this.color

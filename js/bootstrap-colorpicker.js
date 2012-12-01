@@ -167,15 +167,25 @@
 			this.picker.find('.colorpicker-color').hide();
 			this.preview = this.element.find('i')[0].style;
 		} else {
-			this.preview = this.picker.find('div:last')[0].style;
+			this.preview = this.picker.find('.colorpicker-color div')[0].style;
 		}
 
 		if (!this.palette) {
 			this.picker.find('.colorpicker-palette').hide();
 		} else {
 			var that = this;
-                        var slice = null;
-			while( (slice = this.palette.splice(0,6)).length > 0 ) {
+      var slice = null;
+      var per_row = 6;
+
+      if (this.alpha) {
+      	per_row = 7;
+      }
+      
+      if (this.palette.length >= per_row) {
+      	this.picker.find('.colorpicker-palette table').css({'width' : '100%'});
+      }
+
+			while( (slice = this.palette.splice(0,per_row)).length > 0 ) {
 				$('<tr>').append(
 					slice.map(function(color){ 
 						return $('<td>').append(

@@ -138,7 +138,7 @@
 		this.component = this.element.is('.color') ? this.element.find('.add-on') : false;
 		
 		this.targetInput = !this.isInput && this.element.data('color-input') ? this.element.find(this.element.data('color-input')) : false;
-		this.palette = this.element.data('color-palette') && $.isArray(this.element.data('color-palette')) ? $(this.element.data('color-palette')) : false;
+		this.palette = options.palette || this.element.data('color-palette');
 
 		this.picker = $(CPGlobal.template)
 							.appendTo('body')
@@ -167,15 +167,25 @@
 			this.picker.find('.colorpicker-color').hide();
 			this.preview = this.element.find('i')[0].style;
 		} else {
-			this.preview = this.picker.find('div:last')[0].style;
+			this.preview = this.picker.find('.colorpicker-color div')[0].style;
 		}
 
 		if (!this.palette) {
 			this.picker.find('.colorpicker-palette').hide();
 		} else {
 			var that = this;
-                        var slice = null;
-			while( (slice = this.palette.splice(0,6)).length > 0 ) {
+      var slice = null;
+      var per_row = 6;
+
+      if (this.alpha) {
+      	per_row = 7;
+      }
+      
+      if (this.palette.length >= per_row) {
+      	this.picker.find('.colorpicker-palette table').css({'width' : '100%'});
+      }
+
+			while( (slice = this.palette.splice(0,per_row)).length > 0 ) {
 				$('<tr>').append(
 					slice.map(function(color){ 
 						return $('<td>').append(

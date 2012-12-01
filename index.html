@@ -67,7 +67,11 @@
                         </div>
                         <p>With a color palette.</p>
                         <div class="well">
-                            <input type="text" class="span3" value="rgb(0,194,255,0.78)" id="cp5" data-color-format="rgba" data-color-palette='["rgba(0,0,0,1)","rgba(255,255,255,1)"]'>
+                            <input type="text" class="span3" value="rgb(0,194,255,0.78)" id="cp5" data-color-format="rgba" data-color-palette='["rgba(253,0,0,1)","rgba(191,48,48,1)","rgba(166,0,0,1)","rgba(255,64,64,1)","rgba(255,115,115,1)","rgba(255,116,0,1)","rgba(191,113,48,1)","rgba(166,75,0,1)","rgba(255,150,64,1)","rgba(255,178,115,1)","rgba(205,0,116,1)","rgba(153,38,103,1)","rgba(133,0,75,1)","rgba(230,57,155,1)"]'>
+                        </div>
+                        <p>With a color palette passed in colorpicker options.</p>
+                        <div class="well">
+                            <input type="text" class="span3" value="rgb(0,194,255,0.78)" id="cp6" data-color-format="rgb">
                         </div>
                         <p>As component.</p>
                         <div class="well">
@@ -189,6 +193,13 @@ $(&#039;.colorpicker&#039;).colorpicker().on(&#039;changeColor&#039;, function(e
                 var bodyStyle = $('body')[0].style;
                 $('#cp4').colorpicker().on('changeColor', function(ev){
                     bodyStyle.backgroundColor = ev.color.toHex();
+                });
+                $('#cp6').colorpicker({
+                    palette: [
+                        "rgb(253,0,0)",     "rgb(191,48,48)",   "rgb(166,0,0)",     "rgb(255,64,64)",
+                        "rgb(255,115,115)", "rgb(255,116,0)",   "rgb(191,113,48)",  "rgb(166,75,0)",
+                        "rgb(255,150,64)",  "rgb(255,178,115)", "rgb(205,0,116)",   "rgb(153,38,103)"
+                    ]
                 });
             });
         </script>

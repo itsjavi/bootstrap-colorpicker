@@ -138,7 +138,7 @@
 		this.component = this.element.is('.color') ? this.element.find('.add-on') : false;
 		
 		this.targetInput = !this.isInput && this.element.data('color-input') ? this.element.find(this.element.data('color-input')) : false;
-		this.palette = this.element.data('color-palette') && $.isArray(this.element.data('color-palette')) ? $(this.element.data('color-palette')) : false;
+		this.palette = options.palette || this.element.data('color-palette');
 
 		this.picker = $(CPGlobal.template)
 							.appendTo('body')

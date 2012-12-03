@@ -6,11 +6,15 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
- 
+
+@colorPickerSaturationImage: '../img/bootstrap-colorpicker/saturation.png';
+@colorPickerHueImage:        '../img/bootstrap-colorpicker/hue.png';
+@colorPickerAlphaImage:      '../img/bootstrap-colorpicker/alpha.png';
+
 .colorpicker-saturation {
 	width: 100px;
 	height: 100px;
-	background-image: url(../img/bootstrap-colorpicker/saturation.png);
+	background-image: url('@{colorPickerSaturationImage}');
 	cursor: crosshair;
 	float: left;
 	i {
@@ -53,10 +57,10 @@
 	}
 }
 .colorpicker-hue {
-	background-image: url(../img/bootstrap-colorpicker/hue.png);
+	background-image: url('@{colorPickerHueImage}');
 }
 .colorpicker-alpha {
-	background-image: url(../img/bootstrap-colorpicker/alpha.png);
+	background-image: url('@{colorPickerAlphaImage}');
 	display:none;
 }
 .colorpicker {
@@ -102,7 +106,7 @@
 	height: 10px;
 	margin-top: 5px;
 	clear: both;
-	background-image: url(../img/bootstrap-colorpicker/alpha.png);
+	background-image: url('@{colorPickerAlphaImage}');
 	background-position: 0 100%;
 	div {
 		height: 10px;

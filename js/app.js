@@ -3,24 +3,26 @@
  * index.html scripts
  * 
  */
-!function($) {
+!function(root, $) {
     /**
      * Fetch latest commits from Github API and cache them
      * @link https://gist.github.com/4520294
      * 
      */
-    var $commits = {
+    root["ghcommits"] = {
         "repo_name": "xaguilars/bootstrap-colorpicker",
         "cache_enabled": true, //cache api responses?
-        "cache_ttl": (60 * 60), // in seconds
-        "data": {},
-        "load": function(count, callback) {
+        "cache_ttl": (2 * 60 * 60), // 2h (in seconds)
+        "onload": {},
+        "callback": function() {
+        },
+        "load": function(count, onload) {
+            var $self = this;
             count = count || 10;
-            callback = callback || function() {
+            $self.onload = onload || function() {
             };
 
-            var $self = this;
-            if ($self.cache_enabled && window["localStorage"]) {
+            if ($self.cache_enabled && root["localStorage"]) {
                 var cache_key = "repo_commits";
                 var expiration = localStorage.getItem(cache_key + "_expiration");
                 if (expiration && (expiration < +new Date())) {
@@ -30,38 +32,38 @@
                 }
                 var commits = localStorage.getItem(cache_key);
                 if (commits) {
-                    if (window["console"])
+                    if (root["console"])
                         console.info("Commit data feched from localStorage");
                     $self.store(JSON.parse(commits), false);
-                    callback($self.data);
+                    $self.onload($self.data);
                     return;
                 }
             }
-            $self.query(count, callback);
-        },
-        "query": function(count, callback) {
-            var $self = this;
-            var query_url = 'https://api.github.com/repos/' + $self.repo_name + '/commits?per_page=' + count;
-            console.info("Fetching commit data from " + query_url);
-            $.getJSON(query_url, function(data, textStatus, jqXHR) {
-                $self.store(data, $self.cache_enabled);
-                callback($self.data);
-            }, 'json');
+            $self.query(count);
         },
         "store": function(commitsJson, cache) {
             var $self = this;
             $self.data = commitsJson;
-            if (cache && window["localStorage"]) {
+            if (cache && root["localStorage"]) {
                 localStorage.setItem("repo_commits", JSON.stringify(commitsJson));
                 localStorage.setItem("repo_commits_expiration", +new Date() + 1000 * $self.cache_ttl);
             }
-            $(window).trigger("commits_loaded", [commitsJson]);
+        },
+        "query": function(count) {
+            var $self = this;
+            var query_url = 'https://api.github.com/repos/' + $self.repo_name + '/commits?per_page=' + count;
+            console.info("Fetching commit data from " + query_url);
+            $.ajax({'dataType': "jsonp", 'url': query_url, 'jsonpCallback': 'ghcommits._jsonpcb'});
+        },
+        "_jsonpcb": function(jsonpresp) {
+            ghcommits.store(jsonpresp.data, ghcommits.cache_enabled);
+            ghcommits.onload(ghcommits.data);
         }
     }
 
     // App
     $(function() {
-        window.prettyPrint && prettyPrint()
+        root.prettyPrint && prettyPrint()
         $('#cp1').colorpicker({
             format: 'hex'
         });
@@ -74,7 +76,7 @@
 
         try {
             // load latest commits under a try to not paralize the app
-            $commits.load(10, function(data) {
+            ghcommits.load(10, function(data) {
                 if (data && (data.length > 0)) {
                     $(data).each(function(i, item) {
                         $("#changelog ul").append($('<li>').html("<b>" + item.commit.author
@@ -84,6 +86,7 @@
                 }
 
             });
-        } catch (err) {}
+        } catch (err) {
+        }
     });
-}(window.jQuery);
+}(window, window.jQuery);

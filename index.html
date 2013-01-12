@@ -9,10 +9,26 @@
             .container {
                 background: #fff;
             }
-            .changelog li:first-child{
-                font-weight: bold;
-                margin-left:-15px;
+            #changelog{
+                position: relative;
+                margin:30px 0;
+            }
+            #changelog h3{
+                line-height: 20px;
+                margin-bottom: 10px;
+            }
+            #changelog ul{
                 list-style: none;
+                margin-left: 10px;
+            }
+            #changelog ul li{
+                font-size:12px;
+                margin:0 0 10px 0;
+                max-width: 90%;
+            }
+            #changelog ul li b{
+                display: block;
+                margin-left: -10px;
             }
         </style>
         <link href="./js/google-code-prettify/prettify.css" rel="stylesheet">
@@ -45,15 +61,11 @@
                         <br>
                         <p><a href="https://github.com/xaguilars/bootstrap-colorpicker/" target="_blank" class="btn btn-"><i class="icon-share-alt"></i> Fork me on Github</a></p>
                         <p><a href="https://github.com/xaguilars/bootstrap-colorpicker/archive/master.zip" target="_blank" class="btn btn-primary btn-large"><i class="icon-download-alt icon-white"></i> Download</a></p>
-                        <h3>Change log</h3>
-                        <ul class="changelog">
-                            <li>29/11/2012</li>
-                            <li>Improved file naming to avoid collisions</li>
-                            <li>Allow to set an empty value to the input</li>
-                            <li>Fixed issues on IE7-8 when using alpha</li>
-                            <li>Fixed issue when clicking on the preview</li>
-                            <li>Updated the docs with information about the color object</li>
-                        </ul>
+                        
+                        <div id="changelog">
+                            <h3>ChangeLog <br><small>from master branch</small></h3>
+                            <ul></ul>
+                        </div>
                     </div>
                     <div class="span8 columns">
                         <h2>Example</h2>
@@ -174,19 +186,6 @@ $(&#039;.colorpicker&#039;).colorpicker().on(&#039;changeColor&#039;, function(e
         <script src="./js/jquery.min.js"></script>
         <script src="./js/bootstrap.min.js"></script>
         <script src="./js/bootstrap-colorpicker.js"></script>
-        <script>
-            $(function(){
-                window.prettyPrint && prettyPrint()
-                $('#cp1').colorpicker({
-                    format: 'hex'
-                });
-                $('#cp2').colorpicker();
-                $('#cp3').colorpicker();
-                var bodyStyle = $('body')[0].style;
-                $('#cp4').colorpicker().on('changeColor', function(ev){
-                    bodyStyle.backgroundColor = ev.color.toHex();
-                });
-            });
-        </script>
+        <script src="./js/app.js"></script>
     </body>
 </html>

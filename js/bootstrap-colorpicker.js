@@ -196,7 +196,11 @@
         },
 
         update: function() {
-            this.color = new Color(this.isInput ? this.element.prop('value') : this.element.data('color'));
+            var color = this.isInput ? this.element.prop('value') : this.element.data('color');
+            if (typeof color === "undefined" || color === null) {
+                color = '#ffffff';
+            }
+            this.color = new Color(color);
             this.picker.find('i')
                 .eq(0).css({left: this.color.value.s * 100, top: 100 - this.color.value.b * 100}).end()
                 .eq(1).css('top', 100 * (1 - this.color.value.h)).end()

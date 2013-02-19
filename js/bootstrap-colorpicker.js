@@ -149,11 +149,11 @@
             });
         } else if (this.component) {
             this.component.on({
-                'click': $.proxy(this.show, this)
+                'click': $.proxy(this.toggle, this)
             });
         } else {
             this.element.on({
-                'click': $.proxy(this.show, this)
+                'click': $.proxy(this.toggle, this)
             });
         }
         if (format === 'rgba' || format === 'hsla') {
@@ -175,6 +175,14 @@
     Colorpicker.prototype = {
         constructor: Colorpicker,
 
+        toggle: function(e) {
+          if(this.picker.is(':visible')) {
+            this.hide(e);
+          } else {
+            this.show(e);
+          }
+        },
+
         show: function(e) {
             this.picker.show();
             this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
@@ -187,7 +195,7 @@
                 }
             }
             $(document).on({
-                'mousedown': $.proxy(this.hide, this)
+                'click': $.proxy(this.hide, this)
             });
             this.element.trigger({
                 type: 'show',
@@ -213,7 +221,7 @@
             $(window).off('resize', this.place);
             if (!this.isInput) {
                 $(document).off({
-                    'mousedown': this.hide
+                    'click': this.hide
                 });
                 if (this.component) {
                     this.element.find('input').prop('value', this.format.call(this));

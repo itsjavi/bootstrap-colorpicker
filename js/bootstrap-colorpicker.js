@@ -134,17 +134,13 @@
     var Colorpicker = function(element, options) {
         this.element = $(element);
         var format = options.format || this.element.data('color-format') || 'hex';
-        this.showControls = options.showControls;
         this.format = CPGlobal.translateFormats[format];
         this.isInput = this.element.is('input');
         this.component = this.element.is('.color') ? this.element.find('.add-on') : false;
 
-        this.picker = $(CPGlobal.template(options))
+        this.picker = $(CPGlobal.template)
             .appendTo('body')
             .on('mousedown', $.proxy(this.mousedown, this));
-
-        this.picker.find('.colorpicker-cancel').on('click', $.proxy(this.hide, this));
-        this.picker.find('.colorpicker-accept').on('click', $.proxy(this.acceptColor, this));
 
         if (this.isInput) {
             this.element.on({
@@ -160,7 +156,6 @@
                 'click': $.proxy(this.show, this)
             });
         }
-
         if (format === 'rgba' || format === 'hsla') {
             this.picker.addClass('alpha');
             this.alpha = this.picker.find('.colorpicker-alpha')[0].style;
@@ -185,39 +180,27 @@
             this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
             this.place();
             $(window).on('resize', $.proxy(this.place, this));
-            this.stashedColor = this.currentColor();
-
             if (!this.isInput) {
                 if (e) {
                     e.stopPropagation();
                     e.preventDefault();
                 }
             }
-
             $(document).on({
                 'mousedown': $.proxy(this.hide, this)
             });
-
             this.element.trigger({
                 type: 'show',
                 color: this.color
             });
         },
 
-        currentColor: function() {
+        update: function() {
             var color = this.isInput ? this.element.prop('value') : this.element.data('color');
             if (typeof color === "undefined" || color === null) {
                 color = '#ffffff';
             }
-            return color;
-        },
-
-        unstashColor: function() {
-            this.update(this.stashedColor);
-        },
-
-        update: function(color) {
-            this.color = new Color(typeof color === "undefined" || color === null ? this.currentColor() : color);
+            this.color = new Color(color);
             this.picker.find('i')
                 .eq(0).css({left: this.color.value.s * 100, top: 100 - this.color.value.b * 100}).end()
                 .eq(1).css('top', 100 * (1 - this.color.value.h)).end()
@@ -225,27 +208,9 @@
             this.previewColor();
         },
 
-        hide: function(accept) {
-            if (accept !== true) {
-                this.unstashColor();
-            }
-
+        hide: function() {
             this.picker.hide();
             $(window).off('resize', this.place);
-
-            if (!this.isInput) {
-                $(document).off({
-                    'mousedown': this.hide
-                });
-            }
-
-            this.element.trigger({
-                type: 'hide',
-                color: this.color
-            });
-        },
-
-        acceptColor: function() {
             if (!this.isInput) {
                 $(document).off({
                     'mousedown': this.hide
@@ -260,8 +225,10 @@
                     this.element.prop('value', this.format.call(this));
                 }
             }
-
-            this.hide(true);
+            this.element.trigger({
+                type: 'hide',
+                color: this.color
+            });
         },
 
         place: function() {
@@ -394,9 +361,6 @@
     };
 
     $.fn.colorpicker.defaults = {
-        showControls: true,
-        acceptButton: '<i class="icon-ok"></i>',
-        cancelButton: '<i class="icon-remove"></i>'
     };
 
     $.fn.colorpicker.Constructor = Colorpicker;
@@ -571,22 +535,12 @@
                 }
             }
         ],
-
-        template: function(options) {
-            var template = '<div class="colorpicker-saturation"><i><b></b></i></div>' +
-                '<div class="colorpicker-hue"><i></i></div>' +
-                '<div class="colorpicker-alpha"><i></i></div>' +
-                '<div class="colorpicker-color"><div></div></div>';
-
-            if (options.showControls) {
-                template += '<div class="colorpicker-controls">' +
-                    '<span class="colorpicker-accept">' + options.acceptButton + '</span>' +
-                    '<span class="colorpicker-cancel">' + options.cancelButton + '</span>' +
-                    '<div />';
-            }
-
-            return '<div class="colorpicker dropdown-menu">' + template + '</div>';
-        }
+        template: '<div class="colorpicker dropdown-menu">' +
+            '<div class="colorpicker-saturation"><i><b></b></i></div>' +
+            '<div class="colorpicker-hue"><i></i></div>' +
+            '<div class="colorpicker-alpha"><i></i></div>' +
+            '<div class="colorpicker-color"><div /></div>' +
+            '</div>'
     };
 
 }(window.jQuery);

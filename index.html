@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Colorpicker for Bootstrap, from Twitter</title>
-        <link href="./css/bootstrap.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="./css/bootstrap-colorpicker.css" rel="stylesheet">
         <style>
             .container {
@@ -30,8 +30,10 @@
                 display: block;
                 margin-left: -10px;
             }
+
+            /* google code prettify css */
+            .com{color:#93a1a1}.lit{color:#195f91}.pun,.opn,.clo{color:#93a1a1}.fun{color:#dc322f}.str,.atv{color:#D14}.kwd,.linenums .tag{color:#1e347b}.typ,.atn,.dec,.var{color:teal}.pln{color:#48484c}.prettyprint{padding:8px;background-color:#f7f7f9;border:1px solid #e1e1e8}.prettyprint.linenums{-webkit-box-shadow:inset 40px 0 0 #fbfbfc,inset 41px 0 0 #ececf0;-moz-box-shadow:inset 40px 0 0 #fbfbfc,inset 41px 0 0 #ececf0;box-shadow:inset 40px 0 0 #fbfbfc,inset 41px 0 0 #ececf0}ol.linenums{margin:0 0 0 33px}ol.linenums li{padding-left:12px;color:#bebec5;line-height:18px;text-shadow:0 1px 0 #fff}
         </style>
-        <link href="./js/google-code-prettify/prettify.css" rel="stylesheet">
         <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,7 +63,7 @@
                         <br>
                         <p><a href="https://github.com/xaguilars/bootstrap-colorpicker/" target="_blank" class="btn btn-"><i class="icon-share-alt"></i> Fork me on Github</a></p>
                         <p><a href="https://github.com/xaguilars/bootstrap-colorpicker/archive/master.zip" target="_blank" class="btn btn-primary btn-large"><i class="icon-download-alt icon-white"></i> Download</a></p>
-                        
+
                         <div id="changelog">
                             <h3>ChangeLog <br><small>from master branch</small></h3>
                             <ul></ul>
@@ -71,23 +73,25 @@
                         <h2>Example</h2>
                         <p>Attached to a field with hex format specified via options.</p>
                         <div class="well">
-                            <input type="text" class="span3" value="#8fff00" id="cp1" >
+                            <input type="text" class="span3 bscp" value="#8fff00" id="cp1" >
                         </div>
                         <p>Attachet to a field with the rgba format specified via data tag.</p>
                         <div class="well">
-                            <input type="text" class="span3" value="rgb(0,194,255,0.78)" id="cp2" data-color-format="rgba" >
+                            <input type="text" class="span3 bscp" value="rgb(0,194,255,0.78)" id="cp2" data-color-format="rgba" >
                         </div>
                         <p>As component.</p>
                         <div class="well">
-                            <div class="input-append color" data-color="rgb(255, 146, 180)" data-color-format="rgb" id="cp3">
+                            <div class="input-append color bscp" data-color="rgb(255, 146, 180)" data-color-format="rgb" id="cp3">
                                 <input type="text" class="span3" value="" readonly >
                                 <span class="add-on"><i style="background-color: rgb(255, 146, 180)"></i></span>
                             </div>
                         </div>
                         <p>Using events to work with the color.</p>
                         <div class="well">
-                            <a href="#" class="btn small" id="cp4" data-color-format="hex" data-color="rgb(255, 255, 255)">Change background color</a>
+                            <a href="#" class="btn small bscp" id="cp4" data-color-format="hex" data-color="rgb(255, 255, 255)">Change background color</a>
                         </div>
+                        
+                        <a class="btn btn-danger bscp-destroy" href="#">Destroy them all</a> <a class="btn btn-primary bscp-create" href="#">Create them again</a>
                         <hr>
                         <h2>Using bootstrap-colorpicker.js</h2>
                         <p>Call the colopicker via javascript:</p>
@@ -130,6 +134,8 @@
                         <p>Updates the color picker's position relative to the element</p>
                         <h4>.colorpicker('setValue', value)</h4>
                         <p>Set a new value for the color picker. Triggers 'changeColor' event.</p>
+                        <h4>.colorpicker('destroy')</h4>
+                        <p>Destroys the colorpicker widget and unbind all .colorpicker events from the element and component</p>
                         <h3>Color object methods</h3>
                         <p>Each triggered events have a color object used internally by the picker. This object has several usefull methods.</p>
                         <h4>.setColor(value)</h4>
@@ -150,7 +156,7 @@
                         <p>Returns a hash with HSLA values.</p>
 
                         <h3>Events</h3>
-                        <p>Colopicker class exposes a few events for manipulating the colors.</p>
+                        <p>The colopicker plugin exposes some events (with optional .colorpicker namespace)</p>
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -159,6 +165,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>create</td>
+                                    <td>This event fires immediately when the color picker is created.</td>
+                                </tr>
                                 <tr>
                                     <td>show</td>
                                     <td>This event fires immediately when the color picker is displayed.</td>
@@ -171,6 +181,10 @@
                                     <td>changeColor</td>
                                     <td>This event is fired when the color is changed.</td>
                                 </tr>
+                                <tr>
+                                    <td>destroy</td>
+                                    <td>This event fires immediately when the color picker is destroyed.</td>
+                                </tr>
                             </tbody>
                         </table>
                         <pre class="prettyprint linenums">
@@ -182,10 +196,10 @@ $(&#039;.colorpicker&#039;).colorpicker().on(&#039;changeColor&#039;, function(e
                 </div>
             </section>
         </div>
-        <script src="./js/google-code-prettify/prettify.js"></script>
-        <script src="./js/jquery.min.js"></script>
-        <script src="./js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
         <script src="./js/bootstrap-colorpicker.js"></script>
-        <script src="./js/app.js"></script>
+        <script src="./js/docs.js"></script>
     </body>
 </html>

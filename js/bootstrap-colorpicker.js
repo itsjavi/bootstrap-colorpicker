@@ -128,32 +128,35 @@
             };
         }
     };
+    
+    var _guid = 0;
 
     // Picker object
 
     var Colorpicker = function(element, options) {
-        this.element = $(element);
+        _guid++;
+        this.element = $(element).attr('data-colorpicker-guid', _guid);
         var format = options.format || this.element.data('color-format') || 'hex';
         this.format = CPGlobal.translateFormats[format];
         this.isInput = this.element.is('input');
         this.component = this.element.is('.color') ? this.element.find('.add-on') : false;
 
-        this.picker = $(CPGlobal.template)
+        this.picker = $(CPGlobal.template).attr('data-colorpicker-guid', _guid)
             .appendTo('body')
-            .on('mousedown', $.proxy(this.mousedown, this));
+            .on('mousedown.colorpicker', $.proxy(this.mousedown, this));
 
         if (this.isInput) {
             this.element.on({
-                'focus': $.proxy(this.show, this),
-                'keyup': $.proxy(this.update, this)
+                'focus.colorpicker': $.proxy(this.show, this),
+                'keyup.colorpicker': $.proxy(this.update, this)
             });
         } else if (this.component) {
             this.component.on({
-                'click': $.proxy(this.show, this)
+                'click.colorpicker': $.proxy(this.show, this)
             });
         } else {
             this.element.on({
-                'click': $.proxy(this.show, this)
+                'click.colorpicker': $.proxy(this.show, this)
             });
         }
         if (format === 'rgba' || format === 'hsla') {
@@ -170,6 +173,10 @@
 
         this.base = this.picker.find('div:first')[0].style;
         this.update();
+        
+        $($.proxy(function(){
+            this.element.trigger('create', [this]);
+        }, this));
     };
 
     Colorpicker.prototype = {
@@ -179,7 +186,7 @@
             this.picker.show();
             this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
             this.place();
-            $(window).on('resize', $.proxy(this.place, this));
+            $(window).on('resize.colorpicker', $.proxy(this.place, this));
             if (!this.isInput) {
                 if (e) {
                     e.stopPropagation();
@@ -187,7 +194,7 @@
                 }
             }
             $(document).on({
-                'mousedown': $.proxy(this.hide, this)
+                'mousedown.colorpicker': $.proxy(this.hide, this)
             });
             this.element.trigger({
                 type: 'show',
@@ -221,7 +228,7 @@
                 this.element.data('color', this.format.call(this));
             } else {
                 //if the input value is empty, do not set any color
-                if (this.element.val() != '') {
+                if (this.element.val() !== '') {
                     this.element.prop('value', this.format.call(this));
                 }
             }
@@ -238,6 +245,15 @@
                 left: offset.left
             });
         },
+                
+       destroy: function(){
+            $('.colorpicker[data-colorpicker-guid='+this.element.attr('data-colorpicker-guid')+']').remove();
+            this.element.removeData('colorpicker').removeAttr('data-colorpicker-guid').off('.colorpicker');
+            if(this.component !== false){
+                this.component.off('.colorpicker');
+            }
+            this.element.trigger("destroy", [this]);
+       },
 
         //preview color change
         previewColor: function() {
@@ -289,8 +305,8 @@
                 };
                 //trigger mousemove to move the knob to the current position
                 $(document).on({
-                    mousemove: $.proxy(this.mousemove, this),
-                    mouseup: $.proxy(this.mouseup, this)
+                    'mousemove.colorpicker': $.proxy(this.mousemove, this),
+                    'mouseup.colorpicker': $.proxy(this.mouseup, this)
                 }).trigger('mousemove');
             }
             return false;
@@ -354,9 +370,14 @@
                 data = $this.data('colorpicker'),
                 options = typeof option === 'object' && option;
             if (!data) {
-                $this.data('colorpicker', (data = new Colorpicker(this, $.extend({}, $.fn.colorpicker.defaults, options))));
+                if(option !== "destroy"){
+                    $this.data('colorpicker', (data = new Colorpicker(this, $.extend({}, $.fn.colorpicker.defaults, options))));
+                }
+            }else{
+                if (typeof option === 'string'){
+                    data[option](value);
+                }
             }
-            if (typeof option === 'string') data[option](value);
         });
     };
 
@@ -428,8 +449,8 @@
             V = Math.max(r, g, b);
             C = V - Math.min(r, g, b);
             H = (C === 0 ? null :
-                V == r ? (g - b) / C :
-                    V == g ? (b - r) / C + 2 :
+                V === r ? (g - b) / C :
+                    V === g ? (b - r) / C + 2 :
                         (r - g) / C + 4
                 );
             H = ((H + 360) % 6) * 60 / 360;
@@ -484,10 +505,10 @@
                 re: /rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
                 parse: function(execResult) {
                     return [
-                        execResult[ 1 ],
-                        execResult[ 2 ],
-                        execResult[ 3 ],
-                        execResult[ 4 ]
+                        execResult[1],
+                        execResult[2],
+                        execResult[3],
+                        execResult[4]
                     ];
                 }
             },
@@ -498,7 +519,7 @@
                         2.55 * execResult[1],
                         2.55 * execResult[2],
                         2.55 * execResult[3],
-                        execResult[ 4 ]
+                        execResult[4]
                     ];
                 }
             },
@@ -506,9 +527,9 @@
                 re: /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/,
                 parse: function(execResult) {
                     return [
-                        parseInt(execResult[ 1 ], 16),
-                        parseInt(execResult[ 2 ], 16),
-                        parseInt(execResult[ 3 ], 16)
+                        parseInt(execResult[1], 16),
+                        parseInt(execResult[2], 16),
+                        parseInt(execResult[3], 16)
                     ];
                 }
             },
@@ -516,9 +537,9 @@
                 re: /#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/,
                 parse: function(execResult) {
                     return [
-                        parseInt(execResult[ 1 ] + execResult[ 1 ], 16),
-                        parseInt(execResult[ 2 ] + execResult[ 2 ], 16),
-                        parseInt(execResult[ 3 ] + execResult[ 3 ], 16)
+                        parseInt(execResult[1] + execResult[1], 16),
+                        parseInt(execResult[2] + execResult[2], 16),
+                        parseInt(execResult[3] + execResult[3], 16)
                     ];
                 }
             },

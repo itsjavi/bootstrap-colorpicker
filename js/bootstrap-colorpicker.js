@@ -197,7 +197,7 @@
                 'mousedown.colorpicker': $.proxy(this.hide, this)
             });
             this.element.trigger({
-                type: 'show',
+                type: 'showPicker',
                 color: this.color
             });
         },
@@ -233,7 +233,7 @@
                 }
             }
             this.element.trigger({
-                type: 'hide',
+                type: 'hidePicker',
                 color: this.color
             });
         },

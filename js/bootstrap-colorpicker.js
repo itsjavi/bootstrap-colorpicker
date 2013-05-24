@@ -225,14 +225,14 @@
                 if (this.component) {
                     //if the input value is empty, do not set any color
                     if (this.element.find('input').val() !== '') {
-                        this.element.find('input').prop('value', this.format.call(this));
+                        this.element.find('input').prop('value', this.format.call(this)).trigger('change');
                     }
                 }
                 this.element.data('color', this.format.call(this));
             } else {
                 //if the input value is empty, do not set any color
                 if (this.element.val() !== '') {
-                    this.element.prop('value', this.format.call(this));
+                    this.element.prop('value', this.format.call(this)).trigger('change');
                 }
             }
             this.element.trigger({
@@ -345,15 +345,15 @@
             // Set input value on mousemove
             if (!this.isInput) {
                 try {
-                    this.element.find('input').val(this.format.call(this));
+                    this.element.find('input').val(this.format.call(this)).trigger('change');
                 } catch (e) {
-                    this.element.find('input').val(this.color.toHex());
+                    this.element.find('input').val(this.color.toHex()).trigger('change');
                 }
             }else{
                 try {
-                    this.element.val(this.format.call(this));
+                    this.element.val(this.format.call(this)).trigger('change');
                 } catch (e) {
-                    this.element.val(this.color.toHex());
+                    this.element.val(this.color.toHex()).trigger('change');
                 }
             }
 

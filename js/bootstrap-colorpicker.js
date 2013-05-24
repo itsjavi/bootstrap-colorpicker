@@ -203,7 +203,7 @@
         },
 
         update: function() {
-            var color = this.isInput ? this.element.prop('value').change() : this.element.data('color');
+            var color = this.isInput ? this.element.prop('value') : this.element.data('color');
             if (typeof color === "undefined" || color === null) {
                 color = '#ffffff';
             }

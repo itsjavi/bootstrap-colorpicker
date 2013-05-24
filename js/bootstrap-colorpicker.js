@@ -203,7 +203,7 @@
         },
 
         update: function() {
-            var color = this.isInput ? this.element.prop('value') : this.element.data('color');
+            var color = this.isInput ? this.element.prop('value').change() : this.element.data('color');
             if (typeof color === "undefined" || color === null) {
                 color = '#ffffff';
             }
@@ -223,13 +223,13 @@
                     'mousedown': this.hide
                 });
                 if (this.component) {
-                    this.element.find('input').prop('value', this.format.call(this));
+                    this.element.find('input').prop('value', this.format.call(this)).change();
                 }
                 this.element.data('color', this.format.call(this));
             } else {
                 //if the input value is empty, do not set any color
                 if (this.element.val() !== '') {
-                    this.element.prop('value', this.format.call(this));
+                    this.element.prop('value', this.format.call(this)).change();
                 }
             }
             this.element.trigger({

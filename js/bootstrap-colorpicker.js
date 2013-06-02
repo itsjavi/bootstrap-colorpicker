@@ -128,7 +128,7 @@
             };
         }
     };
-    
+
     var _guid = 0;
 
     // Picker object
@@ -173,7 +173,7 @@
 
         this.base = this.picker.find('div:first')[0].style;
         this.update();
-        
+
         $($.proxy(function(){
             this.element.trigger('create', [this]);
         }, this));
@@ -248,7 +248,20 @@
                 left: offset.left
             });
         },
-                
+
+				setValue: function(newColor) {
+					this.color = new Color(newColor);
+					this.picker.find('i')
+						.eq(0).css({left: this.color.value.s*100, top: 100 - this.color.value.b*100}).end()
+						.eq(1).css('top', 100 * (1 - this.color.value.h)).end()
+						.eq(2).css('top', 100 * (1 - this.color.value.a));
+					this.previewColor();
+					this.element.trigger({
+						type: 'changeColor',
+						color: this.color
+					});
+				},
+
        destroy: function(){
             $('.colorpicker[data-colorpicker-guid='+this.element.attr('data-colorpicker-guid')+']').remove();
             this.element.removeData('colorpicker').removeAttr('data-colorpicker-guid').off('.colorpicker');

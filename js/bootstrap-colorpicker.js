@@ -258,6 +258,14 @@
             this.element.trigger("destroy", [this]);
        },
 
+		setValue: function(value) {
+			this.color.setColor(value);
+			this.element.trigger({
+				type: 'changeColor',
+				color: this.color
+			});
+		},
+
         //preview color change
         previewColor: function() {
             try {

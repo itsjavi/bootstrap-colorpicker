@@ -218,10 +218,10 @@
         hide: function() {
             this.picker.hide();
             $(window).off('resize', this.place);
+            $(document).off({
+                'mousedown': this.hide
+            });
             if (!this.isInput) {
-                $(document).off({
-                    'mousedown': this.hide
-                });
                 if (this.component) {
                     //if the input value is empty, do not set any color
                     if (this.element.find('input').val() !== '') {

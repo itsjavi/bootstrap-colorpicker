@@ -218,10 +218,10 @@
         hide: function() {
             this.picker.hide();
             $(window).off('resize', this.place);
+            $(document).off({
+                'mousedown': this.hide
+            });
             if (!this.isInput) {
-                $(document).off({
-                    'mousedown': this.hide
-                });
                 if (this.component) {
                     //if the input value is empty, do not set any color
                     if (this.element.find('input').val() !== '') {
@@ -270,6 +270,14 @@
             }
             this.element.trigger("destroy", [this]);
        },
+
+		setValue: function(value) {
+			this.color.setColor(value);
+			this.element.trigger({
+				type: 'changeColor',
+				color: this.color
+			});
+		},
 
         //preview color change
         previewColor: function() {

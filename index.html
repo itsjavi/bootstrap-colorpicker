@@ -95,7 +95,7 @@
                         <hr>
                         <h2>Using bootstrap-colorpicker.js</h2>
                         <p>Call the colopicker via javascript:</p>
-                        <pre class="prettyprint linenums">$('.colorpicker').colorpicker()</pre>
+                        <pre class="prettyprint linenums">$('.my-colorpicker-control').colorpicker()</pre>
                         <h3>Options</h3>
                         <table class="table table-bordered table-striped">
                             <thead>
@@ -128,14 +128,16 @@
                         <p>Initializes an colorpicker.</p>
                         <h4>.colorpicker('show')</h4>
                         <p>Show the color picker</p>
+                        <h4>.colorpicker('update')</h4>
+                        <p>Refreshes the widget colors (this is done automatically)</p>
                         <h4>.colorpicker('hide')</h4>
                         <p>Hide the color picker</p>
                         <h4>.colorpicker('place')</h4>
                         <p>Updates the color picker's position relative to the element</p>
-                        <h4>.colorpicker('setValue', value)</h4>
-                        <p>Set a new value for the color picker. Triggers 'changeColor' event.</p>
                         <h4>.colorpicker('destroy')</h4>
                         <p>Destroys the colorpicker widget and unbind all .colorpicker events from the element and component</p>
+                        <h4>.colorpicker('setValue', value)</h4>
+                        <p>Set a new value for the color picker (also for the input or component value). Triggers 'changeColor' event.</p>
                         <h3>Color object methods</h3>
                         <p>Each triggered events have a color object used internally by the picker. This object has several usefull methods.</p>
                         <h4>.setColor(value)</h4>
@@ -188,7 +190,7 @@
                             </tbody>
                         </table>
                         <pre class="prettyprint linenums">
-$(&#039;.colorpicker&#039;).colorpicker().on(&#039;changeColor&#039;, function(ev){
+$(&#039;.my-colorpicker-control&#039;).colorpicker().on(&#039;changeColor&#039;, function(ev){
   bodyStyle.backgroundColor = ev.color.toHex();
 });
                         </pre>

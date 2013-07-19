@@ -33,15 +33,14 @@
 
     Color.prototype = {
         constructor: Color,
-
         //parse a string to HSB
         setColor: function(val) {
             val = val.toLowerCase();
             var that = this;
             $.each(CPGlobal.stringParsers, function(i, parser) {
                 var match = parser.re.exec(val),
-                    values = match && parser.parse(match),
-                    space = parser.space || 'rgba';
+                        values = match && parser.parse(match),
+                        space = parser.space || 'rgba';
                 if (values) {
                     if (space === 'hsla') {
                         that.value = CPGlobal.RGBtoHSB.apply(null, CPGlobal.HSLtoRGB.apply(null, values));
@@ -53,23 +52,18 @@
                 return true;
             });
         },
-
         setHue: function(h) {
             this.value.h = 1 - h;
         },
-
         setSaturation: function(s) {
             this.value.s = s;
         },
-
         setLightness: function(b) {
             this.value.b = 1 - b;
         },
-
         setAlpha: function(a) {
             this.value.a = parseInt((1 - a) * 100, 10) / 100;
         },
-
         // HSBtoRGB from RaphaelJS
         // https://github.com/DmitryBaranovskiy/raphael/
         toRGB: function(h, s, b, a) {
@@ -96,12 +90,10 @@
                 a: a || this.value.a
             };
         },
-
         toHex: function(h, s, b, a) {
             var rgb = this.toRGB(h, s, b, a);
             return '#' + ((1 << 24) | (parseInt(rgb.r) << 16) | (parseInt(rgb.g) << 8) | parseInt(rgb.b)).toString(16).substr(1);
         },
-
         toHSL: function(h, s, b, a) {
             if (!h) {
                 h = this.value.h;
@@ -109,8 +101,8 @@
                 b = this.value.b;
             }
             var H = h,
-                L = (2 - s) * b,
-                S = s * b;
+                    L = (2 - s) * b,
+                    S = s * b;
             if (L > 0 && L <= 1) {
                 S /= L;
             } else {
@@ -142,8 +134,8 @@
         this.component = this.element.is('.color') ? this.element.find('.add-on') : false;
 
         this.picker = $(CPGlobal.template).attr('data-colorpicker-guid', _guid)
-            .appendTo('body')
-            .on('mousedown.colorpicker', $.proxy(this.mousedown, this));
+                .appendTo('body')
+                .on('mousedown.colorpicker', $.proxy(this.mousedown, this));
 
         if (this.isInput) {
             this.element.on({
@@ -174,14 +166,13 @@
         this.base = this.picker.find('div:first')[0].style;
         this.update();
 
-        $($.proxy(function(){
+        $($.proxy(function() {
             this.element.trigger('create', [this]);
         }, this));
     };
 
     Colorpicker.prototype = {
         constructor: Colorpicker,
-
         show: function(e) {
             this.picker.show();
             this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
@@ -201,7 +192,6 @@
                 color: this.color
             });
         },
-
         update: function() {
             var color = this.isInput ? this.element.prop('value') : this.element.data('color');
             if (typeof color === "undefined" || color === null) {
@@ -209,12 +199,11 @@
             }
             this.color = new Color(color);
             this.picker.find('i')
-                .eq(0).css({left: this.color.value.s * 100, top: 100 - this.color.value.b * 100}).end()
-                .eq(1).css('top', 100 * (1 - this.color.value.h)).end()
-                .eq(2).css('top', 100 * (1 - this.color.value.a));
+                    .eq(0).css({left: this.color.value.s * 100, top: 100 - this.color.value.b * 100}).end()
+                    .eq(1).css('top', 100 * (1 - this.color.value.h)).end()
+                    .eq(2).css('top', 100 * (1 - this.color.value.a));
             this.previewColor();
         },
-
         hide: function() {
             this.picker.hide();
             $(window).off('resize', this.place);
@@ -240,7 +229,6 @@
                 color: this.color
             });
         },
-
         place: function() {
             var offset = this.component ? this.component.offset() : this.element.offset();
             this.picker.css({
@@ -248,37 +236,28 @@
                 left: offset.left
             });
         },
-
-				setValue: function(newColor) {
-					this.color = new Color(newColor);
-					this.picker.find('i')
-						.eq(0).css({left: this.color.value.s*100, top: 100 - this.color.value.b*100}).end()
-						.eq(1).css('top', 100 * (1 - this.color.value.h)).end()
-						.eq(2).css('top', 100 * (1 - this.color.value.a));
-					this.previewColor();
-					this.element.trigger({
-						type: 'changeColor',
-						color: this.color
-					});
-				},
-
-       destroy: function(){
-            $('.colorpicker[data-colorpicker-guid='+this.element.attr('data-colorpicker-guid')+']').remove();
+        destroy: function() {
+            $('.colorpicker[data-colorpicker-guid=' + this.element.attr('data-colorpicker-guid') + ']').remove();
             this.element.removeData('colorpicker').removeAttr('data-colorpicker-guid').off('.colorpicker');
-            if(this.component !== false){
+            if (this.component !== false) {
                 this.component.off('.colorpicker');
             }
             this.element.trigger("destroy", [this]);
-       },
-
-		setValue: function(value) {
-			this.color.setColor(value);
-			this.element.trigger({
-				type: 'changeColor',
-				color: this.color
-			});
-		},
-
+        },
+        setValue: function(value) {
+            // set the input or component value
+            if(this.isInput){
+                this.element.prop('value', value);
+            }else{
+                this.element.find('input').val(value);
+                this.element.data('color', value);
+            }
+            this.update();
+            this.element.trigger({
+                type: 'changeColor',
+                color: this.color
+            });
+        },
         //preview color change
         previewColor: function() {
             try {
@@ -293,11 +272,8 @@
                 this.alpha.backgroundColor = this.color.toHex();
             }
         },
-
         pointer: null,
-
         slider: null,
-
         mousedown: function(e) {
             e.stopPropagation();
             e.preventDefault();
@@ -335,24 +311,23 @@
             }
             return false;
         },
-
         mousemove: function(e) {
             e.stopPropagation();
             e.preventDefault();
             var left = Math.max(
-                0,
-                Math.min(
+                    0,
+                    Math.min(
                     this.slider.maxLeft,
                     this.slider.left + ((e.pageX || this.pointer.left) - this.pointer.left)
-                )
-            );
+                    )
+                    );
             var top = Math.max(
-                0,
-                Math.min(
+                    0,
+                    Math.min(
                     this.slider.maxTop,
                     this.slider.top + ((e.pageY || this.pointer.top) - this.pointer.top)
-                )
-            );
+                    )
+                    );
             this.slider.knob.left = left + 'px';
             this.slider.knob.top = top + 'px';
             if (this.slider.callLeft) {
@@ -370,7 +345,7 @@
                 } catch (e) {
                     this.element.find('input').val(this.color.toHex()).trigger('change');
                 }
-            }else{
+            } else {
                 try {
                     this.element.val(this.format.call(this)).trigger('change');
                 } catch (e) {
@@ -384,7 +359,6 @@
             });
             return false;
         },
-
         mouseup: function(e) {
             e.stopPropagation();
             e.preventDefault();
@@ -399,14 +373,14 @@
     $.fn.colorpicker = function(option, value) {
         return this.each(function() {
             var $this = $(this),
-                data = $this.data('colorpicker'),
-                options = typeof option === 'object' && option;
+                    data = $this.data('colorpicker'),
+                    options = typeof option === 'object' && option;
             if (!data) {
-                if(option !== "destroy"){
+                if (option !== "destroy") {
                     $this.data('colorpicker', (data = new Colorpicker(this, $.extend({}, $.fn.colorpicker.defaults, options))));
                 }
-            }else{
-                if (typeof option === 'string'){
+            } else {
+                if (typeof option === 'string') {
                     data[option](value);
                 }
             }
@@ -419,34 +393,28 @@
     $.fn.colorpicker.Constructor = Colorpicker;
 
     var CPGlobal = {
-
         // translate a format from Color object to a string
         translateFormats: {
             'rgb': function() {
                 var rgb = this.color.toRGB();
                 return 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
             },
-
             'rgba': function() {
                 var rgb = this.color.toRGB();
                 return 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + rgb.a + ')';
             },
-
             'hsl': function() {
                 var hsl = this.color.toHSL();
                 return 'hsl(' + Math.round(hsl.h * 360) + ',' + Math.round(hsl.s * 100) + '%,' + Math.round(hsl.l * 100) + '%)';
             },
-
             'hsla': function() {
                 var hsl = this.color.toHSL();
                 return 'hsla(' + Math.round(hsl.h * 360) + ',' + Math.round(hsl.s * 100) + '%,' + Math.round(hsl.l * 100) + '%,' + hsl.a + ')';
             },
-
             'hex': function() {
                 return  this.color.toHex();
             }
         },
-
         sliders: {
             saturation: {
                 maxLeft: 100,
@@ -454,14 +422,12 @@
                 callLeft: 'setSaturation',
                 callTop: 'setLightness'
             },
-
             hue: {
                 maxLeft: 0,
                 maxTop: 100,
                 callLeft: false,
                 callTop: 'setHue'
             },
-
             alpha: {
                 maxLeft: 0,
                 maxTop: 100,
@@ -469,7 +435,6 @@
                 callTop: 'setAlpha'
             }
         },
-
         // HSBtoRGB from RaphaelJS
         // https://github.com/DmitryBaranovskiy/raphael/
         RGBtoHSB: function(r, g, b, a) {
@@ -481,15 +446,14 @@
             V = Math.max(r, g, b);
             C = V - Math.min(r, g, b);
             H = (C === 0 ? null :
-                V === r ? (g - b) / C :
+                    V === r ? (g - b) / C :
                     V === g ? (b - r) / C + 2 :
-                        (r - g) / C + 4
-                );
+                    (r - g) / C + 4
+                    );
             H = ((H + 360) % 6) * 60 / 360;
             S = C === 0 ? 0 : C / V;
             return {h: H || 1, s: S, b: V, a: a || 1};
         },
-
         HueToRGB: function(p, q, h) {
             if (h < 0)
                 h += 1;
@@ -505,7 +469,6 @@
             else
                 return p;
         },
-
         HSLtoRGB: function(h, s, l, a) {
             if (s < 0) {
                 s = 0;
@@ -528,7 +491,6 @@
             var b = Math.round(CPGlobal.HueToRGB(p, q, tb) * 255);
             return [r, g, b, a || 1];
         },
-
         // a set of RE's that can match strings and generate color tuples.
         // from John Resig color plugin
         // https://github.com/jquery/jquery-color/
@@ -589,11 +551,11 @@
             }
         ],
         template: '<div class="colorpicker dropdown-menu">' +
-            '<div class="colorpicker-saturation"><i><b></b></i></div>' +
-            '<div class="colorpicker-hue"><i></i></div>' +
-            '<div class="colorpicker-alpha"><i></i></div>' +
-            '<div class="colorpicker-color"><div /></div>' +
-            '</div>'
+                '<div class="colorpicker-saturation"><i><b></b></i></div>' +
+                '<div class="colorpicker-hue"><i></i></div>' +
+                '<div class="colorpicker-alpha"><i></i></div>' +
+                '<div class="colorpicker-color"><div /></div>' +
+                '</div>'
     };
 
 }(window.jQuery);

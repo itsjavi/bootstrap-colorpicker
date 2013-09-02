@@ -2,7 +2,7 @@
 
 Originally written by [Stefan Petre](http://www.eyecon.ro/)
 
-Read the documentation [here](http://xaguilars.github.com/bootstrap-colorpicker/)
+Read the documentation [here](http://mjaalnir.github.com/bootstrap-colorpicker/)
 
 
 ## Contributors

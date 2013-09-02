@@ -10,7 +10,7 @@
      * 
      */
     root["ghcommits"] = {
-        "repo_name": "xaguilars/bootstrap-colorpicker",
+        "repo_name": "mjaalnir/bootstrap-colorpicker",
         "cache_enabled": true, //cache api responses?
         "cache_ttl": (2 * 60 * 60), // 2h (in seconds)
         "onload": {},

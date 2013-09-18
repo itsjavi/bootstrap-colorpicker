@@ -131,7 +131,7 @@
         var format = options.format || this.element.data('color-format') || 'hex';
         this.format = CPGlobal.translateFormats[format];
         this.isInput = this.element.is('input');
-        this.component = this.element.is('.color') ? this.element.find('.add-on') : false;
+        this.component = this.element.is('.colorpicker-component') ? this.element.find('.add-on, .input-group-addon') : false;
 
         this.picker = $(CPGlobal.template).attr('data-colorpicker-guid', _guid)
                 .appendTo('body')

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Colorpicker for Bootstrap, from Twitter</title>
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
         <link href="./css/bootstrap-colorpicker.css" rel="stylesheet">
         <style>
             .container {
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="span4 columns">
+                    <div class="col-md-4 columns">
                         <h3>About</h3>
                         <p>
                             Colorpicker plugin for the Twitter Bootstrap toolkit. Originally written by <a href="https://twitter.com/stefanpetre/" target="_blank">@eyecon</a>
@@ -69,22 +69,22 @@
                             <ul></ul>
                         </div>
                     </div>
-                    <div class="span8 columns">
+                    <div class="col-md-8 columns">
                         <h2>Example</h2>
                         <p>Attached to a field with hex format specified via options.</p>
                         <div class="well">
-                            <input type="text" class="span3 bscp" value="#8fff00" id="cp1" >
+                            <input type="text" class="form-control bscp" value="#8fff00" id="cp1" >
                         </div>
                         <p>Attachet to a field with the rgba format specified via data tag.</p>
                         <div class="well">
-                            <input type="text" class="span3 bscp" value="rgb(0,194,255,0.78)" id="cp2" data-color-format="rgba" >
+                            <input type="text" class="form-control bscp" value="rgb(0,194,255,0.78)" id="cp2" data-color-format="rgba" >
                         </div>
                         <p>As component.</p>
                         <div class="well">
-                            <div class="input-append color bscp" data-color="rgb(255, 146, 180)" data-color-format="rgb" id="cp3">
-                                <input type="text" class="span3" value="" readonly >
-                                <span class="add-on"><i style="background-color: rgb(255, 146, 180)"></i></span>
-                            </div>
+                            <div class="input-group colorpicker-component bscp" data-color="rgb(255, 146, 180)" data-color-format="rgb" id="cp3">
+                                <input type="text" value="" readonly class="form-control" />
+                                <span class="input-group-addon"><i style="background-color: rgb(255, 146, 180)"></i></span>
+                             </div>
                         </div>
                         <p>Using events to work with the color.</p>
                         <div class="well">
@@ -200,8 +200,8 @@ $(&#039;.my-colorpicker-control&#039;).colorpicker().on(&#039;changeColor&#039;,
             </section>
         </div>
         <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
-        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
         <script src="./js/bootstrap-colorpicker.js"></script>
         <script src="./js/docs.js"></script>
     </body>

@@ -108,8 +108,8 @@
     background-position: 0 100%;
 }
 .colorpicker-color div { height: 10px }
-.input-append.color .add-on i,
-.input-prepend.color .add-on i {
+.colorpicker-component .add-on i,
+.colorpicker-component .input-group-addon i{
     display: block;
     cursor: pointer;
     width: 16px;

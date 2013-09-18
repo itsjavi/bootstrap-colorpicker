@@ -1,6 +1,6 @@
 /**
  * 
- * index.html scripts
+ * Script for loading and caching commit history
  * 
  */
 !function(root, $) {
@@ -61,33 +61,7 @@
         }
     }
 
-    // App
     $(function() {
-        root.prettyPrint && prettyPrint();
-        var _createColorpickers = function(){
-            $('#cp1').colorpicker({
-                format: 'hex'
-            });
-            $('#cp2').colorpicker();
-            $('#cp3').colorpicker();
-            var bodyStyle = $('body')[0].style;
-            $('#cp4').colorpicker().on('changeColor', function(ev) {
-                bodyStyle.backgroundColor = ev.color.toHex();
-            });
-        }
-        
-        _createColorpickers();
-        
-        $('.bscp-destroy').click(function(e){
-            e.preventDefault();
-            $('.bscp').colorpicker('destroy');
-        });
-        
-        $('.bscp-create').click(function(e){
-            e.preventDefault();
-            _createColorpickers();
-        });
-
         try {
             // load latest commits under a try to not paralize the app
             ghcommits.load(10, function(data) {
@@ -101,6 +75,7 @@
 
             });
         } catch (err) {
+            // noop
         }
     });
 }(window, window.jQuery);

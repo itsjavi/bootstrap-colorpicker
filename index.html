@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Colorpicker for Bootstrap, from Twitter</title>
+        <title>Colorpicker for Twitter Bootstrap</title>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
         <link href="./css/bootstrap-colorpicker.css" rel="stylesheet">
         <style>
@@ -15,11 +15,12 @@
             }
             #changelog h3{
                 line-height: 20px;
-                margin-bottom: 10px;
+                margin:10px 0 10px 0;
             }
             #changelog ul{
                 list-style: none;
-                margin-left: 10px;
+                margin-left: 20px;
+                padding:0;
             }
             #changelog ul li{
                 font-size:12px;
@@ -30,68 +31,91 @@
                 display: block;
                 margin-left: -10px;
             }
-
+            #changelog .well{
+                color:#777;
+                background: #fafafa;
+            }
+            h4 ~ p{
+                padding-left:20px;
+            }
             /* google code prettify css */
             .com{color:#93a1a1}.lit{color:#195f91}.pun,.opn,.clo{color:#93a1a1}.fun{color:#dc322f}.str,.atv{color:#D14}.kwd,.linenums .tag{color:#1e347b}.typ,.atn,.dec,.var{color:teal}.pln{color:#48484c}.prettyprint{padding:8px;background-color:#f7f7f9;border:1px solid #e1e1e8}.prettyprint.linenums{-webkit-box-shadow:inset 40px 0 0 #fbfbfc,inset 41px 0 0 #ececf0;-moz-box-shadow:inset 40px 0 0 #fbfbfc,inset 41px 0 0 #ececf0;box-shadow:inset 40px 0 0 #fbfbfc,inset 41px 0 0 #ececf0}ol.linenums{margin:0 0 0 33px}ol.linenums li{padding-left:12px;color:#bebec5;line-height:18px;text-shadow:0 1px 0 #fff}
         </style>
         <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
         <!--[if lt IE 9]>
-          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
     </head>
-
     <body>
         <div class="container">
             <section id="typeahead">
                 <div class="page-header">
-                    <h1>Colorpicker for Bootstrap <small>bootstrap-colorpicker.js</small></h1>
+                    <h1><i class="glyphicon glyphicon-tint"></i> Colorpicker for Twitter Bootstrap <small>bootstrap-colorpicker</small></h1>
                 </div>
-
                 <div class="row">
-                    <div class="col-md-4 columns">
-                        <h3>About</h3>
+                    <article class="col-md-5 columns">
+                        <h2>About</h2>
                         <p>
                             Colorpicker plugin for the Twitter Bootstrap toolkit. Originally written by <a href="https://twitter.com/stefanpetre/" target="_blank">@eyecon</a>
                             and maintained in Github by <a href="http://twitter.com/mjaalnir/" target="_blank">@mjaalnir</a> and the community
-                            <br><br> Adds a color picker to a field or any other element.
+                            <br><br> It basically adds a color picker to a field or any other element.
                         </p>
                         <ul>
                             <li>can be used as a component</li>
                             <li>alpha picker</li>
                             <li>multiple formats: hex, rgb, rgba, hsl, hsla</li>
                         </ul>
-                        <br>
-                        <p><a href="https://github.com/mjaalnir/bootstrap-colorpicker/" target="_blank" class="btn btn-"><i class="icon-share-alt"></i> Fork me on Github</a></p>
-                        <p><a href="https://github.com/mjaalnir/bootstrap-colorpicker/archive/master.zip" target="_blank" class="btn btn-primary btn-large"><i class="icon-download-alt icon-white"></i> Download</a></p>
+                        <hr>
+                        <p>
+                            <a href="https://github.com/mjaalnir/bootstrap-colorpicker/" target="_blank" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-random"></i> Fork me on Github</a>
+                            <a href="https://github.com/mjaalnir/bootstrap-colorpicker/archive/master.zip" target="_blank" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
+                        </p>
+                        <div class="social">
+                            <!-- Place this tag where you want the +1 button to render. -->
+                            <div class="g-plusone" data-size="medium"></div>
 
-                        <div id="changelog">
-                            <h3>ChangeLog <br><small>from master branch</small></h3>
-                            <ul></ul>
+                            <!-- Place this tag after the last +1 button tag. -->
+                            <script type="text/javascript">
+                              (function() {
+                                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                                po.src = 'https://apis.google.com/js/plusone.js';
+                                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                              })();
+                            </script>
+                            
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-via="mjaalnir" data-related="mjaalnir" data-hashtags="bootstrap">Tweet</a>
+                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
                         </div>
-                    </div>
-                    <div class="col-md-8 columns">
-                        <h2>Example</h2>
+                        <div id="changelog">
+                            <div class="well">
+                            <h3>ChangeLog <small>from the <b>master</b> branch</small></h3>
+                                <ul></ul>
+                            </div>
+                        </div>
+                    </article>
+                    <div class="col-md-7 columns">
+                        <h2>Examples</h2>
                         <p>Attached to a field with hex format specified via options.</p>
                         <div class="well">
                             <input type="text" class="form-control bscp" value="#8fff00" id="cp1" >
                         </div>
-                        <p>Attachet to a field with the rgba format specified via data tag.</p>
+                        <p>Attached to a field with the rgba format specified via data tag.</p>
                         <div class="well">
                             <input type="text" class="form-control bscp" value="rgb(0,194,255,0.78)" id="cp2" data-color-format="rgba" >
                         </div>
-                        <p>As component.</p>
+                        <p>As a component.</p>
                         <div class="well">
                             <div class="input-group colorpicker-component bscp" data-color="rgb(255, 146, 180)" data-color-format="rgb" id="cp3">
                                 <input type="text" value="" readonly class="form-control" />
                                 <span class="input-group-addon"><i style="background-color: rgb(255, 146, 180)"></i></span>
-                             </div>
+                            </div>
                         </div>
                         <p>Using events to work with the color.</p>
                         <div class="well">
                             <a href="#" class="btn small bscp" id="cp4" data-color-format="hex" data-color="rgb(255, 255, 255)">Change background color</a>
                         </div>
-                        
-                        <a class="btn btn-danger bscp-destroy" href="#">Destroy them all</a> <a class="btn btn-primary bscp-create" href="#">Create them again</a>
+                        <a class="btn btn-default bscp-destroy" href="#"><i class="glyphicon glyphicon-remove"></i> Destroy plugin instances</a>
+                        <a class="btn btn-default bscp-create" href="#"><i class="glyphicon glyphicon-plus"></i> Create instances again</a>
                         <hr>
                         <h2>Using bootstrap-colorpicker.js</h2>
                         <p>Call the colopicker via javascript:</p>
@@ -115,7 +139,6 @@
                                 </tr>
                             </tbody>
                         </table>
-
                         <h3>Markup</h3>
                         <p>Component mode</p>
                         <pre class="prettyprint linenums">
@@ -157,7 +180,6 @@
                         <p>Returns a string with HEX format for the current color.</p>
                         <h4>.toHSL()</h4>
                         <p>Returns a hash with HSLA values.</p>
-
                         <h3>Events</h3>
                         <p>The colopicker plugin exposes some events (with optional .colorpicker namespace)</p>
                         <table class="table table-bordered table-striped">
@@ -203,6 +225,37 @@ $(&#039;.my-colorpicker-control&#039;).colorpicker().on(&#039;changeColor&#039;,
         <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
         <script src="./js/bootstrap-colorpicker.js"></script>
-        <script src="./js/docs.js"></script>
+        <script src="./js/commits.js"></script>
+        <script>
+            $(function() {
+                // pretify code samples
+                window.prettyPrint && prettyPrint();
+
+                // Code for those demos
+                var _createColorpickers = function() {
+                    $('#cp1').colorpicker({
+                        format: 'hex'
+                    });
+                    $('#cp2').colorpicker();
+                    $('#cp3').colorpicker();
+                    var bodyStyle = $('body')[0].style;
+                    $('#cp4').colorpicker().on('changeColor', function(ev) {
+                        bodyStyle.backgroundColor = ev.color.toHex();
+                    });
+                }
+
+                _createColorpickers();
+
+                $('.bscp-destroy').click(function(e) {
+                    e.preventDefault();
+                    $('.bscp').colorpicker('destroy');
+                });
+
+                $('.bscp-create').click(function(e) {
+                    e.preventDefault();
+                    _createColorpickers();
+                });
+            });
+        </script>
     </body>
 </html>

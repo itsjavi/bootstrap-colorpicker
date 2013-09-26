@@ -542,7 +542,6 @@
                 }
             },
             {
-                format: 'hsla',
                 re: /hsla?\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
                 space: 'hsla',
                 parse: function(execResult) {

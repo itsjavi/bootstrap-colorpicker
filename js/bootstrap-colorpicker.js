@@ -136,10 +136,6 @@
                 'click.colorpicker': $.proxy(this.show, this)
             });
         }
-        if (format === 'rgba' || format === 'hsla') {
-            this.picker.addClass('alpha');
-            this.alpha = this.picker.find('.colorpicker-alpha')[0].style;
-        }
 
         if (this.component) {
             this.picker.find('.colorpicker-color').hide();
@@ -182,6 +178,7 @@
             if (typeof color === "undefined" || color === null) {
                 color = '#ffffff';
             }
+            this.setFormat(color);
             this.color = new Color(color);
             this.picker.find('i')
                     .eq(0).css({left: this.color.value.s * 100, top: 100 - this.color.value.b * 100}).end()
@@ -242,6 +239,23 @@
                 type: 'changeColor',
                 color: this.color
             });
+        },
+        setFormat: function(color){
+            var format = this.options.format || this.element.data('color-format');
+
+            if (!format) {
+                $.each(['rgb', 'rgba', 'hsl', 'hsla', 'hex'], function(i, f) {
+                    if (color.indexOf(f) === 0) {
+                        format = f;
+                    }
+                });
+            }
+            
+            format = format || 'hex';
+            this.picker.toggleClass('alpha', format === 'rgba' || format === 'hsla');
+            this.alpha = this.picker.find('.colorpicker-alpha')[0].style;
+            
+            this.format = CPGlobal.translateFormats[format];
         },
         //preview color change
         previewColor: function() {
@@ -481,6 +495,7 @@
         // https://github.com/jquery/jquery-color/
         stringParsers: [
             {
+                format: 'rgb',
                 re: /rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
                 parse: function(execResult) {
                     return [
@@ -492,6 +507,7 @@
                 }
             },
             {
+                format: 'rgba',
                 re: /rgba?\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
                 parse: function(execResult) {
                     return [
@@ -503,6 +519,7 @@
                 }
             },
             {
+                format: 'rgba',
                 re: /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/,
                 parse: function(execResult) {
                     return [
@@ -513,6 +530,7 @@
                 }
             },
             {
+                format: 'hex',
                 re: /#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/,
                 parse: function(execResult) {
                     return [
@@ -523,6 +541,7 @@
                 }
             },
             {
+                format: 'hsla',
                 re: /hsla?\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
                 space: 'hsla',
                 parse: function(execResult) {

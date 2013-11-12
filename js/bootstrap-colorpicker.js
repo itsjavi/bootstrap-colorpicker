@@ -125,6 +125,7 @@
         if (this.isInput) {
             this.element.on({
                 'focus.colorpicker': $.proxy(this.show, this),
+                'focusout.colorpicker': $.proxy(this.hide, this),
                 'keyup.colorpicker': $.proxy(this.update, this)
             });
         } else if (this.component) {

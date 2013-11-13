@@ -117,9 +117,10 @@
         this.format = CPGlobal.translateFormats[format];
         this.isInput = this.element.is('input');
         this.component = this.element.is('.colorpicker-component') ? this.element.find('.add-on, .input-group-addon') : false;
+        this.container = options.container || $('body');
 
         this.picker = $(CPGlobal.template).attr('data-colorpicker-guid', _guid)
-                .appendTo('body')
+                .appendTo(this.container)
                 .on('mousedown.colorpicker', $.proxy(this.mousedown, this));
 
         if (this.isInput) {

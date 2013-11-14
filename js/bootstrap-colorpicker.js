@@ -117,13 +117,19 @@
         this.format = CPGlobal.translateFormats[format];
         this.isInput = this.element.is('input');
         this.component = this.element.is('.colorpicker-component') ? this.element.find('.add-on, .input-group-addon') : false;
-        this.container = options.container || $('body')
+        this.container = options.container || false;
 
         this.picker = $(CPGlobal.template).attr('data-colorpicker-guid', _guid)
-                .appendTo(this.container)
-                .on('mousedown.colorpicker', $.proxy(this.mousedown, this));
-        this.isVertical = options.vertical;
+        if (!this.container) {
+            this.picker.appendTo($('body'));
+        } else {
+            this.picker.appendTo(this.container);
+            this.picker.addClass('standalone');
+        }
 
+        this.picker.on('mousedown.colorpicker', $.proxy(this.mousedown, this));
+
+        this.isVertical = options.vertical;
         if (this.isVertical) {
             this.picker.addClass('vertical');
         }

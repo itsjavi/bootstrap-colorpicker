@@ -6,7 +6,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-
 @colorPickerSaturationImage:      '../img/bootstrap-colorpicker/saturation.png';
 @colorPickerHueImage:             '../img/bootstrap-colorpicker/hue.png';
 @colorPickerHueHorizontalImage:   '../img/bootstrap-colorpicker/hue-horizontal.png';
@@ -127,7 +126,17 @@
 }
 
 .colorpicker {
+  &.standalone {
+    position: static;
+    display: inline-block;
+    float: none;
+  }
+
   &.vertical {
+    width: 110px;
+    min-width: 110px;
+    height: auto;
+
     .colorpicker-color {
       width: 100px;
     }

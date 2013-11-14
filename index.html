@@ -116,6 +116,16 @@
                         </div>
                         <a class="btn btn-default bscp-destroy" href="#"><i class="glyphicon glyphicon-remove"></i> Destroy plugin instances</a>
                         <a class="btn btn-default bscp-create" href="#"><i class="glyphicon glyphicon-plus"></i> Create instances again</a>
+                        <p>Standalone Component</p>
+                        <div class="well">
+                            <div id="cp6">
+
+                            </div>
+                        </div>
+                        <p>Vertical mode</p>
+                        <div class="well">
+                            <input type="text" class="form-control bscp" value="#8fff00" id="cp5" >
+                        </div>
                         <hr>
                         <h2>Using bootstrap-colorpicker.js</h2>
                         <p>Call the colopicker via javascript:</p>
@@ -136,6 +146,18 @@
                                     <td>string</td>
                                     <td>'hex'</td>
                                     <td>the color format - hex | rgb | rgba.</td>
+                                </tr>
+                                <tr>
+                                    <td>container</td>
+                                    <td>jQuery Element</td>
+                                    <td>false</td>
+                                    <td>specify this value to put the colorpicker in a standalone component</td>
+                                </tr>
+                                <tr>
+                                    <td>vertical</td>
+                                    <td>boolean</td>
+                                    <td>false</td>
+                                    <td>whether to render the colorpicker in vertical or horizontal mode</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -241,6 +263,15 @@ $(&#039;.my-colorpicker-control&#039;).colorpicker().on(&#039;changeColor&#039;,
                     var bodyStyle = $('body')[0].style;
                     $('#cp4').colorpicker().on('changeColor', function(ev) {
                         bodyStyle.backgroundColor = ev.color.toHex();
+                    });
+
+                    $('#cp5').colorpicker({
+                        format: 'rgba',
+                        vertical: true
+                    });
+
+                    $('#cp6').colorpicker({
+                        container: $('#cp6')
                     });
                 }
 

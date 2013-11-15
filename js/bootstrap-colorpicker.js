@@ -1,8 +1,11 @@
 /*!
  * Bootstrap Colorpicker
- * (c) 2012 Stefan Petre
  * http://mjaalnir.github.io/bootstrap-colorpicker/
+ *
+ * Originally written by (c) 2012 Stefan Petre
+ * Licensed under the Apache License v2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
  */
 (function($) {
     // Color object

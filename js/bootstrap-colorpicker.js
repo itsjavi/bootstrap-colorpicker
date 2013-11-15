@@ -28,7 +28,7 @@
             $.each(CPGlobal.stringParsers, function(i, parser) {
                 var match = parser.re.exec(val),
                         values = match && parser.parse(match),
-                        space = parser.space || 'rgba';
+                        space = parser.space;
                 if (values) {
                     if (space === 'hsla') {
                         that.value = CPGlobal.RGBtoHSB.apply(null, CPGlobal.HSLtoRGB.apply(null, values));
@@ -116,7 +116,8 @@
     var Colorpicker = function(element, options) {
         _guid++;
         this.element = $(element).attr('data-colorpicker-guid', _guid);
-        var format = options.format || this.element.data('color-format') || 'hex';
+        this.options = options;
+        var format = options.format || this.element.data('color-format');
         this.format = CPGlobal.translateFormats[format];
         this.isInput = this.element.is('input');
         this.component = this.element.is('.colorpicker-component') ? this.element.find('.add-on, .input-group-addon') : false;
@@ -155,10 +156,6 @@
             this.element.on({
                 'click.colorpicker': $.proxy(this.show, this)
             });
-        }
-        if (format === 'rgba' || format === 'hsla') {
-            this.picker.addClass('alpha');
-            this.alpha = this.picker.find('.colorpicker-alpha')[0].style;
         }
 
         if (this.component) {
@@ -202,6 +199,7 @@
             if (typeof color === "undefined" || color === null) {
                 color = '#ffffff';
             }
+            this.setFormat(color);
             this.color = new Color(color);
             this.picker.find('i')
                     .eq(0).css({left: this.color.value.s * 100, top: 100 - this.color.value.b * 100}).end()
@@ -263,6 +261,23 @@
                 type: 'changeColor',
                 color: this.color
             });
+        },
+        setFormat: function(color){
+            var format = this.options.format || this.element.data('color-format');
+
+            if (!format) {
+                $.each(CPGlobal.stringParsers, function(i, f) {
+                    if (color.indexOf(f.space) === 0) {
+                        format = f.space;
+                    }
+                });
+            }
+            
+            format = format || 'hex';
+            this.picker.toggleClass('alpha', format === 'rgba' || format === 'hsla');
+            this.alpha = this.picker.find('.colorpicker-alpha')[0].style;
+            
+            this.format = CPGlobal.translateFormats[format];
         },
         //preview color change
         previewColor: function() {
@@ -524,6 +539,7 @@
         stringParsers: [
             {
                 re: /rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
+                space: 'rgb',
                 parse: function(execResult) {
                     return [
                         execResult[1],
@@ -535,6 +551,7 @@
             },
             {
                 re: /rgba?\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
+                space: 'rgba',
                 parse: function(execResult) {
                     return [
                         2.55 * execResult[1],
@@ -546,6 +563,7 @@
             },
             {
                 re: /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/,
+                space: 'hex',
                 parse: function(execResult) {
                     return [
                         parseInt(execResult[1], 16),
@@ -556,6 +574,7 @@
             },
             {
                 re: /#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/,
+                space: 'hex',
                 parse: function(execResult) {
                     return [
                         parseInt(execResult[1] + execResult[1], 16),

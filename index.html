@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <title>Colorpicker for Twitter Bootstrap</title>
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/bootstrap-colorpicker.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap-colorpicker.css" rel="stylesheet">
         <style>
             .container {
                 background: #fff;
@@ -114,18 +114,19 @@
                         <div class="well">
                             <a href="#" class="btn small bscp" id="cp4" data-color-format="hex" data-color="rgb(255, 255, 255)">Change background color</a>
                         </div>
-                        <a class="btn btn-default bscp-destroy" href="#"><i class="glyphicon glyphicon-remove"></i> Destroy plugin instances</a>
-                        <a class="btn btn-default bscp-create" href="#"><i class="glyphicon glyphicon-plus"></i> Create instances again</a>
-                        <p>Standalone Component</p>
+                        <p>Inline mode</p>
                         <div class="well">
                             <div id="cp6">
 
                             </div>
                         </div>
-                        <p>Vertical mode</p>
+                        <p>Horizonal mode</p>
                         <div class="well">
                             <input type="text" class="form-control bscp" value="#8fff00" id="cp5" >
                         </div>
+                        
+                        <a class="btn btn-default bscp-destroy" href="#"><i class="glyphicon glyphicon-remove"></i> Destroy plugin instances</a>
+                        <a class="btn btn-default bscp-create" href="#"><i class="glyphicon glyphicon-plus"></i> Create instances again</a>
                         <hr>
                         <h2>Using bootstrap-colorpicker.js</h2>
                         <p>Call the colopicker via javascript:</p>
@@ -154,10 +155,10 @@
                                     <td>specify this value to put the colorpicker in a standalone component</td>
                                 </tr>
                                 <tr>
-                                    <td>vertical</td>
+                                    <td>horizontal</td>
                                     <td>boolean</td>
                                     <td>false</td>
-                                    <td>whether to render the colorpicker in vertical or horizontal mode</td>
+                                    <td>whether to render the colorpicker selectors in horizontal mode</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -245,8 +246,8 @@ $(&#039;.my-colorpicker-control&#039;).colorpicker().on(&#039;changeColor&#039;,
         </div>
         <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
         <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-        <script src="js/bootstrap-colorpicker.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+        <script src="js/bootstrap-colorpicker.js"></script>
         <script src="js/commits.js"></script>
         <script>
             $(function() {
@@ -267,7 +268,7 @@ $(&#039;.my-colorpicker-control&#039;).colorpicker().on(&#039;changeColor&#039;,
 
                     $('#cp5').colorpicker({
                         format: 'rgba',
-                        vertical: true
+                        horizontal: true
                     });
 
                     $('#cp6').colorpicker({

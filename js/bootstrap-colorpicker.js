@@ -127,22 +127,26 @@
             this.picker.appendTo($('body'));
         } else {
             this.picker.appendTo(this.container);
-            this.picker.addClass('standalone');
+            this.picker.addClass('colorpicker-inline');
         }
 
         this.picker.on('mousedown.colorpicker', $.proxy(this.mousedown, this));
 
-        this.isVertical = options.vertical;
-        if (this.isVertical) {
-            this.picker.addClass('vertical');
+        this.isHorizontal = options.horizontal;
+        if (this.isHorizontal) {
+            this.picker.addClass('colorpicker-horizontal');
         }
 
         if (this.isInput) {
             this.element.on({
                 'focus.colorpicker': $.proxy(this.show, this),
-                'focusout.colorpicker': $.proxy(this.hide, this),
                 'keyup.colorpicker': $.proxy(this.update, this)
             });
+            if (!this.element.hasClass('colorpicker-inline')) {
+                this.element.on({
+                    'focusout.colorpicker': $.proxy(this.hide, this)
+                });
+            }
         } else if (this.component) {
             this.component.on({
                 'click.colorpicker': $.proxy(this.show, this)
@@ -243,6 +247,7 @@
             if (this.component !== false) {
                 this.component.off('.colorpicker');
             }
+            this.element.removeClass('colorpicker-element');
             this.element.trigger("destroy", [this]);
         },
         setValue: function(value) {
@@ -284,7 +289,7 @@
             //detect the slider and set the limits and callbacks
             var zone = target.closest('div');
             if (!zone.is('.colorpicker')) {
-                var sliderOptions = this.isVertical? CPGlobal.verticalSliders: CPGlobal.sliders;
+                var sliderOptions = this.isHorizontal ? CPGlobal.slidersHorizontal : CPGlobal.sliders;
                 if (zone.is('.colorpicker-saturation')) {
                     this.slider = $.extend({}, sliderOptions.saturation);
                 }
@@ -379,7 +384,7 @@
                     options = typeof option === 'object' && option;
             if (!data) {
                 if (option !== "destroy") {
-                    $this.data('colorpicker', (data = new Colorpicker(this, $.extend({}, $.fn.colorpicker.defaults, options))));
+                    $this.addClass('colorpicker-element').data('colorpicker', (data = new Colorpicker(this, $.extend({}, $.fn.colorpicker.defaults, options))));
                 }
             } else {
                 if (typeof option === 'string') {
@@ -417,8 +422,7 @@
                 return  this.color.toHex();
             }
         },
-        
-        verticalSliders: {
+        slidersHorizontal: {
             saturation: {
                 maxLeft: 100,
                 maxTop: 100,
@@ -438,7 +442,6 @@
                 callTop: false
             }
         },
-
         sliders: {
             saturation: {
                 maxLeft: 100,

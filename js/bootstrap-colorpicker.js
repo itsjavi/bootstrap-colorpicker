@@ -117,10 +117,22 @@
         this.format = CPGlobal.translateFormats[format];
         this.isInput = this.element.is('input');
         this.component = this.element.is('.colorpicker-component') ? this.element.find('.add-on, .input-group-addon') : false;
+        this.container = options.container || false;
 
         this.picker = $(CPGlobal.template).attr('data-colorpicker-guid', _guid)
-                .appendTo('body')
-                .on('mousedown.colorpicker', $.proxy(this.mousedown, this));
+        if (!this.container) {
+            this.picker.appendTo($('body'));
+        } else {
+            this.picker.appendTo(this.container);
+            this.picker.addClass('standalone');
+        }
+
+        this.picker.on('mousedown.colorpicker', $.proxy(this.mousedown, this));
+
+        this.isVertical = options.vertical;
+        if (this.isVertical) {
+            this.picker.addClass('vertical');
+        }
 
         if (this.isInput) {
             this.element.on({
@@ -269,14 +281,15 @@
             //detect the slider and set the limits and callbacks
             var zone = target.closest('div');
             if (!zone.is('.colorpicker')) {
+                var sliderOptions = this.isVertical? CPGlobal.verticalSliders: CPGlobal.sliders;
                 if (zone.is('.colorpicker-saturation')) {
-                    this.slider = $.extend({}, CPGlobal.sliders.saturation);
+                    this.slider = $.extend({}, sliderOptions.saturation);
                 }
                 else if (zone.is('.colorpicker-hue')) {
-                    this.slider = $.extend({}, CPGlobal.sliders.hue);
+                    this.slider = $.extend({}, sliderOptions.hue);
                 }
                 else if (zone.is('.colorpicker-alpha')) {
-                    this.slider = $.extend({}, CPGlobal.sliders.alpha);
+                    this.slider = $.extend({}, sliderOptions.alpha);
                 } else {
                     return false;
                 }
@@ -401,6 +414,28 @@
                 return  this.color.toHex();
             }
         },
+        
+        verticalSliders: {
+            saturation: {
+                maxLeft: 100,
+                maxTop: 100,
+                callLeft: 'setSaturation',
+                callTop: 'setLightness'
+            },
+            hue: {
+                maxLeft: 100,
+                maxTop: 0,
+                callLeft: 'setHue',
+                callTop: false
+            },
+            alpha: {
+                maxLeft: 100,
+                maxTop: 0,
+                callLeft: 'setAlpha',
+                callTop: false
+            }
+        },
+
         sliders: {
             saturation: {
                 maxLeft: 100,

@@ -218,8 +218,6 @@
                     .eq(1).css('top', 100 * (1 - this.color.value.h)).end()
                     .eq(2).css('top', 100 * (1 - this.color.value.a));
             if(this.component) {
-                console.log("has component", this.format())
-                console.log(this.component)
                 this.component.find('i').css('background-color', this.format());
             }
             this.previewColor();

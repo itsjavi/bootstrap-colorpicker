@@ -121,6 +121,17 @@
         this.isInput = this.element.is('input');
         this.component = this.element.is('.colorpicker-component') ? this.element.find('.add-on, .input-group-addon') : false;
         this.container = options.container || false;
+        this.disabled = false;
+
+        var disabled = options.disabled || this.element.data('disabled');
+        if(disabled) {
+            this.disabled = true;
+            if(this.isInput) {
+                this.element.attr('disabled', 'disabled');
+            } else {
+                this.element.find('input').attr('disabled', 'disabled');
+            }
+        }
 
         this.picker = $(CPGlobal.template).attr('data-colorpicker-guid', _guid)
         if (!this.container) {
@@ -182,6 +193,10 @@
     Colorpicker.prototype = {
         constructor: Colorpicker,
         show: function(e) {
+
+            //don't show it if it's disabled
+            if(this.disabled) return;
+
             this.picker.show();
             this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
             this.place();
@@ -253,6 +268,22 @@
                 top: offset.top + this.height,
                 left: offset.left
             });
+        },
+        disable: function() {
+            this.disabled = true;
+            if(this.isInput) {
+                this.element.attr('disabled','disabled').trigger('disable');
+            } else {
+                this.element.find("input").attr('disabled','disabled').trigger('disable');
+            }
+        },
+        enable: function() {
+            this.disabled = false;
+            if(this.isInput) {
+                this.element.removeAttr('disabled').trigger('enable');
+            } else {
+                this.element.find("input").removeAttr('disabled').trigger('enable');
+            }
         },
         destroy: function() {
             $('.colorpicker[data-colorpicker-guid=' + this.element.attr('data-colorpicker-guid') + ']').remove();

@@ -121,9 +121,11 @@
         this.isInput = this.element.is('input');
         this.component = this.element.is('.colorpicker-component') ? this.element.find('.add-on, .input-group-addon') : false;
         this.container = options.container || false;
+        this.disabled = false;
 
         var disabled = options.disabled || this.element.data('disabled');
         if(disabled) {
+            this.disabled = true;
             if(this.isInput) {
                 this.element.attr('disabled', 'disabled');
             } else {
@@ -193,7 +195,7 @@
         show: function(e) {
 
             //don't show it if it's disabled
-            if(this.element.find("input").is(":disabled")) return;
+            if(this.disabled) return;
 
             this.picker.show();
             this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
@@ -268,6 +270,7 @@
             });
         },
         disable: function() {
+            this.disabled = true;
             if(this.isInput) {
                 this.element.attr('disabled','disabled').trigger('disable');
             } else {
@@ -275,6 +278,7 @@
             }
         },
         enable: function() {
+            this.disabled = false;
             if(this.isInput) {
                 this.element.removeAttr('disabled').trigger('enable');
             } else {

@@ -95,36 +95,46 @@
                     </article>
                     <div class="col-md-7 columns">
                         <h2>Examples</h2>
-                        <p>Attached to a field with hex format specified via options.</p>
+                        <p>Attached to a field with hex format specified via options:</p>
                         <div class="well">
                             <input type="text" class="form-control bscp" value="#8fff00" id="cp1" >
                         </div>
-                        <p>Attached to a field with the rgba format specified via data tag.</p>
+                        <p>Attached to a field with the rgba format specified via data tag:</p>
                         <div class="well">
                             <input type="text" class="form-control bscp" value="rgb(0,194,255,0.78)" id="cp2" data-color-format="rgba" >
                         </div>
-                        <p>As a component.</p>
+                        <p>As a component:</p>
                         <div class="well">
                             <div class="input-group colorpicker-component bscp" data-color="ffffff" data-color-format="hex" id="cp3">
                                 <input type="text" value="" class="form-control" />
                                 <span class="input-group-addon"><i style="background-color: ffffff"></i></span>
                             </div>
                         </div>
-                        <p>Using events to work with the color.</p>
+                        <p>Using events to work with the color:</p>
                         <div class="well">
                             <a href="#" class="btn small bscp" id="cp4" data-color-format="hex" data-color="rgb(255, 255, 255)">Change background color</a>
                         </div>
-                        <p>Inline mode</p>
+                        <p>Inline mode:</p>
                         <div class="well">
                             <div id="cp6">
 
                             </div>
                         </div>
-                        <p>Horizonal mode</p>
+                        <p>Horizonal mode:</p>
                         <div class="well">
                             <input type="text" class="form-control bscp" value="#8fff00" id="cp5" >
                         </div>
-                        
+                        <div class="well">
+                            <div class="input-group colorpicker-component disable-toggle" data-color="ffffff" data-color-format="hex">
+                                <input type="text" value="" class="form-control" />
+                                <span class="input-group-addon"><i style="background-color: ffffff"></i></span>
+                            </div>
+                            <div class="disable-toggle" data-disabled="true" data-color="ffffff" data-color-format="hex">
+                                <input type="text" class="form-control" />
+                            </div>
+                            <a class="btn btn-default enable-button" href="#">Enable</a>
+                            <a class="btn btn-default disable-button" href="#">Disable</a>
+                        </div>
                         <a class="btn btn-default bscp-destroy" href="#"><i class="glyphicon glyphicon-remove"></i> Destroy plugin instances</a>
                         <a class="btn btn-default bscp-create" href="#"><i class="glyphicon glyphicon-plus"></i> Create instances again</a>
                         <hr>
@@ -149,6 +159,12 @@
                                     <td>the color format - hex | rgb | rgba.</td>
                                 </tr>
                                 <tr>
+                                    <td>disabled</td>
+                                    <td>boolean</td>
+                                    <td>false</td>
+                                    <td>the initial state of the colorpicker</td>
+                                </tr>
+                                <tr>
                                     <td>container</td>
                                     <td>jQuery Element</td>
                                     <td>false</td>
@@ -165,7 +181,7 @@
                         <h3>Markup</h3>
                         <p>Component mode</p>
                         <pre class="prettyprint linenums">
-&lt;div class=&quot;input-group colorpicker-component my-colorpicker-control&quot; data-color=&quot;rgb(255, 146, 180)&quot; data-color-format=&quot;rgb&quot; id=&quot;cp3&quot;&gt;
+&lt;div class=&quot;input-group colorpicker-component my-colorpicker-control&quot; data-color=&quot;rgb(255, 146, 180)&quot; data-disabled=&quot;true&quot; data-color-format=&quot;rgb&quot; id=&quot;cp3&quot;&gt;
     &lt;input type=&quot;text&quot; value=&quot;&quot; readonly class=&quot;form-control&quot; /&gt;
     &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i style=&quot;background-color: rgb(255, 146, 180)&quot;&gt;&lt;/i&gt;&lt;/span&gt;
 &lt;/div&gt;
@@ -179,6 +195,10 @@
                         <p>Refreshes the widget colors (this is done automatically)</p>
                         <h4>.colorpicker('hide')</h4>
                         <p>Hide the color picker</p>
+                        <h4>.colorpicker('disable')</h4>
+                        <p>Disable the color picker.</p>
+                        <h4>.colorpicker('enable')</h4>
+                        <p>Enable the color picker.</p>
                         <h4>.colorpicker('place')</h4>
                         <p>Updates the color picker's position relative to the element</p>
                         <h4>.colorpicker('destroy')</h4>
@@ -186,7 +206,7 @@
                         <h4>.colorpicker('setValue', value)</h4>
                         <p>Set a new value for the color picker (also for the input or component value). Triggers 'changeColor' event.</p>
                         <h3>Color object methods</h3>
-                        <p>Each triggered events have a color object used internally by the picker. This object has several usefull methods.</p>
+                        <p>Each triggered events have a color object used internally by the picker. This object has several useful methods.</p>
                         <h4>.setColor(value)</h4>
                         <p>Set a new color. The value is parsed and tries to do a quess on the format.</p>
                         <h4>.setHue(value)</h4>
@@ -204,7 +224,7 @@
                         <h4>.toHSL()</h4>
                         <p>Returns a hash with HSLA values.</p>
                         <h3>Events</h3>
-                        <p>The colopicker plugin exposes some events (with optional .colorpicker namespace)</p>
+                        <p>The colorpicker plugin exposes some events (with optional .colorpicker namespace)</p>
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -224,6 +244,14 @@
                                 <tr>
                                     <td>hidePicker</td>
                                     <td>This event is fired immediately when the color picker is hidden.</td>
+                                </tr>
+                                <tr>
+                                    <td>disable</td>
+                                    <td>This event is fired immediately when the color picker is disabled, except if it was initialized as disabled.</td>
+                                </tr>
+                                <tr>
+                                    <td>enable</td>
+                                    <td>This event is fired immediately when the color picker is enabled, except upon initialization.</td>
                                 </tr>
                                 <tr>
                                     <td>changeColor</td>
@@ -274,6 +302,10 @@ $(&#039;.my-colorpicker-control&#039;).colorpicker().on(&#039;changeColor&#039;,
                     $('#cp6').colorpicker({
                         container: $('#cp6')
                     });
+
+                    $('.disable-toggle').colorpicker({
+                        disabled: true
+                    });
                 }
 
                 _createColorpickers();
@@ -286,6 +318,16 @@ $(&#039;.my-colorpicker-control&#039;).colorpicker().on(&#039;changeColor&#039;,
                 $('.bscp-create').click(function(e) {
                     e.preventDefault();
                     _createColorpickers();
+                });
+
+                $(".disable-button").click(function(e) {
+                    e.preventDefault();
+                    $(".disable-toggle").colorpicker('disable');
+                });
+
+                $(".enable-button").click(function(e) {
+                    e.preventDefault();
+                    $(".disable-toggle").colorpicker('enable');
                 });
             });
         </script>

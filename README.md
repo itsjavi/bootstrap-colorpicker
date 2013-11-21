@@ -13,3 +13,6 @@ Please, before perform a Pull Request:
 * Test your code in all modern browsers (and at least IE >= 9)
 
 Thanks =)
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mjaalnir/bootstrap-colorpicker/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+

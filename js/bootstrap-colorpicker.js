@@ -148,6 +148,9 @@
                 });
             }
         } else if (this.component) {
+            this.element.on({
+                'keyup.colorpicker': $.proxy(this.updateComponent, this)
+            });
             this.component.on({
                 'click.colorpicker': $.proxy(this.show, this)
             });
@@ -197,6 +200,13 @@
                 color: this.color
             });
         },
+        updateComponent: function() {
+            var value = $(this.element).children("input").val();
+            if(value) {
+                this.element.data('color', value);
+                this.update();
+            }
+        },
         update: function() {
             var color = this.isInput ? this.element.prop('value') : this.element.data('color');
             if (typeof color === "undefined" || color === null) {
@@ -207,6 +217,9 @@
                     .eq(0).css({left: this.color.value.s * 100, top: 100 - this.color.value.b * 100}).end()
                     .eq(1).css('top', 100 * (1 - this.color.value.h)).end()
                     .eq(2).css('top', 100 * (1 - this.color.value.a));
+            if(this.component) {
+                this.component.find('i').css('background-color', this.format());
+            }
             this.previewColor();
         },
         hide: function() {

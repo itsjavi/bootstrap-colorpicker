@@ -1,6 +1,6 @@
 {
   "name": "mjaalnir-bootstrap-colorpicker",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Colorpicker plugin for Twitter Bootstrap",
   "homepage": "http://mjaalnir.github.io/bootstrap-colorpicker/",
   "repository": {
@@ -23,12 +23,11 @@
     "grunt": "~0.4.2",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-jshint": "~0.7.2",
-    "grunt-contrib-uglify": "~0.2.7",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-bake": "~0.3.3",
-    "grunt-prettify": "~0.2.9",
     "grunt-recess": "~0.5.0",
-    "grunt-jsbeautifier": "~0.2.3"
+    "grunt-combine": "~0.8.1",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-bake": "~0.3.3",
+    "grunt-jsbeautifier": "~0.2.3",
+    "grunt-contrib-watch": "~0.5.3"
   }
 }

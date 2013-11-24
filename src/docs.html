@@ -7,30 +7,30 @@
     </div>
     <p>Attached to a field with the rgba format specified via data tag:</p>
     <div class="well">
-        <input type="text" class="form-control bscp" value="rgb(0,194,255,0.78)" id="cp2" data-color-format="rgba" >
+        <input type="text" class="form-control bscp" value="rgba(0,194,255,0.78)" id="cp2">
     </div>
     <p>As a component:</p>
     <div class="well">
-        <div class="input-group colorpicker-component bscp" data-color-format="hex" id="cp3">
+        <div class="input-group colorpicker-component bscp" id="cp3">
             <input type="text" value="" class="form-control" />
             <span class="input-group-addon"><i></i></span>
         </div>
     </div>
     <p>Using events to work with the color:</p>
     <div class="well">
-        <a href="#" class="btn small bscp" id="cp4" data-color-format="hex" data-color="rgb(255, 255, 255)">Change background color</a>
-    </div>
-    <p>Inline mode:</p>
-    <div class="well">
-        <div id="cp6"></div>
+        <a href="#" class="btn small bscp" id="cp4" data-color="rgb(255, 255, 255)">Change background color</a>
     </div>
     <p>Horizonal mode:</p>
     <div class="well">
         <input type="text" class="form-control bscp" value="#8fff00" id="cp5" >
     </div>
+    <p>Inline mode:</p>
+    <div class="well">
+        <div id="cp6" class="bscp" data-container-selector="#cp6" data-inline="true"></div>
+    </div>
     <p>Enabled / disabled</p>
     <div class="well">
-        <div class="input-group colorpicker-component" data-color-format="hex" id="cp7">
+        <div class="input-group bscp colorpicker-component" id="cp7">
             <input disabled type="text" value="" class="form-control" />
             <span class="input-group-addon"><i></i></span>
         </div>

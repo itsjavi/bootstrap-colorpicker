@@ -123,11 +123,11 @@
   position: relative;
 }
 
-.colorpicker.alpha {
+.colorpicker.colorpicker-with-alpha {
   min-width: 140px;
 }
 
-.colorpicker.alpha .colorpicker-alpha {
+.colorpicker.colorpicker-with-alpha .colorpicker-alpha {
   display: block;
 }
 
@@ -199,4 +199,16 @@
 
 .colorpicker.colorpicker-horizontal .colorpicker-alpha {
   background-image: url("../img/bootstrap-colorpicker/alpha-horizontal.png");
+}
+
+.colorpicker.colorpicker-hidden {
+  display: none;
+}
+
+.colorpicker.colorpicker-visible {
+  display: block;
+}
+
+.colorpicker-inline.colorpicker-visible {
+  display: inline-block;
 }

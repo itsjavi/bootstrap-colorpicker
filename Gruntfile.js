@@ -2,28 +2,8 @@
 module.exports = function(grunt) {
 
     grunt.initConfig({
-        jshint: {
-            options: {
-                jshintrc: '.jshintrc'
-            },
-            all: [
-                'Gruntfile.js',
-                'src/js/*.js'
-            ]
-        },
         recess: {
-            cssDistMin: {
-                options: {
-                    compile: true,
-                    compress: true
-                },
-                files: {
-                    'dist/css/bootstrap-colorpicker.min.css': [
-                        'src/less/colorpicker.less'
-                    ]
-                }
-            },
-            cssDist: {
+            dist: {
                 options: {
                     compile: true,
                     compress: false
@@ -33,27 +13,52 @@ module.exports = function(grunt) {
                         'src/less/colorpicker.less'
                     ]
                 }
-            }
-        },
-        uglify: {
-            jsDistMin: {
+            },
+            distMin: {
+                options: {
+                    compile: true,
+                    compress: true
+                },
                 files: {
-                    'dist/js/bootstrap-colorpicker.min.js': [
-                        'src/js/colorpicker.js'
+                    'dist/css/bootstrap-colorpicker.min.css': [
+                        'src/less/colorpicker.less'
                     ]
                 }
             }
         },
-        jsbeautifier:{
-            files:['src/js/*.js']
-        },
-        concat: {
+        jshint: {
             options: {
-                separator: '\n\n'
+                jshintrc: '.jshintrc'
             },
-            jsDist: {
-                src: ['src/js/colorpicker.js'],
-                dest: 'dist/js/bootstrap-colorpicker.js'
+            files: [
+                'Gruntfile.js',
+                'src/js/commits.js',
+                'src/js/docs.js',
+                'dist/js/*.js'
+            ]
+        },
+        jsbeautifier: {
+            htmlFiles: ['index.html'],
+            srcFiles: ['src/js/*.js'],
+            distFiles: ['dist/js/bootstrap-colorpicker.js']
+        },
+        combine: {
+            dist: {
+                input: 'src/js/colorpicker.js',
+                output: 'dist/js/bootstrap-colorpicker.js',
+                tokens: [{
+                        token: "'{{color}}';",
+                        file: 'src/js/colorpicker-color.js',
+                    }]
+            }
+        },
+        uglify: {
+            dist: {
+                files: {
+                    'dist/js/bootstrap-colorpicker.min.js': [
+                        'dist/js/bootstrap-colorpicker.js'
+                    ]
+                }
             }
         },
         bake: {
@@ -64,17 +69,6 @@ module.exports = function(grunt) {
             dist: {
                 files: {
                     'index.html': ['src/docs.html']
-                }
-            }
-        },
-        prettify: {
-            options: {
-                condense: true,
-                indent: 4
-            },
-            dist: {
-                files: {
-                    'index.html': ['index.html']
                 }
             }
         },
@@ -89,20 +83,20 @@ module.exports = function(grunt) {
                 files: [
                     'src/js/*.js'
                 ],
-                tasks: ['jshint', 'jsbeautifier', 'uglify', 'concat:jsDist']
+                tasks: ['jsbeautifier:srcFiles', 'combine', 'jsbeautifier:distFiles', 'uglify', 'jshint']
             },
             html: {
                 files: [
                     'src/*.html'
                 ],
-                tasks: ['bake', 'prettify']
+                tasks: ['bake', 'jsbeautifier:htmlFiles']
             }
         },
         clean: {
             dist: [
                 'index.html',
                 'dist/css',
-                'dist/js'
+                'dist/js/*.js'
             ]
         }
     });
@@ -111,22 +105,22 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-bake');
-    grunt.loadNpmTasks('grunt-prettify');
     grunt.loadNpmTasks('grunt-recess');
     grunt.loadNpmTasks('grunt-jsbeautifier');
+    grunt.loadNpmTasks('grunt-combine');
 
     // Register tasks
     grunt.registerTask('default', [
         'clean',
         'recess',
+        'jsbeautifier:srcFiles',
+        'combine',
+        'jsbeautifier:distFiles',
         'uglify',
-        'concat',
         'bake',
-        'jsbeautifier',
-        'prettify'
+        'jsbeautifier:htmlFiles'
     ]);
     grunt.registerTask('dev', [
         'watch'

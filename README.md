@@ -4,13 +4,12 @@ Originally written by [Stefan Petre](http://www.eyecon.ro/)
 
 Read the documentation [here](http://mjaalnir.github.io/bootstrap-colorpicker/)
 
+## Contributing
 
-## Contributors
-
-Please, before perform a Pull Request:
-
+* All the sources are compiled using Grunt, please do not modify dist files directly
+* If you modify some source code, please recompile the project dist files
 * Check that the index.html demos aren't broken (modify if necessary)
-* Test your code in all modern browsers (and at least IE >= 9)
+* Test your code at least in Chrome, Firefox and IE >= 9
 
 Thanks =)
 

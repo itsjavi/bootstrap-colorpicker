@@ -1,46 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Colorpicker for Twitter Bootstrap</title>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/bootstrap-colorpicker.css" rel="stylesheet">
-        <style>
-            .container {
-                background: #fff;
-            }
-            #changelog{
-                position: relative;
-                margin:30px 0;
-            }
-            #changelog h3{
-                line-height: 20px;
-                margin:10px 0 10px 0;
-            }
-            #changelog ul{
-                list-style: none;
-                margin-left: 20px;
-                padding:0;
-            }
-            #changelog ul li{
-                font-size:12px;
-                margin:0 0 10px 0;
-                max-width: 90%;
-            }
-            #changelog ul li b{
-                display: block;
-                margin-left: -10px;
-            }
-            #changelog .well{
-                color:#777;
-                background: #fafafa;
-            }
-            h4 ~ p{
-                padding-left:20px;
-            }
-            /* google code prettify css */
-            .com{color:#93a1a1}.lit{color:#195f91}.pun,.opn,.clo{color:#93a1a1}.fun{color:#dc322f}.str,.atv{color:#D14}.kwd,.linenums .tag{color:#1e347b}.typ,.atn,.dec,.var{color:teal}.pln{color:#48484c}.prettyprint{padding:8px;background-color:#f7f7f9;border:1px solid #e1e1e8}.prettyprint.linenums{-webkit-box-shadow:inset 40px 0 0 #fbfbfc,inset 41px 0 0 #ececf0;-moz-box-shadow:inset 40px 0 0 #fbfbfc,inset 41px 0 0 #ececf0;box-shadow:inset 40px 0 0 #fbfbfc,inset 41px 0 0 #ececf0}ol.linenums{margin:0 0 0 33px}ol.linenums li{padding-left:12px;color:#bebec5;line-height:18px;text-shadow:0 1px 0 #fff}
-        </style>
+        <link href="dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+        <link href="src/css/docs.css" rel="stylesheet">
         <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -58,7 +25,8 @@
                         <p>
                             Colorpicker plugin for the Twitter Bootstrap toolkit. Originally written by <a href="https://twitter.com/stefanpetre/" target="_blank">@eyecon</a>
                             and maintained in Github by <a href="http://twitter.com/mjaalnir/" target="_blank">@mjaalnir</a> and the community
-                            <br><br> It basically adds a color picker to a field or any other element.
+                            <br>
+                            <br>It basically adds a color picker to a field or any other element.
                         </p>
                         <ul>
                             <li>can be used as a component</li>
@@ -73,22 +41,37 @@
                         <div class="social">
                             <!-- Place this tag where you want the +1 button to render. -->
                             <div class="g-plusone" data-size="medium"></div>
-
                             <!-- Place this tag after the last +1 button tag. -->
                             <script type="text/javascript">
-                              (function() {
-                                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                            (function()
+                            {
+                                var po = document.createElement('script');
+                                po.type = 'text/javascript';
+                                po.async = true;
                                 po.src = 'https://apis.google.com/js/plusone.js';
-                                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-                              })();
+                                var s = document.getElementsByTagName('script')[0];
+                                s.parentNode.insertBefore(po, s);
+                            })();
                             </script>
-                            
                             <a href="https://twitter.com/share" class="twitter-share-button" data-via="mjaalnir" data-related="mjaalnir" data-hashtags="bootstrap">Tweet</a>
-                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                            <script>
+                            ! function(d, s, id)
+                            {
+                                var js, fjs = d.getElementsByTagName(s)[0],
+                                    p = /^http:/.test(d.location) ? 'http' : 'https';
+                                if (!d.getElementById(id))
+                                {
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src = p + '://platform.twitter.com/widgets.js';
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }
+                            }(document, 'script', 'twitter-wjs');
+                            </script>
                         </div>
                         <div id="changelog">
                             <div class="well">
-                            <h3>ChangeLog <small>from the <b>master</b> branch</small></h3>
+                                <h3>ChangeLog <small>from the <b>master</b> branch</small></h3>
                                 <ul></ul>
                             </div>
                         </div>
@@ -97,17 +80,17 @@
                         <h2>Examples</h2>
                         <p>Attached to a field with hex format specified via options:</p>
                         <div class="well">
-                            <input type="text" class="form-control bscp" value="#8fff00" id="cp1" >
+                            <input type="text" class="form-control bscp" value="#8fff00" id="cp1">
                         </div>
                         <p>Attached to a field with the rgba format specified via data tag:</p>
                         <div class="well">
-                            <input type="text" class="form-control bscp" value="rgb(0,194,255,0.78)" id="cp2" data-color-format="rgba" >
+                            <input type="text" class="form-control bscp" value="rgb(0,194,255,0.78)" id="cp2" data-color-format="rgba">
                         </div>
                         <p>As a component:</p>
                         <div class="well">
-                            <div class="input-group colorpicker-component bscp" data-color="ffffff" data-color-format="hex" id="cp3">
+                            <div class="input-group colorpicker-component bscp" data-color-format="hex" id="cp3">
                                 <input type="text" value="" class="form-control" />
-                                <span class="input-group-addon"><i style="background-color: ffffff"></i></span>
+                                <span class="input-group-addon"><i></i></span>
                             </div>
                         </div>
                         <p>Using events to work with the color:</p>
@@ -116,31 +99,28 @@
                         </div>
                         <p>Inline mode:</p>
                         <div class="well">
-                            <div id="cp6">
-
-                            </div>
+                            <div id="cp6"></div>
                         </div>
                         <p>Horizonal mode:</p>
                         <div class="well">
-                            <input type="text" class="form-control bscp" value="#8fff00" id="cp5" >
+                            <input type="text" class="form-control bscp" value="#8fff00" id="cp5">
                         </div>
+                        <p>Enabled / disabled</p>
                         <div class="well">
-                            <div class="input-group colorpicker-component disable-toggle" data-color="ffffff" data-color-format="hex">
-                                <input type="text" value="" class="form-control" />
-                                <span class="input-group-addon"><i style="background-color: ffffff"></i></span>
+                            <div class="input-group colorpicker-component" data-color-format="hex" id="cp7">
+                                <input disabled type="text" value="" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
                             </div>
-                            <div class="disable-toggle" data-disabled="true" data-color="ffffff" data-color-format="hex">
-                                <input type="text" class="form-control" />
-                            </div>
-                            <a class="btn btn-default enable-button" href="#">Enable</a>
-                            <a class="btn btn-default disable-button" href="#">Disable</a>
+                            <br>
+                            <a class="btn btn-sm btn-default enable-button" href="#">Enable</a>
+                            <a class="btn btn-sm btn-default disable-button" href="#">Disable</a>
                         </div>
                         <a class="btn btn-default bscp-destroy" href="#"><i class="glyphicon glyphicon-remove"></i> Destroy plugin instances</a>
                         <a class="btn btn-default bscp-create" href="#"><i class="glyphicon glyphicon-plus"></i> Create instances again</a>
                         <hr>
                         <h2>Using bootstrap-colorpicker.js</h2>
                         <p>Call the colopicker via javascript:</p>
-                        <pre class="prettyprint linenums">$('.my-colorpicker-control').colorpicker()</pre>
+                        <pre class="well">$('.my-colorpicker-control').colorpicker();</pre>
                         <h3>Options</h3>
                         <table class="table table-bordered table-striped">
                             <thead>
@@ -180,12 +160,12 @@
                         </table>
                         <h3>Markup</h3>
                         <p>Component mode</p>
-                        <pre class="prettyprint linenums">
+                        <pre class="well">
 &lt;div class=&quot;input-group colorpicker-component my-colorpicker-control&quot; data-color=&quot;rgb(255, 146, 180)&quot; data-disabled=&quot;true&quot; data-color-format=&quot;rgb&quot; id=&quot;cp3&quot;&gt;
     &lt;input type=&quot;text&quot; value=&quot;&quot; readonly class=&quot;form-control&quot; /&gt;
     &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i style=&quot;background-color: rgb(255, 146, 180)&quot;&gt;&lt;/i&gt;&lt;/span&gt;
 &lt;/div&gt;
-                        </pre>
+    </pre>
                         <h3>Methods</h3>
                         <h4>.colorpicker(options)</h4>
                         <p>Initializes an colorpicker.</p>
@@ -263,73 +243,19 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <pre class="prettyprint linenums">
+                        <pre class="well">
 $(&#039;.my-colorpicker-control&#039;).colorpicker().on(&#039;changeColor&#039;, function(ev){
   bodyStyle.backgroundColor = ev.color.toHex();
 });
-                        </pre>
+    </pre>
                     </div>
                 </div>
             </section>
         </div>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
         <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-        <script src="js/bootstrap-colorpicker.js"></script>
-        <script src="js/commits.js"></script>
-        <script>
-            $(function() {
-                // pretify code samples
-                window.prettyPrint && prettyPrint();
-
-                // Code for those demos
-                var _createColorpickers = function() {
-                    $('#cp1').colorpicker({
-                        format: 'hex'
-                    });
-                    $('#cp2').colorpicker();
-                    $('#cp3').colorpicker();
-                    var bodyStyle = $('body')[0].style;
-                    $('#cp4').colorpicker().on('changeColor', function(ev) {
-                        bodyStyle.backgroundColor = ev.color.toHex();
-                    });
-
-                    $('#cp5').colorpicker({
-                        format: 'rgba',
-                        horizontal: true
-                    });
-
-                    $('#cp6').colorpicker({
-                        container: $('#cp6')
-                    });
-
-                    $('.disable-toggle').colorpicker({
-                        disabled: true
-                    });
-                }
-
-                _createColorpickers();
-
-                $('.bscp-destroy').click(function(e) {
-                    e.preventDefault();
-                    $('.bscp').colorpicker('destroy');
-                });
-
-                $('.bscp-create').click(function(e) {
-                    e.preventDefault();
-                    _createColorpickers();
-                });
-
-                $(".disable-button").click(function(e) {
-                    e.preventDefault();
-                    $(".disable-toggle").colorpicker('disable');
-                });
-
-                $(".enable-button").click(function(e) {
-                    e.preventDefault();
-                    $(".disable-toggle").colorpicker('enable');
-                });
-            });
-        </script>
+        <script src="dist/js/bootstrap-colorpicker.min.js"></script>
+        <script src="src/js/commits.js"></script>
+        <script src="src/js/docs.js"></script>
     </body>
 </html>

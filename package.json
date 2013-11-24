@@ -1,0 +1,34 @@
+{
+  "name": "mjaalnir-bootstrap-colorpicker",
+  "version": "1.0.0",
+  "description": "Colorpicker plugin for Twitter Bootstrap",
+  "homepage": "http://mjaalnir.github.io/bootstrap-colorpicker/",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mjaalnir/bootstrap-colorpicker.git"
+  },
+  "bugs": {
+    "url" : "https://github.com/mjaalnir/bootstrap-colorpicker/issues"
+  },
+  "keywords": [
+    "bootstrap",
+    "colorpicker"
+  ],
+  "author": "Javier Aguilar @mjaalnir",
+  "licenses": [{
+    "type": "Apache-2.0",
+    "url": "http://opensource.org/licenses/Apache-2.0"
+  }],
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-bake": "~0.3.3",
+    "grunt-prettify": "~0.2.9",
+    "grunt-recess": "~0.5.0",
+    "grunt-jsbeautifier": "~0.2.3"
+  }
+}

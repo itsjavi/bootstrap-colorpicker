@@ -30,3 +30,7 @@
 h4 ~ p{
     padding-left:20px;
 }
+
+.inl-bl{
+    display:inline-block;
+}

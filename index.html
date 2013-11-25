@@ -81,34 +81,35 @@
                     <h2>Examples</h2>
                     <p>Attached to a field with hex format specified via options:</p>
                     <div class="well">
-                        <input type="text" class="form-control bscp" value="gold" id="cp1">
+                        <input type="text" class="form-control bscp bscp-auto" value="#5367ce">
                     </div>
                     <p>Attached to a field with the rgba format specified via data tag:</p>
                     <div class="well">
-                        <input type="text" class="form-control bscp" value="rgba(0,194,255,0.78)" id="cp2">
+                        <input type="text" class="form-control bscp bscp-auto" value="rgba(33,182,229,0.73)">
                     </div>
                     <p>As a component:</p>
                     <div class="well">
-                        <div class="input-group colorpicker-component bscp" id="cp3">
+                        <div class="input-group colorpicker-component bscp bscp-auto">
                             <input type="text" value="" class="form-control" />
                             <span class="input-group-addon"><i></i></span>
                         </div>
                     </div>
                     <p>Using events to work with the color:</p>
                     <div class="well">
-                        <a href="#" class="btn small bscp" id="cp4" data-color="rgb(255, 255, 255)">Change background color</a>
+                        <a href="#" class="btn small bscp" id="bscp_apidemo" data-color="rgb(255, 255, 255)">Change background color</a>
                     </div>
                     <p>Horizonal mode:</p>
                     <div class="well">
-                        <input type="text" class="form-control bscp" value="#8fff00" id="cp5">
+                        <input type="text" class="form-control bscp" data-horizontal="true" id="bscp_forceformat" value="#8fff00">
                     </div>
                     <p>Inline mode:</p>
                     <div class="well">
-                        <div id="cp6" class="bscp" data-container-selector="#cp6" data-inline="true"></div>
+                        <div id="bscp_cont" class="bscp bscp-auto inl-bl" data-container="#bscp_cont" data-color="rgba(150,216,62,0.55)" data-inline="true"></div>
+                        <div class="bscp bscp-auto inl-bl" data-container="true" data-color="rgb(50,216,62)" data-inline="true"></div>
                     </div>
                     <p>Enabled / disabled</p>
                     <div class="well">
-                        <div class="input-group bscp colorpicker-component" id="cp7">
+                        <div id="bscp_endis" class="input-group bscp bscp-auto colorpicker-component">
                             <input disabled type="text" value="" class="form-control" />
                             <span class="input-group-addon"><i></i></span>
                         </div>

@@ -189,6 +189,7 @@
             }
         }],
         template: '<div class="colorpicker dropdown-menu">' +
+            '<div class="colorpicker-swatch"></div>' +
             '<div class="colorpicker-saturation"><i><b></b></i></div>' +
             '<div class="colorpicker-hue"><i></i></div>' +
             '<div class="colorpicker-alpha"><i></i></div>' +
@@ -324,6 +325,7 @@
         this.element = $(element).attr('data-colorpicker-guid', _guid);
         var format = options.format || this.element.data('color-format') || 'hex';
         this.format = CPGlobal.translateFormats[format];
+        this.swatch = options.swatch || null;
         this.isInput = this.element.is('input');
         this.component = this.element.is('.colorpicker-component') ? this.element.find('.add-on, .input-group-addon') : false;
         this.container = options.container || false;
@@ -386,6 +388,21 @@
             this.preview = this.element.find('i')[0].style;
         } else {
             this.preview = this.picker.find('div:last')[0].style;
+        }
+
+        if (this.swatch) {
+            var self = this,
+                html = "<ul>";
+
+            $.each(this.swatch, function(index, color) {
+                html += '<li class="swatch" style="background: ' + color + '" data-color="' + color + '"></li>';
+            });
+
+            this.picker.find('.colorpicker-swatch')
+                .append(html + "</ul>")
+                .on('click', 'li', function(event) {
+                    self.setValue($(event.target).data('color'));
+                });
         }
 
         this.base = this.picker.find('div:first')[0].style;
@@ -456,6 +473,7 @@
             if (!this.isInput) {
                 if (this.component) {
                     //if the input value is empty, do not set any color
+                    console.log(this.element);
                     if (this.element.find('input').val() !== '') {
                         this.element.find('input').prop('value', this.format.call(this)).trigger('change');
                     }
@@ -463,6 +481,7 @@
                 this.element.data('color', this.format.call(this));
             } else {
                 //if the input value is empty, do not set any color
+                console.log(this.element);
                 if (this.element.val() !== '') {
                     this.element.prop('value', this.format.call(this)).trigger('change');
                 }
@@ -537,6 +556,10 @@
         mousedown: function(e) {
             e.stopPropagation();
             e.preventDefault();
+
+            if ($(e.target).is('.swatch')) {
+                return false;
+            }
 
             var target = $(e.target);
 

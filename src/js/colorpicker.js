@@ -466,7 +466,6 @@
             if (!this.isInput) {
                 if (this.component) {
                     //if the input value is empty, do not set any color
-                    console.log(this.element);
                     if (this.element.find('input').val() !== '') {
                         this.element.find('input').prop('value', this.format.call(this)).trigger('change');
                     }
@@ -474,7 +473,6 @@
                 this.element.data('color', this.format.call(this));
             } else {
                 //if the input value is empty, do not set any color
-                console.log(this.element);
                 if (this.element.val() !== '') {
                     this.element.prop('value', this.format.call(this)).trigger('change');
                 }

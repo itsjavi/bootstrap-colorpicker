@@ -160,6 +160,12 @@
                                     <td>false</td>
                                     <td>whether to render the colorpicker selectors in horizontal mode</td>
                                 </tr>
+                                <tr>
+                                    <td>swatch</td>
+                                    <td>array</td>
+                                    <td>[]</td>
+                                    <td>specify an array of valid html colors to generate a swatch</td>
+                                </tr>
                             </tbody>
                         </table>
                         <h3>Markup</h3>
@@ -189,6 +195,8 @@
                         <p>Destroys the colorpicker widget and unbind all .colorpicker events from the element and component</p>
                         <h4>.colorpicker('setValue', value)</h4>
                         <p>Set a new value for the color picker (also for the input or component value). Triggers 'changeColor' event.</p>
+                        <h4>.colorpicker('setSwatch', value)</h4>
+                        <p>Set a new swatch for the color picker. The value must be an array of hex colors (with the #).</p>
                         <h3>Color object methods</h3>
                         <p>Each triggered events have a color object used internally by the picker. This object has several useful methods.</p>
                         <h4>.setColor(value)</h4>

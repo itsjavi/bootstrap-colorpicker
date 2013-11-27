@@ -325,7 +325,7 @@
         this.element = $(element).attr('data-colorpicker-guid', _guid);
         var format = options.format || this.element.data('color-format') || 'hex';
         this.format = CPGlobal.translateFormats[format];
-        this.swatch = options.swatch || null;
+        this.swatch = options.swatch || [];
         this.isInput = this.element.is('input');
         this.component = this.element.is('.colorpicker-component') ? this.element.find('.add-on, .input-group-addon') : false;
         this.container = options.container || false;
@@ -391,18 +391,11 @@
         }
 
         if (this.swatch) {
-            var self = this,
-                html = "<ul>";
-
-            $.each(this.swatch, function(index, color) {
-                html += '<li class="swatch" style="background: ' + color + '" data-color="' + color + '"></li>';
+            var self = this;
+            this.setSwatch();
+            this.picker.find('.colorpicker-swatch').on('click', 'li', function(event) {
+                self.setValue($(event.target).data('color'));
             });
-
-            this.picker.find('.colorpicker-swatch')
-                .append(html + "</ul>")
-                .on('click', 'li', function(event) {
-                    self.setValue($(event.target).data('color'));
-                });
         }
 
         this.base = this.picker.find('div:first')[0].style;
@@ -649,6 +642,19 @@
                 mouseup: this.mouseup
             });
             return false;
+        },
+        setSwatch: function(swatch) {
+            var html = "<ul>";
+
+            if (swatch) {
+                this.swatch = swatch;
+            }
+
+            $.each(this.swatch, function(index, color) {
+                html += '<li class="swatch" style="background: ' + color + '" data-color="' + color + '"></li>';
+            });
+
+            this.picker.find('.colorpicker-swatch').html(html + "</ul>");
         }
     };
 

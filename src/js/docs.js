@@ -29,6 +29,11 @@ $(function() {
             disabled: true
         });
 
+        // Swatch
+        $('#cp8').colorpicker({
+            swatch: ['#ff3e62', '#ffaf1f', '#fbd415', '#ffff00', '#00ff00', '#abff07', '#0000ff', '#3699ff', '#ff00ff', '#cdabd6', '#efefef', '#434343']
+        });
+
         // Disabled / enabled triggers
         $(".disable-button").click(function(e) {
             e.preventDefault();

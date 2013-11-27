@@ -115,6 +115,10 @@
                             <a class="btn btn-sm btn-default enable-button" href="#">Enable</a>
                             <a class="btn btn-sm btn-default disable-button" href="#">Disable</a>
                         </div>
+                        <p>Swatch:</p>
+                        <div class="well">
+                            <input type="text" class="form-control bscp" value="#8fff00" id="cp8">
+                        </div>
                         <a class="btn btn-default bscp-destroy" href="#"><i class="glyphicon glyphicon-remove"></i> Destroy plugin instances</a>
                         <a class="btn btn-default bscp-create" href="#"><i class="glyphicon glyphicon-plus"></i> Create instances again</a>
                         <hr>
@@ -156,6 +160,12 @@
                                     <td>false</td>
                                     <td>whether to render the colorpicker selectors in horizontal mode</td>
                                 </tr>
+                                <tr>
+                                    <td>swatch</td>
+                                    <td>array</td>
+                                    <td>[]</td>
+                                    <td>specify an array of valid html colors to generate a swatch</td>
+                                </tr>
                             </tbody>
                         </table>
                         <h3>Markup</h3>
@@ -185,6 +195,8 @@
                         <p>Destroys the colorpicker widget and unbind all .colorpicker events from the element and component</p>
                         <h4>.colorpicker('setValue', value)</h4>
                         <p>Set a new value for the color picker (also for the input or component value). Triggers 'changeColor' event.</p>
+                        <h4>.colorpicker('setSwatch', value)</h4>
+                        <p>Set a new swatch for the color picker. The value must be an array of hex colors (with the #).</p>
                         <h3>Color object methods</h3>
                         <p>Each triggered events have a color object used internally by the picker. This object has several useful methods.</p>
                         <h4>.setColor(value)</h4>
@@ -254,7 +266,8 @@ $(&#039;.my-colorpicker-control&#039;).colorpicker().on(&#039;changeColor&#039;,
         </div>
         <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-        <script src="dist/js/bootstrap-colorpicker.min.js"></script>
+        <script src="2dist/js/bootstrap-colorpicker.min.js"></script>
+        <script src="src/js/colorpicker.js"></script>
         <script src="src/js/commits.js"></script>
         <script src="src/js/docs.js"></script>
     </body>

@@ -8,6 +8,25 @@
  *
  */
 
+.colorpicker-swatch {
+  background: #FFF !important;
+}
+
+.colorpicker-swatch ul {
+  width: 120px;
+  padding: 0;
+  margin: 0 0 4px;
+  overflow: hidden;
+  list-style: none;
+}
+
+.colorpicker-swatch li {
+  display: block;
+  float: left;
+  width: 20px;
+  height: 20px;
+}
+
 .colorpicker-saturation {
   float: left;
   width: 100px;

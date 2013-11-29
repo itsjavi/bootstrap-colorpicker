@@ -3,42 +3,42 @@ $(function() {
     function createColorpickers() {
         // Api demo
         var bodyStyle = $('body')[0].style;
-        $('#bscp_apidemo').colorpicker({
+        $('#demo_apidemo').colorpicker({
             color: bodyStyle.backgroundColor
         }).on('changeColor', function(ev) {
             bodyStyle.backgroundColor = ev.color.toHex();
         });
 
         // Horizontal mode
-        $('#bscp_forceformat').colorpicker({
+        $('#demo_forceformat').colorpicker({
             format: 'rgba', // force this format
             horizontal: true
         });
 
-        $('.bscp-auto').colorpicker();
+        $('.demo-auto').colorpicker();
 
         // Disabled / enabled triggers
         $(".disable-button").click(function(e) {
             e.preventDefault();
-            $("#bscp_endis").colorpicker('disable');
+            $("#demo_endis").colorpicker('disable');
         });
 
         $(".enable-button").click(function(e) {
             e.preventDefault();
-            $("#bscp_endis").colorpicker('enable');
+            $("#demo_endis").colorpicker('enable');
         });
     }
 
     createColorpickers();
 
     // Create / destroy instances
-    $('.bscp-destroy').click(function(e) {
+    $('.demo-destroy').click(function(e) {
         e.preventDefault();
-        $('.bscp').colorpicker('destroy');
+        $('.demo').colorpicker('destroy');
         $(".disable-button, .enable-button").off('click');
     });
 
-    $('.bscp-create').click(function(e) {
+    $('.demo-create').click(function(e) {
         e.preventDefault();
         createColorpickers();
     });

@@ -151,7 +151,7 @@
 }
 
 .colorpicker.colorpicker-inline {
-  position: static;
+  position: relative;
   display: inline-block;
   float: none;
 }

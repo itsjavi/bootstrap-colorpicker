@@ -140,6 +140,8 @@
             this.element.trigger('create');
         }, this));
     };
+    
+    Colorpicker.version = '2.0.0-beta';
 
     Colorpicker.Color = Color;
 

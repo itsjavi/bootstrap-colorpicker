@@ -1,36 +1,37 @@
 .container {
     background: #fff;
 }
-#changelog{
-    position: relative;
-    margin:30px 0;
-}
-#changelog h3{
-    line-height: 20px;
-    margin:10px 0 10px 0;
-}
-#changelog ul{
-    list-style: none;
-    margin-left: 20px;
-    padding:0;
-}
-#changelog ul li{
-    font-size:12px;
-    margin:0 0 10px 0;
-    max-width: 90%;
-}
-#changelog ul li b{
-    display: block;
-    margin-left: -10px;
-}
-#changelog .well{
-    color:#777;
-    background: #fafafa;
-}
+
 h4 ~ p{
     padding-left:20px;
 }
 
 .inl-bl{
     display:inline-block;
+}
+
+.well .markup-heading{
+    
+}
+.well .markup{
+    background: #fff;
+    color: #777;
+    position: relative;
+    padding: 45px 15px 15px;
+    margin: 15px 0 0 0;
+    background-color: #fff;
+    border-radius: 0 0 4px 4px;
+    box-shadow: none;
+}
+
+.well .markup::after{
+    content: "Example";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }

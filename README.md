@@ -1,4 +1,4 @@
-# Colorpicker plugin for Twitter Bootstrap
+# Bootstrap Colorpicker 2.0
 
 [![Build Status](https://travis-ci.org/mjaalnir/bootstrap-colorpicker.png)](https://travis-ci.org/mjaalnir/bootstrap-colorpicker)
 

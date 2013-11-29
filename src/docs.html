@@ -1,95 +1,72 @@
 <!--(bake header.html)-->
-<div class="col-md-7 columns">
-    <h2>Examples</h2>
-    <p>Attached to a field with hex format specified via options:</p>
-    <div class="well">
-        <input type="text" class="form-control bscp bscp-auto" value="#5367ce">
-    </div>
-    <p>Attached to a field with the rgba format specified via data tag:</p>
-    <div class="well">
-        <input type="text" class="form-control bscp bscp-auto" value="rgba(33,182,229,0.73)">
-    </div>
-    <p>As a component:</p>
-    <div class="well">
-        <div class="input-group colorpicker-component bscp bscp-auto">
-            <input type="text" value="" class="form-control" />
-            <span class="input-group-addon"><i></i></span>
-        </div>
-    </div>
-    <p>Using events to work with the color:</p>
-    <div class="well">
-        <a href="#" class="btn small bscp" id="bscp_apidemo" data-color="rgb(255, 255, 255)">Change background color</a>
-    </div>
-    <p>Horizonal mode:</p>
-    <div class="well">
-        <input type="text" class="form-control bscp" data-horizontal="true" id="bscp_forceformat" value="#8fff00" >
-    </div>
-    <p>Inline mode:</p>
-    <div class="well">
-        <div id="bscp_cont" class="bscp bscp-auto inl-bl" data-container="#bscp_cont" data-color="rgba(150,216,62,0.55)" data-inline="true"></div>
-        <div class="bscp bscp-auto inl-bl" data-container="true" data-color="rgb(50,216,62)" data-inline="true"></div>
-    </div>
-    <p>Enabled / disabled</p>
-    <div class="well">
-        <div id="bscp_endis" class="input-group bscp bscp-auto colorpicker-component">
-            <input disabled type="text" value="" class="form-control" />
-            <span class="input-group-addon"><i></i></span>
-        </div>
-        <br>
-        <a class="btn btn-sm btn-default enable-button" href="#">Enable</a>
-        <a class="btn btn-sm btn-default disable-button" href="#">Disable</a>
-    </div>
-    <a class="btn btn-default bscp-destroy" href="#"><i class="glyphicon glyphicon-remove"></i> Destroy plugin instances</a>
-    <a class="btn btn-default bscp-create" href="#"><i class="glyphicon glyphicon-plus"></i> Create instances again</a>
-    <hr>
-    <h2>Using bootstrap-colorpicker.js</h2>
+<!--(bake examples.html)-->
+<article class="col-md-6">
+    <h2>Documentation</h2>
     <p>Call the colopicker via javascript:</p>
-    <pre class="well">$('.my-colorpicker-control').colorpicker();</pre>
+    <pre class="well">$('.sample-selector').colorpicker({ /*options...*/ });</pre>
     <h3>Options</h3>
+    <p>
+        You can set colorpicker options either as a plugin parameter or data-* attributes
+    </p>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th style="width: 100px;">Name</th>
-                <th style="width: 50px;">type</th>
-                <th style="width: 100px;">default</th>
-                <th>description</th>
+                <th style="width: 50px;">Type</th>
+                <th style="width: 100px;">Default</th>
+                <th>Description</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>format</td>
                 <td>string</td>
-                <td>'hex'</td>
-                <td>the color format - hex | rgb | rgba.</td>
+                <td>false</td>
+                <td>If not false, forces the color format to be hex, rgb or rgba, otherwise the format is automatically detected.</td>
             </tr>
             <tr>
-                <td>disabled</td>
-                <td>boolean</td>
+                <td>color</td>
+                <td>string</td>
                 <td>false</td>
-                <td>the initial state of the colorpicker</td>
+                <td>If not false, sets the color to this value.</td>
             </tr>
             <tr>
                 <td>container</td>
-                <td>jQuery Element</td>
+                <td>string or jQuery Element</td>
                 <td>false</td>
-                <td>specify this value to put the colorpicker in a standalone component</td>
+                <td>If not false, the picker will be contained inside this element, otherwise it will be appended to the document body.</td>
+            </tr>
+            <tr>
+                <td>component</td>
+                <td>string or jQuery Element</td>
+                <td>'.add-on, .input-group-addon'</td>
+                <td>Children selector for the component or element that trigger the colorpicker and which background color will change (needs an inner &lt;i&gt; element).</td>
+            </tr>
+            <tr>
+                <td>input</td>
+                <td>string or jQuery Element</td>
+                <td>'input'</td>
+                <td>Children selector for the input that will store the picker selected value.</td>
             </tr>
             <tr>
                 <td>horizontal</td>
                 <td>boolean</td>
                 <td>false</td>
-                <td>whether to render the colorpicker selectors in horizontal mode</td>
+                <td>If true, the hue and alpha channel bars will be rendered horizontally, above the saturation selector.</td>
+            </tr>
+            <tr>
+                <td>template</td>
+                <td>string</td>
+                <td><abbr title='please, read the source code for this value'>[...]</abbr></td>
+                <td>Customizes the default colorpicker HTML template.</td>
             </tr>
         </tbody>
     </table>
-    <h3>Markup</h3>
-    <p>Component mode</p>
-    <pre class="well">
-&lt;div class=&quot;input-group colorpicker-component my-colorpicker-control&quot; data-color=&quot;rgb(255, 146, 180)&quot; data-disabled=&quot;true&quot; data-color-format=&quot;rgb&quot; id=&quot;cp3&quot;&gt;
-    &lt;input type=&quot;text&quot; value=&quot;&quot; readonly class=&quot;form-control&quot; /&gt;
-    &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i style=&quot;background-color: rgb(255, 146, 180)&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-&lt;/div&gt;
-    </pre>
+    
+    <p class='alert alert-warning'>
+        (behind this line, docs need to be updated)
+    </p>
+    
     <h3>Methods</h3>
     <h4>.colorpicker(options)</h4>
     <p>Initializes an colorpicker.</p>
@@ -168,9 +145,9 @@
         </tbody>
     </table>
     <pre class="well">
-$(&#039;.my-colorpicker-control&#039;).colorpicker().on(&#039;changeColor&#039;, function(ev){
+$('.my-colorpicker-control').colorpicker().on('changeColor', function(ev){
   bodyStyle.backgroundColor = ev.color.toHex();
 });
     </pre>
-</div>
+</article>
 <!--(bake footer.html)-->

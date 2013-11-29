@@ -1,0 +1,53 @@
+<div class="col-md-6">
+    <h2>Examples</h2>
+    <div class="demo-wrapper">
+        <p>1) Attached to a field with hex format specified via options:</p>
+        <div class="well">
+            <input type="text" class="form-control demo demo-1 demo-auto" value="#5367ce" />
+            <pre class="markup">
+&lt;input type="text" class="demo1" value="#5367ce" /&gt;
+&lt;script&gt;
+    $(function(){
+        $('.demo1').colorpicker();
+    });
+&lt;/script&gt;
+            </pre>
+        </div>
+    </div>
+    <p>Attached to a field with the rgba format specified via data tag:</p>
+    <div class="well">
+        <input type="text" class="form-control demo demo-auto" value="rgba(33,182,229,0.73)">
+    </div>
+    <p>As a component:</p>
+    <div class="well">
+        <div class="input-group colorpicker-component demo demo-auto">
+            <input type="text" value="" class="form-control" />
+            <span class="input-group-addon"><i></i></span>
+        </div>
+    </div>
+    <p>Using events to work with the color:</p>
+    <div class="well">
+        <a href="#" class="btn small demo" id="demo_apidemo" data-color="rgb(255, 255, 255)">Change background color</a>
+    </div>
+    <p>Horizonal mode:</p>
+    <div class="well">
+        <input type="text" class="form-control demo" data-horizontal="true" id="demo_forceformat" value="#8fff00" >
+    </div>
+    <p>Inline mode:</p>
+    <div class="well">
+        <div id="demo_cont" class="demo demo-auto inl-bl" data-container="#demo_cont" data-color="rgba(150,216,62,0.55)" data-inline="true"></div>
+        <div class="demo demo-auto inl-bl" data-container="true" data-color="rgb(50,216,62)" data-inline="true"></div>
+    </div>
+    <p>Enabled / disabled</p>
+    <div class="well">
+        <div id="demo_endis" class="input-group demo demo-auto colorpicker-component">
+            <input disabled type="text" value="" class="form-control" />
+            <span class="input-group-addon"><i></i></span>
+        </div>
+        <br>
+        <a class="btn btn-sm btn-default enable-button" href="#">Enable</a>
+        <a class="btn btn-sm btn-default disable-button" href="#">Disable</a>
+    </div>
+    <a class="btn btn-default demo-destroy" href="#"><i class="glyphicon glyphicon-remove"></i> Destroy plugin instances</a>
+    <a class="btn btn-default demo-create" href="#"><i class="glyphicon glyphicon-plus"></i> Create instances again</a>
+</div>

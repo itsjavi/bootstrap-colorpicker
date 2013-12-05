@@ -1,20 +1,20 @@
 {
-  "name": "mjaalnir-bootstrap-colorpicker",
+  "name": "mjolnic-bootstrap-colorpicker",
   "version": "2.0.0",
   "description": "Colorpicker plugin for Twitter Bootstrap",
-  "homepage": "http://mjaalnir.github.io/bootstrap-colorpicker/",
+  "homepage": "http://mjolnic.github.io/bootstrap-colorpicker/",
   "repository": {
     "type": "git",
-    "url": "git@github.com:mjaalnir/bootstrap-colorpicker.git"
+    "url": "git@github.com:mjolnic/bootstrap-colorpicker.git"
   },
   "bugs": {
-    "url" : "https://github.com/mjaalnir/bootstrap-colorpicker/issues"
+    "url" : "https://github.com/mjolnic/bootstrap-colorpicker/issues"
   },
   "keywords": [
     "bootstrap",
     "colorpicker"
   ],
-  "author": "Javier Aguilar @mjaalnir",
+  "author": "Javier Aguilar @mjolnic",
   "licenses": [{
     "type": "Apache-2.0",
     "url": "http://opensource.org/licenses/Apache-2.0"

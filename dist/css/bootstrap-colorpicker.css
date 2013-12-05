@@ -1,6 +1,6 @@
 /*!
  * Bootstrap Colorpicker
- * http://mjaalnir.github.io/bootstrap-colorpicker/
+ * http://mjolnic.github.io/bootstrap-colorpicker/
  *
  * Originally written by (c) 2012 Stefan Petre
  * Licensed under the Apache License v2.0

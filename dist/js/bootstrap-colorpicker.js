@@ -151,10 +151,10 @@
                 S = 1;
             }
             return {
-                h: H,
-                s: S,
-                l: L,
-                a: a
+                h: isNan(H) ? 0 : H,
+                s: isNan(S) ? 0 : S,
+                l: isNan(L) ? 0 : L,
+                a: isNan(a) ? 0 : a,
             };
         },
         RGBtoHSB: function(r, g, b, a) {

@@ -138,10 +138,10 @@ Color.prototype = {
             S = 1;
         }
         return {
-            h: isNan(H) ? 0 : H,
-            s: isNan(S) ? 0 : S,
-            l: isNan(L) ? 0 : L,
-            a: isNan(a) ? 0 : a,
+            h: isNaN(H) ? 0 : H,
+            s: isNaN(S) ? 0 : S,
+            l: isNaN(L) ? 0 : L,
+            a: isNaN(a) ? 0 : a,
         };
     },
     RGBtoHSB: function(r, g, b, a) {

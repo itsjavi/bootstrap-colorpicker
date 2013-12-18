@@ -930,6 +930,8 @@
     $.colorpicker = Colorpicker;
 
     $.fn.colorpicker = function(option) {
+        var pickerArgs = arguments;
+
         return this.each(function() {
             var $this = $(this),
                 inst = $this.data('colorpicker'),
@@ -938,7 +940,7 @@
                 $this.data('colorpicker', new Colorpicker(this, options));
             } else {
                 if (typeof option === 'string') {
-                    inst[option].apply(inst, Array.prototype.slice.call(arguments, 1));
+                    inst[option].apply(inst, Array.prototype.slice.call(pickerArgs, 1));
                 }
             }
         });

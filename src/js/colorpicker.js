@@ -8,6 +8,16 @@
  *
  * @todo Update DOCS
  */
+
+(function( factory ) {
+    "use strict";
+    if(typeof define === 'function' && define.amd) {
+            define(['jquery'], factory);
+    }
+    else if(window.jQuery && !window.jQuery.fn.colorpicker) {
+            factory(window.jQuery);
+    }
+}
 (function($) {
     'use strict';
 
@@ -450,4 +460,4 @@
 
     $.fn.colorpicker.constructor = Colorpicker;
 
-})(window.jQuery);
+}));

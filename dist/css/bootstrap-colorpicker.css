@@ -143,15 +143,18 @@
   height: 10px;
 }
 
-.colorpicker-element .input-group-addon i {
-  display: block;
+.colorpicker-element .input-group-addon i,
+.colorpicker-element .add-on i {
+  display: inline-block;
   width: 16px;
   height: 16px;
+  vertical-align: text-top;
   cursor: pointer;
 }
 
 .colorpicker.colorpicker-inline {
   position: relative;
+  z-index: auto;
   display: inline-block;
   float: none;
 }

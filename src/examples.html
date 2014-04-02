@@ -55,6 +55,35 @@
         <a class="btn btn-sm btn-default enable-button" href="#">Enable</a>
         <a class="btn btn-sm btn-default disable-button" href="#">Disable</a>
     </div>
+
+    <p>Bootstrap Modal</p>
+    <div class="well">
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            Show
+        </button>
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">In a Modal</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group colorpicker-component demo demo-auto">
+                            <input type="text" value="" class="form-control" />
+                            <span class="input-group-addon"><i></i></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <a class="btn btn-default demo-destroy" href="#"><i class="glyphicon glyphicon-remove"></i> Destroy plugin instances</a>
     <a class="btn btn-default demo-create" href="#"><i class="glyphicon glyphicon-plus"></i> Create instances again</a>
 </div>

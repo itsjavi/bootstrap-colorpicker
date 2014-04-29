@@ -238,46 +238,28 @@
             setAlpha: function(a) {
                 this.value.a = parseInt((1 - a) * 100, 10) / 100;
             },
-            toRGB: function(h, s, v, a) {
-                h = h || this.value.h;
-                s = s || this.value.s;
-                v = v || this.value.b;
-                a = a || this.value.a;
+            toRGB: function(h, s, b, a) {
+                if (!h) {
+                    h = this.value.h;
+                    s = this.value.s;
+                    b = this.value.b;
+                }
+                h *= 360;
+                var R, G, B, X, C;
+                h = (h % 360) / 60;
+                C = b * s;
+                X = C * (1 - Math.abs(h % 2 - 1));
+                R = G = B = b - C;
 
-                var r, g, b, i, f, p, q, t;
-                if (h && s === undefined && v === undefined) {
-                    s = h.s, v = h.v, h = h.h;
-                }
-                i = Math.floor(h * 6);
-                f = h * 6 - i;
-                p = v * (1 - s);
-                q = v * (1 - f * s);
-                t = v * (1 - (1 - f) * s);
-                switch (i % 6) {
-                    case 0:
-                        r = v, g = t, b = p;
-                        break;
-                    case 1:
-                        r = q, g = v, b = p;
-                        break;
-                    case 2:
-                        r = p, g = v, b = t;
-                        break;
-                    case 3:
-                        r = p, g = q, b = v;
-                        break;
-                    case 4:
-                        r = t, g = p, b = v;
-                        break;
-                    case 5:
-                        r = v, g = p, b = q;
-                        break;
-                }
+                h = ~~h;
+                R += [C, X, 0, 0, X, C][h];
+                G += [X, C, C, X, 0, 0][h];
+                B += [0, 0, X, C, C, X][h];
                 return {
-                    r: Math.floor(r * 255),
-                    g: Math.floor(g * 255),
-                    b: Math.floor(b * 255),
-                    a: a
+                    r: Math.round(R * 255),
+                    g: Math.round(G * 255),
+                    b: Math.round(B * 255),
+                    a: a || this.value.a
                 };
             },
             toHex: function(h, s, b, a) {

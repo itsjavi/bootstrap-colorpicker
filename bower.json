@@ -4,5 +4,14 @@
     "dependencies": {
         "jquery": "~1.10.2",
         "bootstrap": "~3.0"
-    }
+    },
+		"main": [
+			"dist/js/bootstrap-colorpicker.js",
+			"dist/css/bootstrap-colorpicker.css",
+			"dist/img/bootstrap-colorpicker/alpha-horizontal.png",
+			"dist/img/bootstrap-colorpicker/alpha.png",
+			"dist/img/bootstrap-colorpicker/hue-horizontal.png",
+			"dist/img/bootstrap-colorpicker/hue.png",
+			"dist/img/bootstrap-colorpicker/saturation.png"
+		]
 }

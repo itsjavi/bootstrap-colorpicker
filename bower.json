@@ -1,8 +1,8 @@
 {
     "name": "mjolnic-bootstrap-colorpicker",
-    "version": "2.0.0",
+    "version": "v2.0.0-beta3",
     "dependencies": {
-        "jquery": "~1.10.2",
-        "bootstrap": "~3.0"
+        "jquery": "^1.10",
+        "bootstrap": "^3.0"
     }
 }

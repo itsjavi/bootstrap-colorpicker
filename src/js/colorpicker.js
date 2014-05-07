@@ -171,7 +171,7 @@
                 });
             },
             reposition: function() {
-                if (this.options.inline !== false) {
+                if (this.options.inline !== false || this.options.container) {
                     return false;
                 }
                 var type = this.container && this.container[0] !== document.body ? 'position' : 'offset';

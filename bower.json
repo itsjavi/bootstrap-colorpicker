@@ -4,5 +4,12 @@
     "dependencies": {
         "jquery": "^1.10",
         "bootstrap": "^3.0"
-    }
+    },
+		"ignore": [
+			"\\.*",
+			"/src",
+			"index.html",
+			"/package.json",
+			"/Gruntfile.js"
+		]
 }

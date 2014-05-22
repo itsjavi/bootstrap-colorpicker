@@ -9,7 +9,12 @@ var Color = function(val) {
     this.origFormat = null; // original string format
     if (val) {
         if (val.toLowerCase !== undefined) {
-            this.setColor(val);
+					// cast to string
+					val = val + '';
+					if(val.charAt(0) !== "#" && (val.length === 3 || val.length === 6)){
+						val = '#'+val;
+					}
+					this.setColor(val);
         } else if (val.h !== undefined) {
             this.value = val;
         }

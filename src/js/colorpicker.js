@@ -389,10 +389,10 @@
                 this.currentSlider.guide.left = left + 'px';
                 this.currentSlider.guide.top = top + 'px';
                 if (this.currentSlider.callLeft) {
-                    this.color[this.currentSlider.callLeft].call(this.color, left / 100);
+                    this.color[this.currentSlider.callLeft].call(this.color, left / this.currentSlider.maxLeft);
                 }
                 if (this.currentSlider.callTop) {
-                    this.color[this.currentSlider.callTop].call(this.color, top / 100);
+                    this.color[this.currentSlider.callTop].call(this.color, top / this.currentSlider.maxTop);
                 }
                 this.update(true);
 

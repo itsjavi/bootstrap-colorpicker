@@ -8,25 +8,18 @@
  *
  */
 
-/*!
- * Bootstrap Colorpicker
- * http://mjolnic.github.io/bootstrap-colorpicker/
- *
- * Originally written by (c) 2012 Stefan Petre
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0.txt
- *
- */
-
 .colorpicker {
   position: relative;
-  padding: 10px;
+  display: block;
+  width: 176px;
+  margin: 0 auto;
+  line-height: 0;
   text-align: left;
   text-shadow: none;
-  box-shadow: 0 0 0 1px #111111;
 }
 
 .colorpicker * {
+  position: relative;
   -webkit-box-sizing: content-box;
      -moz-box-sizing: content-box;
           box-sizing: content-box;
@@ -34,15 +27,39 @@
 
 .colorpicker .colorpicker-map,
 .colorpicker .colorpicker-bar {
-  position: relative;
-  display: inline-block;
+  float: left;
   height: 128px;
   overflow: hidden;
   background-color: #fff;
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAChJREFUeNpiPHPmDAMMGBsbw9lMDDgA6RKM%2F%2F%2F%2Fh3POnj1LCzsAAgwAQtYIcFfEyzkAAAAASUVORK5CYII%3D');
   background-position: top left;
   background-repeat: repeat;
-  box-shadow: 0 0 0 1px #111111;
+  box-shadow: 0 0 0 1px #555555;
+}
+
+.colorpicker .colorpicker-palettes {
+  display: block;
+  clear: both;
+}
+
+.colorpicker .colorpicker-palettes:before,
+.colorpicker .colorpicker-palettes:after {
+  display: table;
+  content: " ";
+}
+
+.colorpicker .colorpicker-palettes:after {
+  clear: both;
+}
+
+.colorpicker:before,
+.colorpicker:after {
+  display: table;
+  content: " ";
+}
+
+.colorpicker:after {
+  clear: both;
 }
 
 .colorpicker .colorpicker-map {
@@ -54,37 +71,40 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  z-index: 1;
+  z-index: 5;
   display: block;
-  width: 5px;
-  height: 5px;
-  margin: -4px 0 0 -4px;
-  border: 1px solid #000;
-  border-radius: 5px;
+  width: 10px;
+  height: 10px;
+  margin: 0 0 -5px -5px;
+  line-height: 0;
+  border-radius: 20px;
+  box-shadow: 0 0 0 1px #000;
 }
 
 .colorpicker .colorpicker-map i b {
   display: block;
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
+  line-height: 0;
   border: 1px solid #fff;
-  border-radius: 5px;
+  border-radius: 20px;
 }
 
 .colorpicker .colorpicker-bar {
   width: 16px;
-  margin-left: 10px;
+  margin-left: 8px;
   cursor: row-resize;
 }
 
 .colorpicker .colorpicker-bar i {
   position: absolute;
   top: 50%;
-  z-index: 1;
+  z-index: 5;
   display: block;
   width: 100%;
   height: 1px;
   margin-top: -1px;
+  line-height: 0;
   background: #000;
   border-top: 1px solid #fff;
 }
@@ -94,12 +114,54 @@
   width: 16px;
   height: 16px;
   margin: 0;
-  background: #eee;
-  box-shadow: 0 0 0 1px #111111;
+  cursor: pointer;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAChJREFUeNpiPHPmDAMMGBsbw9lMDDgA6RKM%2F%2F%2F%2Fh3POnj1LCzsAAgwAQtYIcFfEyzkAAAAASUVORK5CYII%3D');
+  background-position: top left;
+  background-repeat: repeat;
+  box-shadow: 0 0 0 1px #555555;
+}
+
+.colorpicker .colorpicker-palette-color i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 0 1px #555555;
+}
+
+.colorpicker .colorpicker-vertical .colorpicker-bar,
+.colorpicker .colorpicker-bar-horizontal {
+  display: block;
+  float: none;
+  width: 100%;
+  height: 16px;
+  margin: 8px 0 8px 0;
+  clear: both;
+  cursor: col-resize;
+}
+
+.colorpicker .colorpicker-vertical .colorpicker-bar ~ .colorpicker-bar-horizontal,
+.colorpicker .colorpicker-bar-horizontal ~ .colorpicker-bar-horizontal {
+  margin-top: 0;
+}
+
+.colorpicker .colorpicker-vertical .colorpicker-bar:last-of-type,
+.colorpicker .colorpicker-bar-horizontal:last-of-type {
+  margin-bottom: 0;
+}
+
+.colorpicker .colorpicker-vertical .colorpicker-bar .colorpicker-palette-color,
+.colorpicker .colorpicker-bar-horizontal .colorpicker-palette-color {
+  float: left;
+  line-height: 0;
+  letter-spacing: 0;
+  word-spacing: 0;
 }
 
 .colorpicker.colorpicker-2x {
-  padding: 20px;
+  width: 352px;
 }
 
 .colorpicker.colorpicker-2x .colorpicker-map {
@@ -110,7 +172,7 @@
 .colorpicker.colorpicker-2x .colorpicker-bar {
   width: 32px;
   height: 256px;
-  margin-left: 20px;
+  margin-left: 16px;
 }
 
 .colorpicker.colorpicker-2x .colorpicker-palette-color {
@@ -118,10 +180,44 @@
   height: 32px;
 }
 
+.colorpicker.colorpicker-2x .colorpicker-vertical .colorpicker-bar,
+.colorpicker.colorpicker-2x .colorpicker-bar-horizontal {
+  width: 100%;
+  height: 32px;
+  margin: 16px 0 16px 0;
+  margin-left: 0;
+}
+
+.colorpicker.colorpicker-2x .colorpicker-vertical .colorpicker-bar ~ .colorpicker-bar-horizontal,
+.colorpicker.colorpicker-2x .colorpicker-bar-horizontal ~ .colorpicker-bar-horizontal {
+  margin-top: 0;
+}
+
+.colorpicker.colorpicker-2x .colorpicker-vertical .colorpicker-bar:last-of-type,
+.colorpicker.colorpicker-2x .colorpicker-bar-horizontal:last-of-type {
+  margin-bottom: 0;
+}
+
+.colorpicker.colorpicker-2x .colorpicker-map i {
+  width: 20px;
+  height: 20px;
+  margin: 0 0 -10px -10px;
+  border-radius: 40px;
+  box-shadow: 0 0 0 2px #000;
+}
+
+.colorpicker.colorpicker-2x .colorpicker-map i b {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #fff;
+  border-radius: 40px;
+}
+
 .colorpicker .colorpicker-hue,
 .colorpicker .colorpicker-saturation,
 .colorpicker .colorpicker-lightness,
-.colorpicker .colorpicker-alpha {
+.colorpicker .colorpicker-alpha,
+.colorpicker .colorpicker-color {
   position: absolute;
   top: 0;
   left: 0;
@@ -129,70 +225,41 @@
   height: 100%;
 }
 
+.colorpicker .colorpicker-color {
+  z-index: 1;
+}
+
 .colorpicker .colorpicker-hue {
+  z-index: 2;
   background: -moz-linear-gradient(top, #ff0000 0%, #ff8000 8%, #ffff00 17%, #80ff00 25%, #00ff00 33%, #00ff80 42%, #00ffff 50%, #0080ff 58%, #0000ff 67%, #8000ff 75%, #ff00ff 83%, #ff0080 92%, #ff0000 100%);
-  /* FF3.6+ */
-
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff0000), color-stop(8%, #ff8000), color-stop(17%, #ffff00), color-stop(25%, #80ff00), color-stop(33%, #00ff00), color-stop(42%, #00ff80), color-stop(50%, #00ffff), color-stop(58%, #0080ff), color-stop(67%, #0000ff), color-stop(75%, #8000ff), color-stop(83%, #ff00ff), color-stop(92%, #ff0080), color-stop(100%, #ff0000));
-  /* Chrome,Safari4+ */
-
   background: -webkit-linear-gradient(top, #ff0000 0%, #ff8000 8%, #ffff00 17%, #80ff00 25%, #00ff00 33%, #00ff80 42%, #00ffff 50%, #0080ff 58%, #0000ff 67%, #8000ff 75%, #ff00ff 83%, #ff0080 92%, #ff0000 100%);
-  /* Chrome10+,Safari5.1+ */
-
   background: -o-linear-gradient(top, #ff0000 0%, #ff8000 8%, #ffff00 17%, #80ff00 25%, #00ff00 33%, #00ff80 42%, #00ffff 50%, #0080ff 58%, #0000ff 67%, #8000ff 75%, #ff00ff 83%, #ff0080 92%, #ff0000 100%);
-  /* Opera 11.10+ */
-
   background: -ms-linear-gradient(top, #ff0000 0%, #ff8000 8%, #ffff00 17%, #80ff00 25%, #00ff00 33%, #00ff80 42%, #00ffff 50%, #0080ff 58%, #0000ff 67%, #8000ff 75%, #ff00ff 83%, #ff0080 92%, #ff0000 100%);
-  /* IE10+ */
-
   background: linear-gradient(to bottom, #ff0000 0%, #ff8000 8%, #ffff00 17%, #80ff00 25%, #00ff00 33%, #00ff80 42%, #00ffff 50%, #0080ff 58%, #0000ff 67%, #8000ff 75%, #ff00ff 83%, #ff0080 92%, #ff0000 100%);
-  /* W3C */
-
 }
 
 .colorpicker .colorpicker-lightness {
+  z-index: 3;
   background: -moz-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  /* FF3.6+ */
-
   background: -webkit-gradient(linear, left top, right top, color-stop(0%, #ffffff), color-stop(100%, rgba(255, 255, 255, 0)));
-  /* Chrome,Safari4+ */
-
   background: -webkit-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  /* Chrome10+,Safari5.1+ */
-
   background: -o-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  /* Opera 11.10+ */
-
   background: -ms-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  /* IE10+ */
-
   background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  /* W3C */
-
 }
 
 .colorpicker .colorpicker-saturation {
+  z-index: 4;
   background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000000 100%);
-  /* FF3.6+ */
-
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(100%, #000000));
-  /* Chrome,Safari4+ */
-
   background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000000 100%);
-  /* Chrome10+,Safari5.1+ */
-
   background: -o-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000000 100%);
-  /* Opera 11.10+ */
-
   background: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000000 100%);
-  /* IE10+ */
-
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000000 100%);
-  /* W3C */
-
 }
 
-.colorpicker.colorpicker-alt .colorpicker-hue {
+.colorpicker.colorpicker-alternate .colorpicker-hue {
   background: -moz-linear-gradient(left, #ff0000 0%, #ff8000 8%, #ffff00 17%, #80ff00 25%, #00ff00 33%, #00ff80 42%, #00ffff 50%, #0080ff 58%, #0000ff 67%, #8000ff 75%, #ff00ff 83%, #ff0080 92%, #ff0000 100%);
   /* FF3.6+ */
 
@@ -213,7 +280,7 @@
 
 }
 
-.colorpicker.colorpicker-alt .colorpicker-lightness {
+.colorpicker.colorpicker-alternate .colorpicker-lightness {
   background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
   /* FF3.6+ */
 
@@ -232,4 +299,24 @@
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
   /* W3C */
 
+}
+
+.colorpicker-popover {
+  width: 196px;
+  max-width: none;
+}
+
+.colorpicker-popover .popover-content {
+  padding: 8px;
+  text-align: center;
+}
+
+.colorpicker-popover-2x {
+  width: 392px;
+  max-width: none;
+}
+
+.colorpicker-popover-2x .popover-content {
+  padding: 16px;
+  text-align: center;
 }

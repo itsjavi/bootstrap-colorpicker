@@ -1,17 +1,32 @@
-/*!
- * Bootstrap Colorpicker
- * http://mjolnic.github.io/bootstrap-colorpicker/
- *
- * Originally written by (c) 2012 Stefan Petre
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0.txt
- *
- */
-
 @map_size: 128px; //photoshop has a 256x256 square
 @bar_width: 16px;
-@base_spacing: 10px;
-@border_color: #111;
+@base_spacing: 8px;
+@picker_width: @map_size + (@bar_width*2) + (@base_spacing*2);
+@border_color: #555;
+@pipette_size:10px;
+
+// Clearfix
+//
+// For modern browsers
+// 1. The space content is one way to avoid an Opera bug when the
+//    contenteditable attribute is included anywhere else in the document.
+//    Otherwise it causes space to appear at the top and bottom of elements
+//    that are clearfixed.
+// 2. The use of `table` rather than `block` is only necessary if using
+//    `:before` to contain the top-margins of child elements.
+//
+// Source: http://nicolasgallagher.com/micro-clearfix-hack/
+
+.clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
 
 .outer-border(){
     box-shadow: 0 0 0 1px @border_color;
@@ -68,6 +83,4 @@
     background: -o-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* IE10+ */
     background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* W3C */
-
-
 }

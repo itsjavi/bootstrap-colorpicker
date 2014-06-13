@@ -29,11 +29,31 @@ module.exports = function(grunt) {
             files: ['Gruntfile.js', 'src/js/*.js']
         },
         uglify: {
-            dist: {
+            distMin: {
+                options: {
+                    compress: true,
+                    beautify: false
+                },
                 files: {
                     'dist/js/bootstrap-colorpicker.min.js': [
-                        'src/js/tinycolor.js',
                         'src/js/colorpicker.js'
+                    ],
+                    'dist/js/tinycolor.min.js': [
+                        'src/vendor/tinycolor.js'
+                    ]
+                }
+            },
+            dist: {
+                options: {
+                    compress: false,
+                    beautify: true
+                },
+                files: {
+                    'dist/js/bootstrap-colorpicker.js': [
+                        'src/js/colorpicker.js'
+                    ],
+                    'dist/js/tinycolor.js': [
+                        'src/vendor/tinycolor.js'
                     ]
                 }
             }

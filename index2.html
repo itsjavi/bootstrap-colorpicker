@@ -12,7 +12,7 @@
         <![endif]-->
         <style>
             .inl-bl.colorpicker{
-                margin-right:30px;
+                /*margin-right:30px;*/
             }
         </style>
     </head>
@@ -23,113 +23,49 @@
             <div class="row al-r">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Normal</label>
-                        <input class="form-control color color-1" value="#FFaa00" type="text" />
+                        <label>Orange</label>
+                        <input class="form-control color color-1" value="rgba(5,128,64,0.4)" type="text" />
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Alpha</label>
-                        <input class="form-control color color-2" value="#FFaa00" type="text" />
+                        <label>Pink</label>
+                        <input class="form-control color color-2" value="#FF00AA" type="text" />
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Palette</label>
-                        <input class="form-control color color-3" value="#FFaa00" type="text" />
+                        <label>Blue</label>
+                        <input class="form-control color color-3" value="#00AAFF" type="text" />
                     </div>
                 </div>
             </div>
-            <hr>
-            <div class="inl-bl colorpicker colorpicker-alt">
-                <div class="colorpicker-map">
-                    <div class="colorpicker-hue"></div>
-                    <div class="colorpicker-saturation"></div>
-                    <i><b></b></i>
-                </div>
-                <div class="colorpicker-bar">
-                    <div class="colorpicker-lightness"><i></i></div>
-                </div>
-                <div class="colorpicker-bar">
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color" style="background-color: #00aa00"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                </div>
-            </div>
-            <div class="inl-bl colorpicker colorpicker-alt colorpicker-2x">
-                <div class="colorpicker-map">
-                    <div class="colorpicker-hue"></div>
-                    <div class="colorpicker-saturation"></div>
-                    <i><b></b></i>
-                </div>
-                <div class="colorpicker-bar">
-                    <div class="colorpicker-lightness"><i></i></div>
-                </div>
-            </div>
-            <hr>
-            <div class="inl-bl colorpicker">
-                <div class="colorpicker-map" style="background:#33ccff;">
-                    <div class="colorpicker-lightness"></div>
-                    <div class="colorpicker-saturation"></div>
-                    <i><b></b></i>
-                </div>
-                <div class="colorpicker-bar">
-                    <div class="colorpicker-hue"><i></i></div>
-                </div>
-<!--                <div class="colorpicker-palette">
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                </div>-->
-            </div>
-            <div class="inl-bl colorpicker colorpicker-2x">
-                <div class="colorpicker-map" style="background:#33ccff;">
-                    <div class="colorpicker-lightness"></div>
-                    <div class="colorpicker-saturation"></div>
-                    <i><b></b></i>
-                </div>
-                <div class="colorpicker-bar"><div class="colorpicker-hue"><i></i></div></div>
-                <div class="colorpicker-bar"><div class="colorpicker-alpha"><i></i></div></div>
-                <div class="colorpicker-bar">
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                    <div class="colorpicker-palette-color"></div>
-                </div>
-            </div>
-            <br><br>
         </div>
         <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script src="dist/js/bootstrap-colorpicker.min.js"></script>
+        <script src="dist/js/tinycolor.js"></script>
+        <script src="dist/js/bootstrap-colorpicker.js"></script>
         <script>
-            
-            var makeGradientStyle = function(){
-                var gradientString = "background-image: -moz-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -o-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, {color1}), color-stop(1, {color2})); background-image: -webkit-linear-gradient(top, {color1} 0%, {color2} 100%); background: -ms-linear-gradient(top,  {color1} 0%,{color2} 100%); background: linear-gradient(top,  {color1} 0%,{color2} 100%);";
 
-                return function(color1, color2){
-                    return gradientString.replace(/\{color1\}/g, color1).replace(/\{color2\}/g, color2)
-                }
-            }();
+            var makeGradientStyle = function(color1, color2) {
+                return "background-image: -moz-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -o-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, {color1}), color-stop(1, {color2})); background-image: -webkit-linear-gradient(top, {color1} 0%, {color2} 100%); background: -ms-linear-gradient(top,  {color1} 0%,{color2} 100%); background: linear-gradient(top,  {color1} 0%,{color2} 100%);".replace(/\{color1\}/g, color1).replace(/\{color2\}/g, color2);
+
+            };
             $(function() {
-                $('.colorpicker-alpha').attr('style', makeGradientStyle('rgba(51,204,255,1)', 'rgba(51,204,255,0)'));
+                $('.color-1').colorpicker();
+                $('.color-2').colorpicker({
+                    palettes:[
+                        ['lightness']
+                    ]
+                });
+                $('.color-3').colorpicker({
+                    palettes:[
+                        'lightness','monochromatic', 'analogous',
+                        'lighten', 'darken', 'saturate', 'desaturate', 'brighten',
+                        'triad', 'tetrad', 'complementary',
+                        ['#ffa', 'current']
+                    ]
+                });
             });
         </script>
     </body>

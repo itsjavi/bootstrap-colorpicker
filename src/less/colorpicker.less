@@ -72,32 +72,16 @@
             z-index:1;
         }
     }
-
-    .colorpicker-palette{
-        display:block;
-        margin:@base_spacing 0 0 0;
-    }
+    
     .colorpicker-palette-color{
         width:@map_size/8;
         height:@map_size/8;
         .outer-border();
-        display:inline-block;
-        margin:0px @base_spacing - 3px @base_spacing 0px;
+        display:block;
+        margin:0;
+        background: #eee;
     }
-
-    .colorpicker-palette{
-        .colorpicker-palette-color{
-            margin-right:@base_spacing;
-        }
-    }
-
-    .colorpicker-bar{
-        .colorpicker-palette-color{
-            display:block;
-            margin:0 0 0 0;
-            background: #eee;
-        }
-    }
+    
     &.colorpicker-2x{
         padding:@base_spacing*2;
         .colorpicker-map{
@@ -108,6 +92,11 @@
             width:@bar_width*2;
             height:@map_size*2;
             margin-left: @base_spacing*2;
+        }
+        
+        .colorpicker-palette-color{
+            width:@map_size/4;
+            height:@map_size/4;
         }
     }
     
@@ -123,12 +112,12 @@
     }
         
     .colorpicker-hue{
-        .bg-hue-horizontal();
+        .bg-hue-vertical();
         //z-index: 1;
     }
 
     .colorpicker-lightness{
-        .bg-lightness-vertical();
+        .bg-lightness-horizontal();
         //z-index: 2;
     }
 
@@ -139,26 +128,11 @@
 }
 
 .colorpicker.colorpicker-alt{
-    .colorpicker-lightness{
-        width:@map_size;
-    }
     .colorpicker-hue{
-        width:@bar_width;
-    }
-    &.colorpicker-2x{
-        .colorpicker-lightness{
-            width:@map_size*2;
-        }
-        .colorpicker-hue{
-            width:@bar_width*2;
-        }
-    }
-        
-    .colorpicker-hue{
-        .bg-hue-vertical();
+        .bg-hue-horizontal();
     }
 
     .colorpicker-lightness{
-        .bg-lightness-horizontal();
+        .bg-lightness-vertical();
     }
 }

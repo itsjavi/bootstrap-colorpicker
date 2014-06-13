@@ -21,16 +21,16 @@
     'use strict';
     var defaults = {
         // popover:
-        placement: 'auto',  // auto, top, bottom, left, right
-        selector:false,     // If a selector is provided, popover objects will be delegated to the specified targets
-        container: false,   //  Appends the popover to a specific element.
+        placement: 'auto', // auto, top, bottom, left, right
+        selector: false, // If a selector is provided, popover objects will be delegated to the specified targets
+        container: false, //  Appends the popover to a specific element.
         animation: true,
         // colorpicker:
-        value: false,       // forces a color, replacing the original value
-        vertical: false,    // display controls in vertical alignment
-        inline: false,      // displays the colorpicker as an inline element
-        format: false,      // forces a format: 'hex', 'rgb', 'rgba', 'hsl' or 'hsla'
-        component:false,    // children component selector
+        value: false, // forces a color, replacing the original value
+        vertical: false, // display controls in vertical alignment
+        inline: false, // displays the colorpicker as an inline element
+        format: false, // forces a format: 'hex', 'rgb', 'rgba', 'hsl' or 'hsla'
+        component: false, // children component selector
         template: '<div class="colorpicker dropdown-menu">' +
                 '<div class="colorpicker-saturation"><i><b></b></i></div>' +
                 '<div class="colorpicker-hue"><i></i></div>' +

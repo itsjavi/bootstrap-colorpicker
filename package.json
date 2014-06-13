@@ -1,33 +1,32 @@
 {
-  "name": "mjolnic-bootstrap-colorpicker",
-  "version": "2.0.0",
-  "description": "Colorpicker plugin for Twitter Bootstrap",
-  "homepage": "http://mjolnic.github.io/bootstrap-colorpicker/",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:mjolnic/bootstrap-colorpicker.git"
-  },
-  "bugs": {
-    "url" : "https://github.com/mjolnic/bootstrap-colorpicker/issues"
-  },
-  "keywords": [
-    "bootstrap",
-    "colorpicker"
-  ],
-  "author": "Javier Aguilar @mjolnic",
-  "licenses": [{
-    "type": "Apache-2.0",
-    "url": "http://opensource.org/licenses/Apache-2.0"
-  }],
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-jshint": "~0.7.2",
-    "grunt-recess": "~0.5.0",
-    "grunt-combine": "~0.8.1",
-    "grunt-contrib-uglify": "~0.2.7",
-    "grunt-bake": "~0.3.3",
-    "grunt-jsbeautifier": "~0.2.3",
-    "grunt-contrib-watch": "~0.5.3"
-  }
+    "name": "mjolnic-bootstrap-colorpicker",
+    "version": "v3.0.0-alpha",
+    "description": "Colorpicker plugin for Twitter Bootstrap",
+    "homepage": "http://mjolnic.github.io/bootstrap-colorpicker/",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:mjolnic/bootstrap-colorpicker.git"
+    },
+    "bugs": {
+        "url": "https://github.com/mjolnic/bootstrap-colorpicker/issues"
+    },
+    "keywords": [
+        "bootstrap",
+        "colorpicker"
+    ],
+    "author": "Javier Aguilar @mjolnic",
+    "licenses": [{
+            "type": "Apache-2.0",
+            "url": "http://opensource.org/licenses/Apache-2.0"
+        }],
+    "devDependencies": {
+        "grunt": "~0.4.2",
+        "grunt-contrib-clean": "~0.5.0",
+        "grunt-contrib-jshint": "~0.7.2",
+        "grunt-recess": "~0.5.0",
+        "grunt-contrib-uglify": "~0.2.7",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-jsbeautifier": "~0.2.3",
+        "grunt-contrib-watch": "~0.5.3"
+    }
 }

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Colorpicker for Twitter Bootstrap</title>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+        <link href="src/css/docs.css" rel="stylesheet">
+        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <style>
+            .inl-bl.colorpicker{
+                margin-right:30px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container" style="text-align: center">
+            <h1 class="page-header">Bootstrap Colorpicker 3</h1>
+            <div class="inl-bl colorpicker">
+                <div class="colorpicker-map">
+                    <div class="colorpicker-hue"></div>
+                    <div class="colorpicker-saturation"></div>
+                    <i><b></b></i>
+                </div>
+                <div class="colorpicker-bar">
+                    <div class="colorpicker-lightness"><i></i></div>
+                </div>
+                <div class="colorpicker-bar">
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color" style="background-color: #00aa00"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                </div>
+            </div>
+            <div class="inl-bl colorpicker colorpicker-2x">
+                <div class="colorpicker-map">
+                    <div class="colorpicker-hue"></div>
+                    <div class="colorpicker-saturation"></div>
+                    <i><b></b></i>
+                </div>
+                <div class="colorpicker-bar">
+                    <div class="colorpicker-lightness"><i></i></div>
+                </div>
+            </div>
+            <hr>
+            <div class="inl-bl colorpicker colorpicker-alt">
+                <div class="colorpicker-map" style="background:#33ccff;">
+                    <div class="colorpicker-lightness"></div>
+                    <div class="colorpicker-saturation"></div>
+                    <i><b></b></i>
+                </div>
+                <div class="colorpicker-bar">
+                    <div class="colorpicker-hue"><i></i></div>
+                </div>
+<!--                <div class="colorpicker-palette">
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                    <div class="colorpicker-palette-color"></div>
+                </div>-->
+            </div>
+            <div class="inl-bl colorpicker colorpicker-alt colorpicker-2x">
+                <div class="colorpicker-map" style="background:#33ccff;">
+                    <div class="colorpicker-lightness"></div>
+                    <div class="colorpicker-saturation"></div>
+                    <i><b></b></i>
+                </div>
+                <div class="colorpicker-bar">
+                    <div class="colorpicker-hue"><i></i></div>
+                </div>
+                <div class="colorpicker-bar">
+                    <div class="colorpicker-alpha"><i></i></div>
+                </div>
+            </div>
+            <br><br>
+        </div>
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="dist/js/bootstrap-colorpicker.min.js"></script>
+        <script>
+            
+            var makeGradientStyle = function(){
+                var gradientString = "background-image: -moz-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -o-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, {color1}), color-stop(1, {color2})); background-image: -webkit-linear-gradient(top, {color1} 0%, {color2} 100%); background: -ms-linear-gradient(top,  {color1} 0%,{color2} 100%); background: linear-gradient(top,  {color1} 0%,{color2} 100%);";
+
+                return function(color1, color2){
+                    return gradientString.replace(/\{color1\}/g, color1).replace(/\{color2\}/g, color2)
+                }
+            }();
+            $(function() {
+                $('.colorpicker-alpha').attr('style', makeGradientStyle('rgba(51,204,255,1)', 'rgba(51,204,255,0)'));
+            });
+        </script>
+    </body>
+
+</html>

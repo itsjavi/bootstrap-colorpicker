@@ -24,7 +24,7 @@
     margin:0 auto;
     width:@picker_width;
     display:block;
-    
+
     .colorpicker-map,
     .colorpicker-bar{
         .bg-checkerbox();
@@ -34,37 +34,38 @@
         float:left;
         background-color:#fff;
     }
-    
+
     .colorpicker-palettes{
         display:block;
         clear:both;
         .clearfix();
     }
-    
+
     .clearfix();
-    
+
     .colorpicker-map{
         width:@map_size;
         cursor:crosshair;
 
         i {
-            display: block;
-            height: @pipette_size;
-            width: @pipette_size;
-            border-radius: @pipette_size*2;
-            box-shadow: 0 0 0 1px #000;
             position: absolute;
-            bottom: 0;
+            display: block;
+            height: @guide_size;
+            width: @guide_size;
+            border-radius: @guide_size*2;
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.6);
+            top: @map_size;
             left: 0;
-            margin: 0 0 -@pipette_size/2 -@pipette_size/2;
+            margin: -@guide_size/2 0 0 -@guide_size/2;
             z-index:5;
             line-height:0;
             b {
                 display: block;
-                height: @pipette_size - 2px;
-                width: @pipette_size - 2px;
-                border-radius: @pipette_size*2;
-                border: 1px solid #fff;
+                height: @guide_size - 2px;
+                width: @guide_size - 2px;
+                border-radius: @guide_size*2;
+                border: 1px solid rgba(255,255,255,0.75);
+                //margin:-1px 0 0 -1px;
                 line-height:0;
             }
         }
@@ -76,8 +77,8 @@
         i {
             display: block;
             height: 1px;
-            background: #000;
-            border-top: 1px solid #fff;
+            background: rgba(0,0,0,0.85);
+            border-top: 1px solid rgba(255,255,255,0.85);
             position: absolute;
             top: 50%;
             width: 100%;
@@ -86,7 +87,7 @@
             line-height:0;
         }
     }
-    
+
     .colorpicker-palette-color{
         width:@map_size/8;
         height:@map_size/8;
@@ -106,7 +107,7 @@
             .outer-border();
         }
     }
-        
+
     .colorpicker-vertical .colorpicker-bar,
     .colorpicker-bar-horizontal{
         clear:both;
@@ -129,7 +130,7 @@
             line-height: 0;
         }
     }
-    
+
     &.colorpicker-2x{
         width:@picker_width*2;
         .colorpicker-map{
@@ -141,7 +142,7 @@
             height:@map_size*2;
             margin-left: @base_spacing*2;
         }
-        
+
         .colorpicker-palette-color{
             width:@map_size/4;
             height:@map_size/4;
@@ -159,26 +160,14 @@
                 margin-bottom:0;
             }
         }
-        .colorpicker-map{
-            i {
-                height: @pipette_size*2;
-                width: @pipette_size*2;
-                border-radius: @pipette_size*4;
-                box-shadow: 0 0 0 2px #000;
-                margin: 0 0 -@pipette_size -@pipette_size;
-                b {
-                    height: @pipette_size*2 - 2px;
-                    width: @pipette_size*2 - 2px;
-                    border-radius: @pipette_size*4;
-                    border: 2px solid #fff;
-                }
-            }
+        .colorpicker-map i{
+            top: @map_size*2;
         }
     }
-    
+
     .colorpicker-hue,
     .colorpicker-saturation,
-    .colorpicker-lightness,
+    .colorpicker-brightness,
     .colorpicker-alpha,
     .colorpicker-color{
         position: absolute;
@@ -187,18 +176,21 @@
         width:100%;
         height:100%;
     }
-    
+
     .colorpicker-color{
         z-index:1;
     }
-        
+
     .colorpicker-hue{
         .bg-hue-vertical();
         z-index: 2;
     }
+    .colorpicker-alpha{
+        z-index: 2;
+    }
 
-    .colorpicker-lightness{
-        .bg-lightness-horizontal();
+    .colorpicker-brightness{
+        .bg-brightness-horizontal();
         z-index: 3;
     }
 
@@ -213,8 +205,8 @@
         .bg-hue-horizontal();
     }
 
-    .colorpicker-lightness{
-        .bg-lightness-vertical();
+    .colorpicker-brightness{
+        .bg-brightness-vertical();
     }
 }
 

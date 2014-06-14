@@ -1,9 +1,9 @@
 @map_size: 128px; //photoshop has a 256x256 square
 @bar_width: 16px;
+@guide_size:16px;
 @base_spacing: 8px;
 @picker_width: @map_size + (@bar_width*2) + (@base_spacing*2);
-@border_color: #555;
-@pipette_size:10px;
+@border_color: #777;
 
 // Clearfix
 //
@@ -67,7 +67,7 @@
     background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* W3C */
 }
 
-.bg-lightness-vertical(){
+.bg-brightness-vertical(){
     background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
@@ -76,7 +76,7 @@
     background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
 }
 
-.bg-lightness-horizontal(){
+.bg-brightness-horizontal(){
     background: -moz-linear-gradient(left,  rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */

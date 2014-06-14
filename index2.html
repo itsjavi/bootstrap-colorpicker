@@ -24,7 +24,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Orange</label>
-                        <input class="form-control color color-1" value="rgba(5,128,64,0.4)" type="text" />
+                        <input class="form-control color color-1" value="rgba(5,128,64,.4)" type="text" />
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -56,15 +56,23 @@
                 $('.color-2').colorpicker({
                     palettes:[
                         ['lightness']
-                    ]
+                    ],
+                    large:true
                 });
                 $('.color-3').colorpicker({
                     palettes:[
                         'lightness','monochromatic', 'analogous',
                         'lighten', 'darken', 'saturate', 'desaturate', 'brighten',
                         'triad', 'tetrad', 'complementary',
-                        ['#ffa', 'current']
+                        ['#fff', 'current', 'previous']
                     ]
+                });
+                $('.color').on('colorpickerChange', function(e){
+                    var cl = e.colorpicker.color.toHexString();
+                    $(this).css({
+                        'backgroundColor' : cl,
+                        'color' : tinycolor.mostReadable(cl, ['#000', '#FFF'])
+                    });
                 });
             });
         </script>

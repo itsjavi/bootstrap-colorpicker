@@ -1,15 +1,15 @@
 {
     "name": "mjolnic-bootstrap-colorpicker",
-    "version": "v2.0.0-rc",
+    "version": "v3.0.0-alpha",
     "dependencies": {
         "jquery": "^1.10",
-        "bootstrap": "^2"
+        "bootstrap": "^3"
     },
-		"ignore": [
-			"\\.*",
-			"/src",
-			"index.html",
-			"/package.json",
-			"/Gruntfile.js"
-		]
+    "ignore": [
+        "\\.*",
+        "/src",
+        "index.html",
+        "/package.json",
+        "/Gruntfile.js"
+    ]
 }

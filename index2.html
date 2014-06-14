@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Colorpicker for Twitter Bootstrap</title>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+        <link href="src/css/docs.css" rel="stylesheet">
+        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <style>
+            .inl-bl.colorpicker{
+                /*margin-right:30px;*/
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container" style="text-align: center">
+            <h1 class="page-header">Bootstrap Colorpicker 3</h1>
+            <div class="row al-r">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Orange</label>
+                        <input class="form-control color color-1" value="rgba(5,128,64,.4)" type="text" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Pink</label>
+                        <input class="form-control color color-2" value="#FF00AA" type="text" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Blue</label>
+                        <input class="form-control color color-3" value="#00AAFF" type="text" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="dist/js/tinycolor.js"></script>
+        <script src="dist/js/bootstrap-colorpicker.js"></script>
+        <script>
+
+            var makeGradientStyle = function(color1, color2) {
+                return "background-image: -moz-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -o-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, {color1}), color-stop(1, {color2})); background-image: -webkit-linear-gradient(top, {color1} 0%, {color2} 100%); background: -ms-linear-gradient(top,  {color1} 0%,{color2} 100%); background: linear-gradient(top,  {color1} 0%,{color2} 100%);".replace(/\{color1\}/g, color1).replace(/\{color2\}/g, color2);
+
+            };
+            $(function() {
+                $('.color-1').colorpicker();
+                $('.color-2').colorpicker({
+                    palettes:[
+                        ['lightness']
+                    ],
+                    large:true
+                });
+                $('.color-3').colorpicker({
+                    palettes:[
+                        'lightness','monochromatic', 'analogous',
+                        'lighten', 'darken', 'saturate', 'desaturate', 'brighten',
+                        'triad', 'tetrad', 'complementary',
+                        ['#fff', 'current', 'previous']
+                    ]
+                });
+                $('.color').on('colorpickerChange', function(e){
+                    var cl = e.colorpicker.color.toHexString();
+                    $(this).css({
+                        'backgroundColor' : cl,
+                        'color' : tinycolor.mostReadable(cl, ['#000', '#FFF'])
+                    });
+                });
+            });
+        </script>
+    </body>
+
+</html>

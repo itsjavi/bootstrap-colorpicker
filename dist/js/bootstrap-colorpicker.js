@@ -1,953 +1,652 @@
-/*!
- * Bootstrap Colorpicker
- * http://mjolnic.github.io/bootstrap-colorpicker/
- *
- * Originally written by (c) 2012 Stefan Petre
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0.txt
- *
- * @todo Update DOCS
- */
-
-(function(factory) {
-        "use strict";
-        if (typeof define === 'function' && define.amd) {
-            define(['jquery'], factory);
-        } else if (window.jQuery && !window.jQuery.fn.colorpicker) {
-            factory(window.jQuery);
-        }
+(function(a) {
+    "use strict";
+    if (typeof define === "function" && define.amd) {
+        define([ "jquery" ], a);
+    } else if (window.jQuery && !window.jQuery.fn.colorpicker) {
+        a(window.jQuery);
     }
-    (function($) {
-        'use strict';
-
-        // Color object
-        var Color = function(val) {
-            this.value = {
-                h: 0,
-                s: 0,
-                b: 0,
-                a: 1
-            };
-            this.origFormat = null; // original string format
-            if (val) {
-                if (val.toLowerCase !== undefined) {
-                    this.setColor(val);
-                } else if (val.h !== undefined) {
-                    this.value = val;
+})(function(a) {
+    "use strict";
+    var b = {
+        placement: "auto",
+        container: false,
+        animation: true,
+        value: false,
+        vertical: false,
+        inline: false,
+        format: false,
+        input: "input",
+        component: false,
+        palettes: [],
+        paletteAdjustment: 9,
+        baseWidth: 128,
+        baseBarWidth: 16,
+        baseHeight: 128,
+        large: false,
+        updatePalettes: true,
+        okButton: false,
+        cancelButton: false,
+        currentComparer: false,
+        tooltip: false,
+        templates: {
+            picker: '<div class="colorpicker">' + '<div class="colorpicker-map">' + '<div class="colorpicker-color"></div>' + '<div class="colorpicker-brightness"></div>' + '<div class="colorpicker-saturation"><i><b></b></i></div>' + "</div>" + '<div class="colorpicker-bar"><div class="colorpicker-hue"><i></i></div></div>' + '<div class="colorpicker-bar"><div class="colorpicker-alpha"><i></i></div></div>' + '<div class="colorpicker-palettes"></div>' + "</div>",
+            palette: '<div class="colorpicker-bar colorpicker-bar-horizontal colorpicker-palette">' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + "</div>",
+            popover: '<div class="popover colorpicker-popover"><div class="arrow"></div><div class="popover-content"></div></div>'
+        }
+    };
+    var c = function(a, b) {
+        return "background-image: -moz-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -o-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, {color1}), color-stop(1, {color2})); background-image: -webkit-linear-gradient(top, {color1} 0%, {color2} 100%); background: -ms-linear-gradient(top,  {color1} 0%,{color2} 100%); background: linear-gradient(top,  {color1} 0%,{color2} 100%);".replace(/\{color1\}/g, a).replace(/\{color2\}/g, b);
+    };
+    var d = function(c, d) {
+        this.element = a(c).addClass("colorpicker-element");
+        this.options = a.extend({}, b, this.element.data(), d);
+        this.options.baseWidth = this.options.large ? this.options.baseWidth * 2 : this.options.baseWidth;
+        this.options.baseBarWidth = this.options.large ? this.options.baseBarWidth * 2 : this.options.baseBarWidth;
+        this.options.baseHeight = this.options.large ? this.options.baseHeight * 2 : this.options.baseHeight;
+        this.component = this.options.component;
+        this.component = this.component !== false ? this.element.find(this.component) : false;
+        if (this.component !== false && this.component.length === 0) {
+            this.component = false;
+        }
+        this.container = this.options.container === true ? this.element : this.options.container;
+        this.container = this.container !== false ? a(this.container) : false;
+        this.input = this.element.is("input") ? this.element : this.options.input ? this.element.find(this.options.input) : false;
+        if (this.input !== false && this.input.length === 0) {
+            this.input = false;
+        }
+        this._createPicker();
+        this.color = tinycolor(this.getValue());
+        this.options.format = this.options.format === false ? this.color._format : this.options.format;
+        this._bindMouseEvents();
+        this._createPopover();
+        this._setPalettes(this.options.palettes);
+        if (this.hasInput()) {
+            this.input.on("keyup", a.proxy(function(b) {
+                if (a.inArray(b.keyCode, [ 38, 40, 37, 39, 16, 17, 18, 9, 8, 91, 93, 20, 46, 186, 190, 46, 78, 188, 44, 86 ]) === -1) {
+                    this.update();
                 }
-            }
-        };
-
-        Color.prototype = {
-            constructor: Color,
-            // 140 predefined colors from the HTML Colors spec
-            colors: {
-                "aliceblue": "#f0f8ff",
-                "antiquewhite": "#faebd7",
-                "aqua": "#00ffff",
-                "aquamarine": "#7fffd4",
-                "azure": "#f0ffff",
-                "beige": "#f5f5dc",
-                "bisque": "#ffe4c4",
-                "black": "#000000",
-                "blanchedalmond": "#ffebcd",
-                "blue": "#0000ff",
-                "blueviolet": "#8a2be2",
-                "brown": "#a52a2a",
-                "burlywood": "#deb887",
-                "cadetblue": "#5f9ea0",
-                "chartreuse": "#7fff00",
-                "chocolate": "#d2691e",
-                "coral": "#ff7f50",
-                "cornflowerblue": "#6495ed",
-                "cornsilk": "#fff8dc",
-                "crimson": "#dc143c",
-                "cyan": "#00ffff",
-                "darkblue": "#00008b",
-                "darkcyan": "#008b8b",
-                "darkgoldenrod": "#b8860b",
-                "darkgray": "#a9a9a9",
-                "darkgreen": "#006400",
-                "darkkhaki": "#bdb76b",
-                "darkmagenta": "#8b008b",
-                "darkolivegreen": "#556b2f",
-                "darkorange": "#ff8c00",
-                "darkorchid": "#9932cc",
-                "darkred": "#8b0000",
-                "darksalmon": "#e9967a",
-                "darkseagreen": "#8fbc8f",
-                "darkslateblue": "#483d8b",
-                "darkslategray": "#2f4f4f",
-                "darkturquoise": "#00ced1",
-                "darkviolet": "#9400d3",
-                "deeppink": "#ff1493",
-                "deepskyblue": "#00bfff",
-                "dimgray": "#696969",
-                "dodgerblue": "#1e90ff",
-                "firebrick": "#b22222",
-                "floralwhite": "#fffaf0",
-                "forestgreen": "#228b22",
-                "fuchsia": "#ff00ff",
-                "gainsboro": "#dcdcdc",
-                "ghostwhite": "#f8f8ff",
-                "gold": "#ffd700",
-                "goldenrod": "#daa520",
-                "gray": "#808080",
-                "green": "#008000",
-                "greenyellow": "#adff2f",
-                "honeydew": "#f0fff0",
-                "hotpink": "#ff69b4",
-                "indianred ": "#cd5c5c",
-                "indigo ": "#4b0082",
-                "ivory": "#fffff0",
-                "khaki": "#f0e68c",
-                "lavender": "#e6e6fa",
-                "lavenderblush": "#fff0f5",
-                "lawngreen": "#7cfc00",
-                "lemonchiffon": "#fffacd",
-                "lightblue": "#add8e6",
-                "lightcoral": "#f08080",
-                "lightcyan": "#e0ffff",
-                "lightgoldenrodyellow": "#fafad2",
-                "lightgrey": "#d3d3d3",
-                "lightgreen": "#90ee90",
-                "lightpink": "#ffb6c1",
-                "lightsalmon": "#ffa07a",
-                "lightseagreen": "#20b2aa",
-                "lightskyblue": "#87cefa",
-                "lightslategray": "#778899",
-                "lightsteelblue": "#b0c4de",
-                "lightyellow": "#ffffe0",
-                "lime": "#00ff00",
-                "limegreen": "#32cd32",
-                "linen": "#faf0e6",
-                "magenta": "#ff00ff",
-                "maroon": "#800000",
-                "mediumaquamarine": "#66cdaa",
-                "mediumblue": "#0000cd",
-                "mediumorchid": "#ba55d3",
-                "mediumpurple": "#9370d8",
-                "mediumseagreen": "#3cb371",
-                "mediumslateblue": "#7b68ee",
-                "mediumspringgreen": "#00fa9a",
-                "mediumturquoise": "#48d1cc",
-                "mediumvioletred": "#c71585",
-                "midnightblue": "#191970",
-                "mintcream": "#f5fffa",
-                "mistyrose": "#ffe4e1",
-                "moccasin": "#ffe4b5",
-                "navajowhite": "#ffdead",
-                "navy": "#000080",
-                "oldlace": "#fdf5e6",
-                "olive": "#808000",
-                "olivedrab": "#6b8e23",
-                "orange": "#ffa500",
-                "orangered": "#ff4500",
-                "orchid": "#da70d6",
-                "palegoldenrod": "#eee8aa",
-                "palegreen": "#98fb98",
-                "paleturquoise": "#afeeee",
-                "palevioletred": "#d87093",
-                "papayawhip": "#ffefd5",
-                "peachpuff": "#ffdab9",
-                "peru": "#cd853f",
-                "pink": "#ffc0cb",
-                "plum": "#dda0dd",
-                "powderblue": "#b0e0e6",
-                "purple": "#800080",
-                "red": "#ff0000",
-                "rosybrown": "#bc8f8f",
-                "royalblue": "#4169e1",
-                "saddlebrown": "#8b4513",
-                "salmon": "#fa8072",
-                "sandybrown": "#f4a460",
-                "seagreen": "#2e8b57",
-                "seashell": "#fff5ee",
-                "sienna": "#a0522d",
-                "silver": "#c0c0c0",
-                "skyblue": "#87ceeb",
-                "slateblue": "#6a5acd",
-                "slategray": "#708090",
-                "snow": "#fffafa",
-                "springgreen": "#00ff7f",
-                "steelblue": "#4682b4",
-                "tan": "#d2b48c",
-                "teal": "#008080",
-                "thistle": "#d8bfd8",
-                "tomato": "#ff6347",
-                "turquoise": "#40e0d0",
-                "violet": "#ee82ee",
-                "wheat": "#f5deb3",
-                "white": "#ffffff",
-                "whitesmoke": "#f5f5f5",
-                "yellow": "#ffff00",
-                "yellowgreen": "#9acd32"
-            },
-            _sanitizeNumber: function(val) {
-                if (typeof val === 'number') {
-                    return val;
-                }
-                if (isNaN(val) || (val === null) || (val === '') || (val === undefined)) {
-                    return 1;
-                }
-                if (val.toLowerCase !== undefined) {
-                    return parseFloat(val);
-                }
-                return 1;
-            },
-            //parse a string to HSB
-            setColor: function(strVal) {
-                strVal = strVal.toLowerCase();
-                this.value = this.stringToHSB(strVal) || {
-                    h: 0,
-                    s: 0,
-                    b: 0,
-                    a: 1
-                };
-            },
-            stringToHSB: function(strVal) {
-                strVal = strVal.toLowerCase();
-                var that = this,
-                    result = false;
-                $.each(this.stringParsers, function(i, parser) {
-                    var match = parser.re.exec(strVal),
-                        values = match && parser.parse.apply(that, [match]),
-                        format = parser.format || 'rgba';
-                    if (values) {
-                        if (format.match(/hsla?/)) {
-                            result = that.RGBtoHSB.apply(that, that.HSLtoRGB.apply(that, values));
-                        } else {
-                            result = that.RGBtoHSB.apply(that, values);
-                        }
-                        that.origFormat = format;
-                        return false;
-                    }
-                    return true;
-                });
-                return result;
-            },
-            setHue: function(h) {
-                this.value.h = 1 - h;
-            },
-            setSaturation: function(s) {
-                this.value.s = s;
-            },
-            setBrightness: function(b) {
-                this.value.b = 1 - b;
-            },
-            setAlpha: function(a) {
-                this.value.a = parseInt((1 - a) * 100, 10) / 100;
-            },
-            toRGB: function(h, s, b, a) {
-                if (!h) {
-                    h = this.value.h;
-                    s = this.value.s;
-                    b = this.value.b;
-                }
-                h *= 360;
-                var R, G, B, X, C;
-                h = (h % 360) / 60;
-                C = b * s;
-                X = C * (1 - Math.abs(h % 2 - 1));
-                R = G = B = b - C;
-
-                h = ~~h;
-                R += [C, X, 0, 0, X, C][h];
-                G += [X, C, C, X, 0, 0][h];
-                B += [0, 0, X, C, C, X][h];
-                return {
-                    r: Math.round(R * 255),
-                    g: Math.round(G * 255),
-                    b: Math.round(B * 255),
-                    a: a || this.value.a
-                };
-            },
-            toHex: function(h, s, b, a) {
-                var rgb = this.toRGB(h, s, b, a);
-                return '#' + ((1 << 24) | (parseInt(rgb.r) << 16) | (parseInt(rgb.g) << 8) | parseInt(rgb.b)).toString(16).substr(1);
-            },
-            toHSL: function(h, s, b, a) {
-                h = h || this.value.h;
-                s = s || this.value.s;
-                b = b || this.value.b;
-                a = a || this.value.a;
-
-                var H = h,
-                    L = (2 - s) * b,
-                    S = s * b;
-                if (L > 0 && L <= 1) {
-                    S /= L;
-                } else {
-                    S /= 2 - L;
-                }
-                L /= 2;
-                if (S > 1) {
-                    S = 1;
-                }
-                return {
-                    h: isNaN(H) ? 0 : H,
-                    s: isNaN(S) ? 0 : S,
-                    l: isNaN(L) ? 0 : L,
-                    a: isNaN(a) ? 0 : a,
-                };
-            },
-            toAlias: function(r, g, b, a) {
-                var rgb = this.toHex(r, g, b, a);
-                for (var alias in this.colors) {
-                    if (this.colors[alias] == rgb) {
-                        return alias;
-                    }
-                }
-                return false;
-            },
-            RGBtoHSB: function(r, g, b, a) {
-                r /= 255;
-                g /= 255;
-                b /= 255;
-
-                var H, S, V, C;
-                V = Math.max(r, g, b);
-                C = V - Math.min(r, g, b);
-                H = (C === 0 ? null :
-                    V === r ? (g - b) / C :
-                    V === g ? (b - r) / C + 2 :
-                    (r - g) / C + 4
-                );
-                H = ((H + 360) % 6) * 60 / 360;
-                S = C === 0 ? 0 : C / V;
-                return {
-                    h: this._sanitizeNumber(H),
-                    s: S,
-                    b: V,
-                    a: this._sanitizeNumber(a)
-                };
-            },
-            HueToRGB: function(p, q, h) {
-                if (h < 0) {
-                    h += 1;
-                } else if (h > 1) {
-                    h -= 1;
-                }
-                if ((h * 6) < 1) {
-                    return p + (q - p) * h * 6;
-                } else if ((h * 2) < 1) {
-                    return q;
-                } else if ((h * 3) < 2) {
-                    return p + (q - p) * ((2 / 3) - h) * 6;
-                } else {
-                    return p;
-                }
-            },
-            HSLtoRGB: function(h, s, l, a) {
-                if (s < 0) {
-                    s = 0;
-                }
-                var q;
-                if (l <= 0.5) {
-                    q = l * (1 + s);
-                } else {
-                    q = l + s - (l * s);
-                }
-
-                var p = 2 * l - q;
-
-                var tr = h + (1 / 3);
-                var tg = h;
-                var tb = h - (1 / 3);
-
-                var r = Math.round(this.HueToRGB(p, q, tr) * 255);
-                var g = Math.round(this.HueToRGB(p, q, tg) * 255);
-                var b = Math.round(this.HueToRGB(p, q, tb) * 255);
-                return [r, g, b, this._sanitizeNumber(a)];
-            },
-            toString: function(format) {
-                format = format || 'rgba';
-                switch (format) {
-                    case 'rgb':
-                        {
-                            var rgb = this.toRGB();
-                            return 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
-                        }
-                        break;
-                    case 'rgba':
-                        {
-                            var rgb = this.toRGB();
-                            return 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + rgb.a + ')';
-                        }
-                        break;
-                    case 'hsl':
-                        {
-                            var hsl = this.toHSL();
-                            return 'hsl(' + Math.round(hsl.h * 360) + ',' + Math.round(hsl.s * 100) + '%,' + Math.round(hsl.l * 100) + '%)';
-                        }
-                        break;
-                    case 'hsla':
-                        {
-                            var hsl = this.toHSL();
-                            return 'hsla(' + Math.round(hsl.h * 360) + ',' + Math.round(hsl.s * 100) + '%,' + Math.round(hsl.l * 100) + '%,' + hsl.a + ')';
-                        }
-                        break;
-                    case 'hex':
-                        {
-                            return this.toHex();
-                        }
-                        break;
-                    case 'alias':
-                        return this.toAlias() || this.toHex();
-                    default:
-                        {
-                            return false;
-                        }
-                        break;
-                }
-            },
-            // a set of RE's that can match strings and generate color tuples.
-            // from John Resig color plugin
-            // https://github.com/jquery/jquery-color/
-            stringParsers: [{
-                re: /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/,
-                format: 'hex',
-                parse: function(execResult) {
-                    return [
-                        parseInt(execResult[1], 16),
-                        parseInt(execResult[2], 16),
-                        parseInt(execResult[3], 16),
-                        1
-                    ];
-                }
-            }, {
-                re: /#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/,
-                format: 'hex',
-                parse: function(execResult) {
-                    return [
-                        parseInt(execResult[1] + execResult[1], 16),
-                        parseInt(execResult[2] + execResult[2], 16),
-                        parseInt(execResult[3] + execResult[3], 16),
-                        1
-                    ];
-                }
-            }, {
-                re: /rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*?\)/,
-                format: 'rgb',
-                parse: function(execResult) {
-                    return [
-                        execResult[1],
-                        execResult[2],
-                        execResult[3],
-                        1
-                    ];
-                }
-            }, {
-                re: /rgb\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*?\)/,
-                format: 'rgb',
-                parse: function(execResult) {
-                    return [
-                        2.55 * execResult[1],
-                        2.55 * execResult[2],
-                        2.55 * execResult[3],
-                        1
-                    ];
-                }
-            }, {
-                re: /rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
-                format: 'rgba',
-                parse: function(execResult) {
-                    return [
-                        execResult[1],
-                        execResult[2],
-                        execResult[3],
-                        execResult[4]
-                    ];
-                }
-            }, {
-                re: /rgba\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
-                format: 'rgba',
-                parse: function(execResult) {
-                    return [
-                        2.55 * execResult[1],
-                        2.55 * execResult[2],
-                        2.55 * execResult[3],
-                        execResult[4]
-                    ];
-                }
-            }, {
-                re: /hsl\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*?\)/,
-                format: 'hsl',
-                parse: function(execResult) {
-                    return [
-                        execResult[1] / 360,
-                        execResult[2] / 100,
-                        execResult[3] / 100,
-                        execResult[4]
-                    ];
-                }
-            }, {
-                re: /hsla\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
-                format: 'hsla',
-                parse: function(execResult) {
-                    return [
-                        execResult[1] / 360,
-                        execResult[2] / 100,
-                        execResult[3] / 100,
-                        execResult[4]
-                    ];
-                }
-            }, {
-                //predefined color name
-                re: /^([a-z]{3,})$/,
-                format: 'alias',
-                parse: function(execResult) {
-                    var hexval = this.colorNameToHex(execResult[0]) || '#000000';
-                    var match = this.stringParsers[0].re.exec(hexval),
-                        values = match && this.stringParsers[0].parse.apply(this, [match]);
-                    return values;
-                }
-            }],
-            colorNameToHex: function(name) {
-                if (typeof this.colors[name.toLowerCase()] !== 'undefined') {
-                    return this.colors[name.toLowerCase()];
-                }
-                return false;
-            }
-        };
-
-
-        var defaults = {
-            horizontal: false, // horizontal mode layout ?
-            inline: false, //forces to show the colorpicker as an inline element
-            color: false, //forces a color
-            format: false, //forces a format
-            input: 'input', // children input selector
-            container: false, // container selector
-            component: '.add-on, .input-group-addon', // children component selector
-            sliders: {
-                saturation: {
-                    maxLeft: 100,
-                    maxTop: 100,
-                    callLeft: 'setSaturation',
-                    callTop: 'setBrightness'
-                },
-                hue: {
-                    maxLeft: 0,
-                    maxTop: 100,
-                    callLeft: false,
-                    callTop: 'setHue'
-                },
-                alpha: {
-                    maxLeft: 0,
-                    maxTop: 100,
-                    callLeft: false,
-                    callTop: 'setAlpha'
-                }
-            },
-            slidersHorz: {
-                saturation: {
-                    maxLeft: 100,
-                    maxTop: 100,
-                    callLeft: 'setSaturation',
-                    callTop: 'setBrightness'
-                },
-                hue: {
-                    maxLeft: 100,
-                    maxTop: 0,
-                    callLeft: 'setHue',
-                    callTop: false
-                },
-                alpha: {
-                    maxLeft: 100,
-                    maxTop: 0,
-                    callLeft: 'setAlpha',
-                    callTop: false
-                }
-            },
-            template: '<div class="colorpicker dropdown-menu">' +
-                '<div class="colorpicker-saturation"><i><b></b></i></div>' +
-                '<div class="colorpicker-hue"><i></i></div>' +
-                '<div class="colorpicker-alpha"><i></i></div>' +
-                '<div class="colorpicker-color"><div /></div>' +
-                '</div>'
-        };
-
-        var Colorpicker = function(element, options) {
-            this.element = $(element).addClass('colorpicker-element');
-            this.options = $.extend({}, defaults, this.element.data(), options);
-            this.component = this.options.component;
-            this.component = (this.component !== false) ? this.element.find(this.component) : false;
-            if (this.component && (this.component.length === 0)) {
-                this.component = false;
-            }
-            this.container = (this.options.container === true) ? this.element : this.options.container;
-            this.container = (this.container !== false) ? $(this.container) : false;
-
-            // Is the element an input? Should we search inside for any input?
-            this.input = this.element.is('input') ? this.element : (this.options.input ?
-                this.element.find(this.options.input) : false);
-            if (this.input && (this.input.length === 0)) {
-                this.input = false;
-            }
-            // Set HSB color
-            this.color = new Color(this.options.color !== false ? this.options.color : this.getValue());
-            this.format = this.options.format !== false ? this.options.format : this.color.origFormat;
-
-            // Setup picker
-            this.picker = $(this.options.template);
-            if (this.options.inline) {
-                this.picker.addClass('colorpicker-inline colorpicker-visible');
-            } else {
-                this.picker.addClass('colorpicker-hidden');
-            }
-            if (this.options.horizontal) {
-                this.picker.addClass('colorpicker-horizontal');
-            }
-            if (this.format === 'rgba' || this.format === 'hsla') {
-                this.picker.addClass('colorpicker-with-alpha');
-            }
-            this.picker.on('mousedown.colorpicker', $.proxy(this.mousedown, this));
-            this.picker.appendTo(this.container ? this.container : $('body'));
-
-            // Bind events
-            if (this.input !== false) {
-                this.input.on({
-                    'keyup.colorpicker': $.proxy(this.keyup, this)
-                });
-                if (this.component === false) {
-                    this.element.on({
-                        'focus.colorpicker': $.proxy(this.show, this)
-                    });
-                }
-                if (this.options.inline === false) {
-                    this.element.on({
-                        'focusout.colorpicker': $.proxy(this.hide, this)
-                    });
-                }
-            }
-
-            if (this.component !== false) {
-                this.component.on({
-                    'click.colorpicker': $.proxy(this.show, this)
-                });
-            }
-
-            if ((this.input === false) && (this.component === false)) {
-                this.element.on({
-                    'click.colorpicker': $.proxy(this.show, this)
-                });
-            }
-            this.update();
-
-            $($.proxy(function() {
-                this.element.trigger('create');
             }, this));
-        };
-
-        Colorpicker.version = '2.0.0-beta';
-
-        Colorpicker.Color = Color;
-
-        Colorpicker.prototype = {
-            constructor: Colorpicker,
-            destroy: function() {
-                this.picker.remove();
-                this.element.removeData('colorpicker').off('.colorpicker');
-                if (this.input !== false) {
-                    this.input.off('.colorpicker');
+        }
+        this._trigger("colorpickerCreate");
+        this.element.data("colorpicker", this);
+        a(a.proxy(function() {
+            this.picker.element.trigger("mousedown");
+            this.update();
+        }, this));
+    };
+    d.prototype = {
+        constructor: d,
+        options: {},
+        _mousePointer: {
+            top: 0,
+            left: 0
+        },
+        _trigger: function(b, c) {
+            this.element.trigger(a.extend({
+                type: b,
+                colorpicker: this
+            }, c));
+        },
+        _error: function(a) {
+            throw "Bootstrap Colorpicker Exception: " + a;
+        },
+        _hsvaFromGuides: function() {
+            var a = {
+                h: parseInt(this.picker.hue.element.find("i").css("top"), 10),
+                s: parseInt(this.picker.saturation.element.find("i").css("left"), 10),
+                v: parseInt(this.picker.saturation.element.find("i").css("top"), 10),
+                a: parseInt(this.picker.alpha.element.find("i").css("top"), 10)
+            };
+            for (var b in a) {
+                if (isNaN(a[b]) || a[b] < 0) {
+                    a[b] = 0;
+                    console.error("isNaN or neg for: " + b);
                 }
-                if (this.component !== false) {
-                    this.component.off('.colorpicker');
-                }
-                this.element.removeClass('colorpicker-element');
-                this.element.trigger({
-                    type: 'destroy'
-                });
-            },
-            reposition: function() {
-                if (this.options.inline !== false) {
-                    return false;
-                }
-                var type = this.container && this.container[0] !== document.body ? 'position' : 'offset';
-                var offset = this.component ? this.component[type]() : this.element[type]();
-                this.picker.css({
-                    top: offset.top + (this.component ? this.component.outerHeight() : this.element.outerHeight()),
-                    left: offset.left
-                });
-            },
-            show: function(e) {
-                if (this.isDisabled()) {
-                    return false;
-                }
-                this.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
-                this.reposition();
-                $(window).on('resize.colorpicker', $.proxy(this.reposition, this));
-                if (!this.hasInput() && e) {
-                    if (e.stopPropagation && e.preventDefault) {
-                        e.stopPropagation();
-                        e.preventDefault();
+                if (b === "h") {
+                    a[b] = parseInt(a[b] * 360 / this.options.baseWidth, 10);
+                } else {
+                    a[b] = parseInt(a[b] * 100 / this.options.baseWidth, 10);
+                    if (b === "v") {
+                        a[b] = 100 - a[b];
+                        if (a[b] < 0) {
+                            a[b] = a[b] * -1;
+                        }
                     }
                 }
-                if (this.options.inline === false) {
-                    $(window.document).on({
-                        'mousedown.colorpicker': $.proxy(this.hide, this)
+                if (b === "h" && a[b] > 360) {
+                    a[b] = 360;
+                } else if (b !== "h" && a[b] > 100) {
+                    a[b] = 100;
+                }
+                if (b === "a") {
+                    a[b] = a[b] / 100;
+                }
+            }
+            return a;
+        },
+        _hsvaFromValue: function(a) {
+            var b = tinycolor(a).toHsv();
+            if (b["a"] === undefined) {
+                b.a = 1;
+            }
+            return b;
+        },
+        _mousedown: function(b) {
+            b.stopPropagation();
+            b.preventDefault();
+            var c = a(b.target);
+            var d = c.closest("div");
+            if (!d.is(".colorpicker")) {
+                if (d.is(".colorpicker-saturation")) {
+                    this.currentSlider = a.extend({}, this.picker.saturation);
+                } else if (d.is(".colorpicker-hue")) {
+                    this.currentSlider = a.extend({}, this.picker.hue);
+                } else if (d.is(".colorpicker-alpha")) {
+                    this.currentSlider = a.extend({}, this.picker.alpha);
+                } else {
+                    return false;
+                }
+                var e = d.offset();
+                this.currentSlider.guide = d.find("i");
+                this.currentSlider.left = b.pageX - e.left;
+                this.currentSlider.top = b.pageY - e.top;
+                this._mousePointer = {
+                    left: b.pageX,
+                    top: b.pageY
+                };
+                a(document).on({
+                    "mousemove.colorpicker": a.proxy(this._mousemove, this),
+                    "mouseup.colorpicker": a.proxy(this._mouseup, this)
+                }).trigger("mousemove");
+            }
+            return false;
+        },
+        _mousemove: function(a) {
+            a.stopPropagation();
+            a.preventDefault();
+            var b = Math.max(0, Math.min(this.currentSlider.maxLeft, this.currentSlider.left + ((a.pageX || this._mousePointer.left) - this._mousePointer.left)));
+            var c = Math.max(0, Math.min(this.currentSlider.maxTop, this.currentSlider.top) + ((a.pageY || this._mousePointer.top) - this._mousePointer.top));
+            if (c >= this.currentSlider.maxTop) {
+                c = this.currentSlider.maxTop;
+            }
+            if (b >= this.currentSlider.maxLeft) {
+                b = this.currentSlider.maxLeft;
+            }
+            this.currentSlider.guide.css("left", b + "px");
+            this.currentSlider.guide.css("top", c + "px");
+            this._trigger("colorpickerMove", {
+                hsla: this._updateColorFromGuidelines()
+            });
+            return false;
+        },
+        _mouseup: function(b) {
+            b.stopPropagation();
+            b.preventDefault();
+            a(document).off({
+                "mousemove.colorpicker": this._mousemove,
+                "mouseup.colorpicker": this._mouseup
+            });
+            return false;
+        },
+        _bindMouseEvents: function() {
+            this.picker.element.on("mousedown.colorpicker", a.proxy(this._mousedown, this));
+            if (this.options.inline === false) {
+                a(window.document).on("click.colorpicker", a.proxy(function(b) {
+                    var c = a(b.target);
+                    if ((!c.hasClass("colorpicker-element") || c.hasClass("colorpicker-element") && !c.is(this.element)) && c.parents(".colorpicker-popover").length === 0) {
+                        this.hide();
+                    }
+                    b.stopPropagation();
+                    b.preventDefault();
+                    return false;
+                }, this));
+            }
+        },
+        _setPalettes: function(b) {
+            var c = this;
+            if (!a.isArray(b)) {
+                return false;
+            }
+            this.picker.palettes.element.html("");
+            a(b).each(function(b, d) {
+                var e = a(c.options.templates.palette);
+                var f = 0;
+                if (a.isArray(d)) {
+                    a(d).each(function(a, b) {
+                        f = c._fillPalette(e, b, f);
+                    });
+                } else {
+                    f = c._fillPalette(e, d, f);
+                }
+                c.picker.palettes.element.append(e);
+            });
+            this.picker.palettes.element.find(".colorpicker-palette-color").on("click", function(b) {
+                var d = a(this).find("i");
+                if (d.length > 0) {
+                    c.update(d.css("backgroundColor"));
+                }
+                b.stopPropagation();
+                b.preventDefault();
+                return false;
+            });
+        },
+        _setPaletteColor: function(b, c, d, e, f) {
+            e = e || false;
+            f = f || "custom";
+            var g = c.find(".colorpicker-palette-color:eq(" + d + ")");
+            if (g.length > 0) {
+                e = e ? e : b;
+                g.html(a('<i class="colorpicker-palette-' + f + '" data-colorpicker-palette-color="' + b + '"></i>').attr("title", e).css("backgroundColor", b));
+            }
+            return g;
+        },
+        _fillPalette: function(b, c, d) {
+            var e = this;
+            var f = d || 0;
+            d = f;
+            switch (c) {
+              case "current":
+                {
+                    var g = e.color.toString(e.options.format);
+                    e._setPaletteColor(g, b, d, g + " current", "current");
+                    f++;
+                }
+                break;
+
+              case "previous":
+                {
+                    if (e.previousColor) {
+                        var g = e.previousColor.toString(e.options.format);
+                        e._setPaletteColor(g, b, d, g + " previous", "previous");
+                        f++;
+                    }
+                }
+                break;
+
+              case "triad":
+                {
+                    a(tinycolor.triad(e.color)).each(function(a, c) {
+                        if (a === 0) {
+                            d--;
+                            return;
+                        }
+                        c = c.toString(e.options.format);
+                        e._setPaletteColor(c, b, a + d, c + " triad", "triad");
+                        f++;
                     });
                 }
-                this.element.trigger({
-                    type: 'showPicker',
-                    color: this.color
-                });
-            },
-            hide: function() {
-                this.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
-                $(window).off('resize.colorpicker', this.reposition);
-                $(document).off({
-                    'mousedown.colorpicker': this.hide
-                });
-                this.update();
-                this.element.trigger({
-                    type: 'hidePicker',
-                    color: this.color
-                });
-            },
-            updateData: function(val) {
-                val = val || this.color.toString(this.format);
-                this.element.data('color', val);
-                return val;
-            },
-            updateInput: function(val) {
-                val = val || this.color.toString(this.format);
-                if (this.input !== false) {
-                    this.input.prop('value', val);
+                break;
+
+              case "tetrad":
+                {
+                    a(tinycolor.tetrad(e.color)).each(function(a, c) {
+                        if (a === 0) {
+                            d--;
+                            return;
+                        }
+                        c = c.toString(e.options.format);
+                        e._setPaletteColor(c, b, a + d, c + " tetrad", "tetrad");
+                        f++;
+                    });
                 }
-                return val;
-            },
-            updatePicker: function(val) {
-                if (val !== undefined) {
-                    this.color = new Color(val);
+                break;
+
+              case "complementary":
+                {
+                    a(tinycolor.splitcomplement(e.color)).each(function(a, c) {
+                        if (a === 0) {
+                            d--;
+                            return;
+                        }
+                        c = c.toString(e.options.format);
+                        e._setPaletteColor(c, b, a + d, c + " complementary", "complementary");
+                        f++;
+                    });
                 }
-                var sl = (this.options.horizontal === false) ? this.options.sliders : this.options.slidersHorz;
-                var icns = this.picker.find('i');
-                if (icns.length === 0) {
-                    return;
+                break;
+
+              case "monochromatic":
+                {
+                    a(tinycolor.monochromatic(e.color, 12)).each(function(a, c) {
+                        if (a === 0) {
+                            d--;
+                            return;
+                        }
+                        c = c.toString(e.options.format);
+                        e._setPaletteColor(c, b, a + d, c + " monochromatic", "monochromatic");
+                        f++;
+                    });
                 }
-                if (this.options.horizontal === false) {
-                    sl = this.options.sliders;
-                    icns.eq(1).css('top', sl.hue.maxTop * (1 - this.color.value.h)).end()
-                        .eq(2).css('top', sl.alpha.maxTop * (1 - this.color.value.a));
-                } else {
-                    sl = this.options.slidersHorz;
-                    icns.eq(1).css('left', sl.hue.maxLeft * (1 - this.color.value.h)).end()
-                        .eq(2).css('left', sl.alpha.maxLeft * (1 - this.color.value.a));
+                break;
+
+              case "analogous":
+                {
+                    a(tinycolor.analogous(e.color, 12)).each(function(a, c) {
+                        if (a === 0) {
+                            d--;
+                            return;
+                        }
+                        c = c.toString(e.options.format);
+                        e._setPaletteColor(c, b, a + d, c + " analogous", "analogous");
+                        f++;
+                    });
                 }
-                icns.eq(0).css({
-                    'top': sl.saturation.maxTop - this.color.value.b * sl.saturation.maxTop,
-                    'left': this.color.value.s * sl.saturation.maxLeft
-                });
-                this.picker.find('.colorpicker-saturation').css('backgroundColor', this.color.toHex(this.color.value.h, 1, 1, 1));
-                this.picker.find('.colorpicker-alpha').css('backgroundColor', this.color.toHex());
-                this.picker.find('.colorpicker-color, .colorpicker-color div').css('backgroundColor', this.color.toString(this.format));
-                return val;
-            },
-            updateComponent: function(val) {
-                val = val || this.color.toString(this.format);
-                if (this.component !== false) {
-                    var icn = this.component.find('i').eq(0);
-                    if (icn.length > 0) {
-                        icn.css({
-                            'backgroundColor': val
+                break;
+
+              case "lighten":
+              case "darken":
+              case "saturate":
+              case "desaturate":
+              case "brighten":
+                {
+                    for (var h = 0; h < 11; h++) {
+                        var i = e.options.paletteAdjustment * (h + 1);
+                        var g = tinycolor[c](e.color, i).toString(e.options.format);
+                        e._setPaletteColor(g, b, h + d, g + " " + c + " " + i + "%", c);
+                        f++;
+                    }
+                }
+                break;
+
+              case "lightness":
+                {
+                    var j = [];
+                    for (var h = 0; h < 6; h++) {
+                        var i = e.options.paletteAdjustment * (h + 1);
+                        j.push(tinycolor["darken"](e.color, i).toString(e.options.format));
+                    }
+                    j = j.reverse();
+                    for (var h = 6; h >= 0; h--) {
+                        var k = 100 - e.options.paletteAdjustment * (h + 1);
+                        e._setPaletteColor(j[h], b, h + d, j[h] + " darken " + k + "%", "darken");
+                        f++;
+                    }
+                    d += 6;
+                    for (var h = 0; h < 5; h++) {
+                        var i = e.options.paletteAdjustment * (h + 1);
+                        var g = tinycolor["lighten"](e.color, i).toString(e.options.format);
+                        e._setPaletteColor(g, b, h + d, g + " lighten " + i + "%", "lighten");
+                        f++;
+                    }
+                }
+                break;
+
+              case "mixed":
+                {
+                    var l = [ "lighten", "darken", "saturate", "desaturate", "brighten", "greyscale" ];
+                    var m = 0;
+                    a(l).each(function(a, c) {
+                        var g = tinycolor[c](e.color, e.options.paletteAdjustment * 2).toString(e.options.format);
+                        e._setPaletteColor(g, b, m + d, g + " " + c, c);
+                        m++;
+                        f++;
+                        if (c !== "greyscale") {
+                            var g = tinycolor[c](e.color, e.options.paletteAdjustment * 4).toString(e.options.format);
+                            e._setPaletteColor(g, b, m + d, g + " " + c, c);
+                            m++;
+                            f++;
+                        }
+                    });
+                }
+                break;
+
+              default:
+                {
+                    if (a.isArray(c)) {
+                        a(c).each(function(a, c) {
+                            e._setPaletteColor(tinycolor(c).toString(e.options.format), b, a + d, c);
+                            f++;
                         });
                     } else {
-                        this.component.css({
-                            'backgroundColor': val
-                        });
+                        e._setPaletteColor(tinycolor(c).toString(e.options.format), b, d, c);
+                        f++;
                     }
                 }
-                return val;
-            },
-            update: function(force) {
-                var val = this.updateComponent();
-                if ((this.getValue(false) !== false) || (force === true)) {
-                    // Update input/data only if the current value is not blank
-                    this.updateInput(val);
-                    this.updateData(val);
-                }
-                this.updatePicker();
-                return val;
-
-            },
-            setValue: function(val) { // set color manually
-                this.color = new Color(val);
-                this.update();
-                this.element.trigger({
-                    type: 'changeColor',
-                    color: this.color,
-                    value: val
-                });
-            },
-            getValue: function(defaultValue) {
-                defaultValue = (defaultValue === undefined) ? '#000000' : defaultValue;
-                var val;
-                if (this.hasInput()) {
-                    val = this.input.val();
-                } else {
-                    val = this.element.data('color');
-                }
-                if ((val === undefined) || (val === '') || (val === null)) {
-                    // if not defined or empty, return default
-                    val = defaultValue;
-                }
-                return val;
-            },
-            hasInput: function() {
-                return (this.input !== false);
-            },
-            isDisabled: function() {
-                if (this.hasInput()) {
-                    return (this.input.prop('disabled') === true);
-                }
-                return false;
-            },
-            disable: function() {
-                if (this.hasInput()) {
-                    this.input.prop('disabled', true);
-                    return true;
-                }
-                return false;
-            },
-            enable: function() {
-                if (this.hasInput()) {
-                    this.input.prop('disabled', false);
-                    return true;
-                }
-                return false;
-            },
-            currentSlider: null,
-            mousePointer: {
-                left: 0,
-                top: 0
-            },
-            mousedown: function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-
-                var target = $(e.target);
-
-                //detect the slider and set the limits and callbacks
-                var zone = target.closest('div');
-                var sl = this.options.horizontal ? this.options.slidersHorz : this.options.sliders;
-                if (!zone.is('.colorpicker')) {
-                    if (zone.is('.colorpicker-saturation')) {
-                        this.currentSlider = $.extend({}, sl.saturation);
-                    } else if (zone.is('.colorpicker-hue')) {
-                        this.currentSlider = $.extend({}, sl.hue);
-                    } else if (zone.is('.colorpicker-alpha')) {
-                        this.currentSlider = $.extend({}, sl.alpha);
-                    } else {
-                        return false;
-                    }
-                    var offset = zone.offset();
-                    //reference to guide's style
-                    this.currentSlider.guide = zone.find('i')[0].style;
-                    this.currentSlider.left = e.pageX - offset.left;
-                    this.currentSlider.top = e.pageY - offset.top;
-                    this.mousePointer = {
-                        left: e.pageX,
-                        top: e.pageY
-                    };
-                    //trigger mousemove to move the guide to the current position
-                    $(document).on({
-                        'mousemove.colorpicker': $.proxy(this.mousemove, this),
-                        'mouseup.colorpicker': $.proxy(this.mouseup, this)
-                    }).trigger('mousemove');
-                }
-                return false;
-            },
-            mousemove: function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                var left = Math.max(
-                    0,
-                    Math.min(
-                        this.currentSlider.maxLeft,
-                        this.currentSlider.left + ((e.pageX || this.mousePointer.left) - this.mousePointer.left)
-                    )
-                );
-                var top = Math.max(
-                    0,
-                    Math.min(
-                        this.currentSlider.maxTop,
-                        this.currentSlider.top + ((e.pageY || this.mousePointer.top) - this.mousePointer.top)
-                    )
-                );
-                this.currentSlider.guide.left = left + 'px';
-                this.currentSlider.guide.top = top + 'px';
-                if (this.currentSlider.callLeft) {
-                    this.color[this.currentSlider.callLeft].call(this.color, left / 100);
-                }
-                if (this.currentSlider.callTop) {
-                    this.color[this.currentSlider.callTop].call(this.color, top / 100);
-                }
-                this.update(true);
-
-                this.element.trigger({
-                    type: 'changeColor',
-                    color: this.color
-                });
-                return false;
-            },
-            mouseup: function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                $(document).off({
-                    'mousemove.colorpicker': this.mousemove,
-                    'mouseup.colorpicker': this.mouseup
-                });
-                return false;
-            },
-            keyup: function(e) {
-                if ((e.keyCode === 38)) {
-                    if (this.color.value.a < 1) {
-                        this.color.value.a = Math.round((this.color.value.a + 0.01) * 100) / 100;
-                    }
-                    this.update(true);
-                } else if ((e.keyCode === 40)) {
-                    if (this.color.value.a > 0) {
-                        this.color.value.a = Math.round((this.color.value.a - 0.01) * 100) / 100;
-                    }
-                    this.update(true);
-                } else {
-                    var val = this.input.val();
-                    this.color = new Color(val);
-                    if (this.getValue(false) !== false) {
-                        this.updateData();
-                        this.updateComponent();
-                        this.updatePicker();
-                    }
-                }
-                this.element.trigger({
-                    type: 'changeColor',
-                    color: this.color,
-                    value: val
-                });
+                break;
             }
-        };
-
-        $.colorpicker = Colorpicker;
-
-        $.fn.colorpicker = function(option) {
-            var pickerArgs = arguments;
-
-            return this.each(function() {
-                var $this = $(this),
-                    inst = $this.data('colorpicker'),
-                    options = ((typeof option === 'object') ? option : {});
-                if ((!inst) && (typeof option !== 'string')) {
-                    $this.data('colorpicker', new Colorpicker(this, options));
-                } else {
-                    if (typeof option === 'string') {
-                        inst[option].apply(inst, Array.prototype.slice.call(pickerArgs, 1));
-                    }
-                }
+            return f;
+        },
+        _createPopover: function() {
+            var b = this;
+            this.element.popover({
+                placement: this.options.placement,
+                container: this.container,
+                animation: this.options.animation,
+                template: this.options.templates.popover,
+                content: this.picker.element,
+                html: true,
+                trigger: "manual"
+            }).on("focus", function() {
+                a(this).popover("show");
+            }).on("show.bs.popover", function() {
+                b.update();
             });
-        };
-
-        $.fn.colorpicker.constructor = Colorpicker;
-
-    }));
+        },
+        _createPicker: function(b) {
+            b = b || {};
+            var c = a(this.options.templates.picker);
+            c.find(".colorpicker-map i").css({
+                top: this.options.baseHeight + 2 + "px",
+                left: 2 + "px"
+            });
+            c.find(".colorpicker-bar i").css({
+                top: this.options.baseHeight / 2 + 2 + "px",
+                left: "0px"
+            });
+            this.picker = {
+                element: c,
+                map: {
+                    element: c.find(".colorpicker-map:first"),
+                    width: this.options.baseWidth,
+                    height: this.options.baseHeight,
+                    maxTop: 0,
+                    maxLeft: 0
+                },
+                color: {
+                    element: c.find(".colorpicker-color:first"),
+                    width: this.options.baseWidth,
+                    height: this.options.baseHeight,
+                    maxTop: 0,
+                    maxLeft: 0
+                },
+                hue: {
+                    element: c.find(".colorpicker-hue:first"),
+                    width: this.options.baseBarWidth,
+                    height: this.options.baseHeight,
+                    maxTop: this.options.baseHeight,
+                    maxLeft: 0
+                },
+                saturation: {
+                    element: c.find(".colorpicker-saturation:first"),
+                    width: this.options.baseWidth,
+                    height: this.options.baseHeight,
+                    maxTop: this.options.baseHeight,
+                    maxLeft: this.options.baseWidth
+                },
+                brightness: {
+                    element: c.find(".colorpicker-brightness:first"),
+                    width: this.options.baseWidth,
+                    height: this.options.baseHeight,
+                    maxTop: this.options.baseHeight,
+                    maxLeft: this.options.baseWidth
+                },
+                alpha: {
+                    element: c.find(".colorpicker-alpha:first"),
+                    width: this.options.baseBarWidth,
+                    height: this.options.baseHeight,
+                    maxTop: this.options.baseHeight,
+                    maxLeft: 0
+                },
+                palettes: {
+                    element: c.find(".colorpicker-palettes:first"),
+                    width: this.options.baseWidth,
+                    height: 0,
+                    maxTop: 0,
+                    maxLeft: 0
+                }
+            };
+            this.picker = a.extend(true, this.picker, b);
+            if (this.options.large === true) {
+                this.picker.element.addClass("colorpicker-2x");
+                this.options.templates.popover = this.options.templates.popover.replace("colorpicker-popover", "colorpicker-popover colorpicker-popover-2x");
+            } else {
+                this.picker.element.removeClass("colorpicker-2x");
+                this.options.templates.popover = this.options.templates.popover.replace("colorpicker-popover-2x", "");
+            }
+        },
+        _updateComponents: function() {
+            var a = this._hsvaFromValue(this.color);
+            a.s = 100;
+            a.v = 1;
+            a.a = 1;
+            this.picker.color.element.css("backgroundColor", tinycolor(a).toString("hex"));
+            this.picker.alpha.element.css("backgroundColor", this.color.toRgbString());
+            if (this.options.updatePalettes) {
+                this._setPalettes(this.options.palettes);
+            }
+            if (this.component !== false) {
+                var b = this.component.find("i").eq(0);
+                if (b.length > 0) {
+                    b.css({
+                        backgroundColor: this.getColor()
+                    });
+                } else {
+                    this.component.css({
+                        backgroundColor: this.getColor()
+                    });
+                }
+            }
+        },
+        _updateGuides: function() {
+            var a = this._hsvaFromValue(this.color);
+            console.info(a);
+            var b = {
+                h: parseInt(a.h * this.picker.hue.height / 360, 10),
+                s: parseInt(a.s * 100 / this.picker.saturation.height, 10),
+                v: parseInt(a.v * 100 / this.picker.brightness.width, 10),
+                a: parseInt(a.a * 100 * this.picker.alpha.height / 100, 10)
+            };
+            this.picker.hue.element.find("i").css("top", b.h + "px");
+            this.picker.saturation.element.find("i").css({
+                top: b.s + "px",
+                left: b.v + "px"
+            });
+            this.picker.alpha.element.find("i").css("top", b.a + "px");
+            console.log(b);
+            return b;
+        },
+        _updateColorFromGuidelines: function() {
+            var a = this._hsvaFromGuides();
+            this.update(a, false);
+            return a;
+        },
+        setColor: function(a) {
+            this.color = tinycolor(a);
+            if (this.color.isValid()) {
+                this._updateComponents();
+                this.previousColor = tinycolor(this.color.toString());
+            } else {
+                console.warn("Invalid color: ");
+                console.log(a);
+                return false;
+            }
+            this._trigger("colorpickerChange", {
+                value: a
+            });
+            return this.color;
+        },
+        getColor: function() {
+            return this.color.toString(this.options.format);
+        },
+        setValue: function(a) {
+            a = this.setColor(a);
+            if (a !== false) {
+                if (this.hasInput()) {
+                    this.input.val(this.getColor());
+                } else {
+                    this.element.data("color", this.getColor());
+                }
+            }
+            return a;
+        },
+        getValue: function(a) {
+            a = a || "";
+            var b = a;
+            if (this.hasInput()) {
+                b = this.input.val();
+            } else {
+                b = this.element.data("color");
+            }
+            if (b === undefined || b === "" || b === null || b === false) {
+                b = a;
+            }
+            return b;
+        },
+        hasInput: function() {
+            return this.input !== false;
+        },
+        isDisabled: function() {
+            if (this.hasInput()) {
+                return this.input.prop("disabled") === true;
+            }
+            return false;
+        },
+        show: function() {
+            this.element.popover("show");
+        },
+        hide: function() {
+            this.element.popover("hide");
+        },
+        update: function(a, b) {
+            b = b !== false ? true : false;
+            a = a ? a : this.getValue(this.color);
+            this._trigger("colorpickerUpdating");
+            this.setValue(a);
+            if (b) {
+                this._updateGuides();
+            }
+            this.picker.element.hide().show();
+            this._trigger("colorpickerUpdated");
+            return a;
+        },
+        destroy: function() {
+            this.picker.remove();
+            this.element.removeData("colorpicker").removeData("color").off(".colorpicker");
+            this.element.popover("destroy");
+            if (this.input !== false) {
+                this.input.off(".colorpicker");
+            }
+            if (this.component !== false) {
+                this.component.off(".colorpicker");
+            }
+            this.element.removeClass("colorpicker-element");
+            this._trigger("colorpickerDestroy");
+        },
+        disable: function() {
+            if (this.hasInput()) {
+                this.input.prop("disabled", true);
+                return true;
+            }
+            return false;
+        },
+        enable: function() {
+            if (this.hasInput()) {
+                this.input.prop("disabled", false);
+                return true;
+            }
+            return false;
+        }
+    };
+    a.colorpicker = d;
+    a.fn.colorpicker = function(b) {
+        var c = arguments;
+        return this.each(function() {
+            var e = a(this), f = e.data("colorpicker"), g = typeof b === "object" ? b : {};
+            if (!f && typeof b !== "string") {
+                e.data("colorpicker", new d(this, g));
+            } else if (typeof b === "string") {
+                f[b].apply(f, Array.prototype.slice.call(c, 1));
+            }
+        });
+    };
+});

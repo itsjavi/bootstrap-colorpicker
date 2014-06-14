@@ -1,6 +1,5 @@
 'use strict';
 module.exports = function(grunt) {
-
     grunt.initConfig({
         recess: {
             dist: {
@@ -26,49 +25,36 @@ module.exports = function(grunt) {
                 }
             }
         },
-        jshint: {
-            options: {
-                jshintrc: '.jshintrc'
-            },
-            files: [
-                'Gruntfile.js',
-                'src/js/commits.js',
-                'src/js/docs.js',
-                'dist/js/*.js'
-            ]
-        },
         jsbeautifier: {
-            htmlFiles: ['index.html'],
-            srcFiles: ['src/js/*.js'],
-            distFiles: ['dist/js/bootstrap-colorpicker.js']
-        },
-        combine: {
-            dist: {
-                input: 'src/js/colorpicker.js',
-                output: 'dist/js/bootstrap-colorpicker.js',
-                tokens: [{
-                        token: "'{{color}}';",
-                        file: 'src/js/colorpicker-color.js',
-                    }]
-            }
+            files: ['Gruntfile.js', 'src/js/*.js']
         },
         uglify: {
-            dist: {
+            distMin: {
+                options: {
+                    compress: true,
+                    beautify: false
+                },
                 files: {
                     'dist/js/bootstrap-colorpicker.min.js': [
-                        'dist/js/bootstrap-colorpicker.js'
+                        'src/js/colorpicker.js'
+                    ],
+                    'dist/js/tinycolor.min.js': [
+                        'src/vendor/tinycolor.js'
                     ]
                 }
-            }
-        },
-        bake: {
-            options: {
-                condense: true,
-                indent: 4
             },
             dist: {
+                options: {
+                    compress: false,
+                    beautify: true
+                },
                 files: {
-                    'index.html': ['src/docs.html']
+                    'dist/js/bootstrap-colorpicker.js': [
+                        'src/js/colorpicker.js'
+                    ],
+                    'dist/js/tinycolor.js': [
+                        'src/vendor/tinycolor.js'
+                    ]
                 }
             }
         },
@@ -83,18 +69,11 @@ module.exports = function(grunt) {
                 files: [
                     'src/js/*.js'
                 ],
-                tasks: ['jsbeautifier:srcFiles', 'combine', 'jsbeautifier:distFiles', 'uglify', 'jshint']
-            },
-            html: {
-                files: [
-                    'src/*.html'
-                ],
-                tasks: ['bake', 'jsbeautifier:htmlFiles']
+                tasks: ['uglify']
             }
         },
         clean: {
             dist: [
-                'index.html',
                 'dist/css',
                 'dist/js/*.js'
             ]
@@ -103,24 +82,17 @@ module.exports = function(grunt) {
 
     // Load tasks
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-bake');
     grunt.loadNpmTasks('grunt-recess');
     grunt.loadNpmTasks('grunt-jsbeautifier');
-    grunt.loadNpmTasks('grunt-combine');
 
     // Register tasks
     grunt.registerTask('default', [
         'clean',
         'recess',
-        'jsbeautifier:srcFiles',
-        'combine',
-        'jsbeautifier:distFiles',
-        'uglify',
-        'bake',
-        'jsbeautifier:htmlFiles'
+        'jsbeautifier',
+        'uglify'
     ]);
     grunt.registerTask('dev', [
         'watch'

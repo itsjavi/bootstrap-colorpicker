@@ -52,19 +52,22 @@
 
             };
             $(function() {
-                $('.color-1').colorpicker();
+                $('.color-1').colorpicker({});
                 $('.color-2').colorpicker({
                     palettes:[
-                        ['lightness']
+                        ['lightness'],
+                        'analogous',
+                        'desaturate',
+                        'brighten'
                     ],
                     large:true
                 });
                 $('.color-3').colorpicker({
                     palettes:[
                         'lightness','monochromatic', 'analogous',
-                        'lighten', 'darken', 'saturate', 'desaturate', 'brighten',
-                        'triad', 'tetrad', 'complementary',
-                        ['#fff', 'current', 'previous']
+                        'lighten', 'darken', 'saturate', 'desaturate', 'brighten'
+                        //,'triad', 'tetrad', 'complementary',
+                        //['#fff', 'current', 'previous']
                     ]
                 });
                 $('.color').on('colorpickerChange', function(e){

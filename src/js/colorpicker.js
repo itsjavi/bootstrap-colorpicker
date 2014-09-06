@@ -143,6 +143,15 @@
                     'click.colorpicker': $.proxy(this.show, this)
                 });
             }
+            
+            // for HTML5 input[type='color']
+            if ((this.input !== false) && (this.component !== false) && (this.input.attr('type')==='color')) {
+
+                this.input.on({
+                    'click.colorpicker': $.proxy(this.show, this),
+                    'focus.colorpicker': $.proxy(this.show, this)
+                });
+            }
             this.update();
 
             $($.proxy(function() {
@@ -188,7 +197,7 @@
                 this.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
                 this.reposition();
                 $(window).on('resize.colorpicker', $.proxy(this.reposition, this));
-                if (!this.hasInput() && e) {
+                if (e && (!this.hasInput() || this.input.attr('type')==='color')) {
                     if (e.stopPropagation && e.preventDefault) {
                         e.stopPropagation();
                         e.preventDefault();

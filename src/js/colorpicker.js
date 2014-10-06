@@ -11,11 +11,11 @@
 
 (function(factory) {
         "use strict";
-        if (typeof define === 'function' && define.amd) {
-            define(['jquery'], factory);
-        } else if (window.jQuery && !window.jQuery.fn.colorpicker) {
+        if (window.jQuery && !window.jQuery.fn.colorpicker) {
             factory(window.jQuery);
-        }
+        } else if (typeof define === 'function' && define.amd) {
+            define(['jquery'], factory);
+        } 
     }
     (function($) {
         'use strict';

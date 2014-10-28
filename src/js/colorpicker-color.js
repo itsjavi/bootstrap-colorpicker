@@ -271,7 +271,7 @@ Color.prototype = {
             h: isNaN(H) ? 0 : H,
             s: isNaN(S) ? 0 : S,
             l: isNaN(L) ? 0 : L,
-            a: isNaN(a) ? 0 : a,
+            a: isNaN(a) ? 0 : a
         };
     },
     toAlias: function(r, g, b, a) {

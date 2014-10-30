@@ -112,7 +112,7 @@
             if (this.format === 'rgba' || this.format === 'hsla') {
                 this.picker.addClass('colorpicker-with-alpha');
             }
-            this.picker.on('mousedown.colorpicker', $.proxy(this.mousedown, this));
+            this.picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.mousedown, this));
             this.picker.appendTo(this.container ? this.container : $('body'));
 
             // Bind events
@@ -343,6 +343,10 @@
                 top: 0
             },
             mousedown: function(e) {
+                if (!e.pageX && !e.pageY && e.originalEvent) {
+                    e.pageX = e.originalEvent.touches[0].pageX;
+                    e.pageY = e.originalEvent.touches[0].pageY;
+                }
                 e.stopPropagation();
                 e.preventDefault();
 
@@ -373,12 +377,18 @@
                     //trigger mousemove to move the guide to the current position
                     $(document).on({
                         'mousemove.colorpicker': $.proxy(this.mousemove, this),
-                        'mouseup.colorpicker': $.proxy(this.mouseup, this)
+                        'touchmove.colorpicker': $.proxy(this.mousemove, this),
+                        'mouseup.colorpicker': $.proxy(this.mouseup, this),
+                        'touchend.colorpicker': $.proxy(this.mouseup, this)
                     }).trigger('mousemove');
                 }
                 return false;
             },
             mousemove: function(e) {
+                if (!e.pageX && !e.pageY && e.originalEvent) {
+                    e.pageX = e.originalEvent.touches[0].pageX;
+                    e.pageY = e.originalEvent.touches[0].pageY;
+                }
                 e.stopPropagation();
                 e.preventDefault();
                 var left = Math.max(
@@ -416,7 +426,9 @@
                 e.preventDefault();
                 $(document).off({
                     'mousemove.colorpicker': this.mousemove,
-                    'mouseup.colorpicker': this.mouseup
+                    'touchmove.colorpicker': this.mousemove,
+                    'mouseup.colorpicker': this.mouseup,
+                    'touchend.colorpicker': this.mouseup
                 });
                 return false;
             },

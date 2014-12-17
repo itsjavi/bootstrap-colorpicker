@@ -37,9 +37,6 @@ module.exports = function(grunt) {
                 files: {
                     'dist/js/bootstrap-colorpicker.min.js': [
                         'src/js/colorpicker.js'
-                    ],
-                    'dist/js/tinycolor.min.js': [
-                        'src/vendor/tinycolor.js'
                     ]
                 }
             },
@@ -51,9 +48,6 @@ module.exports = function(grunt) {
                 files: {
                     'dist/js/bootstrap-colorpicker.js': [
                         'src/js/colorpicker.js'
-                    ],
-                    'dist/js/tinycolor.js': [
-                        'src/vendor/tinycolor.js'
                     ]
                 }
             }

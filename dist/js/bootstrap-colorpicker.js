@@ -31,11 +31,11 @@
         templates: {
             picker: '<div class="colorpicker">' + '<div class="colorpicker-map">' + '<div class="colorpicker-color"></div>' + '<div class="colorpicker-brightness"></div>' + '<div class="colorpicker-saturation"><i><b></b></i></div>' + "</div>" + '<div class="colorpicker-bar"><div class="colorpicker-hue"><i></i></div></div>' + '<div class="colorpicker-bar"><div class="colorpicker-alpha"><i></i></div></div>' + '<div class="colorpicker-palettes"></div>' + "</div>",
             palette: '<div class="colorpicker-bar colorpicker-bar-horizontal colorpicker-palette">' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + '<div class="colorpicker-palette-color"></div>' + "</div>",
-            popover: '<div class="popover colorpicker-popover"><div class="arrow"></div><div class="popover-content"></div></div>'
+            popover: '<div class="popover colorpicker-popover"><div class="arrow"></div>' + '<div class="popover-content"></div></div>'
         }
     };
     var c = function(a, b) {
-        return "background-image: -moz-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -o-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, {color1}), color-stop(1, {color2})); background-image: -webkit-linear-gradient(top, {color1} 0%, {color2} 100%); background: -ms-linear-gradient(top,  {color1} 0%,{color2} 100%); background: linear-gradient(top,  {color1} 0%,{color2} 100%);".replace(/\{color1\}/g, a).replace(/\{color2\}/g, b);
+        return "background-image: -moz-linear-gradient(top, {color1} 0%, {color2} 100%);" + "background-image: -o-linear-gradient(top, {color1} 0%, {color2} 100%);" + "background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, {color1})," + "color-stop(1, {color2})); background-image: -webkit-linear-gradient(top, {color1} 0%," + "{color2} 100%); background: -ms-linear-gradient(top,  {color1} 0%,{color2} 100%);" + "background: linear-gradient(top,  {color1} 0%,{color2} 100%);".replace(/\{color1\}/g, a).replace(/\{color2\}/g, b);
     };
     var d = function(c, d) {
         this.element = a(c).addClass("colorpicker-element");
@@ -55,8 +55,11 @@
             this.input = false;
         }
         this._createPicker();
-        this.color = tinycolor(this.getValue());
+        this.color = tinycolor(this.getValue() + "");
         this.options.format = this.options.format === false ? this.color._format : this.options.format;
+        if (this.options.format == "hex") {
+            this.options.format = "hex6";
+        }
         this._bindMouseEvents();
         this._createPopover();
         this._setPalettes(this.options.palettes);
@@ -89,40 +92,6 @@
         },
         _error: function(a) {
             throw "Bootstrap Colorpicker Exception: " + a;
-        },
-        _hsvaFromGuides: function() {
-            var a = {
-                h: parseInt(this.picker.hue.element.find("i").css("top"), 10),
-                s: parseInt(this.picker.saturation.element.find("i").css("left"), 10),
-                v: parseInt(this.picker.saturation.element.find("i").css("top"), 10),
-                a: parseInt(this.picker.alpha.element.find("i").css("top"), 10)
-            };
-            for (var b in a) {
-                if (isNaN(a[b]) || a[b] < 0) {
-                    a[b] = 0;
-                    console.error("isNaN or neg for: " + b);
-                }
-                if (b === "h") {
-                    a[b] = parseInt(a[b] * 360 / this.options.baseWidth, 10);
-                } else {
-                    a[b] = parseInt(a[b] * 100 / this.options.baseWidth, 10);
-                    if (b === "v") {
-                        a[b] = 100 - a[b];
-                        if (a[b] < 0) {
-                            a[b] = a[b] * -1;
-                        }
-                    }
-                }
-                if (b === "h" && a[b] > 360) {
-                    a[b] = 360;
-                } else if (b !== "h" && a[b] > 100) {
-                    a[b] = 100;
-                }
-                if (b === "a") {
-                    a[b] = a[b] / 100;
-                }
-            }
-            return a;
         },
         _hsvaFromValue: function(a) {
             var b = tinycolor(a).toHsv();
@@ -263,9 +232,51 @@
                 }
                 break;
 
+              case "analogous":
+                {
+                    a(tinycolor(e.color).analogous(12)).each(function(a, c) {
+                        if (a === 0) {
+                            d--;
+                            return;
+                        }
+                        c = c.toString(e.options.format);
+                        e._setPaletteColor(c, b, a + d, c + " analogous", "analogous");
+                        f++;
+                    });
+                }
+                break;
+
+              case "monochromatic":
+                {
+                    a(tinycolor(e.color).monochromatic(12)).each(function(a, c) {
+                        if (a === 0) {
+                            d--;
+                            return;
+                        }
+                        c = c.toString(e.options.format);
+                        e._setPaletteColor(c, b, a + d, c + " monochromatic", "monochromatic");
+                        f++;
+                    });
+                }
+                break;
+
+              case "splitcomplement":
+                {
+                    a(tinycolor(e.color).splitcomplement()).each(function(a, c) {
+                        if (a === 0) {
+                            d--;
+                            return;
+                        }
+                        c = c.toString(e.options.format);
+                        e._setPaletteColor(c, b, a + d, c + " splitcomplement", "splitcomplement");
+                        f++;
+                    });
+                }
+                break;
+
               case "triad":
                 {
-                    a(tinycolor.triad(e.color)).each(function(a, c) {
+                    a(tinycolor(e.color).triad()).each(function(a, c) {
                         if (a === 0) {
                             d--;
                             return;
@@ -279,55 +290,13 @@
 
               case "tetrad":
                 {
-                    a(tinycolor.tetrad(e.color)).each(function(a, c) {
+                    a(tinycolor(e.color).tetrad()).each(function(a, c) {
                         if (a === 0) {
                             d--;
                             return;
                         }
                         c = c.toString(e.options.format);
                         e._setPaletteColor(c, b, a + d, c + " tetrad", "tetrad");
-                        f++;
-                    });
-                }
-                break;
-
-              case "complementary":
-                {
-                    a(tinycolor.splitcomplement(e.color)).each(function(a, c) {
-                        if (a === 0) {
-                            d--;
-                            return;
-                        }
-                        c = c.toString(e.options.format);
-                        e._setPaletteColor(c, b, a + d, c + " complementary", "complementary");
-                        f++;
-                    });
-                }
-                break;
-
-              case "monochromatic":
-                {
-                    a(tinycolor.monochromatic(e.color, 12)).each(function(a, c) {
-                        if (a === 0) {
-                            d--;
-                            return;
-                        }
-                        c = c.toString(e.options.format);
-                        e._setPaletteColor(c, b, a + d, c + " monochromatic", "monochromatic");
-                        f++;
-                    });
-                }
-                break;
-
-              case "analogous":
-                {
-                    a(tinycolor.analogous(e.color, 12)).each(function(a, c) {
-                        if (a === 0) {
-                            d--;
-                            return;
-                        }
-                        c = c.toString(e.options.format);
-                        e._setPaletteColor(c, b, a + d, c + " analogous", "analogous");
                         f++;
                     });
                 }
@@ -341,7 +310,7 @@
                 {
                     for (var h = 0; h < 11; h++) {
                         var i = e.options.paletteAdjustment * (h + 1);
-                        var g = tinycolor[c](e.color, i).toString(e.options.format);
+                        var g = tinycolor(e.color)[c](i).toString(e.options.format);
                         e._setPaletteColor(g, b, h + d, g + " " + c + " " + i + "%", c);
                         f++;
                     }
@@ -353,7 +322,7 @@
                     var j = [];
                     for (var h = 0; h < 6; h++) {
                         var i = e.options.paletteAdjustment * (h + 1);
-                        j.push(tinycolor["darken"](e.color, i).toString(e.options.format));
+                        j.push(tinycolor(e.color).darken(i).toString(e.options.format));
                     }
                     j = j.reverse();
                     for (var h = 6; h >= 0; h--) {
@@ -364,7 +333,7 @@
                     d += 6;
                     for (var h = 0; h < 5; h++) {
                         var i = e.options.paletteAdjustment * (h + 1);
-                        var g = tinycolor["lighten"](e.color, i).toString(e.options.format);
+                        var g = tinycolor(e.color).lighten(i).toString(e.options.format);
                         e._setPaletteColor(g, b, h + d, g + " lighten " + i + "%", "lighten");
                         f++;
                     }
@@ -376,12 +345,12 @@
                     var l = [ "lighten", "darken", "saturate", "desaturate", "brighten", "greyscale" ];
                     var m = 0;
                     a(l).each(function(a, c) {
-                        var g = tinycolor[c](e.color, e.options.paletteAdjustment * 2).toString(e.options.format);
+                        var g = tinycolor(e.color)[c](e.options.paletteAdjustment * 2).toString(e.options.format);
                         e._setPaletteColor(g, b, m + d, g + " " + c, c);
                         m++;
                         f++;
                         if (c !== "greyscale") {
-                            var g = tinycolor[c](e.color, e.options.paletteAdjustment * 4).toString(e.options.format);
+                            var g = tinycolor(e.color)[c](e.options.paletteAdjustment * 4).toString(e.options.format);
                             e._setPaletteColor(g, b, m + d, g + " " + c, c);
                             m++;
                             f++;
@@ -517,27 +486,59 @@
                 }
             }
         },
-        _updateGuides: function() {
-            var a = this._hsvaFromValue(this.color);
-            console.info(a);
-            var b = {
-                h: parseInt(a.h * this.picker.hue.height / 360, 10),
-                s: parseInt(a.s * 100 / this.picker.saturation.height, 10),
-                v: parseInt(a.v * 100 / this.picker.brightness.width, 10),
-                a: parseInt(a.a * 100 * this.picker.alpha.height / 100, 10)
-            };
-            this.picker.hue.element.find("i").css("top", b.h + "px");
-            this.picker.saturation.element.find("i").css({
-                top: b.s + "px",
-                left: b.v + "px"
-            });
-            this.picker.alpha.element.find("i").css("top", b.a + "px");
-            console.log(b);
-            return b;
-        },
         _updateColorFromGuidelines: function() {
             var a = this._hsvaFromGuides();
             this.update(a, false);
+            return a;
+        },
+        _updateGuides: function() {
+            var a = this._hsvaFromValue(this.color);
+            var b = {
+                h: a.h * this.picker.hue.height / 360,
+                s: a.s * 100 * this.picker.saturation.height / 100,
+                v: (1 - a.v) * 100 * this.picker.brightness.width / 100,
+                a: a.a * 100 * this.picker.alpha.height / 100
+            };
+            this.picker.hue.element.find("i").css("top", b.h + "px");
+            this.picker.saturation.element.find("i").css({
+                top: b.v + "px",
+                left: b.s + "px"
+            });
+            this.picker.alpha.element.find("i").css("top", b.a + "px");
+            return b;
+        },
+        _hsvaFromGuides: function() {
+            var a = {
+                h: parseFloat(this.picker.hue.element.find("i").css("top").replace("px", "")),
+                s: parseFloat(this.picker.saturation.element.find("i").css("left").replace("px", "")),
+                v: parseFloat(this.picker.saturation.element.find("i").css("top").replace("px", "")),
+                a: parseFloat(this.picker.alpha.element.find("i").css("top").replace("px", ""))
+            };
+            for (var b in a) {
+                if (isNaN(a[b]) || a[b] < 0) {
+                    a[b] = 0;
+                    console.error("isNaN or neg for: " + b);
+                }
+                if (b === "h") {
+                    a[b] = parseInt(a[b] * 360 / this.options.baseWidth, 10);
+                } else {
+                    a[b] = a[b] * 100 / this.options.baseWidth / 100;
+                    if (b === "v") {
+                        a[b] = 1 - a[b];
+                    }
+                    if (a[b] == 0 && (b === "s" || b === "v")) {
+                        a[b] = .01;
+                    }
+                    if (a[b] < 0) {
+                        a[b] = 0;
+                    }
+                }
+                if (b === "h" && a[b] > 360) {
+                    a[b] = 360;
+                } else if (b !== "h" && a[b] > 1) {
+                    a[b] = 1;
+                }
+            }
             return a;
         },
         setColor: function(a) {
@@ -580,7 +581,7 @@
             if (b === undefined || b === "" || b === null || b === false) {
                 b = a;
             }
-            return b;
+            return b.toLowerCase();
         },
         hasInput: function() {
             return this.input !== false;

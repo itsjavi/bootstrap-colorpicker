@@ -1,4 +1,4 @@
-# Bootstrap Colorpicker 2.1
+# Bootstrap Colorpicker 3.0
 
 [![Build Status](https://travis-ci.org/mjolnic/bootstrap-colorpicker.png)](https://travis-ci.org/mjolnic/bootstrap-colorpicker)
 
@@ -8,12 +8,10 @@ Read the documentation [here](http://mjolnic.github.io/bootstrap-colorpicker/)
 
 ## Contributing
 
-* All the sources are compiled using Grunt, please do not modify dist files directly
-* If you modify some source code, please recompile the project dist files
-* Check that the index.html demos aren't broken (modify if necessary)
+* You may need to install the dependencies using bower
+* All the sources are compiled using Grunt, please do not modify dist/* files directly
+* If you modify the source code, please run grunt before commit
+* Check that the index.html demos aren't broken
 * Test your code at least in Chrome, Firefox and IE >= 9
 
 Thanks =)
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mjolnic/bootstrap-colorpicker/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-

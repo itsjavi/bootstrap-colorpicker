@@ -6,7 +6,6 @@
  * Licensed under the Apache License v2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  *
- * @todo Update DOCS
  */
 
 (function(factory) {
@@ -32,7 +31,7 @@
             input: 'input', // children input selector
             component: false, // children component selector
             // Palette (WIP) possible values:
-            // array of 11 colors, 'current', 'previous', 'triad', 'tetrad', 'monochromatic', 'analogous', 'complementary',
+            // array of 11 colors, 'current', 'previous', 'triad', 'tetrad', 'monochromatic', 'analogous', 'splitcomplement',
             // lightness, lighten, darken, brighten, saturate, desaturate, mixed or false
             // All palletes are distributed horizontally. This must be a multidimensional array.
             palettes: [],
@@ -70,12 +69,19 @@
                     '<div class="colorpicker-palette-color"></div>' +
                     '<div class="colorpicker-palette-color"></div>' +
                     '</div>',
-                popover: '<div class="popover colorpicker-popover"><div class="arrow"></div><div class="popover-content"></div></div>'
+                popover: '<div class="popover colorpicker-popover"><div class="arrow"></div>' +
+                    '<div class="popover-content"></div></div>'
             }
         };
 
         var makeVerticalGradient = function(color1, color2) {
-            return "background-image: -moz-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -o-linear-gradient(top, {color1} 0%, {color2} 100%); background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, {color1}), color-stop(1, {color2})); background-image: -webkit-linear-gradient(top, {color1} 0%, {color2} 100%); background: -ms-linear-gradient(top,  {color1} 0%,{color2} 100%); background: linear-gradient(top,  {color1} 0%,{color2} 100%);".replace(/\{color1\}/g, color1).replace(/\{color2\}/g, color2);
+            return "background-image: -moz-linear-gradient(top, {color1} 0%, {color2} 100%);" +
+                "background-image: -o-linear-gradient(top, {color1} 0%, {color2} 100%);" +
+                "background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, {color1})," +
+                "color-stop(1, {color2})); background-image: -webkit-linear-gradient(top, {color1} 0%," +
+                "{color2} 100%); background: -ms-linear-gradient(top,  {color1} 0%,{color2} 100%);" +
+                "background: linear-gradient(top,  {color1} 0%,{color2} 100%);"
+                .replace(/\{color1\}/g, color1).replace(/\{color2\}/g, color2);
         };
 
         var Colorpicker = function(element, options) {
@@ -111,8 +117,11 @@
             this._createPicker();
 
             // Set initial color and format
-            this.color = tinycolor(this.getValue());
+            this.color = tinycolor(this.getValue() + "");
             this.options.format = ((this.options.format === false) ? this.color._format : this.options.format);
+            if (this.options.format == 'hex') {
+                this.options.format = 'hex6';
+            }
 
             // Bind mouse events
             this._bindMouseEvents();
@@ -126,7 +135,9 @@
             // Bind input keyup event
             if (this.hasInput()) {
                 this.input.on('keyup', $.proxy(function(e) {
-                    if ($.inArray(e.keyCode, [38, 40, 37, 39, 16, 17, 18, 9, 8, 91, 93, 20, 46, 186, 190, 46, 78, 188, 44, 86]) === -1) {
+                    if ($.inArray(e.keyCode, [38, 40, 37, 39, 16, 17, 18, 9, 8, 91, 93, 20, 46, 186, 190,
+                            46, 78, 188, 44, 86
+                        ]) === -1) {
                         this.update();
                     }
                 }, this));
@@ -161,41 +172,6 @@
             },
             _error: function(text) {
                 throw "Bootstrap Colorpicker Exception: " + text;
-            },
-            _hsvaFromGuides: function() {
-                var color = {
-                    h: parseInt(this.picker.hue.element.find('i').css('top'), 10),
-                    s: parseInt(this.picker.saturation.element.find('i').css('left'), 10),
-                    v: parseInt(this.picker.saturation.element.find('i').css('top'), 10),
-                    a: parseInt(this.picker.alpha.element.find('i').css('top'), 10)
-                };
-                //console.log(color);
-                for (var n in color) {
-                    if (isNaN(color[n]) || (color[n] < 0)) {
-                        color[n] = 0;
-                        console.error('isNaN or neg for: ' + n);
-                    }
-                    if (n === 'h') {
-                        color[n] = parseInt((color[n] * 360) / this.options.baseWidth, 10);
-                    } else {
-                        color[n] = parseInt((color[n] * 100) / this.options.baseWidth, 10);
-                        if (n === 'v') {
-                            color[n] = 100 - color[n];
-                            if (color[n] < 0) {
-                                color[n] = color[n] * -1;
-                            }
-                        }
-                    }
-                    if ((n === 'h') && (color[n] > 360)) {
-                        color[n] = 360;
-                    } else if ((n !== 'h') && (color[n] > 100)) {
-                        color[n] = 100;
-                    }
-                    if (n === 'a') {
-                        color[n] = (color[n] / 100);
-                    }
-                }
-                return color;
             },
             _hsvaFromValue: function(val) {
                 var color = tinycolor(val).toHsv();
@@ -244,8 +220,11 @@
             _mousemove: function(e) {
                 e.stopPropagation();
                 e.preventDefault();
-                var left = Math.max(0, Math.min(this.currentSlider.maxLeft, this.currentSlider.left + ((e.pageX || this._mousePointer.left) - this._mousePointer.left)));
-                var top = Math.max(0, Math.min(this.currentSlider.maxTop, this.currentSlider.top) + ((e.pageY || this._mousePointer.top) - this._mousePointer.top));
+                var left = Math.max(0, Math.min(this.currentSlider.maxLeft, this.currentSlider.left +
+                    ((e.pageX || this._mousePointer.left) - this._mousePointer.left)));
+
+                var top = Math.max(0, Math.min(this.currentSlider.maxTop, this.currentSlider.top) +
+                    ((e.pageY || this._mousePointer.top) - this._mousePointer.top));
 
                 if (top >= this.currentSlider.maxTop) {
                     top = this.currentSlider.maxTop;
@@ -278,8 +257,9 @@
                 if (this.options.inline === false) {
                     $(window.document).on('click.colorpicker', $.proxy(function(e) {
                         var _t = $(e.target);
-                        if ((!_t.hasClass('colorpicker-element')  ||
-                            (_t.hasClass('colorpicker-element') && !_t.is(this.element))) && (_t.parents('.colorpicker-popover').length === 0)) {
+                        if ((!_t.hasClass('colorpicker-element') ||
+                                (_t.hasClass('colorpicker-element') && !_t.is(this.element))) &&
+                            (_t.parents('.colorpicker-popover').length === 0)) {
                             this.hide();
                         }
                         e.stopPropagation();
@@ -326,13 +306,14 @@
                 var col = paletteElement.find('.colorpicker-palette-color:eq(' + index + ')');
                 if (col.length > 0) {
                     hoverText = hoverText ? hoverText : value;
-                    col.html($('<i class="colorpicker-palette-' + className + '" data-colorpicker-palette-color="' + value + '"></i>').attr('title', hoverText).css('backgroundColor', value));
+                    col.html($('<i class="colorpicker-palette-' + className + '" data-colorpicker-palette-color="' + value +
+                        '"></i>').attr('title', hoverText).css('backgroundColor', value));
                 }
                 return col;
             },
             _fillPalette: function(palette, values, offset) {
                 var _self = this;
-                var currOffset = offset ||  0;
+                var currOffset = offset || 0;
                 offset = currOffset;
 
                 switch (values) {
@@ -352,9 +333,48 @@
                             }
                         }
                         break;
+                    case 'analogous':
+                        {
+                            $(tinycolor(_self.color).analogous(12)).each(function(i, col) {
+                                if (i === 0) {
+                                    offset--;
+                                    return;
+                                }
+                                col = col.toString(_self.options.format);
+                                _self._setPaletteColor(col, palette, i + offset, col + ' analogous', 'analogous');
+                                currOffset++;
+                            });
+                        }
+                        break;
+                    case 'monochromatic':
+                        {
+                            $(tinycolor(_self.color).monochromatic(12)).each(function(i, col) {
+                                if (i === 0) {
+                                    offset--;
+                                    return;
+                                }
+                                col = col.toString(_self.options.format);
+                                _self._setPaletteColor(col, palette, i + offset, col + ' monochromatic', 'monochromatic');
+                                currOffset++;
+                            });
+                        }
+                        break;
+                    case 'splitcomplement':
+                        {
+                            $(tinycolor(_self.color).splitcomplement()).each(function(i, col) {
+                                if (i === 0) {
+                                    offset--;
+                                    return;
+                                }
+                                col = col.toString(_self.options.format);
+                                _self._setPaletteColor(col, palette, i + offset, col + ' splitcomplement', 'splitcomplement');
+                                currOffset++;
+                            });
+                        }
+                        break;
                     case 'triad':
                         {
-                            $(tinycolor.triad(_self.color)).each(function(i, col) {
+                            $(tinycolor(_self.color).triad()).each(function(i, col) {
                                 if (i === 0) {
                                     offset--;
                                     return;
@@ -367,52 +387,13 @@
                         break;
                     case 'tetrad':
                         {
-                            $(tinycolor.tetrad(_self.color)).each(function(i, col) {
+                            $(tinycolor(_self.color).tetrad()).each(function(i, col) {
                                 if (i === 0) {
                                     offset--;
                                     return;
                                 }
                                 col = col.toString(_self.options.format);
                                 _self._setPaletteColor(col, palette, i + offset, col + ' tetrad', 'tetrad');
-                                currOffset++;
-                            });
-                        }
-                        break;
-                    case 'complementary':
-                        {
-                            $(tinycolor.splitcomplement(_self.color)).each(function(i, col) {
-                                if (i === 0) {
-                                    offset--;
-                                    return;
-                                }
-                                col = col.toString(_self.options.format);
-                                _self._setPaletteColor(col, palette, i + offset, col + ' complementary', 'complementary');
-                                currOffset++;
-                            });
-                        }
-                        break;
-                    case 'monochromatic':
-                        {
-                            $(tinycolor.monochromatic(_self.color, 12)).each(function(i, col) {
-                                if (i === 0) {
-                                    offset--;
-                                    return;
-                                }
-                                col = col.toString(_self.options.format);
-                                _self._setPaletteColor(col, palette, i + offset, col + ' monochromatic', 'monochromatic');
-                                currOffset++;
-                            });
-                        }
-                        break;
-                    case 'analogous':
-                        {
-                            $(tinycolor.analogous(_self.color, 12)).each(function(i, col) {
-                                if (i === 0) {
-                                    offset--;
-                                    return;
-                                }
-                                col = col.toString(_self.options.format);
-                                _self._setPaletteColor(col, palette, i + offset, col + ' analogous', 'analogous');
                                 currOffset++;
                             });
                         }
@@ -425,7 +406,7 @@
                         {
                             for (var i = 0; i < 11; i++) {
                                 var pc = _self.options.paletteAdjustment * (i + 1);
-                                var col = tinycolor[values](_self.color, pc).toString(_self.options.format);
+                                var col = tinycolor(_self.color)[values](pc).toString(_self.options.format);
                                 _self._setPaletteColor(col, palette, i + offset, col + ' ' + values + ' ' + pc + '%', values);
                                 currOffset++;
                             };
@@ -436,18 +417,19 @@
                             var darkColors = [];
                             for (var i = 0; i < 6; i++) {
                                 var pc = _self.options.paletteAdjustment * (i + 1);
-                                darkColors.push(tinycolor['darken'](_self.color, pc).toString(_self.options.format));
+                                darkColors.push(tinycolor(_self.color).darken(pc).toString(_self.options.format));
                             }
                             darkColors = darkColors.reverse();
                             for (var i = 6; i >= 0; i--) {
                                 var pc2 = 100 - _self.options.paletteAdjustment * (i + 1);
-                                _self._setPaletteColor(darkColors[i], palette, i + offset, darkColors[i] + ' darken ' + pc2 + '%', 'darken');
+                                _self._setPaletteColor(darkColors[i], palette, i + offset, darkColors[i] + ' darken ' +
+                                    pc2 + '%', 'darken');
                                 currOffset++;
                             }
                             offset += 6;
                             for (var i = 0; i < 5; i++) {
                                 var pc = _self.options.paletteAdjustment * (i + 1);
-                                var col = tinycolor['lighten'](_self.color, pc).toString(_self.options.format);
+                                var col = tinycolor(_self.color).lighten(pc).toString(_self.options.format);
                                 _self._setPaletteColor(col, palette, i + offset, col + ' lighten ' + pc + '%', 'lighten');
                                 currOffset++;
                             }
@@ -461,12 +443,14 @@
                             ];
                             var j = 0;
                             $(_variations).each(function(i, fn) {
-                                var _col = tinycolor[fn](_self.color, _self.options.paletteAdjustment * 2).toString(_self.options.format);
+                                var _col = tinycolor(_self.color)[fn](_self.options.paletteAdjustment * 2)
+                                    .toString(_self.options.format);
                                 _self._setPaletteColor(_col, palette, j + offset, _col + ' ' + fn, fn);
                                 j++;
                                 currOffset++;
                                 if (fn !== 'greyscale') {
-                                    var _col = tinycolor[fn](_self.color, _self.options.paletteAdjustment * 4).toString(_self.options.format);
+                                    var _col = tinycolor(_self.color)[fn](_self.options.paletteAdjustment * 4)
+                                        .toString(_self.options.format);
                                     _self._setPaletteColor(_col, palette, j + offset, _col + ' ' + fn, fn);
                                     j++;
                                     currOffset++;
@@ -507,7 +491,7 @@
                 });
             },
             _createPicker: function(customProps) {
-                customProps = customProps ||  {};
+                customProps = customProps || {};
 
                 var _picker = $(this.options.templates.picker);
 
@@ -587,7 +571,6 @@
                 }
             },
             _updateComponents: function() {
-
                 var hsva = this._hsvaFromValue(this.color);
                 hsva.s = 100;
                 hsva.v = 1;
@@ -616,33 +599,62 @@
                 }
 
             },
+            _updateColorFromGuidelines: function() {
+                var cl = this._hsvaFromGuides();
+                this.update(cl, false);
+                return cl;
+            },
             _updateGuides: function() {
                 // update Guides position based on current color
                 var cl = this._hsvaFromValue(this.color);
-                console.info(cl);
                 var pos = {
-                    h: parseInt((cl.h * this.picker.hue.height) / 360, 10),
-                    s: parseInt((cl.s * 100) / this.picker.saturation.height, 10),
-                    v: parseInt((cl.v * 100) / this.picker.brightness.width, 10),
-                    a: parseInt((cl.a * 100 * this.picker.alpha.height) / 100, 10)
+                    h: (cl.h * this.picker.hue.height) / 360,
+                    s: (cl.s * 100 * this.picker.saturation.height) / 100,
+                    v: ((1 - cl.v) * 100 * this.picker.brightness.width) / 100,
+                    a: (cl.a * 100 * this.picker.alpha.height) / 100
                 };
                 this.picker.hue.element.find('i').css('top', pos.h + "px");
                 this.picker.saturation.element.find('i').css({
-                    top: pos.s + "px",
-                    left: pos.v + "px"
+                    top: pos.v + "px",
+                    left: pos.s + "px"
                 });
                 this.picker.alpha.element.find('i').css('top', pos.a + "px");
 
-                console.log(pos);
-
                 return pos;
             },
-            _updateColorFromGuidelines: function() {
-                var cl = this._hsvaFromGuides();
-                //console.log(cl);
-                //console.log(tinycolor(cl).toString());
-                this.update(cl, false);
-                return cl;
+            _hsvaFromGuides: function() {
+                var color = {
+                    h: parseFloat(this.picker.hue.element.find('i').css('top').replace('px', '')),
+                    s: parseFloat(this.picker.saturation.element.find('i').css('left').replace('px', '')),
+                    v: parseFloat(this.picker.saturation.element.find('i').css('top').replace('px', '')),
+                    a: parseFloat(this.picker.alpha.element.find('i').css('top').replace('px', ''))
+                };
+                for (var prop in color) {
+                    if (isNaN(color[prop]) || (color[prop] < 0)) {
+                        color[prop] = 0;
+                        console.error('isNaN or neg for: ' + prop);
+                    }
+                    if (prop === 'h') {
+                        color[prop] = parseInt((color[prop] * 360) / this.options.baseWidth, 10);
+                    } else {
+                        color[prop] = ((color[prop] * 100) / this.options.baseWidth) / 100;
+                        if (prop === 'v') {
+                            color[prop] = 1 - color[prop];
+                        }
+                        if ((color[prop] == 0) && ((prop === 's') || (prop === 'v'))) {
+                            color[prop] = 0.01;
+                        }
+                        if (color[prop] < 0) {
+                            color[prop] = 0;
+                        }
+                    }
+                    if ((prop === 'h') && (color[prop] > 360)) {
+                        color[prop] = 360;
+                    } else if ((prop !== 'h') && (color[prop] > 1)) {
+                        color[prop] = 1;
+                    }
+                }
+                return color;
             },
             //
             /**
@@ -712,7 +724,7 @@
                     // if not defined or empty, return default
                     val = defaultColor;
                 }
-                return val;
+                return val.toLowerCase();
             },
             hasInput: function() {
                 return (this.input !== false);
@@ -731,7 +743,7 @@
             },
             update: function(color, updateGuides) {
                 updateGuides = ((updateGuides !== false) ? true : false);
-                color = (color ? color :  this.getValue(this.color));
+                color = (color ? color : this.getValue(this.color));
                 // reads the input or element color again and tries to update the plugin
                 // fallback to the current selected color
                 this._trigger('colorpickerUpdating');

@@ -164,7 +164,8 @@ Color.prototype = {
         "white": "#ffffff",
         "whitesmoke": "#f5f5f5",
         "yellow": "#ffff00",
-        "yellowgreen": "#9acd32"
+        "yellowgreen": "#9acd32",
+        "transparent": "transparent"
     },
     _sanitizeNumber: function(val) {
         if (typeof val === 'number') {
@@ -178,15 +179,36 @@ Color.prototype = {
         }
         return 1;
     },
+    isTransparent: function(strVal) {
+        if (!strVal) {
+            return false;
+        }
+        strVal = strVal.toLowerCase().trim();
+        return (strVal == 'transparent') || (strVal.match(/#?00000000/)) || (strVal.match(/(rgba|hsla)\(0,0,0,0?\.?0\)/));
+    },
+    rgbaIsTransparent: function(rgba) {
+        return ((rgba.r == 0) && (rgba.g == 0) && (rgba.b == 0) && (rgba.a == 0));
+    },
     //parse a string to HSB
     setColor: function(strVal) {
-        strVal = strVal.toLowerCase();
-        this.value = this.stringToHSB(strVal) || {
-            h: 0,
-            s: 0,
-            b: 0,
-            a: 1
-        };
+        strVal = strVal.toLowerCase().trim();
+        if (strVal) {
+            if (this.isTransparent(strVal)) {
+                this.value = {
+                    h: 0,
+                    s: 0,
+                    b: 0,
+                    a: 0
+                }
+            } else {
+                this.value = this.stringToHSB(strVal) || {
+                    h: 0,
+                    s: 0,
+                    b: 0,
+                    a: 1
+                }; // if parser fails, defaults to black
+            }
+        }
     },
     stringToHSB: function(strVal) {
         strVal = strVal.toLowerCase();
@@ -247,6 +269,9 @@ Color.prototype = {
     },
     toHex: function(h, s, b, a) {
         var rgb = this.toRGB(h, s, b, a);
+        if (this.rgbaIsTransparent(rgb)) {
+            return 'transparent';
+        }
         return '#' + ((1 << 24) | (parseInt(rgb.r) << 16) | (parseInt(rgb.g) << 8) | parseInt(rgb.b)).toString(16).substr(1);
     },
     toHSL: function(h, s, b, a) {
@@ -349,6 +374,9 @@ Color.prototype = {
             case 'rgb':
                 {
                     var rgb = this.toRGB();
+                    if (this.rgbaIsTransparent(rgb)) {
+                        return 'transparent';
+                    }
                     return 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
                 }
                 break;
@@ -388,28 +416,6 @@ Color.prototype = {
     // from John Resig color plugin
     // https://github.com/jquery/jquery-color/
     stringParsers: [{
-        re: /#?([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/,
-        format: 'hex',
-        parse: function(execResult) {
-            return [
-                parseInt(execResult[1], 16),
-                parseInt(execResult[2], 16),
-                parseInt(execResult[3], 16),
-                1
-            ];
-        }
-    }, {
-        re: /#?([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/,
-        format: 'hex',
-        parse: function(execResult) {
-            return [
-                parseInt(execResult[1] + execResult[1], 16),
-                parseInt(execResult[2] + execResult[2], 16),
-                parseInt(execResult[3] + execResult[3], 16),
-                1
-            ];
-        }
-    }, {
         re: /rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*?\)/,
         format: 'rgb',
         parse: function(execResult) {
@@ -473,6 +479,28 @@ Color.prototype = {
                 execResult[2] / 100,
                 execResult[3] / 100,
                 execResult[4]
+            ];
+        }
+    }, {
+        re: /#?([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/,
+        format: 'hex',
+        parse: function(execResult) {
+            return [
+                parseInt(execResult[1], 16),
+                parseInt(execResult[2], 16),
+                parseInt(execResult[3], 16),
+                1
+            ];
+        }
+    }, {
+        re: /#?([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/,
+        format: 'hex',
+        parse: function(execResult) {
+            return [
+                parseInt(execResult[1] + execResult[1], 16),
+                parseInt(execResult[2] + execResult[2], 16),
+                parseInt(execResult[3] + execResult[3], 16),
+                1
             ];
         }
     }, {

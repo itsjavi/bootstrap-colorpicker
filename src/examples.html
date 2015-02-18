@@ -1,23 +1,22 @@
 <div class="col-md-6">
     <h2>Examples</h2>
-    <div class="demo-wrapper">
-        <p>1) Attached to a field with hex format specified via options:</p>
-        <div class="well">
-            <input type="text" class="form-control demo demo-1 demo-auto" value="#5367ce" />
-            <pre class="markup">
+    <p> Attached to a field with hex format specified via options:</p>
+    <div class="well">
+        <input type="text" class="form-control demo demo-1 demo-auto" value="#5367ce" />
+        <pre class="markup">
 &lt;input type="text" class="demo1" value="#5367ce" /&gt;
 &lt;script&gt;
-    $(function(){
-        $('.demo1').colorpicker();
-    });
+$(function(){
+    $('.demo1').colorpicker();
+});
 &lt;/script&gt;
-            </pre>
-        </div>
+        </pre>
     </div>
+
     <p>As a component:</p>
     <div class="well">
         <div class="input-group colorpicker-component demo demo-auto">
-            <input type="text" value="" class="form-control" />
+            <input type="text" value="#00AABB" class="form-control" />
             <span class="input-group-addon"><i></i></span>
         </div>
             <pre class="markup">
@@ -32,19 +31,28 @@
 &lt;/script&gt;
             </pre>
     </div>
+
     <p>Using events to work with the color:</p>
     <div class="well">
         <a href="#" class="btn small demo" id="demo_apidemo" data-color="rgb(255, 255, 255)">Change background color</a>
     </div>
+
+    <p>Transparent color support:</p>
+    <div class="well">
+        <input type="text" data-format="hex" class="form-control demo demo-auto" id="demo_transparent" value="transparent" >
+    </div>
+
     <p>Horizonal mode:</p>
     <div class="well">
         <input type="text" class="form-control demo" data-horizontal="true" id="demo_forceformat" value="#8fff00" >
     </div>
+
     <p>Inline mode:</p>
     <div class="well">
         <div id="demo_cont" class="demo demo-auto inl-bl" data-container="#demo_cont" data-color="rgba(150,216,62,0.55)" data-inline="true"></div>
         <div class="demo demo-auto inl-bl" data-container="true" data-color="rgb(50,216,62)" data-inline="true"></div>
     </div>
+
     <p>Enabled / disabled</p>
     <div class="well">
         <div id="demo_endis" class="input-group demo demo-auto colorpicker-component">

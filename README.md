@@ -1,4 +1,4 @@
-# Bootstrap Colorpicker 2.0
+# Bootstrap Colorpicker 2.1
 
 [![Build Status](https://travis-ci.org/mjolnic/bootstrap-colorpicker.png)](https://travis-ci.org/mjolnic/bootstrap-colorpicker)
 

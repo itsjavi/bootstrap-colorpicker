@@ -159,8 +159,6 @@
             }, this));
         };
 
-        Colorpicker.version = '2.0.0-beta';
-
         Colorpicker.Color = Color;
 
         Colorpicker.prototype = {
@@ -281,13 +279,14 @@
                 return val;
             },
             update: function(force) {
-                var val = this.updateComponent();
+                var val;
                 if ((this.getValue(false) !== false) || (force === true)) {
-                    // Update input/data only if the current value is not blank
+                    // Update input/data only if the current value is not empty
+                    val = this.updateComponent();
                     this.updateInput(val);
                     this.updateData(val);
+                    this.updatePicker(); // only update picker if value is not empty
                 }
-                this.updatePicker();
                 return val;
 
             },
@@ -326,6 +325,11 @@
             disable: function() {
                 if (this.hasInput()) {
                     this.input.prop('disabled', true);
+                    this.element.trigger({
+                        type: 'disable',
+                        color: this.color,
+                        value: this.getValue()
+                    });
                     return true;
                 }
                 return false;
@@ -333,6 +337,11 @@
             enable: function() {
                 if (this.hasInput()) {
                     this.input.prop('disabled', false);
+                    this.element.trigger({
+                        type: 'enable',
+                        color: this.color,
+                        value: this.getValue()
+                    });
                     return true;
                 }
                 return false;

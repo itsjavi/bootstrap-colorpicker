@@ -215,3 +215,13 @@
 .colorpicker-inline.colorpicker-visible {
   display: inline-block;
 }
+
+.colorpicker-right:before {
+  right: 6px;
+  left: auto;
+}
+
+.colorpicker-right:after {
+  right: 7px;
+  left: auto;
+}

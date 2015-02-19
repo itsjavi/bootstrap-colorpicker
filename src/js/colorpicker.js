@@ -112,6 +112,9 @@
             if (this.format === 'rgba' || this.format === 'hsla') {
                 this.picker.addClass('colorpicker-with-alpha');
             }
+            if (this.options.align === 'right') {
+                this.picker.addClass('colorpicker-right');
+            }
             this.picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.mousedown, this));
             this.picker.appendTo(this.container ? this.container : $('body'));
 
@@ -182,9 +185,13 @@
                     return false;
                 }
                 var type = this.container && this.container[0] !== document.body ? 'position' : 'offset';
-                var offset = this.component ? this.component[type]() : this.element[type]();
+                var element = this.component || this.element;
+                var offset = element[type]();
+                if (this.options.align === 'right') {
+                    offset.left -= this.picker.outerWidth() - element.outerWidth()
+                }
                 this.picker.css({
-                    top: offset.top + (this.component ? this.component.outerHeight() : this.element.outerHeight()),
+                    top: offset.top + element.outerHeight(),
                     left: offset.left
                 });
             },

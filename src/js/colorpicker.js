@@ -479,9 +479,10 @@
         $.colorpicker = Colorpicker;
 
         $.fn.colorpicker = function(option) {
-            var pickerArgs = arguments;
+            var pickerArgs = arguments,
+                rv;
 
-            return this.each(function() {
+            var $returnValue = this.each(function() {
                 var $this = $(this),
                     inst = $this.data('colorpicker'),
                     options = ((typeof option === 'object') ? option : {});
@@ -489,10 +490,14 @@
                     $this.data('colorpicker', new Colorpicker(this, options));
                 } else {
                     if (typeof option === 'string') {
-                        inst[option].apply(inst, Array.prototype.slice.call(pickerArgs, 1));
+                        rv = inst[option].apply(inst, Array.prototype.slice.call(pickerArgs, 1));
                     }
                 }
             });
+            if (option === 'getValue') {
+                return rv;
+            }
+            return $returnValue;
         };
 
         $.fn.colorpicker.constructor = Colorpicker;

@@ -36,9 +36,7 @@
                     this.setColor(val);
                 } else if (val.h !== undefined) {
                     this.value = val;
-                } else {
-					this.setColor(val);
-				}
+                }
             }
         };
 

@@ -33,9 +33,6 @@
                 if (val.toLowerCase !== undefined) {
                     // cast to string
                     val = val + '';
-                    if (val.charAt(0) !== "#" && (val.length === 3 || val.length === 6)) {
-                        val = '#' + val;
-                    }
                     this.setColor(val);
                 } else if (val.h !== undefined) {
                     this.value = val;
@@ -531,8 +528,8 @@
                 format: 'alias',
                 parse: function(execResult) {
                     var hexval = this.colorNameToHex(execResult[0]) || '#000000';
-                    var match = this.stringParsers[0].re.exec(hexval),
-                        values = match && this.stringParsers[0].parse.apply(this, [match]);
+                    var match = this.stringParsers[6].re.exec(hexval),
+                        values = match && this.stringParsers[6].parse.apply(this, [match]);
                     return values;
                 }
             }],

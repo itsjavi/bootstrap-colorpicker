@@ -11,7 +11,7 @@ Read the documentation [here](http://mjolnic.github.io/bootstrap-colorpicker/)
 ## Contributing
 
 * All the sources are compiled using Grunt, please do not modify dist files directly
-* If you modify some source code, please recompile the project dist files
+* If you modify some source code, please recompile the project dist files (running grunt)
 * Check that the index.html demos aren't broken (modify if necessary)
 * Test your code at least in Chrome, Firefox and IE >= 10
 

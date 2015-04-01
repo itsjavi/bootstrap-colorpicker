@@ -1,6 +1,6 @@
 {
     "name": "mjolnic/bootstrap-colorpicker",
-    "description": "Colorpicker plugin for Twitter Bootstrap, originally written by Stefan Petre",
+    "description": "A nice and customizable colorpicker plugin for Twitter Bootstrap 2 and 3",
     "license": "Licensed under the Apache License, Version 2.0",
     "authors": [
         {

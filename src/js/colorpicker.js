@@ -109,7 +109,7 @@
             if (this.options.horizontal) {
                 this.picker.addClass('colorpicker-horizontal');
             }
-            if (this.format === 'rgba' || this.format === 'hsla') {
+            if (this.format === 'rgba' || this.format === 'hsla' || this.options.format === false) {
                 this.picker.addClass('colorpicker-with-alpha');
             }
             if (this.options.align === 'right') {
@@ -429,6 +429,24 @@
                 if (this.currentSlider.callTop) {
                     this.color[this.currentSlider.callTop].call(this.color, top / this.currentSlider.maxTop);
                 }
+                // Change format dynamically
+                // Only occurs if user choose the dynamic format by
+                // setting option format to false
+                if (this.currentSlider.callTop == 'setAlpha'
+                    && this.options.format === false) {
+
+                  // Converting from hex / rgb to rgba
+                  if (this.color.value.a != 1) {
+                    this.format = 'rgba';
+                    this.color.origFormat = 'rgba';
+                  }
+
+                  // Converting from rgba to hex
+                  else {
+                    this.format = 'hex';
+                    this.color.origFormat = 'hex';
+                  }
+                }
                 this.update(true);
 
                 this.element.trigger({
@@ -462,6 +480,12 @@
                 } else {
                     var val = this.input.val();
                     this.color = new Color(val);
+                    // Change format dynamically
+                    // Only occurs if user choose the dynamic format by
+                    // setting option format to false
+                    if (this.color.origFormat && this.options.format === false) {
+                      this.format = this.color.origFormat;
+                    }
                     if (this.getValue(false) !== false) {
                         this.updateData();
                         this.updateComponent();

@@ -17,6 +17,22 @@ $(function() {
 
         $('.demo-auto').colorpicker();
 
+        $('#demo_size').colorpicker({
+            customClass: 'colorpicker-2x',
+            sliders: {
+                saturation: {
+                    maxLeft: 200,
+                    maxTop: 200
+                },
+                hue: {
+                    maxTop: 200
+                },
+                alpha: {
+                    maxTop: 200
+                }
+            }
+        });
+
         // Disabled / enabled triggers
         $(".disable-button").click(function(e) {
             e.preventDefault();

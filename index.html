@@ -113,18 +113,79 @@ $(function(){
 
                     <p>Transparent color support:</p>
                     <div class="well">
-                        <input type="text" data-format="hex" class="form-control demo demo-auto" id="demo_transparent" value="transparent">
+                        <input type="text" data-format="hex" class="form-control demo demo-auto" id="demo_transparent" value="transparent" />
                     </div>
 
                     <p>Horizonal mode:</p>
                     <div class="well">
-                        <input type="text" class="form-control demo" data-horizontal="true" id="demo_forceformat" value="#8fff00">
+                        <input type="text" class="form-control demo" data-horizontal="true" id="demo_forceformat" value="#8fff00" />
                     </div>
 
                     <p>Inline mode:</p>
                     <div class="well">
                         <div id="demo_cont" class="demo demo-auto inl-bl" data-container="#demo_cont" data-color="rgba(150,216,62,0.55)" data-inline="true"></div>
                         <div class="demo demo-auto inl-bl" data-container="true" data-color="rgb(50,216,62)" data-inline="true"></div>
+                    </div>
+
+                    <p>Custom widget size:</p>
+                    <div class="well">
+                        <style>
+                            .colorpicker-2x .colorpicker-saturation {
+                                width: 200px;
+                                height: 200px;
+                            }
+                            
+                            .colorpicker-2x .colorpicker-hue,
+                            .colorpicker-2x .colorpicker-alpha {
+                                width: 30px;
+                                height: 200px;
+                            }
+                            
+                            .colorpicker-2x .colorpicker-color,
+                            .colorpicker-2x .colorpicker-color div {
+                                height: 30px;
+                            }
+                        </style>
+                        <input type="text" class="form-control demo" id="demo_size" value="#ffaa00" />
+                        <pre class="markup">
+&lt;input type="text" id="demo_size" value="#ffaa00" /&gt;
+
+&lt;style&gt;
+    .colorpicker-2x .colorpicker-saturation {
+        width: 200px;
+        height: 200px;
+    }
+    .colorpicker-2x .colorpicker-hue,
+    .colorpicker-2x .colorpicker-alpha {
+        width: 30px;
+        height: 200px;
+    }
+    .colorpicker-2x .colorpicker-color,
+    .colorpicker-2x .colorpicker-color div{
+        height: 30px;
+    }
+&lt;/style&gt;
+
+&lt;script&gt;
+    $(function(){
+        $('#demo_size').colorpicker({
+            customClass: 'colorpicker-2x',
+            sliders: {
+                saturation: {
+                    maxLeft: 200,
+                    maxTop: 200
+                },
+                hue: {
+                    maxTop: 200
+                },
+                alpha: {
+                    maxTop: 200
+                }
+            }
+        });
+    });
+&lt;/script&gt;
+            </pre>
                     </div>
 
                     <p>Enabled / disabled</p>
@@ -252,6 +313,12 @@ $(function(){
                                 <td>string</td>
                                 <td>'right'</td>
                                 <td>By default, the colorpicker is aligned to the right of the input. If you need to switch it to the left, set align to 'left'.</td>
+                            </tr>
+                            <tr>
+                                <td>customClass</td>
+                                <td>string</td>
+                                <td>null</td>
+                                <td>Adds this class to the colorpicker widget.</td>
                             </tr>
                         </tbody>
                     </table>

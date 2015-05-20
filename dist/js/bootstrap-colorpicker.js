@@ -595,12 +595,14 @@
                 '<div class="colorpicker-hue"><i></i></div>' +
                 '<div class="colorpicker-alpha"><i></i></div>' +
                 '<div class="colorpicker-color"><div /></div>' +
-                '</div>'
+                '</div>',
+            align: 'right',
+            customClass: null
         };
 
         var Colorpicker = function(element, options) {
             this.element = $(element).addClass('colorpicker-element');
-            this.options = $.extend({}, defaults, this.element.data(), options);
+            this.options = $.extend(true, {}, defaults, this.element.data(), options);
             this.component = this.options.component;
             this.component = (this.component !== false) ? this.element.find(this.component) : false;
             if (this.component && (this.component.length === 0)) {
@@ -621,6 +623,9 @@
 
             // Setup picker
             this.picker = $(this.options.template);
+            if (this.options.customClass) {
+                this.picker.addClass(this.options.customClass);
+            }
             if (this.options.inline) {
                 this.picker.addClass('colorpicker-inline colorpicker-visible');
             } else {

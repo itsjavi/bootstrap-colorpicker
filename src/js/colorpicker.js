@@ -432,20 +432,19 @@
                 // Change format dynamically
                 // Only occurs if user choose the dynamic format by
                 // setting option format to false
-                if (this.currentSlider.callTop == 'setAlpha'
-                    && this.options.format === false) {
+                if (this.currentSlider.callTop == 'setAlpha' && this.options.format === false) {
 
-                  // Converting from hex / rgb to rgba
-                  if (this.color.value.a != 1) {
-                    this.format = 'rgba';
-                    this.color.origFormat = 'rgba';
-                  }
+                    // Converting from hex / rgb to rgba
+                    if (this.color.value.a != 1) {
+                        this.format = 'rgba';
+                        this.color.origFormat = 'rgba';
+                    }
 
-                  // Converting from rgba to hex
-                  else {
-                    this.format = 'hex';
-                    this.color.origFormat = 'hex';
-                  }
+                    // Converting from rgba to hex
+                    else {
+                        this.format = 'hex';
+                        this.color.origFormat = 'hex';
+                    }
                 }
                 this.update(true);
 
@@ -484,7 +483,7 @@
                     // Only occurs if user choose the dynamic format by
                     // setting option format to false
                     if (this.color.origFormat && this.options.format === false) {
-                      this.format = this.color.origFormat;
+                        this.format = this.color.origFormat;
                     }
                     if (this.getValue(false) !== false) {
                         this.updateData();

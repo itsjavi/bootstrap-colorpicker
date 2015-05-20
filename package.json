@@ -1,7 +1,7 @@
 {
   "name": "mjolnic-bootstrap-colorpicker",
-  "version": "2.0.0",
-  "description": "Colorpicker plugin for Twitter Bootstrap",
+  "version": "2.1.2",
+  "description": "A nice and customizable colorpicker plugin for Twitter Bootstrap 2 & 3",
   "homepage": "http://mjolnic.github.io/bootstrap-colorpicker/",
   "repository": {
     "type": "git",

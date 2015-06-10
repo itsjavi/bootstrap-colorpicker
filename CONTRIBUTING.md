@@ -1,13 +1,15 @@
 ## Submitting issues
+For feature requests, suggestions or ideas, add `[SUGGESTION]` before the title of the issue, for anything else follow the following guidelines.
 
 ### Guidelines
-- Try to reproduce your problem in a separated environment, like in JSFiddle, [here is a template for it](http://jsfiddle.net/mjolnic/0vopxm13/), that you can fork in the same page.
+- Try to reproduce your problem in a separated environment, like in JSFiddle, [here is a template for it](http://jsfiddle.net/mjolnic/0vopxm13/), that you can fork in the same page. It already includes the required JS and CSS files.
 - Before posting your issue, consider adding this information:
   * Expected behaviour: what should happen?
   * Actual behaviour: what happens instead?
   * Your context: Where it happens? In which browser and version (if applicable)?
   * Plugin version (and/or commit reference).
   * jQuery version you use and list of all other plugins/scripts you are using with this one and may cause some conflict.
+  * A link to your JSFiddle (or similar tool) demo where you reproduced the problem (if applicable).
   
 ## Contributing to Source Code
 

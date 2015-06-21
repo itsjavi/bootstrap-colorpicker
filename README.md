@@ -1,4 +1,4 @@
-# Bootstrap Colorpicker 2.1
+# Bootstrap Colorpicker 2.2
 A nice and customizable colorpicker plugin for Twitter Bootstrap
 
 [![Build Status](https://travis-ci.org/mjolnic/bootstrap-colorpicker.png)](https://travis-ci.org/mjolnic/bootstrap-colorpicker)
@@ -6,9 +6,10 @@ A nice and customizable colorpicker plugin for Twitter Bootstrap
 ## Installation
 For downloading the source code, you have many choices:
 
-- [Download](https://github.com/mjolnic/bootstrap-colorpicker/archive/master.zip) the latest source code ZIP
-- Or clone it through the command line: `git clone https://github.com/mjolnic/bootstrap-colorpicker.git`
-- Or install it through [Bower](http://bower.io): `bower install mjolnic-bootstrap-colorpicker`
+- Downloading the [latest source code ZIP file](https://github.com/mjolnic/bootstrap-colorpicker/archive/master.zip)
+- Cloning: `git clone https://github.com/mjolnic/bootstrap-colorpicker.git`
+- Installing via: `bower install mjolnic-bootstrap-colorpicker`
+- Installing via: `npm install bootstrap-colorpicker`
 
 ## Getting started
 - For using the plugin you will only need the files under the `dist` folder

@@ -4,7 +4,6 @@
 ehthumbs.db
 Thumbs.db
 *.log
-/ignore*
 /node_modules/
 /bower_components/
 /nbproject/

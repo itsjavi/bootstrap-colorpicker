@@ -1,5 +1,5 @@
 {
-  "bitwise": true,
+  "bitwise": false,
   "browser": true,
   "curly": true,
   "eqeqeq": true,
@@ -11,8 +11,8 @@
   "newcap": true,
   "noarg": true,
   "node": true,
-  "strict": false,
+  "strict": true,
   "trailing": true,
   "undef": true,
-  "predef" : ["Modernizr"]
+  "predef" : ["define"]
 }

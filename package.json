@@ -1,11 +1,12 @@
 {
-  "name": "mjolnic-bootstrap-colorpicker",
-  "version": "2.1.2",
-  "description": "A nice and customizable colorpicker plugin for Twitter Bootstrap 2 & 3",
-  "homepage": "http://mjolnic.github.io/bootstrap-colorpicker/",
+  "name": "bootstrap-colorpicker",
+  "version": "2.2.0",
+  "description": "A nice and customizable colorpicker plugin for Twitter Bootstrap",
+  "main": "./dist/js/bootstrap-colorpicker.js",
+  "homepage": "http://mjolnic.com/bootstrap-colorpicker/",
   "repository": {
     "type": "git",
-    "url": "git@github.com:mjolnic/bootstrap-colorpicker.git"
+    "url": "https://github.com/mjolnic/bootstrap-colorpicker.git"
   },
   "bugs": {
     "url" : "https://github.com/mjolnic/bootstrap-colorpicker/issues"
@@ -19,15 +20,17 @@
     "type": "Apache-2.0",
     "url": "http://opensource.org/licenses/Apache-2.0"
   }],
+  "dependencies": {
+    "jquery" : ">=1.10"
+  },
   "devDependencies": {
-    "grunt": "~0.4.2",
+    "grunt": "~0.4.5",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-jshint": "~0.7.2",
     "grunt-recess": "~0.5.0",
     "grunt-combine": "~0.8.1",
     "grunt-contrib-uglify": "~0.2.7",
-    "grunt-bake": "~0.3.3",
-    "grunt-jsbeautifier": "~0.2.3",
+    "grunt-jsbeautifier": "~0.2.10",
     "grunt-contrib-watch": "~0.5.3"
   }
 }

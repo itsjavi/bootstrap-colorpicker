@@ -1,8 +1,20 @@
-## Submitting issues
-For feature requests, suggestions or ideas, add `[SUGGESTION]` before the title of the issue, for anything else follow the following guidelines.
+# Contributing
 
-### Guidelines
-- Try to reproduce your problem in a separated environment, like in JSFiddle, [here is a template for it](http://jsfiddle.net/mjolnic/0vopxm13/), that you can fork in the same page. It already includes the required JS and CSS files.
+## Support
+
+The issue tracker is not the place for support requests. If you get stuck with bootstrap-colorpicker, it's very likely
+that the fine folks at [StackOverflow](http://stackoverflow.com/) will be able to help you; simply describe the problem
+you're having and provide them a link to the repo (so they know what code you're using).
+
+
+## Issues
+For feature requests, suggestions or ideas, add `[SUGGESTION]` before the title of the issue, for anything else follow
+the following guidelines.
+
+### Steps to submit an issue
+- Try to reproduce your problem in a separated environment, like in JSFiddle,
+  [here is a template for it](http://jsfiddle.net/mjolnic/0vopxm13/), that you can fork in the same page.
+  It already includes the required JS and CSS files.
 - Before posting your issue, consider adding this information:
   * Expected behaviour: what should happen?
   * Actual behaviour: what happens instead?
@@ -10,13 +22,16 @@ For feature requests, suggestions or ideas, add `[SUGGESTION]` before the title 
   * Plugin version (and/or commit reference).
   * jQuery version you use and list of all other plugins/scripts you are using with this one and may cause some conflict.
   * A link to your JSFiddle (or similar tool) demo where you reproduced the problem (if applicable).
-  
-## Contributing to Source Code
 
-Thanks for wanting to contribute source code to this project. That's great!
+## Pull Requests
 
-- Before starting developing the plugin, you need to run `npm install` and `bower install` inside the plugin folder.
+Patches and new features are welcome!
+
+- Fork this project
+- Before start developing, you need to run `npm install` and `bower install` inside the plugin folder.
 - Before your commits run always `grunt` inside the plugin folders, to update the dist files (don't modify them manually).
 - Do not change the plugin coding style.
 - Check that the index.html demos aren't broken (modify if necessary).
-- Test your code at least in Chrome, Firefox and IE >= 10.
+- Test your code at least in Chrome, Firefox and IE >= 10 / Edge.
+- Any new feature should come with updated docs
+- Push to your fork and submit the pull request

@@ -11,7 +11,9 @@
 
 (function(factory) {
     "use strict";
-    if (typeof define === 'function' && define.amd) {
+    if (typeof exports === 'object') {
+      module.exports = factory(window.jQuery);
+    } else if (typeof define === 'function' && define.amd) {
       define(['jquery'], factory);
     } else if (window.jQuery && !window.jQuery.fn.colorpicker) {
       factory(window.jQuery);

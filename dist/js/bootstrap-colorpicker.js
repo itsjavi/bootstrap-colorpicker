@@ -23,7 +23,7 @@
     'use strict';
 
     // Color object
-    var Color = function(val) {
+    var Color = function(val, customColors) {
       this.value = {
         h: 0,
         s: 0,
@@ -31,6 +31,9 @@
         a: 1
       };
       this.origFormat = null; // original string format
+      if (customColors) {
+        $.extend(this.colors, customColors);
+      }
       if (val) {
         if (val.toLowerCase !== undefined) {
           // cast to string
@@ -101,8 +104,8 @@
         "greenyellow": "#adff2f",
         "honeydew": "#f0fff0",
         "hotpink": "#ff69b4",
-        "indianred ": "#cd5c5c",
-        "indigo ": "#4b0082",
+        "indianred": "#cd5c5c",
+        "indigo": "#4b0082",
         "ivory": "#fffff0",
         "khaki": "#f0e68c",
         "lavender": "#e6e6fa",
@@ -233,12 +236,17 @@
       },
       stringToHSB: function(strVal) {
         strVal = strVal.toLowerCase();
+        var alias;
+        if (typeof this.colors[strVal] !== 'undefined') {
+          strVal = this.colors[strVal];
+          alias = 'alias';
+        }
         var that = this,
           result = false;
         $.each(this.stringParsers, function(i, parser) {
           var match = parser.re.exec(strVal),
             values = match && parser.parse.apply(that, [match]),
-            format = parser.format || 'rgba';
+            format = alias || parser.format || 'rgba';
           if (values) {
             if (format.match(/hsla?/)) {
               result = that.RGBtoHSB.apply(that, that.HSLtoRGB.apply(that, values));
@@ -525,16 +533,6 @@
             1
           ];
         }
-      }, {
-        //predefined color name
-        re: /^([a-z]{3,})$/,
-        format: 'alias',
-        parse: function(execResult) {
-          var hexval = this.colorNameToHex(execResult[0]) || '#000000';
-          var match = this.stringParsers[6].re.exec(hexval),
-            values = match && this.stringParsers[6].parse.apply(this, [match]);
-          return values;
-        }
       }],
       colorNameToHex: function(name) {
         if (typeof this.colors[name.toLowerCase()] !== 'undefined') {
@@ -598,9 +596,11 @@
         '<div class="colorpicker-hue"><i></i></div>' +
         '<div class="colorpicker-alpha"><i></i></div>' +
         '<div class="colorpicker-color"><div /></div>' +
+        '<div class="colorpicker-selectors"></div>' +
         '</div>',
       align: 'right',
-      customClass: null
+      customClass: null,
+      colorSelectors: null
     };
 
     var Colorpicker = function(element, options) {
@@ -621,7 +621,7 @@
         this.input = false;
       }
       // Set HSB color
-      this.color = new Color(this.options.color !== false ? this.options.color : this.getValue());
+      this.color = new Color(this.options.color !== false ? this.options.color : this.getValue(), this.options.colorSelectors);
       this.format = this.options.format !== false ? this.options.format : this.color.origFormat;
 
       // Setup picker
@@ -642,6 +642,17 @@
       }
       if (this.options.align === 'right') {
         this.picker.addClass('colorpicker-right');
+      }
+      if (this.options.colorSelectors) {
+        var colorpicker = this;
+        $.each(this.options.colorSelectors, function(name, color) {
+          var $btn = $('<i />').css('background-color', color).data('class', name);
+          $btn.click(function() {
+            colorpicker.setValue($(this).css('background-color'));
+          });
+          colorpicker.picker.find('.colorpicker-selectors').append($btn);
+        });
+        this.picker.find('.colorpicker-selectors').show();
       }
       this.picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.mousedown, this));
       this.picker.appendTo(this.container ? this.container : $('body'));
@@ -769,13 +780,20 @@
       updateInput: function(val) {
         val = val || this.color.toString(this.format);
         if (this.input !== false) {
+          if (this.options.colorSelectors) {
+            var color = new Color(val, this.options.colorSelectors);
+            var alias = color.toAlias();
+            if (typeof this.options.colorSelectors[alias] !== 'undefined') {
+              val = alias;
+            }
+          }
           this.input.prop('value', val);
         }
         return val;
       },
       updatePicker: function(val) {
         if (val !== undefined) {
-          this.color = new Color(val);
+          this.color = new Color(val, this.options.colorSelectors);
         }
         var sl = (this.options.horizontal === false) ? this.options.sliders : this.options.slidersHorz;
         var icns = this.picker.find('i');
@@ -829,7 +847,7 @@
 
       },
       setValue: function(val) { // set color manually
-        this.color = new Color(val);
+        this.color = new Color(val, this.options.colorSelectors);
         this.update();
         this.element.trigger({
           type: 'changeColor',
@@ -1011,7 +1029,7 @@
           }
           this.update(true);
         } else {
-          this.color = new Color(this.input.val());
+          this.color = new Color(this.input.val(), this.options.colorSelectors);
           // Change format dynamically
           // Only occurs if user choose the dynamic format by
           // setting option format to false

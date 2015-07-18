@@ -1,5 +1,5 @@
 // Color object
-var Color = function(val) {
+var Color = function(val, customColors) {
   this.value = {
     h: 0,
     s: 0,
@@ -7,6 +7,9 @@ var Color = function(val) {
     a: 1
   };
   this.origFormat = null; // original string format
+  if (customColors) {
+    $.extend(this.colors, customColors);
+  }
   if (val) {
     if (val.toLowerCase !== undefined) {
       // cast to string
@@ -77,8 +80,8 @@ Color.prototype = {
     "greenyellow": "#adff2f",
     "honeydew": "#f0fff0",
     "hotpink": "#ff69b4",
-    "indianred ": "#cd5c5c",
-    "indigo ": "#4b0082",
+    "indianred": "#cd5c5c",
+    "indigo": "#4b0082",
     "ivory": "#fffff0",
     "khaki": "#f0e68c",
     "lavender": "#e6e6fa",
@@ -209,12 +212,17 @@ Color.prototype = {
   },
   stringToHSB: function(strVal) {
     strVal = strVal.toLowerCase();
+    var alias;
+    if (typeof this.colors[strVal] !== 'undefined') {
+      strVal = this.colors[strVal];
+      alias = 'alias';
+    }
     var that = this,
       result = false;
     $.each(this.stringParsers, function(i, parser) {
       var match = parser.re.exec(strVal),
         values = match && parser.parse.apply(that, [match]),
-        format = parser.format || 'rgba';
+        format = alias || parser.format || 'rgba';
       if (values) {
         if (format.match(/hsla?/)) {
           result = that.RGBtoHSB.apply(that, that.HSLtoRGB.apply(that, values));
@@ -500,16 +508,6 @@ Color.prototype = {
         parseInt(execResult[3] + execResult[3], 16),
         1
       ];
-    }
-  }, {
-    //predefined color name
-    re: /^([a-z]{3,})$/,
-    format: 'alias',
-    parse: function(execResult) {
-      var hexval = this.colorNameToHex(execResult[0]) || '#000000';
-      var match = this.stringParsers[6].re.exec(hexval),
-        values = match && this.stringParsers[6].parse.apply(this, [match]);
-      return values;
     }
   }],
   colorNameToHex: function(name) {

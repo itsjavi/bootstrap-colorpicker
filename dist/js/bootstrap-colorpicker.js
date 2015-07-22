@@ -848,7 +848,7 @@
       },
       setValue: function(val) { // set color manually
         this.color = new Color(val, this.options.colorSelectors);
-        this.update();
+        this.update(true);
         this.element.trigger({
           type: 'changeColor',
           color: this.color,

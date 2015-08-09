@@ -28,8 +28,8 @@ the following guidelines.
 Patches and new features are welcome!
 
 - Fork this project
-- Before start developing, you need to run `npm install` and `bower install` inside the plugin folder.
-- Before your commits run always `grunt` inside the plugin folders, to update the dist files (don't modify them manually).
+- Before start developing, you need to run `npm install` and `bower install` inside the project's root folder.
+- Before your commits run always `grunt` inside the project's root folder, to update the dist files (don't modify them manually).
 - Do not change the plugin coding style.
 - Check that the index.html demos aren't broken (modify if necessary).
 - Test your code at least in Chrome, Firefox and IE >= 10 / Edge.

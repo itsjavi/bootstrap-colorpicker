@@ -7,8 +7,10 @@
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  *
  */
-.bgImg(@img){
-    background-image: url("../img/bootstrap-colorpicker/@{img}");
+@imgPath: "../img/bootstrap-colorpicker/";
+
+.bgImg(@imgFilename){
+    background-image: url("@{imgPath}@{imgFilename}");
 }
 .borderRadius(@size){
     -webkit-border-radius: @size;

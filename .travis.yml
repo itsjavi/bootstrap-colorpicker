@@ -5,4 +5,4 @@ node_js:
 before_script:
   - npm install -g grunt-cli
 
-script: grunt --verbose --force
+script: grunt --verbose

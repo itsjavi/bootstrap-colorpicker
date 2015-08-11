@@ -18,6 +18,17 @@ $(function() {
 
     $('.demo-auto').colorpicker();
 
+    $('#demo_selectors').colorpicker({
+      colorSelectors: {
+        'default': '#777777',
+        'primary': '#337ab7',
+        'success': '#5cb85c',
+        'info': '#5bc0de',
+        'warning': '#f0ad4e',
+        'danger': '#d9534f'
+      }
+    });
+
     $('#demo_size').colorpicker({
       customClass: 'colorpicker-2x',
       sliders: {

@@ -1,4 +1,4 @@
-# Bootstrap Colorpicker 2.2
+# Bootstrap Colorpicker 2.3
 A nice and customizable colorpicker plugin for Twitter Bootstrap
 
 [![Build Status](https://travis-ci.org/mjolnic/bootstrap-colorpicker.png)](https://travis-ci.org/mjolnic/bootstrap-colorpicker)

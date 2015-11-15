@@ -624,6 +624,11 @@
       this.color = new Color(this.options.color !== false ? this.options.color : this.getValue(), this.options.colorSelectors);
       this.format = this.options.format !== false ? this.options.format : this.color.origFormat;
 
+      if (this.options.color !== false) {
+        this.updateInput(this.color);
+        this.updateData(this.color);
+      }
+
       // Setup picker
       this.picker = $(this.options.template);
       if (this.options.customClass) {

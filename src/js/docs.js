@@ -29,6 +29,11 @@ $(function() {
       }
     });
 
+    $('.demo-with-options').colorpicker({
+      color: '#00AABB',
+      format: 'hex'
+    });
+
     $('#demo_size').colorpicker({
       customClass: 'colorpicker-2x',
       sliders: {

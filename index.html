@@ -112,6 +112,29 @@ $(function(){
             </pre>
         </div>
 
+        <p>As a component with options given:</p>
+
+        <div class="well">
+          <div class="input-group colorpicker-component demo-with-options">
+            <input type="text" value="" class="form-control"/>
+            <span class="input-group-addon"><i></i></span>
+          </div>
+          <pre class="markup">
+&lt;div class="input-group demo-with-options"&gt;
+    &lt;input type="text" value="" class="form-control" /&gt;
+    &lt;span class="input-group-addon"&gt;&lt;i&gt;&lt;/i&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    $(function(){
+        $('.demo-with-options').colorpicker({
+          color: '#00AABB',
+          format: 'hex'
+        });
+    });
+&lt;/script&gt;
+            </pre>
+        </div>
+
         <p>Using events to work with the color:</p>
 
         <div class="well">

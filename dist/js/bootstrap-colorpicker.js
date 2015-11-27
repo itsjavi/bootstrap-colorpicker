@@ -648,6 +648,9 @@
       if (this.options.align === 'right') {
         this.picker.addClass('colorpicker-right');
       }
+      if (this.options.inline === true) {
+        this.picker.addClass('colorpicker-no-arrow');
+      }
       if (this.options.colorSelectors) {
         var colorpicker = this;
         $.each(this.options.colorSelectors, function(name, color) {

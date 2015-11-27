@@ -249,3 +249,13 @@
   right: 7px;
   left: auto;
 }
+
+.colorpicker-no-arrow:before {
+  border-right: 0;
+  border-left: 0;
+}
+
+.colorpicker-no-arrow:after {
+  border-right: 0;
+  border-left: 0;
+}

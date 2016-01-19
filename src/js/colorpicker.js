@@ -199,7 +199,7 @@
       constructor: Colorpicker,
       destroy: function() {
         this.picker.remove();
-        this.element.removeData('colorpicker').off('.colorpicker');
+        this.element.removeData(['colorpicker', 'color']).off('.colorpicker');
         if (this.input !== false) {
           this.input.off('.colorpicker');
         }

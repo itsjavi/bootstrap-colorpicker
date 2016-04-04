@@ -27,11 +27,13 @@ the following guidelines.
 
 Patches and new features are welcome!
 
-- Fork this project
-- Before start developing, you need to run `npm install` and `bower install` inside the project's root folder.
-- Before your commits run always `grunt` inside the project's root folder, to update the dist files (don't modify them manually).
+- Prerequisites: having `node`, `npm`, `bower` and `grunt` installed in your machine.
+- After a fresh clone for your fork, you need to run `npm install && bower install` inside the project's root folder.
+- For checking your changes in the browser you can execute `node serve` and navigate to http://localhost:5000/
+- Before any commit run always `grunt` inside the project's root folder, to update the dist files
+  (never modify them manually).
 - Do not change the plugin coding style.
 - Check that the index.html demos aren't broken (modify if necessary).
 - Test your code at least in Chrome, Firefox and IE >= 10 / Edge.
-- Any new feature should come with updated docs
-- Push to your fork and submit the pull request
+- Any new feature should come with updated docs (a demonstration).
+- Push to your fork and submit the pull request (

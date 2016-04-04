@@ -1,12 +1,11 @@
 /*!
- * Bootstrap Colorpicker
+ * Bootstrap Colorpicker v2.3.1
  * http://mjolnic.github.io/bootstrap-colorpicker/
  *
  * Originally written by (c) 2012 Stefan Petre
  * Licensed under the Apache License v2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  *
- * @todo Update DOCS
  */
 
 (function(factory) {
@@ -22,8 +21,14 @@
   (function($) {
     'use strict';
 
-    // Color object
-    var Color = function(val, customColors) {
+    /**
+     * Color manipulation helper class
+     *
+     * @param {Object|String} val
+     * @param {Object} predefinedColors
+     * @constructor
+     */
+    var Color = function(val, predefinedColors) {
       this.value = {
         h: 0,
         s: 0,
@@ -31,8 +36,8 @@
         a: 1
       };
       this.origFormat = null; // original string format
-      if (customColors) {
-        $.extend(this.colors, customColors);
+      if (predefinedColors) {
+        $.extend(this.colors, predefinedColors);
       }
       if (val) {
         if (val.toLowerCase !== undefined) {
@@ -542,7 +547,9 @@
       }
     };
 
-
+    /*
+     * Default plugin options
+     */
     var defaults = {
       horizontal: false, // horizontal mode layout ?
       inline: false, //forces to show the colorpicker as an inline element
@@ -603,6 +610,13 @@
       colorSelectors: null
     };
 
+    /**
+     * Colorpicker component class
+     *
+     * @param {Object|String} element
+     * @param {Object} options
+     * @constructor
+     */
     var Colorpicker = function(element, options) {
       this.element = $(element).addClass('colorpicker-element');
       this.options = $.extend(true, {}, defaults, this.element.data(), options);
@@ -718,7 +732,7 @@
       constructor: Colorpicker,
       destroy: function() {
         this.picker.remove();
-        this.element.removeData('colorpicker').off('.colorpicker');
+        this.element.removeData('colorpicker', 'color').off('.colorpicker');
         if (this.input !== false) {
           this.input.off('.colorpicker');
         }
@@ -916,7 +930,7 @@
         top: 0
       },
       mousedown: function(e) {
-        if (!e.pageX && !e.pageY && e.originalEvent) {
+        if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
           e.pageX = e.originalEvent.touches[0].pageX;
           e.pageY = e.originalEvent.touches[0].pageY;
         }
@@ -958,7 +972,7 @@
         return false;
       },
       mousemove: function(e) {
-        if (!e.pageX && !e.pageY && e.originalEvent) {
+        if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
           e.pageX = e.originalEvent.touches[0].pageX;
           e.pageY = e.originalEvent.touches[0].pageY;
         }
@@ -1062,7 +1076,7 @@
 
     $.fn.colorpicker = function(option) {
       var pickerArgs = arguments,
-        rv;
+        rv = null;
 
       var $returnValue = this.each(function() {
         var $this = $(this),

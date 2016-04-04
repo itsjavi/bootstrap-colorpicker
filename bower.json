@@ -13,6 +13,9 @@
     "/index.html",
     "/package.json",
     "/composer.json",
-    "/Gruntfile.js"
+    "/Gruntfile.js",
+    "/.travis.yml",
+    "/travis.sh",
+    "/server.js"
   ]
 }

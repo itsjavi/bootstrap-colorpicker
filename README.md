@@ -1,9 +1,9 @@
-# Bootstrap Colorpicker 2.3
+# Bootstrap Colorpicker 2
 
-A nice and customizable colorpicker plugin for Twitter Bootstrap
+Fancy and customizable color picker plugin for Twitter Bootstrap
 
-[![Join the chat at https://gitter.im/mjolnic/bootstrap-colorpicker](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mjolnic/bootstrap-colorpicker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/mjolnic/bootstrap-colorpicker.png)](https://travis-ci.org/mjolnic/bootstrap-colorpicker)
- 
+[![Build Status](https://travis-ci.org/mjolnic/bootstrap-colorpicker.png)](https://travis-ci.org/mjolnic/bootstrap-colorpicker)
+
 ## Installation
 For downloading the source code, you have many choices:
 

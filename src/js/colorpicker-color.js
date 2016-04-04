@@ -1,5 +1,11 @@
-// Color object
-var Color = function(val, customColors) {
+/**
+ * Color manipulation helper class
+ *
+ * @param {Object|String} val
+ * @param {Object} predefinedColors
+ * @constructor
+ */
+var Color = function(val, predefinedColors) {
   this.value = {
     h: 0,
     s: 0,
@@ -7,8 +13,8 @@ var Color = function(val, customColors) {
     a: 1
   };
   this.origFormat = null; // original string format
-  if (customColors) {
-    $.extend(this.colors, customColors);
+  if (predefinedColors) {
+    $.extend(this.colors, predefinedColors);
   }
   if (val) {
     if (val.toLowerCase !== undefined) {

@@ -2,28 +2,30 @@
 module.exports = function (grunt) {
 
   grunt.initConfig({
-    recess: {
+    pkg: grunt.file.readJSON('package.json'),
+    less: {
       dist: {
         options: {
-          compile: true,
-          compress: false
+          strictMath: true,
+          sourceMap: true,
+          outputSourceFiles: true,
+          sourceMapURL: '<%= pkg.name %>.css.map',
+          sourceMapFilename: 'dist/css/<%= pkg.name %>.css.map'
         },
-        files: {
-          'dist/css/bootstrap-colorpicker.css': [
-            'src/less/colorpicker.less'
-          ]
-        }
+        src: 'src/less/colorpicker.less',
+        dest: 'dist/css/<%= pkg.name %>.css'
+      }
+    },
+    cssmin: {
+      options: {
+        compatibility: 'ie8',
+        keepSpecialComments: '*',
+        sourceMap: true,
+        advanced: false
       },
-      distMin: {
-        options: {
-          compile: true,
-          compress: true
-        },
-        files: {
-          'dist/css/bootstrap-colorpicker.min.css': [
-            'src/less/colorpicker.less'
-          ]
-        }
+      dist: {
+        src: 'dist/css/<%= pkg.name %>.css',
+        dest: 'dist/css/<%= pkg.name %>.min.css'
       }
     },
     jshint: {
@@ -32,8 +34,8 @@ module.exports = function (grunt) {
       },
       files: [
         'Gruntfile.js',
-        'src/js/docs.js',
-        'dist/js/bootstrap-colorpicker.js'
+        'docs/docs.js',
+        'dist/js/<%= pkg.name %>.js'
       ]
     },
     jsbeautifier: {
@@ -50,7 +52,7 @@ module.exports = function (grunt) {
           jslintHappy: false,
           keepArrayIndentation: false,
           keepFunctionIndentation: false,
-          maxPreserveNewlines: 10,
+          maxPreserveNewlines: 2,
           preserveNewlines: true,
           spaceBeforeConditional: true,
           spaceInParen: false,
@@ -59,24 +61,45 @@ module.exports = function (grunt) {
           endWithNewline: true
         }
       },
-      srcFiles: ['src/js/*.js'],
-      distFiles: ['dist/js/bootstrap-colorpicker.js']
+      src: ['src/js/*.js', 'docs/docs.js'],
+      dist: ['dist/js/<%= pkg.name %>.js']
     },
     combine: {
-      dist: {
-        input: 'src/js/colorpicker.js',
-        output: 'dist/js/bootstrap-colorpicker.js',
+      js: {
+        input: 'src/js/colorpicker-plugin-wrapper.js',
+        output: 'dist/js/<%= pkg.name %>.js',
         tokens: [{
-          token: "'{{color}}';",
+          token: "//@version",
+          string: '<%= pkg.version %>'
+        },{
+          token: "//@colorpicker-color",
           file: 'src/js/colorpicker-color.js'
+        }, {
+          token: "//@colorpicker-defaults",
+          file: 'src/js/colorpicker-defaults.js'
+        }, {
+          token: "//@colorpicker-component",
+          file: 'src/js/colorpicker-component.js'
+        }]
+      },
+      less: {
+        input: 'src/less/colorpicker.less',
+        output: 'src/less/colorpicker.less',
+        tokens: [{
+          token: "//@version",
+          string: '<%= pkg.version %>'
         }]
       }
     },
     uglify: {
+      options: {
+        banner: '/*!\n * Bootstrap Colorpicker v<%= pkg.version %>\n' +
+        ' * http://mjolnic.github.io/bootstrap-colorpicker/\n */\n'
+      },
       dist: {
         files: {
-          'dist/js/bootstrap-colorpicker.min.js': [
-            'dist/js/bootstrap-colorpicker.js'
+          'dist/js/<%= pkg.name %>.min.js': [
+            'dist/js/<%= pkg.name %>.js'
           ]
         }
       }
@@ -86,26 +109,28 @@ module.exports = function (grunt) {
         files: [
           'src/less/*.less'
         ],
-        tasks: ['recess']
+        tasks: ['combine:less', 'less', 'cssmin']
       },
       js: {
         files: [
-          'src/js/*.js'
+          'src/js/*.js',
+          'docs/docs.js'
         ],
-        tasks: ['jsbeautifier:srcFiles', 'combine', 'jsbeautifier:distFiles', 'uglify', 'jshint']
+        tasks: ['jsbeautifier:src', 'combine:js', 'jsbeautifier:dist', 'uglify', 'jshint']
       }
     },
     clean: {
       dist: [
-        'dist/css',
-        'dist/js/*.js'
+        'dist/css/*',
+        'dist/js/*'
       ]
     }
   });
 
   // Load tasks
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-recess');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-jsbeautifier');
   grunt.loadNpmTasks('grunt-combine');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -115,10 +140,12 @@ module.exports = function (grunt) {
   // Register tasks
   grunt.registerTask('default', [
     'clean',
-    'recess',
-    'jsbeautifier:srcFiles',
-    'combine',
-    'jsbeautifier:distFiles',
+    'combine:less',
+    'less',
+    'cssmin',
+    'jsbeautifier:src',
+    'combine:js',
+    'jsbeautifier:dist',
     'uglify',
     'jshint'
   ]);

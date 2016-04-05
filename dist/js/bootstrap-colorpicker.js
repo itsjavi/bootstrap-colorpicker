@@ -1,5 +1,5 @@
 /*!
- * Bootstrap Colorpicker v2.3.1
+ * Bootstrap Colorpicker v2.3.2
  * http://mjolnic.github.io/bootstrap-colorpicker/
  *
  * Originally written by (c) 2012 Stefan Petre

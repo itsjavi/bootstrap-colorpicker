@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-colorpicker",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "Fancy and customizable colorpicker plugin for Twitter Bootstrap",
   "main": "./dist/js/bootstrap-colorpicker.js",
   "homepage": "http://mjolnic.com/bootstrap-colorpicker/",
@@ -24,11 +24,11 @@
     }
   ],
   "dependencies": {
-    "jquery": ">=1.10",
-    "bootstrap": ">=2"
+    "jquery": ">=1.10"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
+    "grunt-assemble": "~0.4.0",
     "grunt-combine": "~0.8.3",
     "grunt-contrib-clean": "~1.0.0",
     "grunt-contrib-cssmin": "~1.0.1",

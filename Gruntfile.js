@@ -71,7 +71,7 @@ module.exports = function (grunt) {
         tokens: [{
           token: "//@version",
           string: '<%= pkg.version %>'
-        },{
+        }, {
           token: "//@colorpicker-color",
           file: 'src/js/colorpicker-color.js'
         }, {
@@ -117,12 +117,35 @@ module.exports = function (grunt) {
           'docs/docs.js'
         ],
         tasks: ['jsbeautifier:src', 'combine:js', 'jsbeautifier:dist', 'uglify', 'jshint']
+      },
+      handlebars: {
+        files: [
+          'docs/*.hbs',
+          'docs/**/*.hbs',
+          'docs/helpers/**/*.js'
+        ],
+        tasks: ['assemble']
+      }
+    },
+    assemble: {
+      options: {
+        assets: 'docs/assets',
+        helpers: ['docs/helpers/code'],
+        partials: ['docs/includes/**/*.hbs'],
+        layout: ['docs/layout.hbs'],
+        data: ['package.json'],
+        flatten: true
+      },
+      site: {
+        src: ['docs/pages/*.hbs'],
+        dest: './'
       }
     },
     clean: {
       dist: [
         'dist/css/*',
-        'dist/js/*'
+        'dist/js/*',
+        'index_new.html'
       ]
     }
   });
@@ -136,6 +159,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-assemble');
 
   // Register tasks
   grunt.registerTask('default', [
@@ -147,6 +171,7 @@ module.exports = function (grunt) {
     'combine:js',
     'jsbeautifier:dist',
     'uglify',
+    'assemble',
     'jshint'
   ]);
   grunt.registerTask('dev', [

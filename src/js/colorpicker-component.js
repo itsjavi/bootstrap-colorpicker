@@ -160,7 +160,7 @@ Colorpicker.prototype = {
         e.preventDefault();
       }
     }
-    if (this.options.inline === false) {
+    if ((this.component || !this.input) && (this.options.inline === false)) {
       $(window.document).on({
         'mousedown.colorpicker': $.proxy(this.hide, this)
       });

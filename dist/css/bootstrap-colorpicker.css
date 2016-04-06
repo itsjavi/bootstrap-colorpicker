@@ -7,17 +7,35 @@
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  *
  */
-.colorpicker,
-.colorpicker * {
+.colorpicker {
   position: relative;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  padding: 4px;
+  width: 129px;
+  height: auto;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: #fff;
 }
 .colorpicker:before,
-.colorpicker *:before,
-.colorpicker:after,
-.colorpicker *:after {
+.colorpicker:after {
+  content: " ";
+  display: table;
+}
+.colorpicker:after {
+  clear: both;
+}
+.colorpicker::before,
+.colorpicker *,
+.colorpicker *::before,
+.colorpicker::after,
+.colorpicker *,
+.colorpicker *::after {
+  position: relative;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -25,9 +43,14 @@
 .colorpicker-saturation {
   width: 100px;
   height: 100px;
-  background-image: url("../img/bootstrap-colorpicker/saturation.png");
   cursor: crosshair;
   float: left;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+100 */
+  background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+}
+.colorpicker-saturation .colorpicker-guide-layer {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,1+100 */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000000 100%);
 }
 .colorpicker-saturation .colorpicker-guide {
   display: block;
@@ -73,35 +96,23 @@
   margin-top: -1px;
 }
 .colorpicker-hue {
-  background-image: url("../img/bootstrap-colorpicker/hue.png");
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff0000+0,ff0080+8,ff00ff+17,8000ff+25,0000ff+33,0080ff+42,00ffff+50,00ff80+58,00ff00+67,80ff00+75,ffff00+83,ff8000+92,ff0000+100 */
+  background: linear-gradient(to bottom, #ff0000 0%, #ff0080 8%, #ff00ff 17%, #8000ff 25%, #0000ff 33%, #0080ff 42%, #00ffff 50%, #00ff80 58%, #00ff00 67%, #80ff00 75%, #ffff00 83%, #ff8000 92%, #ff0000 100%);
+}
+.colorpicker-guide-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+.colorpicker-guide-layer .colorpicker-guide {
+  z-index: 2;
 }
 .colorpicker-alpha {
-  background-image: url("../img/bootstrap-colorpicker/alpha.png");
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAChJREFUeNpiPHPmDAMMGBsbw9lMDDgA6RKM%2F%2F%2F%2Fh3POnj1LCzsAAgwAQtYIcFfEyzkAAAAASUVORK5CYII%3D') top left repeat;
   display: none;
-}
-.colorpicker-saturation,
-.colorpicker-hue,
-.colorpicker-alpha {
-  background-size: contain;
-}
-.colorpicker {
-  padding: 4px;
-  width: 129px;
-  height: auto;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background: #fff;
-}
-.colorpicker:before,
-.colorpicker:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.colorpicker:after {
-  clear: both;
 }
 .colorpicker.colorpicker-with-alpha {
   width: 148px;
@@ -109,20 +120,21 @@
 .colorpicker.colorpicker-with-alpha .colorpicker-alpha {
   display: block;
 }
-.colorpicker-preview-container {
+.colorpicker-preview {
   height: 15px;
   margin-top: 5px;
   clear: both;
-  background-image: url("../img/bootstrap-colorpicker/alpha.png");
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAChJREFUeNpiPHPmDAMMGBsbw9lMDDgA6RKM%2F%2F%2F%2Fh3POnj1LCzsAAgwAQtYIcFfEyzkAAAAASUVORK5CYII%3D') top left repeat;
   background-position: 0 100%;
 }
-.colorpicker-preview-container .colorpicker-preview {
+.colorpicker-preview .colorpicker-preview-inner {
   height: 15px;
   text-align: center;
   color: rgba(255, 255, 255, 0.9);
   text-shadow: rgba(0, 0, 0, 0.5) 1px 1px;
   font-family: "Monaco", Courier New, monospace;
-  font-size: 7pt;
+  font-size: 6.2pt;
+  line-height: 15px;
 }
 .colorpicker-palette {
   display: none;
@@ -146,7 +158,7 @@
 .colorpicker.colorpicker-horizontal-mode .colorpicker-saturation {
   margin-bottom: 4px;
 }
-.colorpicker.colorpicker-horizontal-mode .colorpicker-preview-container {
+.colorpicker.colorpicker-horizontal-mode .colorpicker-preview {
   width: 100px;
 }
 .colorpicker.colorpicker-horizontal-mode .colorpicker-hue,
@@ -171,10 +183,8 @@
   margin-top: 0px;
 }
 .colorpicker.colorpicker-horizontal-mode .colorpicker-hue {
-  background-image: url("../img/bootstrap-colorpicker/hue-horizontal.png");
-}
-.colorpicker.colorpicker-horizontal-mode .colorpicker-alpha {
-  background-image: url("../img/bootstrap-colorpicker/alpha-horizontal.png");
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff0000+0,ff0080+8,ff00ff+17,8000ff+25,0000ff+33,0080ff+42,00ffff+50,00ff80+58,00ff00+67,80ff00+75,ffff00+83,ff8000+92,ff0000+100 */
+  background: linear-gradient(to right, #ff0000 0%, #ff0080 8%, #ff00ff 17%, #8000ff 25%, #0000ff 33%, #0080ff 42%, #00ffff 50%, #00ff80 58%, #00ff00 67%, #80ff00 75%, #ffff00 83%, #ff8000 92%, #ff0000 100%);
 }
 .colorpicker.colorpicker-hidden {
   display: none;
@@ -216,12 +226,13 @@
   width: 30px;
   height: 200px;
 }
-.colorpicker-2x .colorpicker-preview-container {
-  height: 30px;
-}
 .colorpicker-2x .colorpicker-preview {
   height: 30px;
+}
+.colorpicker-2x .colorpicker-preview-inner {
+  height: 30px;
   font-size: 14px;
+  line-height: 20px;
   padding: 4px;
 }
 .colorpicker-2x .colorpicker-palette {

@@ -609,10 +609,11 @@
       }
     },
     template: '<div class="colorpicker">' +
-      '<div class="colorpicker-saturation"><i class="colorpicker-guide"><b class="colorpicker-guide-shadow"></b></i></div>' +
+      '<div class="colorpicker-saturation"><div class="colorpicker-guide-layer">' +
+      '<i class="colorpicker-guide"><b class="colorpicker-guide-shadow"></b></i></div></div>' +
       '<div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>' +
-      '<div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>' +
-      '<div class="colorpicker-preview-container"><div class="colorpicker-preview"></div></div>' +
+      '<div class="colorpicker-alpha"><div class="colorpicker-guide-layer"><i class="colorpicker-guide"></i></div></div>' +
+      '<div class="colorpicker-preview"><div class="colorpicker-preview-inner"></div></div>' +
       '<div class="colorpicker-palette"></div>' +
       '</div>'
   };
@@ -640,6 +641,15 @@
         color: colorObj === undefined ? null : colorObj,
         value: colorStr === undefined ? null : colorStr
       });
+    },
+    alphaGradientCss: function(color, to) {
+      if (!__.isColorObject(color)) {
+        return "";
+      }
+      color = color.toRGB(color.h, color.s, color.b);
+      color = [color.r, color.g, color.b].join(',');
+      to = to || 'bottom';
+      return "linear-gradient(to " + to + ", " + 'rgba(' + color + ',1) 0%, rgba(' + color + ',0) 100%' + "), ";
     }
   };
 
@@ -744,10 +754,11 @@
 
       if (!__.isColorObject(color)) {
         // Clear backgrounds and color code
-        this.component.find('.colorpicker-saturation, .colorpicker-alpha, .colorpicker-preview').css('backgroundColor', '');
+        this.component.find('.colorpicker-saturation, .colorpicker-alpha .colorpicker-guide-layer' +
+          ', .colorpicker-preview-inner').attr('style', '');
         this.component.find('.colorpicker-guide').attr('style', '');
         if (this.options.previewText) {
-          this.component.find('.colorpicker-preview').text('');
+          this.component.find('.colorpicker-preview-inner').text('');
         }
         return false;
       }
@@ -790,8 +801,9 @@
 
       this.component
         .find('.colorpicker-saturation').css('backgroundColor', color.toHex(color.value.h === 0 ? 1 : color.value.h, 1, 1, 1)).end()
-        .find('.colorpicker-alpha').css('backgroundColor', color.toHex()).end()
-        .find('.colorpicker-preview').css('backgroundColor', colorStr).text(this.options.previewText ? colorStr : '');
+        .find('.colorpicker-alpha .colorpicker-guide-layer')
+        .css('background', __.alphaGradientCss(color, guideOptions.alpha.callTop ? 'bottom' : 'right')).end()
+        .find('.colorpicker-preview-inner').css('backgroundColor', colorStr).text(this.options.previewText ? colorStr : '');
 
       if (triggerEvent !== false) {
         __.trigger(this.element, 'colorpicker_update', color);
@@ -835,7 +847,7 @@
       return this.getColor();
     },
     mousedown: function(e) {
-      if (!$(e.originalEvent.target).is('.colorpicker-guide-container') && !$(e.originalEvent.target).is('.colorpicker-guide')) {
+      if (!$(e.originalEvent.target).is('.colorpicker-guide, .colorpicker-guide-container, .colorpicker-guide-layer')) {
         return;
       }
       if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {

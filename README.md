@@ -1,4 +1,4 @@
-# Bootstrap Colorpicker 2
+# Bootstrap Colorpicker 3
 
 Fancy and customizable color picker plugin for Twitter Bootstrap
 

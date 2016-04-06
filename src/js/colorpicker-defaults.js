@@ -55,10 +55,11 @@ var defaults = {
     }
   },
   template: '<div class="colorpicker">' +
-    '<div class="colorpicker-saturation"><i class="colorpicker-guide"><b class="colorpicker-guide-shadow"></b></i></div>' +
+    '<div class="colorpicker-saturation"><div class="colorpicker-guide-layer">' +
+    '<i class="colorpicker-guide"><b class="colorpicker-guide-shadow"></b></i></div></div>' +
     '<div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>' +
-    '<div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>' +
-    '<div class="colorpicker-preview-container"><div class="colorpicker-preview"></div></div>' +
+    '<div class="colorpicker-alpha"><div class="colorpicker-guide-layer"><i class="colorpicker-guide"></i></div></div>' +
+    '<div class="colorpicker-preview"><div class="colorpicker-preview-inner"></div></div>' +
     '<div class="colorpicker-palette"></div>' +
     '</div>'
 };

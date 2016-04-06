@@ -1,0 +1,60 @@
+// Clearfix
+//
+// For modern browsers
+// 1. The space content is one way to avoid an Opera bug when the
+//    contenteditable attribute is included anywhere else in the document.
+//    Otherwise it causes space to appear at the top and bottom of elements
+//    that are clearfixed.
+// 2. The use of `table` rather than `block` is only necessary if using
+//    `:before` to contain the top-margins of child elements.
+//
+// Source: http://nicolasgallagher.com/micro-clearfix-hack/
+
+.clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.borderRadius(@size) {
+  -webkit-border-radius: @size;
+  -moz-border-radius: @size;
+  border-radius: @size;
+}
+
+.bg-hue-horizontal() {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff0000+0,ff0080+8,ff00ff+17,8000ff+25,0000ff+33,0080ff+42,00ffff+50,00ff80+58,00ff00+67,80ff00+75,ffff00+83,ff8000+92,ff0000+100 */
+  background: linear-gradient(to right, #ff0000 0%, #ff0080 8%, #ff00ff 17%, #8000ff 25%, #0000ff 33%,
+  #0080ff 42%, #00ffff 50%, #00ff80 58%, #00ff00 67%, #80ff00 75%, #ffff00 83%, #ff8000 92%, #ff0000 100%);
+}
+
+.bg-hue-vertical() {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff0000+0,ff0080+8,ff00ff+17,8000ff+25,0000ff+33,0080ff+42,00ffff+50,00ff80+58,00ff00+67,80ff00+75,ffff00+83,ff8000+92,ff0000+100 */
+  background: linear-gradient(to bottom, #ff0000 0%, #ff0080 8%, #ff00ff 17%, #8000ff 25%, #0000ff 33%,
+  #0080ff 42%, #00ffff 50%, #00ff80 58%, #00ff00 67%, #80ff00 75%, #ffff00 83%, #ff8000 92%, #ff0000 100%);
+}
+
+.bg-saturation-vertical() {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,1+100 */
+  background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+}
+
+.bg-saturation-horizontal() {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,1+100 */
+  background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+}
+
+.bg-brightness-vertical() {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+100 */
+  background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+}
+
+.bg-brightness-horizontal() {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+100 */
+  background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+}

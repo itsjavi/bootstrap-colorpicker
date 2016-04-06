@@ -7,38 +7,42 @@
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  *
  */
-@imgPath: "../img/bootstrap-colorpicker/";
+@import 'vars.less';
+@import 'mixins.less';
 
-.bgImg(@imgFilename) {
-  background-image: url("@{imgPath}@{imgFilename}");
-}
-
-.borderRadius(@size) {
-  -webkit-border-radius: @size;
-  -moz-border-radius: @size;
-  border-radius: @size;
-}
-
-.colorpicker, .colorpicker * {
+.colorpicker {
   position: relative;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-}
 
-.colorpicker:before, .colorpicker *:before,
-.colorpicker:after, .colorpicker *:after {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  padding: 4px;
+  width: 129px;
+  height: auto;
+  .borderRadius(4px);
+  border: 1px solid rgba(0, 0, 0, .15);
+  background: #fff;
+
+  .clearfix();
+
+  &::before, *, *::before,
+  &::after, *, *::after {
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
 }
 
 .colorpicker-saturation {
   width: 100px;
   height: 100px;
-  .bgImg('saturation.png');
   cursor: crosshair;
   float: left;
+  .bg-brightness-horizontal();
+  .colorpicker-guide-layer{
+    .bg-saturation-vertical();
+  }
   .colorpicker-guide {
     display: block;
     height: 6px;
@@ -83,38 +87,28 @@
 }
 
 .colorpicker-hue {
-  .bgImg('hue.png');
+  .bg-hue-vertical();
+}
+
+.colorpicker-guide-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  .colorpicker-guide {
+    z-index: 2;
+  }
 }
 
 .colorpicker-alpha {
-  .bgImg('alpha.png');
+  background: @alphaCheckerBoxBg;
   display: none;
-}
-
-.colorpicker-saturation,
-.colorpicker-hue,
-.colorpicker-alpha {
-  background-size: contain;
-}
-
-.colorpicker {
-  padding: 4px;
-  width: 129px;
-  height: auto;
-  .borderRadius(4px);
-  border: 1px solid rgba(0, 0, 0, .15);
-  background: #fff;
-}
-
-.colorpicker:before,
-.colorpicker:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-
-.colorpicker:after {
-  clear: both;
+  //.colorpicker-guide-layer {
+  //  // default bg is white:
+  //  background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+  //}
 }
 
 .colorpicker.colorpicker-with-alpha {
@@ -124,20 +118,21 @@
   }
 }
 
-.colorpicker-preview-container {
+.colorpicker-preview {
   height: 15px;
   margin-top: 5px;
   clear: both;
-  .bgImg('alpha.png');
+  background: @alphaCheckerBoxBg;
   background-position: 0 100%;
 
-  .colorpicker-preview {
+  .colorpicker-preview-inner {
     height: 15px;
     text-align: center;
     color: rgba(255, 255, 255, 0.9);
     text-shadow: rgba(0, 0, 0, 0.5) 1px 1px;
     font-family: "Monaco", Courier New, monospace;
-    font-size: 7pt;
+    font-size: 6.2pt;
+    line-height: 15px;
   }
 }
 
@@ -167,7 +162,7 @@
     margin-bottom: 4px;
   }
 
-  .colorpicker-preview-container {
+  .colorpicker-preview {
     width: 100px;
   }
 
@@ -195,11 +190,7 @@
   }
 
   .colorpicker-hue {
-    .bgImg('hue-horizontal.png');
-  }
-
-  .colorpicker-alpha {
-    .bgImg('alpha-horizontal.png');
+    .bg-hue-horizontal();
   }
 }
 
@@ -242,12 +233,13 @@
     height: 200px;
   }
 
-  .colorpicker-preview-container {
-    height: 30px;
-  }
   .colorpicker-preview {
     height: 30px;
+  }
+  .colorpicker-preview-inner {
+    height: 30px;
     font-size: 14px;
+    line-height: 20px;
     padding: 4px;
   }
 

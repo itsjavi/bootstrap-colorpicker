@@ -10,6 +10,26 @@
     <!--<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
     <link href="dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
     <link href="docs/assets/main.css" rel="stylesheet">
+  <style>
+      html, body{
+          font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
+          font-size: 14px;
+      }
+      .example{
+          position: relative;
+          display: inline-block;
+          padding: 10px;
+          background: #eee;
+          vertical-align: top;
+          min-width: 170px;
+          text-align: center;
+          min-height: 230px;
+          margin: 10px;
+      }
+      .example-code{
+          text-align: left;
+      }
+  </style>
 
     <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
     <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
@@ -33,293 +53,7 @@
     </article>
 </div>
 <div class="row">
-    <article class="col-md-12">
-        <hr>
-        <div class="social">
-            <a href="https://github.com/itsjaviaguilar/bootstrap-colorpicker/" target="_blank"
-               class="btn btn-default btn-sm"><span class="octicon octicon-mark-github"></span> Source code</a>
-            <a href="https://github.com/itsjaviaguilar/bootstrap-colorpicker/archive/master.zip" target="_blank"
-               class="btn btn-success btn-sm"><i class="glyphicon glyphicon-download-alt"></i> Download latest</a>
-
-            <div class="share-btn share-btn-twitter">
-                <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-related="itsjaviaguilar"
-                   data-hashtags="bootstrap">Tweet</a>
-                <script>!function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-                    if (!d.getElementById(id)) {
-                        js = d.createElement(s);
-                        js.id = id;
-                        js.src = p + '://platform.twitter.com/widgets.js';
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }
-                }(document, 'script', 'twitter-wjs');</script>
-            </div>
-
-            <div class="share-btn share-btn-google-plus">
-                <div class="g-plusone" data-size="large"></div>
-                <script type="text/javascript">
-                    (function () {
-                        var po = document.createElement('script');
-                        po.type = 'text/javascript';
-                        po.async = true;
-                        po.src = 'https://apis.google.com/js/plusone.js';
-                        var s = document.getElementsByTagName('script')[0];
-                        s.parentNode.insertBefore(po, s);
-                    })();
-                </script>
-            </div>
-        </div>
-        <hr>
-    </article>
-</div>
-<div class="row">
     <div class="col-md-7">
-      <h2>Documentation</h2>
-      
-      <hr>
-      
-      <p>Call the colopicker via javascript:</p>
-      <pre class="well">$('.sample-selector').colorpicker({ /*options...*/ });</pre>
-      <h3>Options</h3>
-      
-      <p>
-          You can set colorpicker options either as a plugin parameter or data-* attributes
-      </p>
-      <table class="table table-bordered table-striped">
-          <thead>
-          <tr>
-              <th style="width: 100px;">Name</th>
-              <th style="width: 50px;">Type</th>
-              <th style="width: 100px;">Default</th>
-              <th>Description</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-              <td>format</td>
-              <td>string</td>
-              <td>false</td>
-              <td>If not false, forces the color format to be hex, rgb or rgba, otherwise the format is
-                  automatically detected.
-              </td>
-          </tr>
-          <tr>
-              <td>color</td>
-              <td>string</td>
-              <td>false</td>
-              <td>If not false, sets the color to this value.</td>
-          </tr>
-          <tr>
-              <td>container</td>
-              <td>string or jQuery Element</td>
-              <td>false</td>
-              <td>If not false, the picker will be contained inside this element, otherwise it will be
-                  appended to the document body.
-              </td>
-          </tr>
-          <tr>
-              <td>component</td>
-              <td>string or jQuery Element</td>
-              <td>'.add-on, .input-group-addon'</td>
-              <td>Children selector for the component or element that trigger the colorpicker and which
-                  background color will change (needs an inner &lt;i&gt; element).
-              </td>
-          </tr>
-          <tr>
-              <td>input</td>
-              <td>string or jQuery Element</td>
-              <td>'input'</td>
-              <td>Children selector for the input that will store the picker selected value.</td>
-          </tr>
-          <tr>
-              <td>horizontal</td>
-              <td>boolean</td>
-              <td>false</td>
-              <td>If true, the hue and alpha channel bars will be rendered horizontally, above the saturation
-                  selector.
-              </td>
-          </tr>
-          <tr>
-              <td>inline</td>
-              <td>boolean</td>
-              <td>false</td>
-              <td>If true, forces to show the colorpicker as an inline element.</td>
-          </tr>
-          <tr>
-              <td>sliders</td>
-              <td>object</td>
-              <td><abbr title='please, read the source code to see this value'>[...]</abbr></td>
-              <td>Vertical sliders configuration (read source code if you really need to tweak this).</td>
-          </tr>
-          <tr>
-              <td>slidersHorz</td>
-              <td>object</td>
-              <td><abbr title='please, read the source code to see this value'>[...]</abbr></td>
-              <td>Horizontal sliders configuration (read source code if you really need to tweak this).</td>
-          </tr>
-          <tr>
-              <td>template</td>
-              <td>string</td>
-              <td><abbr title='please, read the source code to see this value'>[...]</abbr></td>
-              <td>Customizes the default colorpicker HTML template.</td>
-          </tr>
-          <tr>
-              <td>align</td>
-              <td>string</td>
-              <td>'right'</td>
-              <td>By default, the colorpicker is aligned to the right of the input. If you need to switch it
-                  to the left, set align to 'left'.
-              </td>
-          </tr>
-          <tr>
-              <td>customClass</td>
-              <td>string</td>
-              <td>null</td>
-              <td>Adds this class to the colorpicker widget.</td>
-          </tr>
-          <tr>
-              <td>colorSelectors</td>
-              <td>object</td>
-              <td>null</td>
-              <td>List of pre selected colors (hex format). If you choose one of these colors, the alias is returned instead of the hex
-                  code.
-              </td>
-          </tr>
-          </tbody>
-      </table>
-      
-      <h3>jQuery API Methods</h3>
-      
-      <p>General usage methods</p>
-      <h4>.colorpicker(options)</h4>
-      
-      <p>Initializes an colorpicker.</p>
-      
-      <h4>.colorpicker('getValue', defaultValue)</h4>
-      
-      <p>Gets the value from the input or the data attribute (if has no input), otherwise returns the default
-          value, which defaults to #000000 if not specified.</p>
-      
-      <h4>.colorpicker('setValue', value)</h4>
-      
-      <p>Set a new value for the color picker (also updates everything). Triggers 'changeColor' event.</p>
-      
-      <h4>.colorpicker('show')</h4>
-      
-      <p>Show the color picker</p>
-      
-      <h4>.colorpicker('hide')</h4>
-      
-      <p>Hide the color picker</p>
-      
-      <h4>.colorpicker('reposition')</h4>
-      
-      <p>Updates the color picker's position relative to the element</p>
-      
-      <h4>.colorpicker('update')</h4>
-      
-      <p>Refreshes the widget colors (this is done automatically)</p>
-      
-      <h4>.colorpicker('enable')</h4>
-      
-      <p>Enable the color picker.</p>
-      
-      <h4>.colorpicker('disable')</h4>
-      
-      <p>Disable the color picker.</p>
-      
-      <h4>.colorpicker('destroy')</h4>
-      
-      <p>Destroys the colorpicker widget and unbind all .colorpicker events from the element and component</p>
-      
-      <h4>.data('colorpicker')</h4>
-      
-      <p>Access to the colorpicker API directly</p>
-      
-      <h4>.data('colorpicker').color</h4>
-      
-      <p>Access to the colorpicker Color object information</p>
-      
-      <hr>
-      
-      <h3>Color object methods</h3>
-      
-      <p>Each triggered events have a color object (avaliable through event.color, see the example at the
-          bottom) used internally by the picker. This object has several useful methods. These are the more
-          commonly used:</p>
-      
-      <h4>.setColor(value)</h4>
-      
-      <p>Set a new color. The value is parsed and tries to do a quess on the format.</p>
-      
-      <h4>.setHue(value)</h4>
-      
-      <p>Set the HUE with a value between 0 and 1.</p>
-      
-      <h4>.setSaturation(value)</h4>
-      
-      <p>Set the saturation with a value between 0 and 1.</p>
-      
-      <h4>.setBrightness(value)</h4>
-      
-      <p>Set the brightness with a value between 0 and 1.</p>
-      
-      <h4>.setAlpha(value)</h4>
-      
-      <p>Set the transparency with a value between 0 and 1.</p>
-      
-      <h4>.toRGB()</h4>
-      
-      <p>Returns a hash with red, green, blue and alpha.</p>
-      
-      <h4>.toHex()</h4>
-      
-      <p>Returns a string with HEX format for the current color.</p>
-      
-      <h4>.toHSL()</h4>
-      
-      <p>Returns a hash with HSLA values.</p>
-      
-      <hr>
-      
-      <h3>Events</h3>
-      
-      <p>The colorpicker plugin exposes some events</p>
-      
-      <table class="table table-bordered table-striped">
-          <thead>
-          <tr>
-              <th style="width: 150px;">Event</th>
-              <th>Description</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-              <td>colorpicker_create</td>
-              <td>This event fires immediately when the color picker is created.</td>
-          </tr>
-          <tr>
-              <td>colorpicker_show</td>
-              <td>This event fires immediately when the color picker is displayed.</td>
-          </tr>
-          <tr>
-              <td>colorpicker_hide</td>
-              <td>This event is fired immediately when the color picker is hidden.</td>
-          </tr>
-          <tr>
-              <td>colorpicker_change</td>
-              <td>This event is fired when the color is changed.</td>
-          </tr>
-          <tr>
-              <td>colorpicker_update</td>
-              <td>This event is fired when the component is updated (after mouse click or touch).</td>
-          </tr>
-          <tr>
-              <td>colorpicker_destroy</td>
-              <td>This event fires immediately when the color picker is destroyed.</td>
-          </tr>
-          </tbody>
-      </table>
     </div>
     <div class="col-md-5">
 <h2>Examples</h2>

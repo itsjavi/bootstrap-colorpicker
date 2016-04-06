@@ -1,4 +1,4 @@
-<input id="cp9" type="text" class="form-control" value="pink"/>
+<div id="cp9" data-color="pink"></div>
 <style>
     .colorpicker-2x .colorpicker-saturation {
         width: 200px;
@@ -19,17 +19,19 @@
 <script>
     $(function () {
         $('#cp9').colorpicker({
-            customClass: 'colorpicker-2x',
-            sliders: {
-                saturation: {
-                    maxLeft: 200,
-                    maxTop: 200
-                },
-                hue: {
-                    maxTop: 200
-                },
-                alpha: {
-                    maxTop: 200
+            className: 'colorpicker-2x',
+            guides: {
+                vertical: {
+                    saturation: {
+                        maxLeft: 200,
+                        maxTop: 200
+                    },
+                    hue: {
+                        maxTop: 200
+                    },
+                    alpha: {
+                        maxTop: 200
+                    }
                 }
             }
         });

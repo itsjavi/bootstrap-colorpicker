@@ -66,7 +66,7 @@ module.exports = function (grunt) {
     },
     combine: {
       js: {
-        input: 'src/js/colorpicker-plugin-wrapper.js',
+        input: 'src/js/wrapper.js',
         output: 'dist/js/<%= pkg.name %>.js',
         tokens: [{
           token: "//@version",
@@ -116,7 +116,7 @@ module.exports = function (grunt) {
           'src/js/*.js',
           'docs/docs.js'
         ],
-        tasks: ['jsbeautifier:src', 'combine:js', 'jsbeautifier:dist', 'uglify', 'jshint']
+        tasks: ['combine:js', 'jsbeautifier:dist', 'uglify', 'jshint']
       },
       handlebars: {
         files: [

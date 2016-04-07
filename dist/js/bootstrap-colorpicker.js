@@ -202,8 +202,14 @@
       if (isNaN(val) || (val === null) || (val === '') || (val === undefined)) {
         return 1;
       }
+      if (val === '') {
+        return 0;
+      }
       if (val.toLowerCase !== undefined) {
-        return parseFloat(val);
+        if (val.match(/^\./)) {
+          val = "0" + val;
+        }
+        return Math.ceil(parseFloat(val) * 100) / 100;
       }
       return 1;
     },
@@ -274,7 +280,7 @@
       this.value.b = 1 - b;
     },
     setAlpha: function(a) {
-      this.value.a = parseInt((1 - a) * 100, 10) / 100;
+      this.value.a = Math.round((parseInt((1 - a) * 100, 10) / 100) * 100) / 100;
     },
     toRGB: function(h, s, b, a) {
       if (!h) {
@@ -461,7 +467,7 @@
         ];
       }
     }, {
-      re: /rgb\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*?\)/,
+      re: /rgb\(\s*(\d*(?:\.\d+)?)\%\s*,\s*(\d*(?:\.\d+)?)\%\s*,\s*(\d*(?:\.\d+)?)\%\s*?\)/,
       format: 'rgb',
       parse: function(execResult) {
         return [
@@ -472,7 +478,7 @@
         ];
       }
     }, {
-      re: /rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
+      re: /rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d*(?:\.\d+)?)\s*)?\)/,
       format: 'rgba',
       parse: function(execResult) {
         return [
@@ -483,7 +489,7 @@
         ];
       }
     }, {
-      re: /rgba\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
+      re: /rgba\(\s*(\d*(?:\.\d+)?)\%\s*,\s*(\d*(?:\.\d+)?)\%\s*,\s*(\d*(?:\.\d+)?)\%\s*(?:,\s*(\d*(?:\.\d+)?)\s*)?\)/,
       format: 'rgba',
       parse: function(execResult) {
         return [
@@ -494,7 +500,7 @@
         ];
       }
     }, {
-      re: /hsl\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*?\)/,
+      re: /hsl\(\s*(\d*(?:\.\d+)?)\s*,\s*(\d*(?:\.\d+)?)\%\s*,\s*(\d*(?:\.\d+)?)\%\s*?\)/,
       format: 'hsl',
       parse: function(execResult) {
         return [
@@ -505,7 +511,7 @@
         ];
       }
     }, {
-      re: /hsla\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
+      re: /hsla\(\s*(\d*(?:\.\d+)?)\s*,\s*(\d*(?:\.\d+)?)\%\s*,\s*(\d*(?:\.\d+)?)\%\s*(?:,\s*(\d*(?:\.\d+)?)\s*)?\)/,
       format: 'hsla',
       parse: function(execResult) {
         return [

@@ -9,7 +9,7 @@ For downloading the source code, you have many choices:
 
 - Downloading the [latest source code ZIP file](https://github.com/mjolnic/bootstrap-colorpicker/archive/master.zip)
 - Cloning the source code: `git clone https://github.com/mjolnic/bootstrap-colorpicker.git`
-- Installing via Bower: `bower install mjolnic-bootstrap-colorpicker`
+- Installing via Bower: `bower install bootstrap-colorpicker`
 - Installing via NPM: `npm install bootstrap-colorpicker`
 - Installing via Composer: `composer require mjolnic/bootstrap-colorpicker`
 

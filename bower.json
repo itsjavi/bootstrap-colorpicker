@@ -1,5 +1,5 @@
 {
-  "name": "mjolnic-bootstrap-colorpicker",
+  "name": "bootstrap-colorpicker",
   "main": [
     "dist/css/bootstrap-colorpicker.css",
     "dist/js/bootstrap-colorpicker.js"

@@ -137,7 +137,7 @@
       <div id="cp4">Change background color: </div>
       <script>
           $(function () {
-              $('#cp4').colorpicker().on('changeColor', function (e) {
+              $('#cp4').colorpicker().on('colorpicker_change', function (e) {
                   $('body')[0].style.backgroundColor = e.color.toHex();
               });
           });
@@ -147,7 +147,7 @@
 <div class="example-code">&lt;div id=&quot;cp4&quot;&gt;Change background color: &lt;&#x2F;div&gt;
 &lt;script&gt;
     $(function() {
-        $(&#39;#cp4&#39;).colorpicker().on(&#39;changeColor&#39;, function(e) {
+        $(&#39;#cp4&#39;).colorpicker().on(&#39;colorpicker_change&#39;, function(e) {
             $(&#39;body&#39;)[0].style.backgroundColor = e.color.toHex();
         });
     });
@@ -250,14 +250,15 @@
       <script>
           $(function () {
               $('#cp8').colorpicker({
-                  palette: {
+                  aliases: {
                       'default': '#777777',
                       'primary': '#337ab7',
                       'success': '#5cb85c',
                       'info': '#5bc0de',
                       'warning': '#f0ad4e',
                       'danger': '#d9534f'
-                  }
+                  },
+                  palettes: [['#000', '#fff', 'xswdxexfxauzlt', 'primary', 'success', 'info', 'warning', 'danger', 'rgba(120,50,120,.5)']]
               });
           });
       </script>
@@ -267,14 +268,20 @@
 &lt;script&gt;
     $(function() {
         $(&#39;#cp8&#39;).colorpicker({
-            palette: {
+            aliases: {
                 &#39;default&#39;: &#39;#777777&#39;,
                 &#39;primary&#39;: &#39;#337ab7&#39;,
                 &#39;success&#39;: &#39;#5cb85c&#39;,
                 &#39;info&#39;: &#39;#5bc0de&#39;,
                 &#39;warning&#39;: &#39;#f0ad4e&#39;,
                 &#39;danger&#39;: &#39;#d9534f&#39;
-            }
+            },
+            palettes: [
+                [&#39;#000&#39;, &#39;#fff&#39;, &#39;xswdxexfxauzlt&#39;,
+                    &#39;primary&#39;, &#39;success&#39;, &#39;info&#39;, &#39;warning&#39;,
+                    &#39;danger&#39;, &#39;rgba(120,50,120,.5)&#39;
+                ]
+            ]
         });
     });
 &lt;&#x2F;script&gt;</div>    </div>

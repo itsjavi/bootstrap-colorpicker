@@ -1,0 +1,86 @@
+<div id="cp8"></div>
+<script>
+    $(function () {
+        // Random palette generator:
+        var palettes = [];
+        var numPalettes = 3;
+        var maxColors = 33;
+        var minColors = 11;
+        var formats = ['rgba', 'rgb', 'hex', 'hsl', 'hsla'];
+        for (var i = 0; i < numPalettes; i++) {
+            var palette = [],
+                    numColors = (Math.floor(Math.random() * (maxColors - minColors + 1)) + minColors);
+
+            for (var j = 0; j < numColors; j++) {
+                var format = formats[Math.floor(Math.random() * formats.length)];
+                switch (format) {
+                    case 'hex':
+                    {
+                        palette.push("#" + Math.random().toString(16).slice(2, 8));
+                    }
+                        break;
+                    case 'rgb':
+                    {
+                        palette.push('rgb(' + [
+                                    Math.floor(Math.random() * 255),
+                                    Math.floor(Math.random() * 255),
+                                    Math.floor(Math.random() * 255)
+                                ].join(', ') + ')'
+                        );
+                    }
+                        break;
+                    case 'rgba':
+                    {
+                        palette.push('rgba(' + [
+                                    Math.floor(Math.random() * 255),
+                                    Math.floor(Math.random() * 255),
+                                    Math.floor(Math.random() * 255),
+                                    ((Math.random() * (100 - 33 + 1)) + 33) / 100 // min. 0.33
+                                ].join(', ') + ')'
+                        );
+                    }
+                        break;
+                    case 'hsl':
+                    {
+                        palette.push('hsl(' + [
+                                    Math.floor(Math.random() * 360),
+                                    Math.floor(Math.random() * 100) + '%',
+                                    Math.floor(Math.random() * 100) + '%'
+                                ].join(', ') + ')'
+                        );
+                    }
+                        break;
+                    case 'hsla':
+                    {
+                        palette.push('hsla(' + [
+                                    Math.floor(Math.random() * 360),
+                                    Math.floor(Math.random() * 100) + '%',
+                                    Math.floor(Math.random() * 100) + '%',
+                                    ((Math.random() * (100 - 33 + 1)) + 33) / 100 // min. 0.33
+                                ].join(', ') + ')'
+                        );
+                    }
+                        break;
+                }
+            }
+            palettes.push(palette);
+        }
+
+        // Static palette
+        palettes.push(['#000', '#fff', 'defauzlt', 'primary', 'success', 'info', 'warning', 'danger', 'rgba(120,50,120,.5)']);
+
+        // Necessary colorpicker code
+        $('#cp8').colorpicker({
+            //format: 'hex',
+            aliases: {
+                'default': '#777777',
+                'primary': '#337ab7',
+                'success': '#5cb85c',
+                'info': '#5bc0de',
+                'warning': '#f0ad4e',
+                'danger': '#d9534f'
+            },
+            palettes: palettes
+        });
+    });
+</script>

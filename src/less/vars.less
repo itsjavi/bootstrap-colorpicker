@@ -1,7 +1,24 @@
-@map_size: 128px; //For better precision use a 256px square like Photoshop
-@bar_width: 16px;
-@guide_size: 16px;
-@base_spacing: 8px;
-@picker_width: @map_size + (@bar_width*2) + (@base_spacing*2);
-@border_color: #777;
-@alphaCheckerBoxBg: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAChJREFUeNpiPHPmDAMMGBsbw9lMDDgA6RKM%2F%2F%2F%2Fh3POnj1LCzsAAgwAQtYIcFfEyzkAAAAASUVORK5CYII%3D') top left repeat;
+@base-spacing: 8px;
+@col-size: 16px;
+@map-size: 128px; //For better precision use a 256px square like Photoshop
+@map-guide-size: 8px;
+@vertical-bars: 2; // hue and alpha in vertical mode
+@picker-width-vertical: (@map-size + (@col-size*@vertical-bars) + (@base-spacing*@vertical-bars));
+@picker-width-vertical-no-alpha: (@map-size + (@col-size* (@vertical-bars - 1)) + (@base-spacing*(@vertical-bars - 1)));
+@picker-width-horizontal: @map-size;
+@border-color: #ababab;
+@border-width: 1px;
+@picker-box-shadow: 0 0 0 @border-width @border-color;
+@picker-border-radius: 4px;
+
+/* Gradients and backgrounds */
+@bg-color: #ffffff;
+@bg-alpha-checkerboard: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAChJREFUeNpiPHPmDAMMGBsbw9lMDDgA6RKM%2F%2F%2F%2Fh3POnj1LCzsAAgwAQtYIcFfEyzkAAAAASUVORK5CYII%3D') top left repeat;
+@bg-saturation-vertical: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+@bg-saturation-horizontal: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+@bg-brightness-vertical: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+@bg-brightness-horizontal: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+@bg-hue-horizontal: linear-gradient(to right, #ff0000 0%, #ff0080 8%, #ff00ff 17%, #8000ff 25%, #0000ff 33%,
+#0080ff 42%, #00ffff 50%, #00ff80 58%, #00ff00 67%, #80ff00 75%, #ffff00 83%, #ff8000 92%, #ff0000 100%);
+@bg-hue-vertical: linear-gradient(to bottom, #ff0000 0%, #ff0080 8%, #ff00ff 17%, #8000ff 25%, #0000ff 33%,
+#0080ff 42%, #00ffff 50%, #00ff80 58%, #00ff00 67%, #80ff00 75%, #ffff00 83%, #ff8000 92%, #ff0000 100%);

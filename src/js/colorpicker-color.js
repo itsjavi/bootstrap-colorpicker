@@ -2,20 +2,17 @@
  * Color manipulation helper class
  *
  * @param {Object|String} val
- * @param {Object} predefinedColors
  * @constructor
  */
-var Color = function(val, predefinedColors) {
+var Color = function(val) {
   this.value = {
     h: 0,
     s: 0,
     b: 0,
     a: 1
   };
+  this.format = null; // final string format
   this.origFormat = null; // original string format
-  if (predefinedColors) {
-    $.extend(this.colors, predefinedColors);
-  }
   if (val) {
     if (val.toLowerCase !== undefined) {
       // cast to string
@@ -386,7 +383,7 @@ Color.prototype = {
     return [r, g, b, this._sanitizeNumber(a)];
   },
   toString: function(format) {
-    format = format || 'rgba';
+    format = format || this.origFormat || 'rgba';
     var c = false;
     switch (format) {
       case 'rgb':

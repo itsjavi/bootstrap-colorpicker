@@ -1,38 +1,3 @@
-// Helper methods (double underscore):
-var __ = {
-  isString: function(val) {
-    return (typeof val === 'string') || (val instanceof String);
-  },
-  isColorObject: function(val) {
-    return val && ((typeof val === 'object') && (val.HSLtoRGB !== undefined));
-  },
-  safeColor: function(val) {
-    return !__.isString(val) ? (this.options.defaultColor ? this.options.defaultColor : null) : val;
-  },
-  safeColorObject: function(val) {
-    if (__.isColorObject(val)) {
-      return val;
-    }
-    return new Color(__.safeColor.apply(this, [val]), this.options.palette);
-  },
-  trigger: function(element, eventName, colorObj, colorStr) {
-    return element.trigger({
-      type: eventName,
-      color: colorObj === undefined ? null : colorObj,
-      value: colorStr === undefined ? null : colorStr
-    });
-  },
-  alphaGradientCss: function(color, to) {
-    if (!__.isColorObject(color)) {
-      return "";
-    }
-    color = color.toRGB(color.h, color.s, color.b);
-    color = [color.r, color.g, color.b].join(',');
-    to = to || 'bottom';
-    return "linear-gradient(to " + to + ", " + 'rgba(' + color + ',1) 0%, rgba(' + color + ',0) 100%' + "), ";
-  }
-};
-
 /**
  * Colorpicker component class
  *
@@ -51,24 +16,35 @@ var Colorpicker = function(element, options) {
   this.setColor(this.options.color, false);
 
   // Setup picker component and add classes
-  this.component = $(this.options.template);
+  this.component = $(this.options.templates.picker);
   if (this.options.className) {
     this.component.addClass(this.options.className);
   }
   this.component
     .addClass('colorpicker-' + this.options.guideMode + '-mode')
-    .find('.colorpicker-saturation, .colorpicker-hue, .colorpicker-alpha').addClass('colorpicker-guide-container');
+    .find('.colorpicker-guide').parent().addClass('colorpicker-guide-container');
 
   // Has alpha bar?
-  if (this.component.find('.colorpicker-alpha').length && (this.format === 'rgba' || this.format === 'hsla' || !this.format)) {
+  if (this.component.find('.colorpicker-alpha').length &&
+    (this.options.format === 'rgba' || this.options.format === 'hsla' || !this.options.format)) {
     this.component.addClass('colorpicker-with-alpha');
   } else {
     this.component.addClass('colorpicker-without-alpha');
   }
 
-  // Add palette
-  if (this.options.palette) {
-    this.addPalette(this.options.palette);
+  // Add palettes
+  if ($.isArray(this.options.palettes) && this.options.palettes.length) {
+    for (var i in this.options.palettes) {
+      this.addPalette(this.options.palettes[i]);
+    }
+  } else {
+    this.options.palettes = [];
+    this.component.find('.colorpicker-palettes').hide();
+  }
+
+  // Sanitize palettes variable
+  if (typeof this.options.palettes !== 'object') {
+    this.options.palettes = {};
   }
 
   // Bind events
@@ -76,11 +52,16 @@ var Colorpicker = function(element, options) {
     .on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.mousedown, this))
     .appendTo(this.container);
 
+  // Custom initialization before the widget is updated and the colorpicker_create event fired
+  if (this.options.init && this.options.init.apply) {
+    this.options.init.apply(this, [this.element, this.options]);
+  }
+
   // Update for the first time
   this.update(null, false);
 
   $($.proxy(function() {
-    __.trigger(this.element, 'colorpicker_create');
+    this._trigger(this.element, 'colorpicker_create');
   }, this));
 };
 
@@ -98,21 +79,32 @@ Colorpicker.prototype = {
     this.element.removeData('colorpicker', 'color').off('.colorpicker');
     this.element.removeClass('colorpicker-element');
     this.container.removeClass('colorpicker-container');
-    __.trigger(this.element, 'colorpicker_destroy');
+    this._trigger(this.element, 'colorpicker_destroy');
   },
-  addPalette: function(palette) {
-    var $self = this,
-      $paletteContainer = this.component.find('.colorpicker-palette');
+  addPalette: function(paletteColors) {
+    var self = this,
+      $paletteContainer = this.component.find('.colorpicker-palettes');
+
     if ($paletteContainer.length) {
-      $.each(palette, function(name, color) {
-        var $btn = $('<i />');
-        $btn.addClass('colorpicker-palette-color')
-          .css('background-color', color).attr('data-color-alias', name);
-        $btn.click(function() {
-          $self.color($(this).css('background-color'));
-        });
-        $paletteContainer.append($btn);
+      var $palette = $('<div class="colorpicker-addon colorpicker-palette"></div>');
+      $.each(paletteColors, function(i, color) {
+        var colorName = color;
+        if (self.options.aliases[colorName] !== undefined) {
+          color = self.options.aliases[colorName];
+        }
+        var $btn = $('<div class="colorpicker-palette-color"><i /></div>');
+        $btn.find('i').css('background-color', color);
+        $btn.attr('data-palette-color-id', colorName)
+          .attr('data-palette-color', color)
+          .attr('title', (color !== colorName) ? (colorName + ': ' + color) : color)
+          .on('click.colorpicker touchstart.colorpicker', function() {
+            $palette.find('.colorpicker-palette-color').removeClass('colorpicker-palette-color-active');
+            $btn.addClass('colorpicker-palette-color-active');
+            self.color(color);
+          });
+        $palette.append($btn);
       });
+      $paletteContainer.append($palette);
       $paletteContainer.show();
     }
   },
@@ -120,30 +112,32 @@ Colorpicker.prototype = {
     this.component
       .addClass('colorpicker-visible')
       .removeClass('colorpicker-hidden');
-    __.trigger(this.element, 'colorpicker_show', this.getColor());
+    this._trigger(this.element, 'colorpicker_show', this.getColor());
   },
   hide: function() {
     this.component
       .addClass('colorpicker-hidden')
       .removeClass('colorpicker-visible');
-    __.trigger(this.element, 'colorpicker_hide', this.getColor());
+    this._trigger(this.element, 'colorpicker_hide', this.getColor());
   },
   update: function(color, triggerEvent) {
-    color = __.isColorObject(color) ? color :
-      (__.isString(color) ? __.safeColorObject.apply(this, [color]) : this.getColor());
+    color = this._isColorObject(color) ? color :
+      (this._isString(color) ? this._safeColorObject(color) : this.getColor());
 
-    if (!__.isColorObject(color)) {
+    var previewColorAddonSelector = '.colorpicker-preview .colorpicker-addon-inner';
+
+    if (!this._isColorObject(color)) {
       // Clear backgrounds and color code
-      this.component.find('.colorpicker-saturation, .colorpicker-alpha .colorpicker-guide-layer' +
-        ', .colorpicker-preview-inner').attr('style', '');
-      this.component.find('.colorpicker-guide').attr('style', '');
+      this.component
+        .find('.colorpicker-saturation, .colorpicker-alpha, .colorpicker-guide, ' + previewColorAddonSelector)
+        .attr('style', '');
       if (this.options.previewText) {
-        this.component.find('.colorpicker-preview-inner').text('');
+        this.component.find(previewColorAddonSelector).text('');
       }
       return false;
     }
 
-    if (this.component.find('.colorpicker-guide-container .colorpicker-guide').length === 0) {
+    if (this.component.find('.colorpicker-guide').length === 0) {
       // there is no guides to update
       return;
     }
@@ -154,67 +148,76 @@ Colorpicker.prototype = {
 
     if (hueGuide.length) {
       if (guideOptions.hue.callTop) {
-        hueGuide.css('top', guideOptions.hue.maxTop * (1 - color.value.h));
+        hueGuide.css('top', hueGuide.parent().height() * (1 - color.value.h));
       }
       if (guideOptions.hue.callLeft) {
-        hueGuide.css('left', guideOptions.hue.maxLeft * (1 - color.value.h));
+        hueGuide.css('left', hueGuide.parent().width() * (1 - color.value.h));
       }
     }
     if (alphaGuide.length) {
       if (guideOptions.alpha.callTop) {
-        alphaGuide.css('top', guideOptions.alpha.maxTop * (1 - color.value.a));
+        alphaGuide.css('top', alphaGuide.parent().height() * (1 - color.value.a));
       }
       if (guideOptions.alpha.callLeft) {
-        alphaGuide.css('left', guideOptions.alpha.maxLeft * (1 - color.value.a));
+        alphaGuide.css('left', alphaGuide.parent().width() * (1 - color.value.a));
       }
     }
     if (saturationGuide.length) {
       if (guideOptions.saturation.callTop) {
-        saturationGuide.css('top', guideOptions.saturation.maxTop - color.value.b * guideOptions.saturation.maxTop);
+        var saturationHeight = saturationGuide.parent().height();
+        saturationGuide.css('top', saturationHeight - color.value.b * saturationHeight);
       }
       if (guideOptions.saturation.callLeft) {
-        saturationGuide.css('left', color.value.s * guideOptions.saturation.maxLeft);
+        saturationGuide.css('left', color.value.s * saturationGuide.parent().width());
       }
     }
 
-    var colorStr = color.toString(this.format);
+    var colorStr = this._colorString(color);
 
-    this.component
-      .find('.colorpicker-saturation').css('backgroundColor', color.toHex(color.value.h === 0 ? 1 : color.value.h, 1, 1, 1)).end()
-      .find('.colorpicker-alpha .colorpicker-guide-layer')
-      .css('background', __.alphaGradientCss(color, guideOptions.alpha.callTop ? 'bottom' : 'right')).end()
-      .find('.colorpicker-preview-inner').css('backgroundColor', colorStr).text(this.options.previewText ? colorStr : '');
+    // Improve readability of the plugin text (if any)
+    if (((color.value.b > 0.6) && (color.value.s < 0.2)) || (color.value.a < 0.5)) {
+      this.component.addClass('colorpicker-text-black');
+    } else {
+      this.component.removeClass('colorpicker-text-black');
+    }
+
+    this.component.find('.colorpicker-saturation').css('backgroundColor', color.toHex(color.value.h === 0 ? 1 : color.value.h, 1, 1, 1));
+
+    this.component.find('.colorpicker-alpha')
+      .attr('style', "background: " + this._alphaGradient(color, guideOptions.alpha.callTop ? 'bottom' : 'right'));
+
+    this.component.find(previewColorAddonSelector).css('backgroundColor', colorStr)
+      .text(this.options.previewText ? colorStr : undefined);
 
     if (triggerEvent !== false) {
-      __.trigger(this.element, 'colorpicker_update', color);
+      this._trigger(this.element, 'colorpicker_update', color);
     }
 
     return true;
   },
   setColor: function(val, triggerEvent) { // set color manually and return the color object
-    var color;
+    var color = null;
     if (!val) {
       // Remove color from JS instance and DOM data, display the default one in the component interface
       this.element.removeData('color');
       if (triggerEvent !== false) {
-        __.trigger(this.element, 'colorpicker_change');
+        this._trigger(this.element, 'colorpicker_change');
       }
-      color = this.options.defaultColor ? __.safeColorObject.apply(this, [this.options.defaultColor]) : null;
+      color = this.options.defaultColor ? this._safeColorObject(this.options.defaultColor) : null;
     } else {
       // Update color in JS instance, DOM data and component interface
-      color = __.safeColorObject.apply(this, [val]);
-      this.format = (this.options.format !== false ? this.options.format : color.origFormat);
+      color = this._safeColorObject(val);
       this.element.data('color', color);
       if (triggerEvent !== false) {
-        __.trigger(this.element, 'colorpicker_change', color, color.toString(this.format));
+        this._trigger(this.element, 'colorpicker_change', color, this._colorString(color));
       }
     }
     return color;
   },
   getColor: function() {
     var val = this.element.data('color');
-    if (!__.isColorObject(val)) {
-      val = this.options.defaultColor ? __.safeColorObject.apply(this, [this.options.defaultColor]) : null;
+    if (!this._isColorObject(val)) {
+      val = this.options.defaultColor ? this._safeColorObject(this.options.defaultColor) : null;
     }
     return val;
   },
@@ -227,7 +230,7 @@ Colorpicker.prototype = {
     return this.getColor();
   },
   mousedown: function(e) {
-    if (!$(e.originalEvent.target).is('.colorpicker-guide, .colorpicker-guide-container, .colorpicker-guide-layer')) {
+    if (!$(e.originalEvent.target).is('.colorpicker-guide, .colorpicker-guide-container')) {
       return;
     }
     if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
@@ -254,10 +257,13 @@ Colorpicker.prototype = {
       }
       var offset = zone.offset();
       //reference to guide's style
+      this.currentGuide.zone = zone;
       this.currentGuide.element = zone.find('.colorpicker-guide');
       this.currentGuide.style = this.currentGuide.element[0].style;
       this.currentGuide.left = e.pageX - offset.left;
       this.currentGuide.top = e.pageY - offset.top;
+      this.currentGuide.maxTop = this.currentGuide.callTop ? zone.height() : 0;
+      this.currentGuide.maxLeft = this.currentGuide.callLeft ? zone.width() : 0;
       this.mousePointer = {
         left: e.pageX,
         top: e.pageY
@@ -294,8 +300,8 @@ Colorpicker.prototype = {
       )
     );
     var color = this.getColor();
-    if (!__.isColorObject(color)) {
-      color = __.safeColorObject.apply(this);
+    if (!this._isColorObject(color)) {
+      color = this._safeColorObject();
     }
     this.currentGuide.style.left = left + 'px';
     this.currentGuide.style.top = top + 'px';
@@ -306,15 +312,13 @@ Colorpicker.prototype = {
       color[this.currentGuide.callTop].call(color, top / this.currentGuide.maxTop);
     }
     // Change format dynamically if options.format is not specified, and the moved guide was the alpha one
-    if (this.currentGuide.element.hasClass('colorpicker-alpha') && !this.options.format) {
-      // Converting from hex / rgb to rgba
+    if (this.currentGuide.zone.hasClass('colorpicker-alpha') && !this.options.format) {
+      // Converting e.g. from hex / rgb to rgba
       if (color.value.a !== 1) {
-        this.format = 'rgba';
         color.origFormat = 'rgba';
       }
-      // Converting from rgba to rgb
+      // Converting e.g. from rgba to rgb
       else {
-        this.format = 'rgb';
         color.origFormat = 'rgb';
       }
     }
@@ -330,6 +334,44 @@ Colorpicker.prototype = {
       'touchend.colorpicker': this.mouseup
     });
     return false;
+  },
+  _colorString: function(color, format) {
+    format = format || (this.options.format ? this.options.format : color.origFormat);
+    return color.toString(format);
+  },
+  _isString: function(val) {
+    return (typeof val === 'string') || (val instanceof String);
+  },
+  _isColorObject: function(val) {
+    return val && ((typeof val === 'object') && (val.HSLtoRGB !== undefined));
+  },
+  _safeColor: function(val) {
+    return !this._isString(val) ? (this.options.defaultColor ? this.options.defaultColor : null) : val;
+  },
+  _safeColorObject: function(val) {
+    if (this._isColorObject(val)) {
+      return val;
+    }
+    if (this._isString(val) && (this.options.aliases[val] !== undefined)) {
+      val = this.options.aliases[val];
+    }
+    return new Color(this._safeColor(val));
+  },
+  _trigger: function(element, eventName, colorObj, colorStr) {
+    return element.trigger({
+      type: eventName,
+      color: colorObj === undefined ? null : colorObj,
+      value: colorStr === undefined ? null : colorStr
+    });
+  },
+  _alphaGradient: function(color, to) {
+    if (!this._isColorObject(color)) {
+      return "";
+    }
+    color = color.toRGB(color.h, color.s, color.b);
+    color = [color.r, color.g, color.b].join(',');
+    to = to ? to : 'bottom';
+    return "linear-gradient(to " + to + ", " + 'rgba(' + color + ',1) 0%, rgba(' + color + ',0) 100%' + ")";
   }
 };
 

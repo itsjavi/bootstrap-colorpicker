@@ -1,6 +1,6 @@
 /*!
- * Bootstrap Colorpicker v2.3.5
- * https://itsjaviaguilar.github.io/bootstrap-colorpicker/
+ * Bootstrap Colorpicker v3.0.0
+ * http://mjolnic.github.io/bootstrap-colorpicker/
  *
  * Originally written by (c) 2012 Stefan Petre
  * Licensed under the Apache License v2.0
@@ -12,248 +12,171 @@
 
 .colorpicker {
   position: relative;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-
-  padding: 4px;
-  width: 129px;
-  height: auto;
-  .borderRadius(4px);
-  border: 1px solid rgba(0, 0, 0, .15);
-  background: #fff;
+  .borderBoxing();
+  * {
+    position: relative;
+    .borderBoxing();
+  }
 
   .clearfix();
 
-  &::before, *, *::before,
-  &::after, *, *::after {
-    position: relative;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-}
+  width: @picker-width-vertical;
+  height: auto;
+  text-align: left;
+  text-shadow: none;
+  line-height: 0;
+  display: block;
+  margin: 0 auto;
 
-.colorpicker-saturation {
-  width: 100px;
-  height: 100px;
-  cursor: crosshair;
-  float: left;
-  .bg-brightness-horizontal();
-  .colorpicker-guide-layer{
-    .bg-saturation-vertical();
+  &.colorpicker-standalone {
+    //.outer-border();
+    background: @bg-color;
+    .borderRadius(@picker-border-radius);
+    padding: @base-spacing;
   }
-  .colorpicker-guide {
-    display: block;
-    height: 6px;
-    width: 6px;
-    border: 1px solid #000;
-    .borderRadius(6px);
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: -3px 0 0 -3px;
-    .colorpicker-guide-shadow {
+
+  .colorpicker-saturation {
+    width: @map-size;
+    cursor: crosshair;
+    background: @bg-saturation-vertical, @bg-brightness-horizontal;
+
+    .colorpicker-guide {
+      position: absolute;
       display: block;
-      height: 6px;
-      width: 6px;
-      border: 1px solid #fff;
-      .borderRadius(6px);
+      height: @map-guide-size;
+      width: @map-guide-size;
+      .borderRadius((@map-guide-size*2));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.75), 0 0 0 1px rgba(0, 0, 0, 0.6);
+      top: 0;
+      left: 0;
+      margin: (-@map-guide-size/2) 0 0 (-@map-guide-size/2);
+      z-index: 5;
+      line-height: 0;
+    }
+  }
+
+  .colorpicker-saturation {
+    .colorpicker-box-vertical();
+  }
+
+  .colorpicker-hue, .colorpicker-alpha-wrapper {
+    .colorpicker-bar-vertical();
+  }
+  .colorpicker-hue {
+    background: @bg-hue-vertical;
+  }
+  .colorpicker-alpha-wrapper {
+    background: @bg-alpha-checkerboard;
+  }
+  .colorpicker-alpha-wrapper .colorpicker-alpha {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .colorpicker-addons {
+    position: relative;
+    display: block;
+    margin: @base-spacing 0 0 0;
+  }
+  &.colorpicker-vertical-mode .colorpicker-addon,
+  &.colorpicker-horizontal-mode .colorpicker-addon {
+    .colorpicker-bar-horizontal();
+    cursor: default;
+    line-height: normal;
+    line-height: initial;
+    &.colorpicker-palettex {
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  .colorpicker-preview {
+    background: @bg-alpha-checkerboard;
+    .colorpicker-addon-inner {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: rgba(0, 0, 0, 0.5) 1px 1px;
+      font-family: "Monaco", Courier New, monospace;
+      font-size: 7pt;
+      line-height: 15px;
+    }
+  }
+  &.colorpicker-text-black{
+    .colorpicker-preview .colorpicker-addon-inner{
+      color: rgba(0, 0, 0, 0.9);
+      text-shadow: rgba(0, 0, 0, 0.5) 1px 1px;
+    }
+  }
+
+  .colorpicker-palettes {
+    display: block;
+    clear: both;
+    .clearfix();
+    .colorpicker-palette {
+      .clearfix();
+      height: auto;
+      background: darken(@border-color, 10%);
+    }
+  }
+
+  .colorpicker-palette-color {
+    float: left;
+    letter-spacing: 0;
+    word-spacing: 0;
+    line-height: 0;
+    width: @col-size;
+    height: @col-size;
+    display: inline-block;
+    margin: 0;
+    background: @bg-alpha-checkerboard;
+    cursor: pointer;
+    z-index: 1;
+    //.outer-border();
+    i {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      box-shadow: inset 0 0 0 1px darken(@border-color, 10%);
+    }
+  }
+
+  &.colorpicker-without-alpha {
+    .colorpicker-palette-color {
+      width: (@col-size + ((@col-size + @col-size/2) / (@col-size/2)));
+      height: (@col-size + ((@col-size + @col-size/2) / (@col-size/2)));
     }
   }
 }
 
-.colorpicker-hue,
-.colorpicker-alpha {
-  width: 15px;
-  height: 100px;
-  float: left;
-  cursor: row-resize;
-  margin-left: 4px;
-  margin-bottom: 4px;
-}
-
-.colorpicker-hue .colorpicker-guide,
-.colorpicker-alpha .colorpicker-guide {
-  display: block;
-  height: 1px;
-  background: #000;
-  border-top: 1px solid #fff;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  margin-top: -1px;
-}
-
-.colorpicker-hue {
-  .bg-hue-vertical();
-}
-
-.colorpicker-guide-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  .colorpicker-guide {
-    z-index: 2;
-  }
-}
-
-.colorpicker-alpha {
-  background: @alphaCheckerBoxBg;
-  display: none;
-  //.colorpicker-guide-layer {
-  //  // default bg is white:
-  //  background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
-  //}
-}
-
-.colorpicker.colorpicker-with-alpha {
-  width: 148px;
-  .colorpicker-alpha {
-    display: block;
-  }
-}
-
-.colorpicker-preview {
-  height: 15px;
-  margin-top: 5px;
-  clear: both;
-  background: @alphaCheckerBoxBg;
-  background-position: 0 100%;
-
-  .colorpicker-preview-inner {
-    height: 15px;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: rgba(0, 0, 0, 0.5) 1px 1px;
-    font-family: "Monaco", Courier New, monospace;
-    font-size: 6.2pt;
-    line-height: 15px;
-  }
-}
-
-.colorpicker-palette {
-  display: none;
-  min-height: 11px;
-  margin-top: 4px;
-  clear: both;
-
-  .colorpicker-palette-color {
-    cursor: pointer;
-    float: left;
-    height: 11px;
-    width: 11px;
-  }
-
-  .colorpicker-palette-color + .colorpicker-palette-color {
-    margin-left: 4px;
+.colorpicker.colorpicker-vertical-mode {
+  &.colorpicker-without-alpha {
+    width: @picker-width-vertical-no-alpha;
+    .colorpicker-alpha-wrapper {
+      display: none;
+    }
   }
 }
 
 .colorpicker.colorpicker-horizontal-mode {
-  width: 110px;
-  height: auto;
+  width: @picker-width-horizontal;
 
-  .colorpicker-saturation {
-    margin-bottom: 4px;
-  }
-
-  .colorpicker-preview {
-    width: 100px;
-  }
-
-  .colorpicker-hue,
-  .colorpicker-alpha {
-    width: 100px;
-    height: 15px;
-    float: left;
-    cursor: col-resize;
-    margin-left: 0px;
-    margin-bottom: 4px;
-  }
-
-  .colorpicker-hue .colorpicker-guide,
-  .colorpicker-alpha .colorpicker-guide {
-    display: block;
-    height: 15px;
-    background: #ffffff;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1px;
-    border: none;
-    margin-top: 0px;
+  .colorpicker-hue, .colorpicker-alpha-wrapper {
+    .colorpicker-bar-horizontal();
   }
 
   .colorpicker-hue {
-    .bg-hue-horizontal();
-  }
-}
-
-.colorpicker.colorpicker-hidden {
-  display: none;
-}
-
-.colorpicker.colorpicker-visible {
-  display: block;
-}
-
-.colorpicker-2x {
-  width: 244px;
-  height: auto;
-  &.colorpicker-with-alpha {
-    width: 278px;
-    .colorpicker-alpha {
-      display: block;
-    }
-  }
-  .colorpicker-saturation {
-    width: 200px;
-    height: 200px;
-    .colorpicker-guide {
-      height: 12px;
-      width: 12px;
-      .borderRadius(12px);
-      margin: -6px 0 0 -6px;
-      .colorpicker-guide-shadow {
-        height: 12px;
-        width: 12px;
-        .borderRadius(12px);
-      }
-    }
-  }
-
-  .colorpicker-hue,
-  .colorpicker-alpha {
-    width: 30px;
-    height: 200px;
-  }
-
-  .colorpicker-preview {
-    height: 30px;
-  }
-  .colorpicker-preview-inner {
-    height: 30px;
-    font-size: 14px;
-    line-height: 20px;
-    padding: 4px;
-  }
-
-  .colorpicker-palette {
-    height: 30px;
-    margin-top: 10px;
-
-    .colorpicker-palette-color {
-      height: 20px;
-      width: 20px;
-    }
-
-    .colorpicker-palette-color + .colorpicker-palette-color {
-      margin-left: 5px;
-    }
+    background: @bg-hue-horizontal;
   }
 }

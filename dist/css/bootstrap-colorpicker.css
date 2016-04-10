@@ -13,6 +13,7 @@
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
+  max-width: 176px;
   height: auto;
   text-align: left;
   text-shadow: none;

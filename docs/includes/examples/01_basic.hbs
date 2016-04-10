@@ -1,14 +1,28 @@
-<input id="cp1" type="text" class="form-control" value="#5367ce" style="display: block"/>
+<div class="form-group">
+    <input id="cp1" type="text" class="form-control" value="#5367ce" style="display: block"/>
+</div>
 <script>
     $(function () {
         $('#cp1').colorpicker({
             container: $('#cp1').parent()
         }).on('colorpicker_change', function (e) {
-            if ($(this).val() != e.value) {
-                $(this).val(e.value);
+            if (this.changeDelay) {
+                clearTimeout(this.changeDelay);
             }
+            $(this).parent().removeClass('has-error');
+            this.changeDelay = setTimeout($.proxy(function () {
+                if ($(this).val() != e.value) {
+                    $(this).val(e.value);
+                }
+            }, this), 500);
+            //this.stopPropagation();
+        }).on('colorpicker_parse_error', function (e) {
+            $(this).parent().addClass('has-error');
+            console.error('Wrong color: ', e.value);
+            $(this).colorpicker('color');
         }).on('keyup', function (e) {
-            var color = $(this).colorpicker('setColor', $(this).val(), false);
+            $(this).parent().removeClass('has-error');
+            var color = $(this).colorpicker('setColor', $(this).val());
             $(this).colorpicker('update', color);
         });
     });

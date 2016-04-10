@@ -76,6 +76,8 @@ var Colorpicker = function(element, options) {
   }, this));
 };
 
+var previewColorAddonSelector = '.colorpicker-preview .colorpicker-addon-inner';
+
 Colorpicker.Color = Color;
 
 Colorpicker.prototype = {
@@ -131,20 +133,23 @@ Colorpicker.prototype = {
       .removeClass('colorpicker-visible');
     this._trigger(this.element, 'colorpicker_hide', this.getColor());
   },
-  update: function(color, triggerEvent) {
+  reset: function() {
+    // Clear backgrounds and color code
+    this.component
+      .find('.colorpicker-saturation, .colorpicker-alpha, .colorpicker-guide, ' + previewColorAddonSelector)
+      .attr('style', '');
+    if (this.options.previewText) {
+      this.component.find(previewColorAddonSelector).text('');
+    }
+    // Remove color data
+    this.element.removeData('color');
+  },
+  update: function(color, triggerUpdate) {
     color = this._isColorObject(color) ? color :
       (this._isString(color) ? this._safeColorObject(color) : this.getColor());
 
-    var previewColorAddonSelector = '.colorpicker-preview .colorpicker-addon-inner';
-
-    if (!this._isColorObject(color)) {
-      // Clear backgrounds and color code
-      this.component
-        .find('.colorpicker-saturation, .colorpicker-alpha, .colorpicker-guide, ' + previewColorAddonSelector)
-        .attr('style', '');
-      if (this.options.previewText) {
-        this.component.find(previewColorAddonSelector).text('');
-      }
+    if (!this._isColorObject(color) || !color.value) {
+      this.reset();
       return false;
     }
 
@@ -200,27 +205,33 @@ Colorpicker.prototype = {
     this.component.find(previewColorAddonSelector).css('backgroundColor', colorStr)
       .text(this.options.previewText ? colorStr : undefined);
 
-    if (triggerEvent !== false) {
+    if (triggerUpdate !== false) {
       this._trigger(this.element, 'colorpicker_update', color);
     }
 
     return true;
   },
-  setColor: function(val, triggerEvent) { // set color manually and return the color object
+  setColor: function(val, triggerChange) { // set color manually and return the color object
     var color = null;
     if (!val) {
       // Remove color from JS instance and DOM data, display the default one in the component interface
       this.element.removeData('color');
-      if (triggerEvent !== false) {
+      if (triggerChange !== false) {
         this._trigger(this.element, 'colorpicker_change');
       }
       color = this.options.defaultColor ? this._safeColorObject(this.options.defaultColor) : null;
     } else {
       // Update color in JS instance, DOM data and component interface
       color = this._safeColorObject(val);
-      this.element.data('color', color);
-      if (triggerEvent !== false) {
-        this._trigger(this.element, 'colorpicker_change', color, this._colorString(color));
+      if (typeof color.value !== 'object') {
+        this.element.removeData('color');
+        // Emit error event if the parser failed, with the previous color and the wrong value
+        this._trigger(this.element, 'colorpicker_parse_error', this.element.data('color'), val);
+      } else {
+        this.element.data('color', color);
+        if (triggerChange !== false) {
+          this._trigger(this.element, 'colorpicker_change', color, this._colorString(color));
+        }
       }
     }
     return color;
@@ -232,10 +243,10 @@ Colorpicker.prototype = {
     }
     return val;
   },
-  color: function(newColor, triggerEvent) {
+  color: function(newColor, triggerEvents) {
     if (newColor !== undefined) {
-      newColor = this.setColor(newColor, triggerEvent);
-      this.update(newColor, triggerEvent);
+      newColor = this.setColor(newColor, triggerEvents);
+      this.update(newColor, triggerEvents);
       return newColor;
     }
     return this.getColor();

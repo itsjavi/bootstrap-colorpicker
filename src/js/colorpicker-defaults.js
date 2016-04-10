@@ -4,7 +4,7 @@
 var defaults = {
   horizontal: false, // horizontal mode layout ?
   color: null, //forces a color
-  defaultColor: null, // default color when there is none specified or set (null = no value or color will be set to the object or the UI)
+  defaultColor: null, // default color when there is none specified or set (null = no color)
   format: null, //forces a format
   container: null, // container selector where to add the colorpicker (if it's different from the jQuery element)
   className: 'colorpicker-standalone', // class to add to the main colorpicker root element

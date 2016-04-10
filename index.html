@@ -310,36 +310,64 @@
     
     <div class="example-content well">
         <div class="example-content-widget">
-      <input id="cp1" type="text" class="form-control" value="#5367ce" style="display: block"/>
+      <div class="form-group">
+          <input id="cp1" type="text" class="form-control" value="#5367ce" style="display: block"/>
+      </div>
       <script>
           $(function () {
               $('#cp1').colorpicker({
                   container: $('#cp1').parent()
               }).on('colorpicker_change', function (e) {
-                  if ($(this).val() != e.value) {
-                      $(this).val(e.value);
+                  if (this.changeDelay) {
+                      clearTimeout(this.changeDelay);
                   }
+                  $(this).parent().removeClass('has-error');
+                  this.changeDelay = setTimeout($.proxy(function () {
+                      if ($(this).val() != e.value) {
+                          $(this).val(e.value);
+                      }
+                  }, this), 500);
+                  //this.stopPropagation();
+              }).on('colorpicker_parse_error', function (e) {
+                  $(this).parent().addClass('has-error');
+                  console.error('Wrong color: ', e.value);
+                  $(this).colorpicker('color');
               }).on('keyup', function (e) {
-                  var color = $(this).colorpicker('setColor', $(this).val(), false);
+                  $(this).parent().removeClass('has-error');
+                  var color = $(this).colorpicker('setColor', $(this).val());
                   $(this).colorpicker('update', color);
               });
           });
       </script>
         </div>
         <button type="button" class="btn btn-link btn-xs example-code-toggle" data-toggle="button">View source</button>
-<div class="example-code">&lt;input id=&quot;cp1&quot; type=&quot;text&quot; class=&quot;form-control&quot; value=&quot;#5367ce&quot; style=&quot;display: block&quot;
-&#x2F;&gt;
+<div class="example-code">&lt;div class=&quot;form-group&quot;&gt;
+    &lt;input id=&quot;cp1&quot; type=&quot;text&quot; class=&quot;form-control&quot; value=&quot;#5367ce&quot; style=&quot;display: block&quot;
+    &#x2F;&gt;
+&lt;&#x2F;div&gt;
 &lt;script&gt;
     $(function() {
         $(&#39;#cp1&#39;).colorpicker({
             container: $(&#39;#cp1&#39;).parent()
         }).on(&#39;colorpicker_change&#39;, function(e) {
-            if ($(this).val() != e.value) {
-                $(this).val(e.value);
+            if (this.changeDelay) {
+                clearTimeout(this.changeDelay);
             }
+            $(this).parent().removeClass(&#39;has-error&#39;);
+            this.changeDelay = setTimeout($.proxy(function() {
+                if ($(this).val() != e.value) {
+                    $(this).val(e.value);
+                }
+            }, this), 500);
+            &#x2F;&#x2F;this.stopPropagation();
+        }).on(&#39;colorpicker_parse_error&#39;, function(e) {
+            $(this).parent().addClass(&#39;has-error&#39;);
+            console.error(&#39;Wrong color: &#39;, e.value);
+            $(this).colorpicker(&#39;color&#39;);
         }).on(&#39;keyup&#39;, function(e) {
+            $(this).parent().removeClass(&#39;has-error&#39;);
             var color = $(this).colorpicker(&#39;setColor&#39;, $(this)
-                .val(), false);
+                .val());
             $(this).colorpicker(&#39;update&#39;, color);
         });
     });

@@ -197,7 +197,7 @@ Color.prototype = {
   rgbaIsTransparent: function(rgba) {
     return ((rgba.r === 0) && (rgba.g === 0) && (rgba.b === 0) && (rgba.a === 0));
   },
-  //parse a string to HSB
+  // Parse a string to Hue-Saturation-Brightness
   setColor: function(strVal) {
     strVal = strVal.toLowerCase().trim();
     if (strVal) {
@@ -209,12 +209,7 @@ Color.prototype = {
           a: 0
         };
       } else {
-        this.value = this.stringToHSB(strVal) || {
-          h: 0,
-          s: 0,
-          b: 0,
-          a: 1
-        }; // if parser fails, defaults to black
+        this.value = this.stringToHSB(strVal);
       }
     }
   },
@@ -382,6 +377,9 @@ Color.prototype = {
     return [r, g, b, this._sanitizeNumber(a)];
   },
   toString: function(format) {
+    if (!this.value) {
+      return false;
+    }
     format = format || this.parsedFormat || null;
     if (!format && (this.value.h + this.value.s + this.value.b + this.value.a) === 0) {
       return 'transparent';

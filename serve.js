@@ -5,18 +5,18 @@
  */
 
 var http = require('http'),
-fs = require('fs'),
-mimeTypes = {
-  'html': 'text/html',
-  'css': 'text/css',
-  'js': 'text/javascript',
-  'json': 'application/json',
-  'png': 'image/png',
-  'jpg': 'image/jpg'
-},
-spawn = require('child_process').spawn,
-port = Math.floor(Math.random()*(55555-3000+1)+3000),
-serverUrl = 'http://localhost:' + port;
+  fs = require('fs'),
+  mimeTypes = {
+    'html': 'text/html',
+    'css': 'text/css',
+    'js': 'text/javascript',
+    'json': 'application/json',
+    'png': 'image/png',
+    'jpg': 'image/jpg'
+  },
+  spawn = require('child_process').spawn,
+  port = Math.floor(Math.random() * (55555 - 3000 + 1) + 3000),
+  serverUrl = 'http://localhost:' + port;
 
 var spawn = require('child_process').spawn;
 spawn('open', ['http://www.stackoverflow.com']);

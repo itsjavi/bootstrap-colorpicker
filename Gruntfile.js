@@ -81,14 +81,6 @@ module.exports = function (grunt) {
           token: "//@colorpicker-component",
           file: 'src/js/colorpicker-component.js'
         }]
-      },
-      less: {
-        input: 'src/less/colorpicker.less',
-        output: 'src/less/colorpicker.less',
-        tokens: [{
-          token: "//@version",
-          string: '<%= pkg.version %>'
-        }]
       }
     },
     uglify: {
@@ -109,7 +101,7 @@ module.exports = function (grunt) {
         files: [
           'src/less/*.less'
         ],
-        tasks: ['combine:less', 'less', 'cssmin']
+        tasks: ['less', 'cssmin']
       },
       js: {
         files: [
@@ -164,7 +156,6 @@ module.exports = function (grunt) {
   // Register tasks
   grunt.registerTask('default', [
     'clean',
-    'combine:less',
     'less',
     'cssmin',
     'jsbeautifier:src',

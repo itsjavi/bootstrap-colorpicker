@@ -6,7 +6,7 @@
     }
 
     .colorpicker-2x .colorpicker-hue,
-    .colorpicker-2x .colorpicker-alpha {
+    .colorpicker-2x .colorpicker-alpha-wrapper {
         width: 30px;
         height: 200px;
     }
@@ -19,21 +19,7 @@
 <script>
     $(function () {
         $('#cp9').colorpicker({
-            className: 'colorpicker-2x',
-            guides: {
-                vertical: {
-                    saturation: {
-                        maxLeft: 200,
-                        maxTop: 200
-                    },
-                    hue: {
-                        maxTop: 200
-                    },
-                    alpha: {
-                        maxTop: 200
-                    }
-                }
-            }
+            className: 'colorpicker-2x'
         });
     });
 </script>

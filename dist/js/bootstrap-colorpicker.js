@@ -33,8 +33,7 @@
       b: 0,
       a: 1
     };
-    this.format = null; // final string format
-    this.origFormat = null; // original string format
+    this.parsedFormat = null; // original string format
     if (val) {
       if (val.toLowerCase !== undefined) {
         // cast to string
@@ -243,24 +242,24 @@
     },
     stringToHSB: function(strVal) {
       strVal = strVal.toLowerCase();
-      var alias;
+      var alias = false;
       if (typeof this.colors[strVal] !== 'undefined') {
         strVal = this.colors[strVal];
-        alias = 'alias';
+        alias = true;
       }
       var that = this,
         result = false;
       $.each(this.stringParsers, function(i, parser) {
         var match = parser.re.exec(strVal),
           values = match && parser.parse.apply(that, [match]),
-          format = alias || parser.format || 'rgba';
+          format = parser.format || '';
         if (values) {
           if (format.match(/hsla?/)) {
             result = that.RGBtoHSB.apply(that, that.HSLtoRGB.apply(that, values));
           } else {
             result = that.RGBtoHSB.apply(that, values);
           }
-          that.origFormat = format;
+          that.parsedFormat = alias ? null : (format ? format : null);
           return false;
         }
         return true;
@@ -405,7 +404,10 @@
       return [r, g, b, this._sanitizeNumber(a)];
     },
     toString: function(format) {
-      format = format || this.origFormat || 'rgba';
+      format = format || this.parsedFormat || null;
+      if (!format && (this.value.h + this.value.s + this.value.b + this.value.a) === 0) {
+        return 'transparent';
+      }
       var c = false;
       switch (format) {
         case 'rgb':
@@ -440,11 +442,9 @@
             return this.toHex();
           }
           break;
-        case 'alias':
-          return this.toAlias() || this.toHex();
         default:
           {
-            return c;
+            return this.toAlias() || this.toHex() || c;
           }
           break;
       }
@@ -633,6 +633,10 @@
     this.container = this.options.container ? $(this.options.container) : this.element;
     this.container.addClass('colorpicker-container');
 
+    if (!this.options.color && this.element.is('input, textarea')) {
+      this.options.color = this.element.val();
+    }
+
     // Set color
     this.setColor(this.options.color, false);
 
@@ -650,6 +654,13 @@
       (this.options.format === 'rgba' || this.options.format === 'hsla' || !this.options.format)) {
       this.component.addClass('colorpicker-with-alpha');
     } else {
+      // Force a non-alpha format if the alpha bar is not present
+      if (!this.options.format) {
+        this.options.format = 'rgb';
+      } else {
+        this.options.format = (this.options.format === 'rgba') ?
+          'rgb' : ((this.options.format === 'hsla') ? 'hsl' : this.options.format);
+      }
       this.component.addClass('colorpicker-without-alpha');
     }
 
@@ -936,12 +947,15 @@
       if (this.currentGuide.zone.hasClass('colorpicker-alpha') && !this.options.format) {
         // Converting e.g. from hex / rgb to rgba
         if (color.value.a !== 1) {
-          color.origFormat = 'rgba';
+          color.parsedFormat = 'rgba';
         }
         // Converting e.g. from rgba to rgb
         else {
-          color.origFormat = 'rgb';
+          color.parsedFormat = 'rgb';
         }
+      } else if (this.component.hasClass('colorpicker-without-alpha') &&
+        (((color.value.h + color.value.s + color.value.b) !== 0) || (color.value.a > 0 && color.value.a < 1))) {
+        color.value.a = 1;
       }
       this.color(color);
     },
@@ -957,7 +971,7 @@
       return false;
     },
     _colorString: function(color, format) {
-      format = format || (this.options.format ? this.options.format : color.origFormat);
+      format = format || (this.options.format ? this.options.format : color.parsedFormat);
       return color.toString(format);
     },
     _isString: function(val) {

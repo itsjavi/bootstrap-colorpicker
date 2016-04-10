@@ -20,12 +20,13 @@
 
   .clearfix();
 
-  width: @picker-width-vertical;
+  //min-width: @picker-width-vertical;
   height: auto;
   text-align: left;
   text-shadow: none;
   line-height: 0;
-  display: block;
+  display: inline-block;
+  vertical-align: top;
   margin: 0 auto;
 
   &.colorpicker-standalone {
@@ -81,16 +82,13 @@
     display: block;
     margin: @base-spacing 0 0 0;
   }
-  &.colorpicker-vertical-mode .colorpicker-addon,
-  &.colorpicker-horizontal-mode .colorpicker-addon {
+  .colorpicker-addon-vertical {
+    .colorpicker-bar-vertical();
+  }
+  .colorpicker-addon {
     .colorpicker-bar-horizontal();
     cursor: default;
     line-height: normal;
-    line-height: initial;
-    &.colorpicker-palettex {
-      border: none;
-      box-shadow: none;
-    }
   }
 
   .colorpicker-preview {
@@ -162,7 +160,7 @@
 
 .colorpicker.colorpicker-vertical-mode {
   &.colorpicker-without-alpha {
-    width: @picker-width-vertical-no-alpha;
+    //width: @picker-width-vertical-no-alpha;
     .colorpicker-alpha-wrapper {
       display: none;
     }
@@ -170,7 +168,7 @@
 }
 
 .colorpicker.colorpicker-horizontal-mode {
-  width: @picker-width-horizontal;
+  //width: @picker-width-horizontal;
 
   .colorpicker-hue, .colorpicker-alpha-wrapper {
     .colorpicker-bar-horizontal();
@@ -178,5 +176,8 @@
 
   .colorpicker-hue {
     background: @bg-hue-horizontal;
+  }
+  .colorpicker-addon-vertical {
+    margin: @base-spacing @base-spacing 0 0;
   }
 }

@@ -12,6 +12,10 @@ var Colorpicker = function(element, options) {
   this.container = this.options.container ? $(this.options.container) : this.element;
   this.container.addClass('colorpicker-container');
 
+  if (!this.options.color && this.element.is('input, textarea')) {
+    this.options.color = this.element.val();
+  }
+
   // Set color
   this.setColor(this.options.color, false);
 
@@ -29,6 +33,13 @@ var Colorpicker = function(element, options) {
     (this.options.format === 'rgba' || this.options.format === 'hsla' || !this.options.format)) {
     this.component.addClass('colorpicker-with-alpha');
   } else {
+    // Force a non-alpha format if the alpha bar is not present
+    if (!this.options.format) {
+      this.options.format = 'rgb';
+    } else {
+      this.options.format = (this.options.format === 'rgba') ?
+        'rgb' : ((this.options.format === 'hsla') ? 'hsl' : this.options.format);
+    }
     this.component.addClass('colorpicker-without-alpha');
   }
 
@@ -315,12 +326,15 @@ Colorpicker.prototype = {
     if (this.currentGuide.zone.hasClass('colorpicker-alpha') && !this.options.format) {
       // Converting e.g. from hex / rgb to rgba
       if (color.value.a !== 1) {
-        color.origFormat = 'rgba';
+        color.parsedFormat = 'rgba';
       }
       // Converting e.g. from rgba to rgb
       else {
-        color.origFormat = 'rgb';
+        color.parsedFormat = 'rgb';
       }
+    } else if (this.component.hasClass('colorpicker-without-alpha') &&
+      (((color.value.h + color.value.s + color.value.b) !== 0) || (color.value.a > 0 && color.value.a < 1))) {
+      color.value.a = 1;
     }
     this.color(color);
   },
@@ -336,7 +350,7 @@ Colorpicker.prototype = {
     return false;
   },
   _colorString: function(color, format) {
-    format = format || (this.options.format ? this.options.format : color.origFormat);
+    format = format || (this.options.format ? this.options.format : color.parsedFormat);
     return color.toString(format);
   },
   _isString: function(val) {

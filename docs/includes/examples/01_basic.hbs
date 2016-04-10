@@ -1,8 +1,15 @@
-<input id="cp1" type="text" class="form-control" value="#5367ce"/>
+<input id="cp1" type="text" class="form-control" value="#5367ce" style="display: block"/>
 <script>
     $(function () {
         $('#cp1').colorpicker({
             container: $('#cp1').parent()
+        }).on('colorpicker_change', function (e) {
+            if ($(this).val() != e.value) {
+                $(this).val(e.value);
+            }
+        }).on('keyup', function (e) {
+            var color = $(this).colorpicker('setColor', $(this).val(), false);
+            $(this).colorpicker('update', color);
         });
     });
 </script>

@@ -11,8 +11,7 @@ var Color = function(val) {
     b: 0,
     a: 1
   };
-  this.format = null; // final string format
-  this.origFormat = null; // original string format
+  this.parsedFormat = null; // original string format
   if (val) {
     if (val.toLowerCase !== undefined) {
       // cast to string
@@ -221,24 +220,24 @@ Color.prototype = {
   },
   stringToHSB: function(strVal) {
     strVal = strVal.toLowerCase();
-    var alias;
+    var alias = false;
     if (typeof this.colors[strVal] !== 'undefined') {
       strVal = this.colors[strVal];
-      alias = 'alias';
+      alias = true;
     }
     var that = this,
       result = false;
     $.each(this.stringParsers, function(i, parser) {
       var match = parser.re.exec(strVal),
         values = match && parser.parse.apply(that, [match]),
-        format = alias || parser.format || 'rgba';
+        format = parser.format || '';
       if (values) {
         if (format.match(/hsla?/)) {
           result = that.RGBtoHSB.apply(that, that.HSLtoRGB.apply(that, values));
         } else {
           result = that.RGBtoHSB.apply(that, values);
         }
-        that.origFormat = format;
+        that.parsedFormat = alias ? null : (format ? format : null);
         return false;
       }
       return true;
@@ -383,7 +382,10 @@ Color.prototype = {
     return [r, g, b, this._sanitizeNumber(a)];
   },
   toString: function(format) {
-    format = format || this.origFormat || 'rgba';
+    format = format || this.parsedFormat || null;
+    if (!format && (this.value.h + this.value.s + this.value.b + this.value.a) === 0) {
+      return 'transparent';
+    }
     var c = false;
     switch (format) {
       case 'rgb':
@@ -418,11 +420,9 @@ Color.prototype = {
           return this.toHex();
         }
         break;
-      case 'alias':
-        return this.toAlias() || this.toHex();
       default:
         {
-          return c;
+          return this.toAlias() || this.toHex() || c;
         }
         break;
     }

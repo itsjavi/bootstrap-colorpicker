@@ -175,6 +175,14 @@
               </td>
           </tr>
           <tr>
+              <td>placement</td>
+              <td>string</td>
+              <td>'top'</td>
+              <td>By default, the colorpicker is below the input. If you need to switch it
+                  above, set position to 'top'.
+              </td>
+          </tr>
+          <tr>
               <td>customClass</td>
               <td>string</td>
               <td>null</td>
@@ -384,7 +392,7 @@
 </div>
 <div class="example">
     <div class="example-title">With custom options</div>
-    <div class="example-description">Sample overriding the initial color and format</div>
+    <div class="example-description">Sample overriding the initial color, format and placement</div>
     <div class="example-content well">
         <div class="example-content-widget">
       <div id="cp3" class="input-group colorpicker-component">
@@ -395,7 +403,8 @@
           $(function () {
               $('#cp3').colorpicker({
                   color: '#AA3399',
-                  format: 'rgba'
+                  format: 'rgba',
+                  placement: 'top'
               });
           });
       </script>
@@ -409,7 +418,8 @@
     $(function() {
         $(&#39;#cp3&#39;).colorpicker({
             color: &#39;#AA3399&#39;,
-            format: &#39;rgba&#39;
+            format: &#39;rgba&#39;,
+            placement: &#39;top&#39;
         });
     });
 &lt;&#x2F;script&gt;</div>    </div>

@@ -667,6 +667,9 @@
     if (this.options.align === 'right') {
       this.picker.addClass('colorpicker-right');
     }
+    if (this.options.placement === 'top') {
+      this.picker.addClass('colorpicker-top');
+    }
     if (this.options.inline === true) {
       this.picker.addClass('colorpicker-no-arrow');
     }
@@ -759,8 +762,14 @@
       if (this.options.align === 'right') {
         offset.left -= this.picker.outerWidth() - element.outerWidth();
       }
+      var pickerTop;
+      if (this.options.placement === 'top') {
+        pickerTop = offset.top - this.picker.outerHeight() - 8;
+      } else {
+        pickerTop = offset.top + element.outerHeight();
+      }
       this.picker.css({
-        top: offset.top + element.outerHeight(),
+        top: pickerTop,
         left: offset.left
       });
     },

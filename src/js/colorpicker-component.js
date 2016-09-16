@@ -463,25 +463,35 @@ Colorpicker.prototype = {
 $.colorpicker = Colorpicker;
 
 $.fn.colorpicker = function(option) {
-  var pickerArgs = arguments,
-    rv = null;
+  var apiArgs = Array.prototype.slice.call(arguments, 1),
+    isSingleElement = (this.length === 1),
+    returnValue = null;
 
-  var $returnValue = this.each(function() {
+  var $jq = this.each(function() {
     var $this = $(this),
       inst = $this.data('colorpicker'),
       options = ((typeof option === 'object') ? option : {});
-    if ((!inst) && (typeof option !== 'string')) {
-      $this.data('colorpicker', new Colorpicker(this, options));
-    } else {
-      if (typeof option === 'string') {
-        rv = inst[option].apply(inst, Array.prototype.slice.call(pickerArgs, 1));
+
+    if (!inst) {
+      inst = new Colorpicker(this, options);
+      $this.data('colorpicker', inst);
+    }
+
+    if (typeof option === 'string') {
+      if ($.isFunction(inst[option])) {
+        returnValue = inst[option].apply(inst, apiArgs);
+      } else { // its a property ?
+        if (apiArgs.length) {
+          // set property
+          inst[option] = apiArgs[0];
+        }
+        returnValue = inst[option];
       }
+    } else {
+      returnValue = $this;
     }
   });
-  if (option === 'getValue') {
-    return rv;
-  }
-  return $returnValue;
+  return isSingleElement ? returnValue : $jq;
 };
 
 $.fn.colorpicker.constructor = Colorpicker;

@@ -13,7 +13,7 @@ the following guidelines.
 
 ### Steps to submit an issue
 - Try to reproduce your problem in a separated environment, like in JSFiddle,
-  [here is a template for it](http://jsfiddle.net/mjolnic/0vopxm13/), that you can fork in the same page.
+  [here is a template for it](http://jsfiddle.net/itsjaviaguilar/0vopxm13/), that you can fork in the same page.
   It already includes the required JS and CSS files.
 - Before posting your issue, consider adding this information:
   * Expected behaviour: what should happen?

@@ -94,7 +94,7 @@ module.exports = function (grunt) {
     uglify: {
       options: {
         banner: '/*!\n * Bootstrap Colorpicker v<%= pkg.version %>\n' +
-        ' * http://mjolnic.github.io/bootstrap-colorpicker/\n */\n'
+        ' * https://itsjaviaguilar.github.io/bootstrap-colorpicker/\n */\n'
       },
       dist: {
         files: {

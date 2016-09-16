@@ -1,5 +1,5 @@
 /*!
- * Bootstrap Colorpicker v2.3.4
+ * Bootstrap Colorpicker v2.3.5
  * https://itsjaviaguilar.github.io/bootstrap-colorpicker/
  *
  * Originally written by (c) 2012 Stefan Petre

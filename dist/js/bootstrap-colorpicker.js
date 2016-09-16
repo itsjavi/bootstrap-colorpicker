@@ -1023,9 +1023,8 @@
 
   $.fn.colorpicker = function(option) {
     var apiArgs = Array.prototype.slice.call(arguments, 1),
-      returnValue = null,
-      hasReturnValue = false,
-      isSingleElement = (this.length === 1);
+      isSingleElement = (this.length === 1),
+      returnValue = null;
 
     var $jq = this.each(function() {
       var $this = $(this),
@@ -1037,8 +1036,7 @@
         $this.data('colorpicker', inst);
       }
 
-      if (isSingleElement && (typeof option === 'string')) {
-        hasReturnValue = true;
+      if (typeof option === 'string') {
         if ($.isFunction(inst[option])) {
           returnValue = inst[option].apply(inst, apiArgs);
         } else { // its a property ?
@@ -1048,9 +1046,11 @@
           }
           returnValue = inst[option];
         }
+      } else {
+        returnValue = $this;
       }
     });
-    return hasReturnValue ? returnValue : $jq;
+    return isSingleElement ? returnValue : $jq;
   };
 
   $.fn.colorpicker.constructor = Colorpicker;

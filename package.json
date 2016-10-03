@@ -1,21 +1,21 @@
 {
   "name": "bootstrap-colorpicker",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "description": "Fancy and customizable colorpicker plugin for Twitter Bootstrap",
   "main": "./dist/js/bootstrap-colorpicker.js",
-  "homepage": "https://itsjaviaguilar.com/bootstrap-colorpicker/",
+  "homepage": "https://itsjavi.com/bootstrap-colorpicker/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/itsjaviaguilar/bootstrap-colorpicker.git"
+    "url": "https://github.com/itsjavi/bootstrap-colorpicker.git"
   },
   "bugs": {
-    "url": "https://github.com/itsjaviaguilar/bootstrap-colorpicker/issues"
+    "url": "https://github.com/itsjavi/bootstrap-colorpicker/issues"
   },
   "keywords": [
     "bootstrap",
     "colorpicker"
   ],
-  "author": "Javier Aguilar @itsjaviaguilar",
+  "author": "Javier Aguilar",
   "license": "Apache-2.0",
   "licenses": [
     {

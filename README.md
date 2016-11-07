@@ -1,6 +1,8 @@
 # Bootstrap Colorpicker 2
 
 Fancy and customizable color picker plugin for Twitter Bootstrap
+Fixed android tablet color picking artifact
+(detects if it's an android browser, and applies relevant code (mostly page offset fix))
 
 [![Build Status](https://travis-ci.org/itsjavi/bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/itsjavi/bootstrap-colorpicker)
 

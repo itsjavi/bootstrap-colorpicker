@@ -8,7 +8,7 @@
  *
  */
 
-(function(factory) {
+(function (factory) {
   "use strict";
   if (typeof exports === 'object') {
     module.exports = factory(window.jQuery);
@@ -17,7 +17,7 @@
   } else if (window.jQuery && !window.jQuery.fn.colorpicker) {
     factory(window.jQuery);
   }
-}(function($) {
+}(function ($) {
   'use strict';
 
   //@colorpicker-color

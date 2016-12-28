@@ -229,20 +229,24 @@ Colorpicker.prototype = {
     return val;
   },
   updateComponent: function(val) {
-    val = val || this.color.toString(this.format);
+    if (val !== undefined) {
+      val = new Color(val, this.options.colorSelectors);
+    } else {
+      val = this.color;
+    }
     if (this.component !== false) {
       var icn = this.component.find('i').eq(0);
       if (icn.length > 0) {
         icn.css({
-          'backgroundColor': val
+          'backgroundColor': val.toHex() // We always wan it to be valid value
         });
       } else {
         this.component.css({
-          'backgroundColor': val
+          'backgroundColor': val.toHex() // We always wan it to be valid value
         });
       }
     }
-    return val;
+    return val.toString(this.format);
   },
   update: function(force) {
     var val;

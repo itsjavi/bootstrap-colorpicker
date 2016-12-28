@@ -14,7 +14,10 @@ var Color = function(val, predefinedColors) {
   };
   this.origFormat = null; // original string format
   if (predefinedColors) {
-    $.extend(this.colors, predefinedColors);
+    // We don't want to share aliases across instances so we extend new object
+    this.colors = $.extend({}, this.colors_lib, predefinedColors);
+    // Let's keep user defined aliases in separate object
+    this.user_colors = predefinedColors;
   }
   if (val) {
     if (val.toLowerCase !== undefined) {
@@ -29,8 +32,10 @@ var Color = function(val, predefinedColors) {
 
 Color.prototype = {
   constructor: Color,
+  user_colors: {},
+  colors: {},
   // 140 predefined colors from the HTML Colors spec
-  colors: {
+  colors_lib: {
     "aliceblue": "#f0f8ff",
     "antiquewhite": "#faebd7",
     "aqua": "#00ffff",
@@ -318,8 +323,15 @@ Color.prototype = {
   },
   toAlias: function(r, g, b, a) {
     var rgb = this.toHex(r, g, b, a);
-    for (var alias in this.colors) {
-      if (this.colors[alias] === rgb) {
+    //first check if there is user defined alias
+    for (var ualias in this.user_colors) {
+      if (this.user_colors[ualias] === rgb) {
+        return ualias;
+      }
+    }
+    //if not then iterate through pre-defined colors
+    for (var alias in this.colors_lib) {
+      if (this.colors_lib[alias] === rgb) {
         return alias;
       }
     }

@@ -11,7 +11,7 @@
   "newcap": true,
   "noarg": true,
   "node": true,
-  "strict": true,
+  "strict": false,
   "trailing": true,
   "undef": true,
   "predef" : ["define"]

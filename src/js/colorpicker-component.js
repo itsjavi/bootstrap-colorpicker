@@ -23,7 +23,8 @@ var Colorpicker = function(element, options) {
     this.input = false;
   }
   // Set HSB color
-  this.color = new Color(this.options.color !== false ? this.options.color : this.getValue(), this.options.colorSelectors);
+  this.color = this.createColor(this.options.color !== false ? this.options.color : this.getValue());
+
   this.format = this.options.format !== false ? this.options.format : this.color.origFormat;
 
   if (this.options.color !== false) {
@@ -32,42 +33,67 @@ var Colorpicker = function(element, options) {
   }
 
   // Setup picker
-  this.picker = $(this.options.template);
+  var $picker = this.picker = $(this.options.template);
   if (this.options.customClass) {
-    this.picker.addClass(this.options.customClass);
+    $picker.addClass(this.options.customClass);
   }
   if (this.options.inline) {
-    this.picker.addClass('colorpicker-inline colorpicker-visible');
+    $picker.addClass('colorpicker-inline colorpicker-visible');
   } else {
-    this.picker.addClass('colorpicker-hidden');
+    $picker.addClass('colorpicker-hidden');
   }
   if (this.options.horizontal) {
-    this.picker.addClass('colorpicker-horizontal');
+    $picker.addClass('colorpicker-horizontal');
   }
-  if (this.format === 'rgba' || this.format === 'hsla' || this.options.format === false) {
-    this.picker.addClass('colorpicker-with-alpha');
+  if (
+    (['rgba', 'hsla', 'alias'].indexOf(this.format) !== -1) ||
+    this.options.format === false ||
+    this.getValue() === 'transparent'
+  ) {
+    $picker.addClass('colorpicker-with-alpha');
   }
   if (this.options.align === 'right') {
-    this.picker.addClass('colorpicker-right');
+    $picker.addClass('colorpicker-right');
   }
   if (this.options.inline === true) {
-    this.picker.addClass('colorpicker-no-arrow');
+    $picker.addClass('colorpicker-no-arrow');
   }
   if (this.options.colorSelectors) {
-    var colorpicker = this;
-    $.each(this.options.colorSelectors, function(name, color) {
-      var $btn = $('<i />').css('background-color', color).data('class', name);
-      $btn.click(function() {
-        colorpicker.setValue($(this).css('background-color'));
-      });
-      colorpicker.picker.find('.colorpicker-selectors').append($btn);
-    });
-    this.picker.find('.colorpicker-selectors').show();
-  }
-  this.picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.mousedown, this));
-  this.picker.appendTo(this.container ? this.container : $('body'));
+    var colorpicker = this,
+      selectorsContainer = colorpicker.picker.find('.colorpicker-selectors');
 
-  // Bind events
+    if (selectorsContainer.length > 0) {
+      $.each(this.options.colorSelectors, function(name, color) {
+        var $btn = $('<i />')
+          .addClass('colorpicker-selectors-color')
+          .css('background-color', color)
+          .data('class', name).data('alias', name);
+
+        $btn.on('click.colorpicker touchend.colorpicker', function() {
+          colorpicker.setValue(
+            colorpicker.format === 'alias' ? $(this).data('alias') : $(this).css('background-color')
+          );
+        });
+        selectorsContainer.append($btn);
+      });
+      selectorsContainer.show().addClass('colorpicker-visible');
+    }
+  }
+
+  // Prevent closing the colorpicker when clicking on itself
+  $picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(function(e) {
+    if (e.target === e.currentTarget) {
+      e.preventDefault();
+    }
+  }, this));
+
+  // Bind click/tap events on the sliders
+  $picker.find('.colorpicker-saturation, .colorpicker-hue, .colorpicker-alpha')
+    .on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.mousedown, this));
+
+  $picker.appendTo(this.container ? this.container : $('body'));
+
+  // Bind other events
   if (this.input !== false) {
     this.input.on({
       'keyup.colorpicker': $.proxy(this.keyup, this)
@@ -136,7 +162,7 @@ Colorpicker.prototype = {
     if (this.options.inline !== false || this.options.container) {
       return false;
     }
-    var type = this.container && this.container[0] !== document.body ? 'position' : 'offset';
+    var type = this.container && this.container[0] !== window.document.body ? 'position' : 'offset';
     var element = this.component || this.element;
     var offset = element[type]();
     if (this.options.align === 'right') {
@@ -149,7 +175,8 @@ Colorpicker.prototype = {
   },
   show: function(e) {
     if (this.isDisabled()) {
-      return false;
+      // Don't show the widget if it's disabled (the input)
+      return;
     }
     this.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
     this.reposition();
@@ -170,10 +197,19 @@ Colorpicker.prototype = {
       color: this.color
     });
   },
-  hide: function() {
+  hide: function(e) {
+    if ((typeof e !== 'undefined') && e.target) {
+      // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
+      if (
+        $(e.currentTarget).parents('.colorpicker').length > 0 ||
+        $(e.target).parents('.colorpicker').length > 0
+      ) {
+        return false;
+      }
+    }
     this.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
     $(window).off('resize.colorpicker', this.reposition);
-    $(document).off({
+    $(window.document).off({
       'mousedown.colorpicker': this.hide
     });
     this.update();
@@ -183,27 +219,20 @@ Colorpicker.prototype = {
     });
   },
   updateData: function(val) {
-    val = val || this.color.toString(this.format);
+    val = val || this.color.toString(this.format, false);
     this.element.data('color', val);
     return val;
   },
   updateInput: function(val) {
-    val = val || this.color.toString(this.format);
+    val = val || this.color.toString(this.format, false);
     if (this.input !== false) {
-      if (this.options.colorSelectors) {
-        var color = new Color(val, this.options.colorSelectors);
-        var alias = color.toAlias();
-        if (typeof this.options.colorSelectors[alias] !== 'undefined') {
-          val = alias;
-        }
-      }
       this.input.prop('value', val);
     }
     return val;
   },
   updatePicker: function(val) {
-    if (val !== undefined) {
-      this.color = new Color(val, this.options.colorSelectors);
+    if (typeof val !== 'undefined') {
+      this.color = this.createColor(val);
     }
     var sl = (this.options.horizontal === false) ? this.options.sliders : this.options.slidersHorz;
     var icns = this.picker.find('i');
@@ -223,30 +252,41 @@ Colorpicker.prototype = {
       'top': sl.saturation.maxTop - this.color.value.b * sl.saturation.maxTop,
       'left': this.color.value.s * sl.saturation.maxLeft
     });
-    this.picker.find('.colorpicker-saturation').css('backgroundColor', this.color.toHex(this.color.value.h, 1, 1, 1));
-    this.picker.find('.colorpicker-alpha').css('backgroundColor', this.color.toHex());
-    this.picker.find('.colorpicker-color, .colorpicker-color div').css('backgroundColor', this.color.toString(this.format));
+
+    this.picker.find('.colorpicker-saturation')
+      .css('backgroundColor', this.color.toHex(this.color.value.h, 1, 1, 1));
+
+    this.picker.find('.colorpicker-alpha')
+      .css('backgroundColor', this.color.toHex());
+
+    this.picker.find('.colorpicker-color, .colorpicker-color div')
+      .css('backgroundColor', this.color.toString(this.format, true));
+
     return val;
   },
   updateComponent: function(val) {
-    if (val !== undefined) {
-      val = new Color(val, this.options.colorSelectors);
+    var color;
+
+    if (typeof val !== 'undefined') {
+      color = this.createColor(val);
     } else {
-      val = this.color;
+      color = this.color;
     }
+
     if (this.component !== false) {
       var icn = this.component.find('i').eq(0);
       if (icn.length > 0) {
         icn.css({
-          'backgroundColor': val.toHex() // We always wan it to be valid value
+          'backgroundColor': color.toString(this.format, true)
         });
       } else {
         this.component.css({
-          'backgroundColor': val.toHex() // We always wan it to be valid value
+          'backgroundColor': color.toString(this.format, true)
         });
       }
     }
-    return val.toString(this.format);
+
+    return color.toString(this.format, false);
   },
   update: function(force) {
     var val;
@@ -261,7 +301,7 @@ Colorpicker.prototype = {
 
   },
   setValue: function(val) { // set color manually
-    this.color = new Color(val, this.options.colorSelectors);
+    this.color = this.createColor(val);
     this.update(true);
     this.element.trigger({
       type: 'changeColor',
@@ -269,8 +309,22 @@ Colorpicker.prototype = {
       value: val
     });
   },
+  /**
+   * Creates a new color using the instance options
+   * @protected
+   * @param {String} val
+   * @returns {Color}
+   */
+  createColor: function(val) {
+    return new Color(
+      val ? val : null,
+      this.options.colorSelectors,
+      this.options.fallbackColor ? this.options.fallbackColor : this.color,
+      this.options.fallbackFormat
+    );
+  },
   getValue: function(defaultValue) {
-    defaultValue = (defaultValue === undefined) ? '#000000' : defaultValue;
+    defaultValue = (typeof defaultValue === 'undefined') ? this.options.fallbackColor : defaultValue;
     var val;
     if (this.hasInput()) {
       val = this.input.val();
@@ -354,7 +408,7 @@ Colorpicker.prototype = {
         top: e.pageY
       };
       //trigger mousemove to move the guide to the current position
-      $(document).on({
+      $(window.document).on({
         'mousemove.colorpicker': $.proxy(this.mousemove, this),
         'touchmove.colorpicker': $.proxy(this.mousemove, this),
         'mouseup.colorpicker': $.proxy(this.mouseup, this),
@@ -395,7 +449,11 @@ Colorpicker.prototype = {
     // Change format dynamically
     // Only occurs if user choose the dynamic format by
     // setting option format to false
-    if (this.currentSlider.callTop === 'setAlpha' && this.options.format === false) {
+    if (
+      this.options.format === false &&
+      (this.currentSlider.callTop === 'setAlpha' ||
+        this.currentSlider.callLeft === 'setAlpha')
+    ) {
 
       // Converting from hex / rgb to rgba
       if (this.color.value.a !== 1) {
@@ -420,7 +478,7 @@ Colorpicker.prototype = {
   mouseup: function(e) {
     e.stopPropagation();
     e.preventDefault();
-    $(document).off({
+    $(window.document).off({
       'mousemove.colorpicker': this.mousemove,
       'touchmove.colorpicker': this.mousemove,
       'mouseup.colorpicker': this.mouseup,
@@ -443,7 +501,7 @@ Colorpicker.prototype = {
       }
       this.update(true);
     } else {
-      this.color = new Color(this.input.val(), this.options.colorSelectors);
+      this.color = this.createColor(this.input.val());
       // Change format dynamically
       // Only occurs if user choose the dynamic format by
       // setting option format to false

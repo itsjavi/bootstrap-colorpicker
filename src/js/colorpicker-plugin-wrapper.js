@@ -1,5 +1,5 @@
 /*!
- * Bootstrap Colorpicker v2.3.6
+ * Bootstrap Colorpicker v2.4.0
  * https://itsjavi.com/bootstrap-colorpicker/
  *
  * Originally written by (c) 2012 Stefan Petre
@@ -9,16 +9,21 @@
  */
 
 (function(factory) {
-  "use strict";
+  var global = (typeof window === 'undefined') ? this : window;
+
   if (typeof exports === 'object') {
-    module.exports = factory(window.jQuery);
+    module.exports = factory(global.jQuery, global);
   } else if (typeof define === 'function' && define.amd) {
-    define(['jquery'], factory);
-  } else if (window.jQuery && !window.jQuery.fn.colorpicker) {
-    factory(window.jQuery);
+    define(['jquery'], function(jq) {
+      return factory(jq, global);
+    });
+  } else if (global.jQuery && !global.jQuery.fn.colorpicker) {
+    factory(global.jQuery, global);
   }
-}(function($) {
+}(function(jQuery, window) {
   'use strict';
+
+  var $ = jQuery;
 
   //@colorpicker-color
   //@colorpicker-defaults

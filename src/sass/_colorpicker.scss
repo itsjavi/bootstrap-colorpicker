@@ -1,5 +1,5 @@
 /*!
- * Bootstrap Colorpicker v2.3.6
+ * Bootstrap Colorpicker v2.4.0
  * https://itsjavi.com/bootstrap-colorpicker/
  *
  * Originally written by (c) 2012 Stefan Petre
@@ -7,44 +7,40 @@
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  *
  */
- 
-$colorpicker-image-path: "../img/bootstrap-colorpicker/" !default;
+$imgPath: "../img/bootstrap-colorpicker/";
 
-@mixin bg-img($filename) {
-  background-image: url(#{$colorpicker-image-path}#{$filename});
+@mixin bgImg($imgFilename) {
+  background-image: url("#{$imgPath}#{$imgFilename}");
 }
 
-@mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-     -moz-border-radius: $radius;
-      -ms-border-radius: $radius;
-          border-radius: $radius;
+@mixin borderRadius($size) {
+  -webkit-border-radius: $size;
+  -moz-border-radius: $size;
+  border-radius: $size;
 }
 
 .colorpicker-saturation {
   width: 100px;
   height: 100px;
-  @include bg-img("saturation.png");
+  @include bgImg('saturation.png');
   cursor: crosshair;
   float: left;
-
   i {
     display: block;
     height: 5px;
     width: 5px;
     border: 1px solid #000;
-    @include border-radius(5px);
+    @include borderRadius(5px);
     position: absolute;
     top: 0;
     left: 0;
     margin: -4px 0 0 -4px;
-
     b {
       display: block;
       height: 5px;
       width: 5px;
       border: 1px solid #fff;
-      @include border-radius(5px);
+      @include borderRadius(5px);
     }
   }
 }
@@ -73,11 +69,11 @@ $colorpicker-image-path: "../img/bootstrap-colorpicker/" !default;
 }
 
 .colorpicker-hue {
-  @include bg-img("hue.png");
+  @include bgImg('hue.png');
 }
 
 .colorpicker-alpha {
-  @include bg-img("alpha.png");
+  @include bgImg('alpha.png');
   display: none;
 }
 
@@ -91,7 +87,7 @@ $colorpicker-image-path: "../img/bootstrap-colorpicker/" !default;
   padding: 4px;
   min-width: 130px;
   margin-top: 1px;
-  @include border-radius(4px);
+  @include borderRadius(4px);
   z-index: 2500;
 }
 
@@ -145,7 +141,7 @@ $colorpicker-image-path: "../img/bootstrap-colorpicker/" !default;
   height: 10px;
   margin-top: 5px;
   clear: both;
-  @include bg-img("alpha.png");
+  @include bgImg('alpha.png');
   background-position: 0 100%;
 }
 
@@ -225,23 +221,11 @@ $colorpicker-image-path: "../img/bootstrap-colorpicker/" !default;
 }
 
 .colorpicker.colorpicker-horizontal .colorpicker-hue {
-  @include bg-img("hue-horizontal.png");
+  @include bgImg('hue-horizontal.png');
 }
 
 .colorpicker.colorpicker-horizontal .colorpicker-alpha {
-  @include bg-img("alpha-horizontal.png");
-}
-
-.colorpicker.colorpicker-hidden {
-  display: none;
-}
-
-.colorpicker.colorpicker-visible {
-  display: block;
-}
-
-.colorpicker-inline.colorpicker-visible {
-  display: inline-block;
+  @include bgImg('alpha-horizontal.png');
 }
 
 .colorpicker-right:before {
@@ -262,4 +246,28 @@ $colorpicker-image-path: "../img/bootstrap-colorpicker/" !default;
 .colorpicker-no-arrow:after {
   border-right: 0;
   border-left: 0;
+}
+
+.colorpicker,
+.colorpicker-alpha,
+.colorpicker-saturation,
+.colorpicker-hue,
+.colorpicker-selectors {
+  &.colorpicker-visible {
+    display: block;
+  }
+}
+
+.colorpicker,
+.colorpicker-alpha,
+.colorpicker-saturation,
+.colorpicker-hue,
+.colorpicker-selectors {
+  &.colorpicker-hidden {
+    display: none;
+  }
+}
+
+.colorpicker-inline.colorpicker-visible {
+  display: inline-block;
 }

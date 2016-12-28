@@ -1,5 +1,5 @@
 /*!
- * Bootstrap Colorpicker v2.3.6
+ * Bootstrap Colorpicker v2.4.0
  * https://itsjavi.com/bootstrap-colorpicker/
  *
  * Originally written by (c) 2012 Stefan Petre
@@ -228,18 +228,6 @@
   .bgImg('alpha-horizontal.png');
 }
 
-.colorpicker.colorpicker-hidden {
-  display: none;
-}
-
-.colorpicker.colorpicker-visible {
-  display: block;
-}
-
-.colorpicker-inline.colorpicker-visible {
-  display: inline-block;
-}
-
 .colorpicker-right:before {
   left: auto;
   right: 6px;
@@ -258,4 +246,28 @@
 .colorpicker-no-arrow:after {
   border-right: 0;
   border-left: 0;
+}
+
+.colorpicker,
+.colorpicker-alpha,
+.colorpicker-saturation,
+.colorpicker-hue,
+.colorpicker-selectors {
+  &.colorpicker-visible {
+    display: block;
+  }
+}
+
+.colorpicker,
+.colorpicker-alpha,
+.colorpicker-saturation,
+.colorpicker-hue,
+.colorpicker-selectors {
+  &.colorpicker-hidden {
+    display: none;
+  }
+}
+
+.colorpicker-inline.colorpicker-visible {
+  display: inline-block;
 }

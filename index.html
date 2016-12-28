@@ -11,14 +11,14 @@
     <link href="dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
     <link href="docs/assets/main.css" rel="stylesheet">
 
-    <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="dist/js/bootstrap-colorpicker.js"></script>
 </head>
 <body>
     <div class="container">
       <div class="page-header">
-    <h1><i class="glyphicon glyphicon-tint"></i> Bootstrap Colorpicker 2.3.6
+    <h1><i class="glyphicon glyphicon-tint"></i> Bootstrap Colorpicker 2.4.0
         <small>for Twitter Bootstrap</small>
     </h1>
 </div>
@@ -187,6 +187,23 @@
               <td>List of pre selected colors (hex format). If you choose one of these colors, the alias is returned instead of the hex
                   code.
               </td>
+          </tr>
+          <tr>
+            <td>fallbackColor</td>
+            <td>string</td>
+            <td>null</td>
+            <td>
+              Fallback color string that will be applied when the color failed to be parsed.
+              If <var>null</var>, it will keep the current color if any.
+            </td>
+          </tr>
+          <tr>
+            <td>fallbackFormat</td>
+            <td>string</td>
+            <td>hex</td>
+            <td>
+              Fallback color format (e.g. when not specified or for alias mode, when selecting non aliased colors)
+            </td>
           </tr>
           </tbody>
       </table>
@@ -395,7 +412,7 @@
           $(function () {
               $('#cp3').colorpicker({
                   color: '#AA3399',
-                  format: 'rgba'
+                  format: 'rgb'
               });
           });
       </script>
@@ -409,7 +426,7 @@
     $(function() {
         $(&#39;#cp3&#39;).colorpicker({
             color: &#39;#AA3399&#39;,
-            format: &#39;rgba&#39;
+            format: &#39;rgb&#39;
         });
     });
 &lt;&#x2F;script&gt;</div>    </div>
@@ -423,7 +440,7 @@
       <script>
           $(function () {
               $('#cp4').colorpicker().on('changeColor', function (e) {
-                  $('body')[0].style.backgroundColor = e.color.toHex();
+                  $('body')[0].style.backgroundColor = e.color.toString('rgba');
               });
           });
       </script>
@@ -433,7 +450,8 @@
 &lt;script&gt;
     $(function() {
         $(&#39;#cp4&#39;).colorpicker().on(&#39;changeColor&#39;, function(e) {
-            $(&#39;body&#39;)[0].style.backgroundColor = e.color.toHex();
+            $(&#39;body&#39;)[0].style.backgroundColor = e.color.toString(
+                &#39;rgba&#39;);
         });
     });
 &lt;&#x2F;script&gt;</div>    </div>
@@ -533,11 +551,17 @@
     
     <div class="example-content well">
         <div class="example-content-widget">
-      <input type="text" data-format="hex" class="form-control" id="cp8" value="primary"/>
+      <div id="cp8" data-format="alias" class="input-group colorpicker-component">
+        <input type="text" value="primary" class="form-control"/>
+        <span class="input-group-addon"><i></i></span>
+      </div>
       <script>
           $(function () {
               $('#cp8').colorpicker({
                   colorSelectors: {
+                      'black': '#000000',
+                      'white': '#ffffff',
+                      'red': '#FF0000',
                       'default': '#777777',
                       'primary': '#337ab7',
                       'success': '#5cb85c',
@@ -550,12 +574,17 @@
       </script>
         </div>
         <button type="button" class="btn btn-link btn-xs example-code-toggle" data-toggle="button">View source</button>
-<div class="example-code">&lt;input type=&quot;text&quot; data-format=&quot;hex&quot; class=&quot;form-control&quot; id=&quot;cp8&quot; value=&quot;primary&quot;
-&#x2F;&gt;
+<div class="example-code">&lt;div id=&quot;cp8&quot; data-format=&quot;alias&quot; class=&quot;input-group colorpicker-component&quot;&gt;
+    &lt;input type=&quot;text&quot; value=&quot;primary&quot; class=&quot;form-control&quot; &#x2F;&gt;
+    &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
 &lt;script&gt;
     $(function() {
         $(&#39;#cp8&#39;).colorpicker({
             colorSelectors: {
+                &#39;black&#39;: &#39;#000000&#39;,
+                &#39;white&#39;: &#39;#ffffff&#39;,
+                &#39;red&#39;: &#39;#FF0000&#39;,
                 &#39;default&#39;: &#39;#777777&#39;,
                 &#39;primary&#39;: &#39;#337ab7&#39;,
                 &#39;success&#39;: &#39;#5cb85c&#39;,
@@ -745,12 +774,12 @@
             &lt;&#x2F;div&gt;
         &lt;&#x2F;div&gt;
     &lt;&#x2F;div&gt;
-&lt;&#x2F;div&gt;
-&lt;script&gt;
-    $(function() {
-        $(&#39;#cp11&#39;).colorpicker();
-    });
-&lt;&#x2F;script&gt;</div>    </div>
+    &lt;&#x2F;div&gt;
+    &lt;script&gt;
+        $(function() {
+            $(&#39;#cp11&#39;).colorpicker();
+        });
+    &lt;&#x2F;script&gt;</div>    </div>
 </div>
 
 

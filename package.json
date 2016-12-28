@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-colorpicker",
-  "version": "2.3.6",
+  "version": "2.4.0",
   "description": "Fancy and customizable colorpicker plugin for Twitter Bootstrap",
   "main": "./dist/js/bootstrap-colorpicker.js",
   "homepage": "https://itsjavi.com/bootstrap-colorpicker/",

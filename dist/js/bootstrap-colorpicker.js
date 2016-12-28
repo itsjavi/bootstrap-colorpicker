@@ -1,5 +1,5 @@
 /*!
- * Bootstrap Colorpicker v2.3.6
+ * Bootstrap Colorpicker v2.4.0
  * https://itsjavi.com/bootstrap-colorpicker/
  *
  * Originally written by (c) 2012 Stefan Petre
@@ -9,196 +9,234 @@
  */
 
 (function(factory) {
-  "use strict";
+  var global = (typeof window === 'undefined') ? this : window;
+
   if (typeof exports === 'object') {
-    module.exports = factory(window.jQuery);
+    module.exports = factory(global.jQuery, global);
   } else if (typeof define === 'function' && define.amd) {
-    define(['jquery'], factory);
-  } else if (window.jQuery && !window.jQuery.fn.colorpicker) {
-    factory(window.jQuery);
+    define(['jquery'], function(jq) {
+      return factory(jq, global);
+    });
+  } else if (global.jQuery && !global.jQuery.fn.colorpicker) {
+    factory(global.jQuery, global);
   }
-}(function($) {
+}(function(jQuery, window) {
   'use strict';
+
+  var $ = jQuery;
 
   /**
    * Color manipulation helper class
    *
-   * @param {Object|String} val
-   * @param {Object} predefinedColors
+   * @param {Object|String} [val]
+   * @param {Object} [predefinedColors]
+   * @param {String|null} [fallbackColor]
+   * @param {String|null} [fallbackFormat]
    * @constructor
    */
-  var Color = function(val, predefinedColors) {
-    this.value = {
-      h: 0,
-      s: 0,
-      b: 0,
-      a: 1
-    };
+  var Color = function(val, predefinedColors, fallbackColor, fallbackFormat) {
+    this.fallbackValue = fallbackColor ?
+      (
+        fallbackColor && (typeof fallbackColor.h !== 'undefined') ?
+        fallbackColor :
+        this.value = {
+          h: 0,
+          s: 0,
+          b: 0,
+          a: 1
+        }
+      ) :
+      null;
+
+    this.fallbackFormat = fallbackFormat ? fallbackFormat : 'rgba';
+
+    this.value = this.fallbackValue;
+
     this.origFormat = null; // original string format
-    if (predefinedColors) {
-      // We don't want to share aliases across instances so we extend new object
-      this.colors = $.extend({}, this.colors_lib, predefinedColors);
-      // Let's keep user defined aliases in separate object
-      this.user_colors = predefinedColors;
-    }
+
+    this.predefinedColors = predefinedColors ? predefinedColors : {};
+
+    // We don't want to share aliases across instances so we extend new object
+    this.colors = $.extend({}, Color.webColors, this.predefinedColors);
+
     if (val) {
-      if (val.toLowerCase !== undefined) {
-        // cast to string
-        val = val + '';
-        this.setColor(val);
-      } else if (val.h !== undefined) {
+      if (typeof val.h !== 'undefined') {
         this.value = val;
+      } else {
+        this.setColor(String(val));
       }
     }
+
+    if (!this.value) {
+      // Initial value is always black if no arguments are passed or val is empty
+      this.value = {
+        h: 0,
+        s: 0,
+        b: 0,
+        a: 1
+      };
+    }
+  };
+
+  Color.webColors = { // 140 predefined colors from the HTML Colors spec
+    "aliceblue": "#f0f8ff",
+    "antiquewhite": "#faebd7",
+    "aqua": "#00ffff",
+    "aquamarine": "#7fffd4",
+    "azure": "#f0ffff",
+    "beige": "#f5f5dc",
+    "bisque": "#ffe4c4",
+    "black": "#000000",
+    "blanchedalmond": "#ffebcd",
+    "blue": "#0000ff",
+    "blueviolet": "#8a2be2",
+    "brown": "#a52a2a",
+    "burlywood": "#deb887",
+    "cadetblue": "#5f9ea0",
+    "chartreuse": "#7fff00",
+    "chocolate": "#d2691e",
+    "coral": "#ff7f50",
+    "cornflowerblue": "#6495ed",
+    "cornsilk": "#fff8dc",
+    "crimson": "#dc143c",
+    "cyan": "#00ffff",
+    "darkblue": "#00008b",
+    "darkcyan": "#008b8b",
+    "darkgoldenrod": "#b8860b",
+    "darkgray": "#a9a9a9",
+    "darkgreen": "#006400",
+    "darkkhaki": "#bdb76b",
+    "darkmagenta": "#8b008b",
+    "darkolivegreen": "#556b2f",
+    "darkorange": "#ff8c00",
+    "darkorchid": "#9932cc",
+    "darkred": "#8b0000",
+    "darksalmon": "#e9967a",
+    "darkseagreen": "#8fbc8f",
+    "darkslateblue": "#483d8b",
+    "darkslategray": "#2f4f4f",
+    "darkturquoise": "#00ced1",
+    "darkviolet": "#9400d3",
+    "deeppink": "#ff1493",
+    "deepskyblue": "#00bfff",
+    "dimgray": "#696969",
+    "dodgerblue": "#1e90ff",
+    "firebrick": "#b22222",
+    "floralwhite": "#fffaf0",
+    "forestgreen": "#228b22",
+    "fuchsia": "#ff00ff",
+    "gainsboro": "#dcdcdc",
+    "ghostwhite": "#f8f8ff",
+    "gold": "#ffd700",
+    "goldenrod": "#daa520",
+    "gray": "#808080",
+    "green": "#008000",
+    "greenyellow": "#adff2f",
+    "honeydew": "#f0fff0",
+    "hotpink": "#ff69b4",
+    "indianred": "#cd5c5c",
+    "indigo": "#4b0082",
+    "ivory": "#fffff0",
+    "khaki": "#f0e68c",
+    "lavender": "#e6e6fa",
+    "lavenderblush": "#fff0f5",
+    "lawngreen": "#7cfc00",
+    "lemonchiffon": "#fffacd",
+    "lightblue": "#add8e6",
+    "lightcoral": "#f08080",
+    "lightcyan": "#e0ffff",
+    "lightgoldenrodyellow": "#fafad2",
+    "lightgrey": "#d3d3d3",
+    "lightgreen": "#90ee90",
+    "lightpink": "#ffb6c1",
+    "lightsalmon": "#ffa07a",
+    "lightseagreen": "#20b2aa",
+    "lightskyblue": "#87cefa",
+    "lightslategray": "#778899",
+    "lightsteelblue": "#b0c4de",
+    "lightyellow": "#ffffe0",
+    "lime": "#00ff00",
+    "limegreen": "#32cd32",
+    "linen": "#faf0e6",
+    "magenta": "#ff00ff",
+    "maroon": "#800000",
+    "mediumaquamarine": "#66cdaa",
+    "mediumblue": "#0000cd",
+    "mediumorchid": "#ba55d3",
+    "mediumpurple": "#9370d8",
+    "mediumseagreen": "#3cb371",
+    "mediumslateblue": "#7b68ee",
+    "mediumspringgreen": "#00fa9a",
+    "mediumturquoise": "#48d1cc",
+    "mediumvioletred": "#c71585",
+    "midnightblue": "#191970",
+    "mintcream": "#f5fffa",
+    "mistyrose": "#ffe4e1",
+    "moccasin": "#ffe4b5",
+    "navajowhite": "#ffdead",
+    "navy": "#000080",
+    "oldlace": "#fdf5e6",
+    "olive": "#808000",
+    "olivedrab": "#6b8e23",
+    "orange": "#ffa500",
+    "orangered": "#ff4500",
+    "orchid": "#da70d6",
+    "palegoldenrod": "#eee8aa",
+    "palegreen": "#98fb98",
+    "paleturquoise": "#afeeee",
+    "palevioletred": "#d87093",
+    "papayawhip": "#ffefd5",
+    "peachpuff": "#ffdab9",
+    "peru": "#cd853f",
+    "pink": "#ffc0cb",
+    "plum": "#dda0dd",
+    "powderblue": "#b0e0e6",
+    "purple": "#800080",
+    "red": "#ff0000",
+    "rosybrown": "#bc8f8f",
+    "royalblue": "#4169e1",
+    "saddlebrown": "#8b4513",
+    "salmon": "#fa8072",
+    "sandybrown": "#f4a460",
+    "seagreen": "#2e8b57",
+    "seashell": "#fff5ee",
+    "sienna": "#a0522d",
+    "silver": "#c0c0c0",
+    "skyblue": "#87ceeb",
+    "slateblue": "#6a5acd",
+    "slategray": "#708090",
+    "snow": "#fffafa",
+    "springgreen": "#00ff7f",
+    "steelblue": "#4682b4",
+    "tan": "#d2b48c",
+    "teal": "#008080",
+    "thistle": "#d8bfd8",
+    "tomato": "#ff6347",
+    "turquoise": "#40e0d0",
+    "violet": "#ee82ee",
+    "wheat": "#f5deb3",
+    "white": "#ffffff",
+    "whitesmoke": "#f5f5f5",
+    "yellow": "#ffff00",
+    "yellowgreen": "#9acd32",
+    "transparent": "transparent"
   };
 
   Color.prototype = {
     constructor: Color,
-    user_colors: {},
-    colors: {},
-    // 140 predefined colors from the HTML Colors spec
-    colors_lib: {
-      "aliceblue": "#f0f8ff",
-      "antiquewhite": "#faebd7",
-      "aqua": "#00ffff",
-      "aquamarine": "#7fffd4",
-      "azure": "#f0ffff",
-      "beige": "#f5f5dc",
-      "bisque": "#ffe4c4",
-      "black": "#000000",
-      "blanchedalmond": "#ffebcd",
-      "blue": "#0000ff",
-      "blueviolet": "#8a2be2",
-      "brown": "#a52a2a",
-      "burlywood": "#deb887",
-      "cadetblue": "#5f9ea0",
-      "chartreuse": "#7fff00",
-      "chocolate": "#d2691e",
-      "coral": "#ff7f50",
-      "cornflowerblue": "#6495ed",
-      "cornsilk": "#fff8dc",
-      "crimson": "#dc143c",
-      "cyan": "#00ffff",
-      "darkblue": "#00008b",
-      "darkcyan": "#008b8b",
-      "darkgoldenrod": "#b8860b",
-      "darkgray": "#a9a9a9",
-      "darkgreen": "#006400",
-      "darkkhaki": "#bdb76b",
-      "darkmagenta": "#8b008b",
-      "darkolivegreen": "#556b2f",
-      "darkorange": "#ff8c00",
-      "darkorchid": "#9932cc",
-      "darkred": "#8b0000",
-      "darksalmon": "#e9967a",
-      "darkseagreen": "#8fbc8f",
-      "darkslateblue": "#483d8b",
-      "darkslategray": "#2f4f4f",
-      "darkturquoise": "#00ced1",
-      "darkviolet": "#9400d3",
-      "deeppink": "#ff1493",
-      "deepskyblue": "#00bfff",
-      "dimgray": "#696969",
-      "dodgerblue": "#1e90ff",
-      "firebrick": "#b22222",
-      "floralwhite": "#fffaf0",
-      "forestgreen": "#228b22",
-      "fuchsia": "#ff00ff",
-      "gainsboro": "#dcdcdc",
-      "ghostwhite": "#f8f8ff",
-      "gold": "#ffd700",
-      "goldenrod": "#daa520",
-      "gray": "#808080",
-      "green": "#008000",
-      "greenyellow": "#adff2f",
-      "honeydew": "#f0fff0",
-      "hotpink": "#ff69b4",
-      "indianred": "#cd5c5c",
-      "indigo": "#4b0082",
-      "ivory": "#fffff0",
-      "khaki": "#f0e68c",
-      "lavender": "#e6e6fa",
-      "lavenderblush": "#fff0f5",
-      "lawngreen": "#7cfc00",
-      "lemonchiffon": "#fffacd",
-      "lightblue": "#add8e6",
-      "lightcoral": "#f08080",
-      "lightcyan": "#e0ffff",
-      "lightgoldenrodyellow": "#fafad2",
-      "lightgrey": "#d3d3d3",
-      "lightgreen": "#90ee90",
-      "lightpink": "#ffb6c1",
-      "lightsalmon": "#ffa07a",
-      "lightseagreen": "#20b2aa",
-      "lightskyblue": "#87cefa",
-      "lightslategray": "#778899",
-      "lightsteelblue": "#b0c4de",
-      "lightyellow": "#ffffe0",
-      "lime": "#00ff00",
-      "limegreen": "#32cd32",
-      "linen": "#faf0e6",
-      "magenta": "#ff00ff",
-      "maroon": "#800000",
-      "mediumaquamarine": "#66cdaa",
-      "mediumblue": "#0000cd",
-      "mediumorchid": "#ba55d3",
-      "mediumpurple": "#9370d8",
-      "mediumseagreen": "#3cb371",
-      "mediumslateblue": "#7b68ee",
-      "mediumspringgreen": "#00fa9a",
-      "mediumturquoise": "#48d1cc",
-      "mediumvioletred": "#c71585",
-      "midnightblue": "#191970",
-      "mintcream": "#f5fffa",
-      "mistyrose": "#ffe4e1",
-      "moccasin": "#ffe4b5",
-      "navajowhite": "#ffdead",
-      "navy": "#000080",
-      "oldlace": "#fdf5e6",
-      "olive": "#808000",
-      "olivedrab": "#6b8e23",
-      "orange": "#ffa500",
-      "orangered": "#ff4500",
-      "orchid": "#da70d6",
-      "palegoldenrod": "#eee8aa",
-      "palegreen": "#98fb98",
-      "paleturquoise": "#afeeee",
-      "palevioletred": "#d87093",
-      "papayawhip": "#ffefd5",
-      "peachpuff": "#ffdab9",
-      "peru": "#cd853f",
-      "pink": "#ffc0cb",
-      "plum": "#dda0dd",
-      "powderblue": "#b0e0e6",
-      "purple": "#800080",
-      "red": "#ff0000",
-      "rosybrown": "#bc8f8f",
-      "royalblue": "#4169e1",
-      "saddlebrown": "#8b4513",
-      "salmon": "#fa8072",
-      "sandybrown": "#f4a460",
-      "seagreen": "#2e8b57",
-      "seashell": "#fff5ee",
-      "sienna": "#a0522d",
-      "silver": "#c0c0c0",
-      "skyblue": "#87ceeb",
-      "slateblue": "#6a5acd",
-      "slategray": "#708090",
-      "snow": "#fffafa",
-      "springgreen": "#00ff7f",
-      "steelblue": "#4682b4",
-      "tan": "#d2b48c",
-      "teal": "#008080",
-      "thistle": "#d8bfd8",
-      "tomato": "#ff6347",
-      "turquoise": "#40e0d0",
-      "violet": "#ee82ee",
-      "wheat": "#f5deb3",
-      "white": "#ffffff",
-      "whitesmoke": "#f5f5f5",
-      "yellow": "#ffff00",
-      "yellowgreen": "#9acd32",
-      "transparent": "transparent"
+    colors: {}, // merged web and predefined colors
+    predefinedColors: {},
+    /**
+     * @return {Object}
+     */
+    getValue: function() {
+      return this.value;
+    },
+    /**
+     * @param {Object} val
+     */
+    setValue: function(val) {
+      this.value = val;
     },
     _sanitizeNumber: function(val) {
       if (typeof val === 'number') {
@@ -210,7 +248,7 @@
       if (val === '') {
         return 0;
       }
-      if (val.toLowerCase !== undefined) {
+      if (typeof val.toLowerCase !== 'undefined') {
         if (val.match(/^\./)) {
           val = "0" + val;
         }
@@ -219,7 +257,7 @@
       return 1;
     },
     isTransparent: function(strVal) {
-      if (!strVal) {
+      if (!strVal || !(typeof strVal === 'string' || strVal instanceof String)) {
         return false;
       }
       strVal = strVal.toLowerCase().trim();
@@ -228,7 +266,12 @@
     rgbaIsTransparent: function(rgba) {
       return ((rgba.r === 0) && (rgba.g === 0) && (rgba.b === 0) && (rgba.a === 0));
     },
-    //parse a string to HSB
+    // parse a string to HSB
+    /**
+     * @protected
+     * @param {String} strVal
+     * @returns {boolean} Returns true if it could be parsed, false otherwise
+     */
     setColor: function(strVal) {
       strVal = strVal.toLowerCase().trim();
       if (strVal) {
@@ -239,41 +282,26 @@
             b: 0,
             a: 0
           };
+          return true;
         } else {
-          this.value = this.stringToHSB(strVal) || {
-            h: 0,
-            s: 0,
-            b: 0,
-            a: 1
-          }; // if parser fails, defaults to black
-        }
-      }
-    },
-    stringToHSB: function(strVal) {
-      strVal = strVal.toLowerCase();
-      var alias;
-      if (typeof this.colors[strVal] !== 'undefined') {
-        strVal = this.colors[strVal];
-        alias = 'alias';
-      }
-      var that = this,
-        result = false;
-      $.each(this.stringParsers, function(i, parser) {
-        var match = parser.re.exec(strVal),
-          values = match && parser.parse.apply(that, [match]),
-          format = alias || parser.format || 'rgba';
-        if (values) {
-          if (format.match(/hsla?/)) {
-            result = that.RGBtoHSB.apply(that, that.HSLtoRGB.apply(that, values));
-          } else {
-            result = that.RGBtoHSB.apply(that, values);
+          var parsedColor = this.parse(strVal);
+          if (parsedColor) {
+            this.value = this.value = {
+              h: parsedColor.h,
+              s: parsedColor.s,
+              b: parsedColor.b,
+              a: parsedColor.a
+            };
+            if (!this.origFormat) {
+              this.origFormat = parsedColor.format;
+            }
+          } else if (this.fallbackValue) {
+            // if parser fails, defaults to fallbackValue if defined, otherwise the value won't be changed
+            this.value = this.fallbackValue;
           }
-          that.origFormat = format;
-          return false;
         }
-        return true;
-      });
-      return result;
+      }
+      return false;
     },
     setHue: function(h) {
       this.value.h = 1 - h;
@@ -288,11 +316,13 @@
       this.value.a = Math.round((parseInt((1 - a) * 100, 10) / 100) * 100) / 100;
     },
     toRGB: function(h, s, b, a) {
-      if (!h) {
+      if (arguments.length === 0) {
         h = this.value.h;
         s = this.value.s;
         b = this.value.b;
+        a = this.value.a;
       }
+
       h *= 360;
       var R, G, B, X, C;
       h = (h % 360) / 60;
@@ -304,25 +334,37 @@
       R += [C, X, 0, 0, X, C][h];
       G += [X, C, C, X, 0, 0][h];
       B += [0, 0, X, C, C, X][h];
+
       return {
         r: Math.round(R * 255),
         g: Math.round(G * 255),
         b: Math.round(B * 255),
-        a: a || this.value.a
+        a: a
       };
     },
     toHex: function(h, s, b, a) {
+      if (arguments.length === 0) {
+        h = this.value.h;
+        s = this.value.s;
+        b = this.value.b;
+        a = this.value.a;
+      }
+
       var rgb = this.toRGB(h, s, b, a);
+
       if (this.rgbaIsTransparent(rgb)) {
         return 'transparent';
       }
-      return '#' + ((1 << 24) | (parseInt(rgb.r) << 16) | (parseInt(rgb.g) << 8) | parseInt(rgb.b)).toString(16).substr(1);
+
+      return "#" + ((1 << 24) + (parseInt(rgb.r) << 16) + (parseInt(rgb.g) << 8) + parseInt(rgb.b)).toString(16).slice(1);
     },
     toHSL: function(h, s, b, a) {
-      h = h || this.value.h;
-      s = s || this.value.s;
-      b = b || this.value.b;
-      a = a || this.value.a;
+      if (arguments.length === 0) {
+        h = this.value.h;
+        s = this.value.s;
+        b = this.value.b;
+        a = this.value.a;
+      }
 
       var H = h,
         L = (2 - s) * b,
@@ -344,16 +386,14 @@
       };
     },
     toAlias: function(r, g, b, a) {
-      var rgb = this.toHex(r, g, b, a);
-      //first check if there is user defined alias
-      for (var ualias in this.user_colors) {
-        if (this.user_colors[ualias] === rgb) {
-          return ualias;
-        }
-      }
-      //if not then iterate through pre-defined colors
-      for (var alias in this.colors_lib) {
-        if (this.colors_lib[alias] === rgb) {
+      var c, rgb = (arguments.length === 0) ? this.toHex() : this.toHex(r, g, b, a);
+
+      // support predef. colors in non-hex format too, as defined in the alias itself
+      var original = this.origFormat === 'alias' ? rgb : this.toString(this.origFormat, false);
+
+      for (var alias in this.colors) {
+        c = this.colors[alias].toLowerCase().trim();
+        if ((c === rgb) || (c === original)) {
           return alias;
         }
       }
@@ -419,9 +459,69 @@
       var b = Math.round(this.HueToRGB(p, q, tb) * 255);
       return [r, g, b, this._sanitizeNumber(a)];
     },
-    toString: function(format) {
-      format = format || 'rgba';
+    /**
+     * @param {String} strVal
+     * @returns {Object} Object containing h,s,b,a,format properties or FALSE if failed to parse
+     */
+    parse: function(strVal) {
+      if (arguments.length === 0) {
+        return false;
+      }
+
+      var that = this,
+        result = false,
+        isAlias = (typeof this.colors[strVal] !== 'undefined'),
+        values, format;
+
+      if (isAlias) {
+        strVal = this.colors[strVal].toLowerCase().trim();
+      }
+
+      $.each(this.stringParsers, function(i, parser) {
+        var match = parser.re.exec(strVal);
+        values = match && parser.parse.apply(that, [match]);
+        if (values) {
+          result = {};
+          format = (isAlias ? 'alias' : (parser.format ? parser.format : that.getValidFallbackFormat()));
+          if (format.match(/hsla?/)) {
+            result = that.RGBtoHSB.apply(that, that.HSLtoRGB.apply(that, values));
+          } else {
+            result = that.RGBtoHSB.apply(that, values);
+          }
+          if (result instanceof Object) {
+            result.format = format;
+          }
+          return false; // stop iterating
+        }
+        return true;
+      });
+      return result;
+    },
+    getValidFallbackFormat: function() {
+      var formats = [
+        'rgba', 'rgb', 'hex', 'hsla', 'hsl'
+      ];
+      if (this.origFormat && (formats.indexOf(this.origFormat) !== -1)) {
+        return this.origFormat;
+      }
+      if (this.fallbackFormat && (formats.indexOf(this.fallbackFormat) !== -1)) {
+        return this.fallbackFormat;
+      }
+
+      return 'rgba'; // By default, return a format that will not lose the alpha info
+    },
+    /**
+     *
+     * @param {string} [format] (default: rgba)
+     * @param {boolean} [translateAlias] Return real color for pre-defined (non-standard) aliases (default: false)
+     * @returns {String}
+     */
+    toString: function(format, translateAlias) {
+      format = format || this.origFormat || this.fallbackFormat;
+      translateAlias = translateAlias || false;
+
       var c = false;
+
       switch (format) {
         case 'rgb':
           {
@@ -456,7 +556,19 @@
           }
           break;
         case 'alias':
-          return this.toAlias() || this.toHex();
+          {
+            c = this.toAlias();
+
+            if (c === false) {
+              return this.toString(this.getValidFallbackFormat());
+            }
+
+            if (translateAlias && !(c in Color.webColors) && (c in this.predefinedColors)) {
+              return this.predefinedColors[c];
+            }
+
+            return c;
+          }
         default:
           {
             return c;
@@ -575,6 +687,8 @@
     input: 'input', // children input selector
     container: false, // container selector
     component: '.add-on, .input-group-addon', // children component selector
+    fallbackColor: false, // fallback color value. null = keeps current color.
+    fallbackFormat: 'hex', // fallback color format
     sliders: {
       saturation: {
         maxLeft: 100,
@@ -623,8 +737,8 @@
       '<div class="colorpicker-selectors"></div>' +
       '</div>',
     align: 'right',
-    customClass: null,
-    colorSelectors: null
+    customClass: null, // custom class added to the colorpicker element
+    colorSelectors: null // custom color aliases
   };
 
   /**
@@ -652,7 +766,8 @@
       this.input = false;
     }
     // Set HSB color
-    this.color = new Color(this.options.color !== false ? this.options.color : this.getValue(), this.options.colorSelectors);
+    this.color = this.createColor(this.options.color !== false ? this.options.color : this.getValue());
+
     this.format = this.options.format !== false ? this.options.format : this.color.origFormat;
 
     if (this.options.color !== false) {
@@ -661,42 +776,67 @@
     }
 
     // Setup picker
-    this.picker = $(this.options.template);
+    var $picker = this.picker = $(this.options.template);
     if (this.options.customClass) {
-      this.picker.addClass(this.options.customClass);
+      $picker.addClass(this.options.customClass);
     }
     if (this.options.inline) {
-      this.picker.addClass('colorpicker-inline colorpicker-visible');
+      $picker.addClass('colorpicker-inline colorpicker-visible');
     } else {
-      this.picker.addClass('colorpicker-hidden');
+      $picker.addClass('colorpicker-hidden');
     }
     if (this.options.horizontal) {
-      this.picker.addClass('colorpicker-horizontal');
+      $picker.addClass('colorpicker-horizontal');
     }
-    if (this.format === 'rgba' || this.format === 'hsla' || this.options.format === false) {
-      this.picker.addClass('colorpicker-with-alpha');
+    if (
+      (['rgba', 'hsla', 'alias'].indexOf(this.format) !== -1) ||
+      this.options.format === false ||
+      this.getValue() === 'transparent'
+    ) {
+      $picker.addClass('colorpicker-with-alpha');
     }
     if (this.options.align === 'right') {
-      this.picker.addClass('colorpicker-right');
+      $picker.addClass('colorpicker-right');
     }
     if (this.options.inline === true) {
-      this.picker.addClass('colorpicker-no-arrow');
+      $picker.addClass('colorpicker-no-arrow');
     }
     if (this.options.colorSelectors) {
-      var colorpicker = this;
-      $.each(this.options.colorSelectors, function(name, color) {
-        var $btn = $('<i />').css('background-color', color).data('class', name);
-        $btn.click(function() {
-          colorpicker.setValue($(this).css('background-color'));
-        });
-        colorpicker.picker.find('.colorpicker-selectors').append($btn);
-      });
-      this.picker.find('.colorpicker-selectors').show();
-    }
-    this.picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.mousedown, this));
-    this.picker.appendTo(this.container ? this.container : $('body'));
+      var colorpicker = this,
+        selectorsContainer = colorpicker.picker.find('.colorpicker-selectors');
 
-    // Bind events
+      if (selectorsContainer.length > 0) {
+        $.each(this.options.colorSelectors, function(name, color) {
+          var $btn = $('<i />')
+            .addClass('colorpicker-selectors-color')
+            .css('background-color', color)
+            .data('class', name).data('alias', name);
+
+          $btn.on('click.colorpicker touchend.colorpicker', function() {
+            colorpicker.setValue(
+              colorpicker.format === 'alias' ? $(this).data('alias') : $(this).css('background-color')
+            );
+          });
+          selectorsContainer.append($btn);
+        });
+        selectorsContainer.show().addClass('colorpicker-visible');
+      }
+    }
+
+    // Prevent closing the colorpicker when clicking on itself
+    $picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(function(e) {
+      if (e.target === e.currentTarget) {
+        e.preventDefault();
+      }
+    }, this));
+
+    // Bind click/tap events on the sliders
+    $picker.find('.colorpicker-saturation, .colorpicker-hue, .colorpicker-alpha')
+      .on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.mousedown, this));
+
+    $picker.appendTo(this.container ? this.container : $('body'));
+
+    // Bind other events
     if (this.input !== false) {
       this.input.on({
         'keyup.colorpicker': $.proxy(this.keyup, this)
@@ -765,7 +905,7 @@
       if (this.options.inline !== false || this.options.container) {
         return false;
       }
-      var type = this.container && this.container[0] !== document.body ? 'position' : 'offset';
+      var type = this.container && this.container[0] !== window.document.body ? 'position' : 'offset';
       var element = this.component || this.element;
       var offset = element[type]();
       if (this.options.align === 'right') {
@@ -778,7 +918,8 @@
     },
     show: function(e) {
       if (this.isDisabled()) {
-        return false;
+        // Don't show the widget if it's disabled (the input)
+        return;
       }
       this.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
       this.reposition();
@@ -799,10 +940,19 @@
         color: this.color
       });
     },
-    hide: function() {
+    hide: function(e) {
+      if ((typeof e !== 'undefined') && e.target) {
+        // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
+        if (
+          $(e.currentTarget).parents('.colorpicker').length > 0 ||
+          $(e.target).parents('.colorpicker').length > 0
+        ) {
+          return false;
+        }
+      }
       this.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
       $(window).off('resize.colorpicker', this.reposition);
-      $(document).off({
+      $(window.document).off({
         'mousedown.colorpicker': this.hide
       });
       this.update();
@@ -812,27 +962,20 @@
       });
     },
     updateData: function(val) {
-      val = val || this.color.toString(this.format);
+      val = val || this.color.toString(this.format, false);
       this.element.data('color', val);
       return val;
     },
     updateInput: function(val) {
-      val = val || this.color.toString(this.format);
+      val = val || this.color.toString(this.format, false);
       if (this.input !== false) {
-        if (this.options.colorSelectors) {
-          var color = new Color(val, this.options.colorSelectors);
-          var alias = color.toAlias();
-          if (typeof this.options.colorSelectors[alias] !== 'undefined') {
-            val = alias;
-          }
-        }
         this.input.prop('value', val);
       }
       return val;
     },
     updatePicker: function(val) {
-      if (val !== undefined) {
-        this.color = new Color(val, this.options.colorSelectors);
+      if (typeof val !== 'undefined') {
+        this.color = this.createColor(val);
       }
       var sl = (this.options.horizontal === false) ? this.options.sliders : this.options.slidersHorz;
       var icns = this.picker.find('i');
@@ -852,30 +995,41 @@
         'top': sl.saturation.maxTop - this.color.value.b * sl.saturation.maxTop,
         'left': this.color.value.s * sl.saturation.maxLeft
       });
-      this.picker.find('.colorpicker-saturation').css('backgroundColor', this.color.toHex(this.color.value.h, 1, 1, 1));
-      this.picker.find('.colorpicker-alpha').css('backgroundColor', this.color.toHex());
-      this.picker.find('.colorpicker-color, .colorpicker-color div').css('backgroundColor', this.color.toString(this.format));
+
+      this.picker.find('.colorpicker-saturation')
+        .css('backgroundColor', this.color.toHex(this.color.value.h, 1, 1, 1));
+
+      this.picker.find('.colorpicker-alpha')
+        .css('backgroundColor', this.color.toHex());
+
+      this.picker.find('.colorpicker-color, .colorpicker-color div')
+        .css('backgroundColor', this.color.toString(this.format, true));
+
       return val;
     },
     updateComponent: function(val) {
-      if (val !== undefined) {
-        val = new Color(val, this.options.colorSelectors);
+      var color;
+
+      if (typeof val !== 'undefined') {
+        color = this.createColor(val);
       } else {
-        val = this.color;
+        color = this.color;
       }
+
       if (this.component !== false) {
         var icn = this.component.find('i').eq(0);
         if (icn.length > 0) {
           icn.css({
-            'backgroundColor': val.toHex() // We always wan it to be valid value
+            'backgroundColor': color.toString(this.format, true)
           });
         } else {
           this.component.css({
-            'backgroundColor': val.toHex() // We always wan it to be valid value
+            'backgroundColor': color.toString(this.format, true)
           });
         }
       }
-      return val.toString(this.format);
+
+      return color.toString(this.format, false);
     },
     update: function(force) {
       var val;
@@ -890,7 +1044,7 @@
 
     },
     setValue: function(val) { // set color manually
-      this.color = new Color(val, this.options.colorSelectors);
+      this.color = this.createColor(val);
       this.update(true);
       this.element.trigger({
         type: 'changeColor',
@@ -898,8 +1052,22 @@
         value: val
       });
     },
+    /**
+     * Creates a new color using the instance options
+     * @protected
+     * @param {String} val
+     * @returns {Color}
+     */
+    createColor: function(val) {
+      return new Color(
+        val ? val : null,
+        this.options.colorSelectors,
+        this.options.fallbackColor ? this.options.fallbackColor : this.color,
+        this.options.fallbackFormat
+      );
+    },
     getValue: function(defaultValue) {
-      defaultValue = (defaultValue === undefined) ? '#000000' : defaultValue;
+      defaultValue = (typeof defaultValue === 'undefined') ? this.options.fallbackColor : defaultValue;
       var val;
       if (this.hasInput()) {
         val = this.input.val();
@@ -983,7 +1151,7 @@
           top: e.pageY
         };
         //trigger mousemove to move the guide to the current position
-        $(document).on({
+        $(window.document).on({
           'mousemove.colorpicker': $.proxy(this.mousemove, this),
           'touchmove.colorpicker': $.proxy(this.mousemove, this),
           'mouseup.colorpicker': $.proxy(this.mouseup, this),
@@ -1024,7 +1192,11 @@
       // Change format dynamically
       // Only occurs if user choose the dynamic format by
       // setting option format to false
-      if (this.currentSlider.callTop === 'setAlpha' && this.options.format === false) {
+      if (
+        this.options.format === false &&
+        (this.currentSlider.callTop === 'setAlpha' ||
+          this.currentSlider.callLeft === 'setAlpha')
+      ) {
 
         // Converting from hex / rgb to rgba
         if (this.color.value.a !== 1) {
@@ -1049,7 +1221,7 @@
     mouseup: function(e) {
       e.stopPropagation();
       e.preventDefault();
-      $(document).off({
+      $(window.document).off({
         'mousemove.colorpicker': this.mousemove,
         'touchmove.colorpicker': this.mousemove,
         'mouseup.colorpicker': this.mouseup,
@@ -1072,7 +1244,7 @@
         }
         this.update(true);
       } else {
-        this.color = new Color(this.input.val(), this.options.colorSelectors);
+        this.color = this.createColor(this.input.val());
         // Change format dynamically
         // Only occurs if user choose the dynamic format by
         // setting option format to false

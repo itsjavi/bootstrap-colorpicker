@@ -2,7 +2,7 @@
 <script>
     $(function () {
         $('#cp4').colorpicker().on('changeColor', function (e) {
-            $('body')[0].style.backgroundColor = e.color.toHex();
+            $('body')[0].style.backgroundColor = e.color.toString('rgba');
         });
     });
 </script>

@@ -23,6 +23,9 @@
       "url": "http://opensource.org/licenses/Apache-2.0"
     }
   ],
+  "dependencies": {
+    "jquery": ">=1.10"
+  },
   "peerDependencies": {
     "jquery": ">=1.10"
   },

@@ -58,5 +58,6 @@ var defaults = {
     '</div>',
   align: 'right',
   customClass: null,
-  colorSelectors: null
+  colorSelectors: null,
+  android: navigator.userAgent.toLowerCase().indexOf("android") > -1
 };

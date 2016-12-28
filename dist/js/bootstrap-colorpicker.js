@@ -612,7 +612,9 @@
       '</div>',
     align: 'right',
     customClass: null,
-    colorSelectors: null
+    colorSelectors: null,
+    android: navigator.userAgent.toLowerCase().indexOf("android") > -1
+
   };
 
   /**
@@ -756,11 +758,20 @@
       var type = this.container && this.container[0] !== document.body ? 'position' : 'offset';
       var element = this.component || this.element;
       var offset = element[type]();
+      var pageOffsetX = 0; // window.pageXOffset
+      var pageOffsetY = 0; // window.pageYOffset
+      if (this.options.android === true) {
+        pageOffsetX = window.pageXOffset;
+        pageOffsetY = window.pageYOffset;
+      }
       if (this.options.align === 'right') {
         offset.left -= this.picker.outerWidth() - element.outerWidth();
       }
+      if (this.options.align === 'bottom') {
+        offset.left -= (this.picker.outerWidth() / 2) + pageOffsetX;
+      }
       this.picker.css({
-        top: offset.top + element.outerHeight(),
+        top: (offset.top + element.outerHeight()) - pageOffsetY,
         left: offset.left
       });
     },
@@ -960,8 +971,13 @@
         var offset = zone.offset();
         //reference to guide's style
         this.currentSlider.guide = zone.find('i')[0].style;
-        this.currentSlider.left = e.pageX - offset.left;
-        this.currentSlider.top = e.pageY - offset.top;
+        if (this.options.android === true) {
+          this.currentSlider.left = e.pageX - offset.left + window.pageXOffset;
+          this.currentSlider.top = e.pageY - offset.top + window.pageYOffset;
+        } else {
+          this.currentSlider.left = e.pageX - offset.left;
+          this.currentSlider.top = e.pageY - offset.top;
+        }
         this.mousePointer = {
           left: e.pageX,
           top: e.pageY

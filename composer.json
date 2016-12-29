@@ -10,7 +10,6 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "components/jquery" : ">=1.10",
-    "components/bootstrap": ">=2"
+    "components/jquery" : ">=1.10"
   }
 }

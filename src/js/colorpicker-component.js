@@ -227,6 +227,7 @@ Colorpicker.prototype = {
     val = val || this.color.toString(this.format, false);
     if (this.input !== false) {
       this.input.prop('value', val);
+      this.input.trigger('change');
     }
     return val;
   },

@@ -35,5 +35,6 @@ Patches and new features are welcome!
 - Do not change the plugin coding style.
 - Check that the index.html demos aren't broken (modify if necessary).
 - Test your code at least in Chrome, Firefox and IE >= 10 / Edge.
-- Any new feature should come with updated docs (a demonstration).
-- Push to your fork and submit the pull request (
+- Any new feature should come with updated docs if applicable (a demonstration).
+- Generate the `/dist` files executing `grunt` before your Pull Request.
+- Push to your fork and submit the pull request.

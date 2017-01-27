@@ -69,7 +69,7 @@ var Colorpicker = function(element, options) {
           .css('background-color', color)
           .data('class', name).data('alias', name);
 
-        $btn.on('click.colorpicker touchend.colorpicker', function() {
+        $btn.on('mousedown.colorpicker touchstart.colorpicker', function() {
           colorpicker.setValue(
             colorpicker.format === 'alias' ? $(this).data('alias') : $(this).css('background-color')
           );

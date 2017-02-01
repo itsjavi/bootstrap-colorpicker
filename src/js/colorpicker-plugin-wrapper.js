@@ -8,23 +8,22 @@
  *
  */
 
-(function(factory) {
-  var global = (typeof window === 'undefined') ? this : window;
-
-  if (typeof exports === 'object') {
-    module.exports = factory(global.jQuery, global);
-  } else if (typeof define === 'function' && define.amd) {
-    define(['jquery'], function(jq) {
-      return factory(jq, global);
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module unless amdModuleId is set
+    define(["jquery"], function(jq) {
+      return (factory(jq));
     });
-  } else if (global.jQuery && !global.jQuery.fn.colorpicker) {
-    factory(global.jQuery, global);
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory(require("jquery"));
+  } else if (jQuery && !jQuery.fn.colorpicker) {
+    factory(jQuery);
   }
-}(function(jQuery, window) {
+}(this, function($) {
   'use strict';
-
-  var $ = jQuery;
-
   //@colorpicker-color
   //@colorpicker-defaults
   //@colorpicker-component

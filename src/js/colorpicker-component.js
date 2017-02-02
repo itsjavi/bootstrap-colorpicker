@@ -255,10 +255,10 @@ Colorpicker.prototype = {
     });
 
     this.picker.find('.colorpicker-saturation')
-      .css('backgroundColor', this.color.toHex(this.color.value.h, 1, 1, 1));
+      .css('backgroundColor', (this.options.hexNumberSignPrefix ? '' : '#') + this.color.toHex(this.color.value.h, 1, 1, 1));
 
     this.picker.find('.colorpicker-alpha')
-      .css('backgroundColor', this.color.toHex());
+      .css('backgroundColor', (this.options.hexNumberSignPrefix ? '' : '#') + this.color.toHex());
 
     this.picker.find('.colorpicker-color, .colorpicker-color div')
       .css('backgroundColor', this.color.toString(this.format, true));
@@ -321,7 +321,8 @@ Colorpicker.prototype = {
       val ? val : null,
       this.options.colorSelectors,
       this.options.fallbackColor ? this.options.fallbackColor : this.color,
-      this.options.fallbackFormat
+      this.options.fallbackFormat,
+      this.options.hexNumberSignPrefix
     );
   },
   getValue: function(defaultValue) {

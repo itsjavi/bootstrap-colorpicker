@@ -11,6 +11,7 @@ var defaults = {
   component: '.add-on, .input-group-addon', // children component selector
   fallbackColor: false, // fallback color value. null = keeps current color.
   fallbackFormat: 'hex', // fallback color format
+  hexNumberSignPrefix: true, // put a '#' (number sign) before hex strings
   sliders: {
     saturation: {
       maxLeft: 100,

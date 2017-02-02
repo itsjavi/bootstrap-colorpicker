@@ -8,7 +8,7 @@
  * @constructor
  */
 var Color = function(
-    val, predefinedColors, fallbackColor, fallbackFormat, hexNumberSignPrefix) {
+  val, predefinedColors, fallbackColor, fallbackFormat, hexNumberSignPrefix) {
   this.fallbackValue = fallbackColor ?
     (
       fallbackColor && (typeof fallbackColor.h !== 'undefined') ?

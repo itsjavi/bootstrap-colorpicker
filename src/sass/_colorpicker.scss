@@ -7,10 +7,10 @@
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  *
  */
-$imgPath: "../img/bootstrap-colorpicker/";
+$colorpicker-img-path: "../img/bootstrap-colorpicker" !default;
 
 @mixin bgImg($imgFilename) {
-  background-image: url("#{$imgPath}#{$imgFilename}");
+  background-image: url("#{$colorpicker-img-path}/#{$imgFilename}");
 }
 
 @mixin borderRadius($size) {

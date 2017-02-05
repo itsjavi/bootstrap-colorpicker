@@ -1,5 +1,5 @@
 /*!
- * Bootstrap Colorpicker v2.4.0
+ * Bootstrap Colorpicker v2.5.1
  * https://itsjavi.com/bootstrap-colorpicker/
  *
  * Originally written by (c) 2012 Stefan Petre
@@ -31,6 +31,7 @@
    * @param {Object} [predefinedColors]
    * @param {String|null} [fallbackColor]
    * @param {String|null} [fallbackFormat]
+   * @param {Boolean} [hexNumberSignPrefix]
    * @constructor
    */
   var Color = function(
@@ -50,7 +51,7 @@
 
     this.fallbackFormat = fallbackFormat ? fallbackFormat : 'rgba';
 
-    this.hexNumberSignPrefix = hexNumberSignPrefix;
+    this.hexNumberSignPrefix = hexNumberSignPrefix === true;
 
     this.value = this.fallbackValue;
 

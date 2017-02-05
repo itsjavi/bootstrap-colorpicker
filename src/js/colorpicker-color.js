@@ -5,6 +5,7 @@
  * @param {Object} [predefinedColors]
  * @param {String|null} [fallbackColor]
  * @param {String|null} [fallbackFormat]
+ * @param {Boolean} [hexNumberSignPrefix]
  * @constructor
  */
 var Color = function(
@@ -24,7 +25,7 @@ var Color = function(
 
   this.fallbackFormat = fallbackFormat ? fallbackFormat : 'rgba';
 
-  this.hexNumberSignPrefix = hexNumberSignPrefix;
+  this.hexNumberSignPrefix = hexNumberSignPrefix === true;
 
   this.value = this.fallbackValue;
 

@@ -26,6 +26,9 @@
   "dependencies": {
     "jquery": ">=1.10"
   },
+  "peerDependencies": {
+    "jquery": ">=1.10"
+  },
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-assemble": "~0.4.0",

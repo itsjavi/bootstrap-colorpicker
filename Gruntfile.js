@@ -91,6 +91,11 @@ module.exports = function (grunt) {
         }]
       }
     },
+    strip_code: {
+      src: {
+        src: 'dist/js/*.js'
+      }
+    },
     uglify: {
       options: {
         banner: '/*!\n * Bootstrap Colorpicker v<%= pkg.version %>\n' +
@@ -160,6 +165,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-assemble');
+  grunt.loadNpmTasks('grunt-strip-code');
 
   // Register tasks
   grunt.registerTask('default', [
@@ -170,6 +176,7 @@ module.exports = function (grunt) {
     'jsbeautifier:src',
     'combine:js',
     'jsbeautifier:dist',
+    'strip_code',
     'uglify',
     'assemble',
     'jshint'

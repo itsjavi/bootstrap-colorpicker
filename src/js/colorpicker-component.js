@@ -256,10 +256,10 @@ Colorpicker.prototype = {
     });
 
     this.picker.find('.colorpicker-saturation')
-      .css('backgroundColor', (this.options.hexNumberSignPrefix ? '' : '#') + this.color.toHex(this.color.value.h, 1, 1, 1));
+      .css('backgroundColor', this.color.toHex(true, this.color.value.h, 1, 1, 1));
 
     this.picker.find('.colorpicker-alpha')
-      .css('backgroundColor', (this.options.hexNumberSignPrefix ? '' : '#') + this.color.toHex());
+      .css('backgroundColor', this.color.toHex(true));
 
     this.picker.find('.colorpicker-color, .colorpicker-color div')
       .css('backgroundColor', this.color.toString(this.format, true));

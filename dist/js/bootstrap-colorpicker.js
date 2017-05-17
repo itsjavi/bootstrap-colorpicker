@@ -345,21 +345,26 @@
         a: a
       };
     },
-    toHex: function(h, s, b, a) {
-      if (arguments.length === 0) {
+    toHex: function(ignoreFormat, h, s, b, a) {
+      if (arguments.length <= 1) {
         h = this.value.h;
         s = this.value.s;
         b = this.value.b;
         a = this.value.a;
       }
 
+      var prefix = '#';
       var rgb = this.toRGB(h, s, b, a);
 
       if (this.rgbaIsTransparent(rgb)) {
         return 'transparent';
       }
 
-      var hexStr = (this.hexNumberSignPrefix ? '#' : '') + (
+      if (!ignoreFormat) {
+        prefix = (this.hexNumberSignPrefix ? '#' : '');
+      }
+
+      var hexStr = prefix + (
           (1 << 24) +
           (parseInt(rgb.r) << 16) +
           (parseInt(rgb.g) << 8) +
@@ -397,7 +402,7 @@
       };
     },
     toAlias: function(r, g, b, a) {
-      var c, rgb = (arguments.length === 0) ? this.toHex() : this.toHex(r, g, b, a);
+      var c, rgb = (arguments.length === 0) ? this.toHex(true) : this.toHex(true, r, g, b, a);
 
       // support predef. colors in non-hex format too, as defined in the alias itself
       var original = this.origFormat === 'alias' ? rgb : this.toString(this.origFormat, false);
@@ -525,9 +530,10 @@
      *
      * @param {string} [format] (default: rgba)
      * @param {boolean} [translateAlias] Return real color for pre-defined (non-standard) aliases (default: false)
+     * @param {boolean} [forceRawValue] Forces hashtag prefix when getting hex color (default: false)
      * @returns {String}
      */
-    toString: function(format, translateAlias) {
+    toString: function(format, translateAlias, forceRawValue) {
       format = format || this.origFormat || this.fallbackFormat;
       translateAlias = translateAlias || false;
 
@@ -563,7 +569,7 @@
           break;
         case 'hex':
           {
-            return this.toHex();
+            return this.toHex(forceRawValue);
           }
           break;
         case 'alias':
@@ -1011,10 +1017,10 @@
       });
 
       this.picker.find('.colorpicker-saturation')
-        .css('backgroundColor', (this.options.hexNumberSignPrefix ? '' : '#') + this.color.toHex(this.color.value.h, 1, 1, 1));
+        .css('backgroundColor', this.color.toHex(true, this.color.value.h, 1, 1, 1));
 
       this.picker.find('.colorpicker-alpha')
-        .css('backgroundColor', (this.options.hexNumberSignPrefix ? '' : '#') + this.color.toHex());
+        .css('backgroundColor', this.color.toHex(true));
 
       this.picker.find('.colorpicker-color, .colorpicker-color div')
         .css('backgroundColor', this.color.toString(this.format, true));

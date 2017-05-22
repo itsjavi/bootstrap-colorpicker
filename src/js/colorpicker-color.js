@@ -386,7 +386,7 @@ Color.prototype = {
     var c, rgb = (arguments.length === 0) ? this.toHex(true) : this.toHex(true, r, g, b, a);
 
     // support predef. colors in non-hex format too, as defined in the alias itself
-    var original = this.origFormat === 'alias' ? rgb : this.toString(this.origFormat, false);
+    var original = this.origFormat === 'alias' ? rgb : this.toString(false, this.origFormat);
 
     for (var alias in this.colors) {
       c = this.colors[alias].toLowerCase().trim();
@@ -514,7 +514,7 @@ Color.prototype = {
    * @param {boolean} [forceRawValue] Forces hashtag prefix when getting hex color (default: false)
    * @returns {String}
    */
-  toString: function(format, translateAlias, forceRawValue) {
+  toString: function(forceRawValue, format, translateAlias) {
     format = format || this.origFormat || this.fallbackFormat;
     translateAlias = translateAlias || false;
 
@@ -558,7 +558,7 @@ Color.prototype = {
           c = this.toAlias();
 
           if (c === false) {
-            return this.toString(this.getValidFallbackFormat());
+            return this.toString(forceRawValue, this.getValidFallbackFormat());
           }
 
           if (translateAlias && !(c in Color.webColors) && (c in this.predefinedColors)) {

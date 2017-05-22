@@ -405,7 +405,7 @@
       var c, rgb = (arguments.length === 0) ? this.toHex(true) : this.toHex(true, r, g, b, a);
 
       // support predef. colors in non-hex format too, as defined in the alias itself
-      var original = this.origFormat === 'alias' ? rgb : this.toString(this.origFormat, false);
+      var original = this.origFormat === 'alias' ? rgb : this.toString(false, this.origFormat);
 
       for (var alias in this.colors) {
         c = this.colors[alias].toLowerCase().trim();
@@ -533,7 +533,7 @@
      * @param {boolean} [forceRawValue] Forces hashtag prefix when getting hex color (default: false)
      * @returns {String}
      */
-    toString: function(format, translateAlias, forceRawValue) {
+    toString: function(forceRawValue, format, translateAlias) {
       format = format || this.origFormat || this.fallbackFormat;
       translateAlias = translateAlias || false;
 
@@ -577,7 +577,7 @@
             c = this.toAlias();
 
             if (c === false) {
-              return this.toString(this.getValidFallbackFormat());
+              return this.toString(forceRawValue, this.getValidFallbackFormat());
             }
 
             if (translateAlias && !(c in Color.webColors) && (c in this.predefinedColors)) {
@@ -981,12 +981,12 @@
       });
     },
     updateData: function(val) {
-      val = val || this.color.toString(this.format, false);
+      val = val || this.color.toString(false, this.format);
       this.element.data('color', val);
       return val;
     },
     updateInput: function(val) {
-      val = val || this.color.toString(this.format, false);
+      val = val || this.color.toString(false, this.format);
       if (this.input !== false) {
         this.input.prop('value', val);
         this.input.trigger('change');
@@ -1023,7 +1023,7 @@
         .css('backgroundColor', this.color.toHex(true));
 
       this.picker.find('.colorpicker-color, .colorpicker-color div')
-        .css('backgroundColor', this.color.toString(this.format, true));
+        .css('backgroundColor', this.color.toString(true, this.format));
 
       return val;
     },
@@ -1040,16 +1040,16 @@
         var icn = this.component.find('i').eq(0);
         if (icn.length > 0) {
           icn.css({
-            'backgroundColor': color.toString(this.format, true)
+            'backgroundColor': color.toString(true, this.format)
           });
         } else {
           this.component.css({
-            'backgroundColor': color.toString(this.format, true)
+            'backgroundColor': color.toString(true, this.format)
           });
         }
       }
 
-      return color.toString(this.format, false);
+      return color.toString(false, this.format);
     },
     update: function(force) {
       var val;

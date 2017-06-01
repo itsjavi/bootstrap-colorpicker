@@ -1,3 +1,10 @@
+/* test-code */
+if (typeof module === "object" && typeof module.exports === "object") {
+  var jsdom = require("jsdom");
+  var JSDOM = jsdom.JSDOM;
+  var $ = require('jquery')((new JSDOM('<!DOCTYPE html><p>Hello world</p>')).window);
+}
+/* end-test-code */
 /**
  * Color manipulation helper class
  *
@@ -319,21 +326,26 @@ Color.prototype = {
       a: a
     };
   },
-  toHex: function(h, s, b, a) {
-    if (arguments.length === 0) {
+  toHex: function(ignoreFormat, h, s, b, a) {
+    if (arguments.length <= 1) {
       h = this.value.h;
       s = this.value.s;
       b = this.value.b;
       a = this.value.a;
     }
 
+    var prefix = '#';
     var rgb = this.toRGB(h, s, b, a);
 
     if (this.rgbaIsTransparent(rgb)) {
       return 'transparent';
     }
 
-    var hexStr = (this.hexNumberSignPrefix ? '#' : '') + (
+    if (!ignoreFormat) {
+      prefix = (this.hexNumberSignPrefix ? '#' : '');
+    }
+
+    var hexStr = prefix + (
         (1 << 24) +
         (parseInt(rgb.r) << 16) +
         (parseInt(rgb.g) << 8) +
@@ -371,10 +383,10 @@ Color.prototype = {
     };
   },
   toAlias: function(r, g, b, a) {
-    var c, rgb = (arguments.length === 0) ? this.toHex() : this.toHex(r, g, b, a);
+    var c, rgb = (arguments.length === 0) ? this.toHex(true) : this.toHex(true, r, g, b, a);
 
     // support predef. colors in non-hex format too, as defined in the alias itself
-    var original = this.origFormat === 'alias' ? rgb : this.toString(this.origFormat, false);
+    var original = this.origFormat === 'alias' ? rgb : this.toString(false, this.origFormat);
 
     for (var alias in this.colors) {
       c = this.colors[alias].toLowerCase().trim();
@@ -499,9 +511,10 @@ Color.prototype = {
    *
    * @param {string} [format] (default: rgba)
    * @param {boolean} [translateAlias] Return real color for pre-defined (non-standard) aliases (default: false)
+   * @param {boolean} [forceRawValue] Forces hashtag prefix when getting hex color (default: false)
    * @returns {String}
    */
-  toString: function(format, translateAlias) {
+  toString: function(forceRawValue, format, translateAlias) {
     format = format || this.origFormat || this.fallbackFormat;
     translateAlias = translateAlias || false;
 
@@ -537,7 +550,7 @@ Color.prototype = {
         break;
       case 'hex':
         {
-          return this.toHex();
+          return this.toHex(forceRawValue);
         }
         break;
       case 'alias':
@@ -545,7 +558,7 @@ Color.prototype = {
           c = this.toAlias();
 
           if (c === false) {
-            return this.toString(this.getValidFallbackFormat());
+            return this.toString(forceRawValue, this.getValidFallbackFormat());
           }
 
           if (translateAlias && !(c in Color.webColors) && (c in this.predefinedColors)) {
@@ -660,3 +673,6 @@ Color.prototype = {
     return false;
   }
 };
+/* test-code */
+module.exports = Color;
+/* end-test-code */

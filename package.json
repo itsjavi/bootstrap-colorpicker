@@ -26,6 +26,9 @@
   "dependencies": {
     "jquery": ">=1.10"
   },
+  "scripts": {
+    "test": "jasmine"
+  },
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-assemble": "~0.4.0",
@@ -36,6 +39,10 @@
     "grunt-contrib-less": "~1.2.0",
     "grunt-contrib-uglify": "~1.0.0",
     "grunt-contrib-watch": "~1.0.0",
-    "grunt-jsbeautifier": "~0.2.10"
+    "grunt-jsbeautifier": "~0.2.10",
+    "grunt-strip-code": "^1.0.6",
+    "jasmine": "^2.6.0",
+    "jquery": "^3.2.1",
+    "jsdom": "^10.1.0"
   }
 }

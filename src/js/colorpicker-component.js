@@ -32,6 +32,8 @@ var Colorpicker = function(element, options) {
     this.updateData(this.color);
   }
 
+  this.disabled = false;
+
   // Setup picker
   var $picker = this.picker = $(this.options.template);
   if (this.options.customClass) {
@@ -343,35 +345,32 @@ Colorpicker.prototype = {
   hasInput: function() {
     return (this.input !== false);
   },
-  isDisabled: function() {
-    if (this.hasInput()) {
-      return (this.input.prop('disabled') === true);
-    }
-    return false;
+  isDisabled: function () {
+      return this.disabled;
   },
-  disable: function() {
-    if (this.hasInput()) {
-      this.input.prop('disabled', true);
+  disable: function () {
+      if (this.hasInput()) {
+          this.input.prop('disabled', true);
+      }
+      this.disabled = true;
       this.element.trigger({
-        type: 'disable',
-        color: this.color,
-        value: this.getValue()
+          type: 'disable',
+          color: this.color,
+          value: this.getValue()
       });
       return true;
-    }
-    return false;
   },
-  enable: function() {
-    if (this.hasInput()) {
-      this.input.prop('disabled', false);
+  enable: function () {
+      if (this.hasInput()) {
+          this.input.prop('disabled', false);
+      }
+      this.disabled = false;
       this.element.trigger({
-        type: 'enable',
-        color: this.color,
-        value: this.getValue()
+          type: 'enable',
+          color: this.color,
+          value: this.getValue()
       });
       return true;
-    }
-    return false;
   },
   currentSlider: null,
   mousePointer: {

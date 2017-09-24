@@ -9,8 +9,8 @@ For downloading the source code, you have many choices:
 
 - Downloading the [latest source code ZIP file](https://github.com/itsjavi/bootstrap-colorpicker/archive/master.zip)
 - Cloning the source code: `git clone https://github.com/itsjavi/bootstrap-colorpicker.git`
-- Installing via Bower: `bower install bootstrap-colorpicker`
 - Installing via NPM: `npm install bootstrap-colorpicker`
+- Installing via Yarn: `yarn add bootstrap-colorpicker`
 - Installing via Composer: `composer require itsjavi/bootstrap-colorpicker`
 
 ## Getting started

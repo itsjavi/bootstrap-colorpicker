@@ -2,7 +2,7 @@
 
 Fancy and customizable color picker plugin for Twitter Bootstrap
 
-[![Build Status](https://travis-ci.org/itsjavi/bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/itsjavi/bootstrap-colorpicker)
+[![Build Status](https://api.travis-ci.org/farbelous/bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/itsjavi/bootstrap-colorpicker)
 
 ## Installation
 For downloading the source code, you have many choices:

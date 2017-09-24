@@ -345,32 +345,32 @@ Colorpicker.prototype = {
   hasInput: function() {
     return (this.input !== false);
   },
-  isDisabled: function () {
-      return this.disabled;
+  isDisabled: function() {
+    return this.disabled;
   },
-  disable: function () {
-      if (this.hasInput()) {
-          this.input.prop('disabled', true);
-      }
-      this.disabled = true;
-      this.element.trigger({
-          type: 'disable',
-          color: this.color,
-          value: this.getValue()
-      });
-      return true;
+  disable: function() {
+    if (this.hasInput()) {
+      this.input.prop('disabled', true);
+    }
+    this.disabled = true;
+    this.element.trigger({
+      type: 'disable',
+      color: this.color,
+      value: this.getValue()
+    });
+    return true;
   },
-  enable: function () {
-      if (this.hasInput()) {
-          this.input.prop('disabled', false);
-      }
-      this.disabled = false;
-      this.element.trigger({
-          type: 'enable',
-          color: this.color,
-          value: this.getValue()
-      });
-      return true;
+  enable: function() {
+    if (this.hasInput()) {
+      this.input.prop('disabled', false);
+    }
+    this.disabled = false;
+    this.element.trigger({
+      type: 'enable',
+      color: this.color,
+      value: this.getValue()
+    });
+    return true;
   },
   currentSlider: null,
   mousePointer: {

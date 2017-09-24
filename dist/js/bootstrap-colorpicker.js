@@ -1,5 +1,5 @@
 /*!
- * Bootstrap Colorpicker v2.5.1
+ * Bootstrap Colorpicker v2.5.2
  * https://itsjavi.com/bootstrap-colorpicker/
  *
  * Originally written by (c) 2012 Stefan Petre
@@ -793,6 +793,8 @@
       this.updateData(this.color);
     }
 
+    this.disabled = false;
+
     // Setup picker
     var $picker = this.picker = $(this.options.template);
     if (this.options.customClass) {
@@ -1105,34 +1107,31 @@
       return (this.input !== false);
     },
     isDisabled: function() {
-      if (this.hasInput()) {
-        return (this.input.prop('disabled') === true);
-      }
-      return false;
+      return this.disabled;
     },
     disable: function() {
       if (this.hasInput()) {
         this.input.prop('disabled', true);
-        this.element.trigger({
-          type: 'disable',
-          color: this.color,
-          value: this.getValue()
-        });
-        return true;
       }
-      return false;
+      this.disabled = true;
+      this.element.trigger({
+        type: 'disable',
+        color: this.color,
+        value: this.getValue()
+      });
+      return true;
     },
     enable: function() {
       if (this.hasInput()) {
         this.input.prop('disabled', false);
-        this.element.trigger({
-          type: 'enable',
-          color: this.color,
-          value: this.getValue()
-        });
-        return true;
       }
-      return false;
+      this.disabled = false;
+      this.element.trigger({
+        type: 'enable',
+        color: this.color,
+        value: this.getValue()
+      });
+      return true;
     },
     currentSlider: null,
     mousePointer: {

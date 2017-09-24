@@ -19,14 +19,9 @@ var Color = function(
   val, predefinedColors, fallbackColor, fallbackFormat, hexNumberSignPrefix) {
   this.fallbackValue = fallbackColor ?
     (
-      fallbackColor && (typeof fallbackColor.h !== 'undefined') ?
-      fallbackColor :
-      this.value = {
-        h: 0,
-        s: 0,
-        b: 0,
-        a: 1
-      }
+      (typeof fallbackColor === 'string') ?
+      this.parse(fallbackColor) :
+      fallbackColor
     ) :
     null;
 
@@ -461,6 +456,9 @@ Color.prototype = {
    * @returns {Object} Object containing h,s,b,a,format properties or FALSE if failed to parse
    */
   parse: function(strVal) {
+    if (typeof strVal !== 'string') {
+      return this.fallbackValue;
+    }
     if (arguments.length === 0) {
       return false;
     }

@@ -15,7 +15,7 @@ the following guidelines.
 These steps are mandatory. Issues that are not clear or are not clearly reproduceable with a live example will be closed.
 
 - Reproduce your problem in a separated environment, like in JSFiddle,
-  [here is a template for it](http://jsfiddle.net/itsjavi/0vopxm13/), that you can fork in the same page.
+  [here is a template for it](http://jsfiddle.net/0vopxm13/157/), that you can fork in the same page.
   It already includes the required JS and CSS files.
 - Before posting your issue, consider adding this information:
   * Expected behaviour: what should happen?

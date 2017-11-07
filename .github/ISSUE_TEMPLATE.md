@@ -13,7 +13,7 @@ The following sections are only mandatory for bug reports.
 For feature requests and other kind of tickets, you only need to fill the first section,
 optionally with additional comments and examples.
 -->
-### What software are you using?
+### Which software are you using?
 
 - bootstrap-colorpicker version: {Please write here}
 - bootstrap version: {Please write here}

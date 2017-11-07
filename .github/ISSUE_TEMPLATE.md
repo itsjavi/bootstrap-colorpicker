@@ -4,10 +4,15 @@ Please note that issues not following this template may be potentially discarded
 with live examples (in case of code issues) and/or the description is not clear enough.
 -->
 
-### Description of the problem
+### Brief description
 
 {Please write here a summary of the issue}
 
+<!--
+The following sections are only mandatory for bug reports.
+For feature requests and other kind of tickets, you only need to fill the first section,
+optionally with additional comments and examples.
+-->
 ### What software are you using?
 
 - bootstrap-colorpicker version: {Please write here}
@@ -23,6 +28,10 @@ with live examples (in case of code issues) and/or the description is not clear 
 ### What's the actual current behavior?
 
 {Please write here in case of code-related issues or remove this section}
+
+### Are there some other related issues or PRs?
+
+{Please write here if applicable the issue numbers or remove this section}
 
 ### Steps to reproduce
 

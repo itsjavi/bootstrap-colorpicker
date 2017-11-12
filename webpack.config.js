@@ -45,6 +45,12 @@ module.exports = {
     'jquery': 'jQuery'
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      'window.$': "jquery",
+      'window.jQuery': "jquery"
+    }),
     new webpack.optimize.UglifyJsPlugin({
       include: /\.min\.js$/,
       minimize: true

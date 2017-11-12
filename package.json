@@ -22,7 +22,11 @@
   },
   "scripts": {
     "test": "ava --color",
-    "start": "node_modules/.bin/http-server ./dist"
+    "dist": "gulp",
+    "start": "node_modules/.bin/http-server ./dist",
+    "serve": "npm start",
+    "lint": "node_modules/.bin/eslint --fix ./src",
+    "lint-fix": "node_modules/.bin/eslint --fix ./src"
   },
   "devDependencies": {
     "ava": "^0.23.0",
@@ -50,7 +54,7 @@
   },
   "ava": {
     "files": [
-      "tests/**/*.js"
+      "tests/**/*test.js"
     ],
     "source": [
       "src/js/**/*.{js,jsx}"
@@ -58,7 +62,7 @@
     "concurrency": 5,
     "failFast": true,
     "failWithoutAssertions": false,
-    "tap": true,
+    "tap": false,
     "powerAssert": false,
     "require": [
       "babel-register"

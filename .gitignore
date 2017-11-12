@@ -14,3 +14,4 @@ dist
 package-lock.json
 gh-pages
 gulpfile.js_*
+/*ignore/

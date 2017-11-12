@@ -21,7 +21,7 @@
     "jquery": ">=1.10"
   },
   "scripts": {
-    "test": "gulp && ava --color",
+    "test": "ava --color",
     "start": "node_modules/.bin/http-server ./dist"
   },
   "devDependencies": {

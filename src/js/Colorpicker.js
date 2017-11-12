@@ -1,153 +1,162 @@
+'use strict';
+
+import Color from './Color';
+import defaults from './defaults';
+import $ from 'jquery';
+
 /**
  * Colorpicker component class
- *
- * @param {Object|String} element
- * @param {Object} options
- * @constructor
  */
-var Colorpicker = function(element, options) {
-  this.element = $(element).addClass('colorpicker-element');
-  this.options = $.extend(true, {}, defaults, this.element.data(), options);
-  this.component = this.options.component;
-  this.component = (this.component !== false) ? this.element.find(this.component) : false;
-  if (this.component && (this.component.length === 0)) {
-    this.component = false;
-  }
-  this.container = (this.options.container === true) ? this.element : this.options.container;
-  this.container = (this.container !== false) ? $(this.container) : false;
+class Colorpicker {
+  /**
+   * @param {Object|String} element
+   * @param {Object} options
+   */
+  constructor(element, options) {
+    this.element = $(element).addClass('colorpicker-element');
+    this.options = $.extend(true, {}, defaults, this.element.data(), options);
+    this.component = this.options.component;
+    this.component = (this.component !== false) ? this.element.find(this.component) : false;
+    if (this.component && (this.component.length === 0)) {
+      this.component = false;
+    }
+    this.container = (this.options.container === true) ? this.element : this.options.container;
+    this.container = (this.container !== false) ? $(this.container) : false;
+    this.currentSlider = null;
+    this.mousePointer = {
+      left: 0,
+      top: 0
+    };
 
-  // Is the element an input? Should we search inside for any input?
-  this.input = this.element.is('input') ? this.element : (this.options.input ?
-    this.element.find(this.options.input) : false);
-  if (this.input && (this.input.length === 0)) {
-    this.input = false;
-  }
-  // Set HSB color
-  this.color = this.createColor(this.options.color !== false ? this.options.color : this.getValue());
+    // Is the element an input? Should we search inside for any input?
+    this.input = this.element.is('input') ? this.element : (this.options.input ?
+      this.element.find(this.options.input) : false);
+    if (this.input && (this.input.length === 0)) {
+      this.input = false;
+    }
+    // Set HSB color
+    this.color = this.createColor(this.options.color !== false ? this.options.color : this.getValue());
 
-  this.format = this.options.format !== false ? this.options.format : this.color.origFormat;
+    this.format = this.options.format !== false ? this.options.format : this.color.origFormat;
 
-  if (this.options.color !== false) {
-    this.updateInput(this.color);
-    this.updateData(this.color);
-  }
+    if (this.options.color !== false) {
+      this.updateInput(this.color);
+      this.updateData(this.color);
+    }
 
-  this.disabled = false;
+    this.disabled = false;
 
-  // Setup picker
-  var $picker = this.picker = $(this.options.template);
-  if (this.options.customClass) {
-    $picker.addClass(this.options.customClass);
-  }
-  if (this.options.inline) {
-    $picker.addClass('colorpicker-inline colorpicker-visible');
-  } else {
-    $picker.addClass('colorpicker-hidden');
-  }
-  if (this.options.horizontal) {
-    $picker.addClass('colorpicker-horizontal');
-  }
-  if (
-    (['rgba', 'hsla', 'alias'].indexOf(this.format) !== -1) ||
-    this.options.format === false ||
-    this.getValue() === 'transparent'
-  ) {
-    $picker.addClass('colorpicker-with-alpha');
-  }
-  if (this.options.align === 'right') {
-    $picker.addClass('colorpicker-right');
-  }
-  if (this.options.inline === true) {
-    $picker.addClass('colorpicker-no-arrow');
-  }
-  if (this.options.colorSelectors) {
-    var colorpicker = this,
-      selectorsContainer = colorpicker.picker.find('.colorpicker-selectors');
+    // Setup picker
+    let $picker = this.picker = $(this.options.template);
 
-    if (selectorsContainer.length > 0) {
-      $.each(this.options.colorSelectors, function(name, color) {
-        var $btn = $('<i />')
-          .addClass('colorpicker-selectors-color')
-          .css('background-color', color)
-          .data('class', name).data('alias', name);
+    if (this.options.customClass) {
+      $picker.addClass(this.options.customClass);
+    }
+    if (this.options.inline) {
+      $picker.addClass('colorpicker-inline colorpicker-visible');
+    } else {
+      $picker.addClass('colorpicker-hidden');
+    }
+    if (this.options.horizontal) {
+      $picker.addClass('colorpicker-horizontal');
+    }
+    if (
+      (['rgba', 'hsla', 'alias'].indexOf(this.format) !== -1) ||
+      this.options.format === false ||
+      this.getValue() === 'transparent'
+    ) {
+      $picker.addClass('colorpicker-with-alpha');
+    }
+    if (this.options.align === 'right') {
+      $picker.addClass('colorpicker-right');
+    }
+    if (this.options.inline === true) {
+      $picker.addClass('colorpicker-no-arrow');
+    }
+    if (this.options.colorSelectors) {
+      let colorpicker = this,
+        selectorsContainer = colorpicker.picker.find('.colorpicker-selectors');
 
-        $btn.on('mousedown.colorpicker touchstart.colorpicker', function(event) {
-          event.preventDefault();
-          colorpicker.setValue(
-            colorpicker.format === 'alias' ? $(this).data('alias') : $(this).css('background-color')
-          );
+      if (selectorsContainer.length > 0) {
+        $.each(this.options.colorSelectors, function (name, color) {
+          let $btn = $('<i />')
+            .addClass('colorpicker-selectors-color')
+            .css('background-color', color)
+            .data('class', name).data('alias', name);
+
+          $btn.on('mousedown.colorpicker touchstart.colorpicker', function (event) {
+            event.preventDefault();
+            colorpicker.setValue(
+              colorpicker.format === 'alias' ? $(this).data('alias') : $(this).css('background-color')
+            );
+          });
+          selectorsContainer.append($btn);
         });
-        selectorsContainer.append($btn);
+        selectorsContainer.show().addClass('colorpicker-visible');
+      }
+    }
+
+    // Prevent closing the colorpicker when clicking on itself
+    $picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(function (e) {
+      if (e.target === e.currentTarget) {
+        e.preventDefault();
+      }
+    }, this));
+
+    // Bind click/tap events on the sliders
+    $picker.find('.colorpicker-saturation, .colorpicker-hue, .colorpicker-alpha')
+      .on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.mousedown, this));
+
+    $picker.appendTo(this.container ? this.container : $('body'));
+
+    // Bind other events
+    if (this.input !== false) {
+      this.input.on({
+        'keyup.colorpicker': $.proxy(this.keyup, this)
       });
-      selectorsContainer.show().addClass('colorpicker-visible');
+      this.input.on({
+        'change.colorpicker': $.proxy(this.change, this)
+      });
+      if (this.component === false) {
+        this.element.on({
+          'focus.colorpicker': $.proxy(this.show, this)
+        });
+      }
+      if (this.options.inline === false) {
+        this.element.on({
+          'focusout.colorpicker': $.proxy(this.hide, this)
+        });
+      }
     }
-  }
 
-  // Prevent closing the colorpicker when clicking on itself
-  $picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(function(e) {
-    if (e.target === e.currentTarget) {
-      e.preventDefault();
+    if (this.component !== false) {
+      this.component.on({
+        'click.colorpicker': $.proxy(this.show, this)
+      });
     }
-  }, this));
 
-  // Bind click/tap events on the sliders
-  $picker.find('.colorpicker-saturation, .colorpicker-hue, .colorpicker-alpha')
-    .on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.mousedown, this));
-
-  $picker.appendTo(this.container ? this.container : $('body'));
-
-  // Bind other events
-  if (this.input !== false) {
-    this.input.on({
-      'keyup.colorpicker': $.proxy(this.keyup, this)
-    });
-    this.input.on({
-      'change.colorpicker': $.proxy(this.change, this)
-    });
-    if (this.component === false) {
+    if ((this.input === false) && (this.component === false)) {
       this.element.on({
+        'click.colorpicker': $.proxy(this.show, this)
+      });
+    }
+
+    // for HTML5 input[type='color']
+    if ((this.input !== false) && (this.component !== false) && (this.input.attr('type') === 'color')) {
+
+      this.input.on({
+        'click.colorpicker': $.proxy(this.show, this),
         'focus.colorpicker': $.proxy(this.show, this)
       });
     }
-    if (this.options.inline === false) {
-      this.element.on({
-        'focusout.colorpicker': $.proxy(this.hide, this)
-      });
-    }
+    this.update();
+
+    $($.proxy(function () {
+      this.element.trigger('create');
+    }, this));
   }
 
-  if (this.component !== false) {
-    this.component.on({
-      'click.colorpicker': $.proxy(this.show, this)
-    });
-  }
-
-  if ((this.input === false) && (this.component === false)) {
-    this.element.on({
-      'click.colorpicker': $.proxy(this.show, this)
-    });
-  }
-
-  // for HTML5 input[type='color']
-  if ((this.input !== false) && (this.component !== false) && (this.input.attr('type') === 'color')) {
-
-    this.input.on({
-      'click.colorpicker': $.proxy(this.show, this),
-      'focus.colorpicker': $.proxy(this.show, this)
-    });
-  }
-  this.update();
-
-  $($.proxy(function() {
-    this.element.trigger('create');
-  }, this));
-};
-
-Colorpicker.Color = Color;
-
-Colorpicker.prototype = {
-  constructor: Colorpicker,
-  destroy: function() {
+  destroy() {
     this.picker.remove();
     this.element.removeData('colorpicker', 'color').off('.colorpicker');
     if (this.input !== false) {
@@ -160,14 +169,16 @@ Colorpicker.prototype = {
     this.element.trigger({
       type: 'destroy'
     });
-  },
-  reposition: function() {
+  }
+
+  reposition() {
     if (this.options.inline !== false || this.options.container) {
       return false;
     }
-    var type = this.container && this.container[0] !== window.document.body ? 'position' : 'offset';
-    var element = this.component || this.element;
-    var offset = element[type]();
+    let type = this.container && this.container[0] !== window.document.body ? 'position' : 'offset';
+    let element = this.component || this.element;
+    let offset = element[type]();
+
     if (this.options.align === 'right') {
       offset.left -= this.picker.outerWidth() - element.outerWidth();
     }
@@ -175,8 +186,10 @@ Colorpicker.prototype = {
       top: offset.top + element.outerHeight(),
       left: offset.left
     });
-  },
-  show: function(e) {
+    return true;
+  }
+
+  show(e) {
     if (this.isDisabled()) {
       // Don't show the widget if it's disabled (the input)
       return;
@@ -199,8 +212,9 @@ Colorpicker.prototype = {
       type: 'showPicker',
       color: this.color
     });
-  },
-  hide: function(e) {
+  }
+
+  hide(e) {
     if ((typeof e !== 'undefined') && e.target) {
       // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
       if (
@@ -220,28 +234,33 @@ Colorpicker.prototype = {
       type: 'hidePicker',
       color: this.color
     });
-  },
-  updateData: function(val) {
+    return true;
+  }
+
+  updateData(val) {
     val = val || this.color.toString(false, this.format);
     this.element.data('color', val);
     return val;
-  },
-  updateInput: function(val) {
+  }
+
+  updateInput(val) {
     val = val || this.color.toString(false, this.format);
     if (this.input !== false) {
       this.input.prop('value', val);
       this.input.trigger('change');
     }
     return val;
-  },
-  updatePicker: function(val) {
+  }
+
+  updatePicker(val) {
     if (typeof val !== 'undefined') {
       this.color = this.createColor(val);
     }
-    var sl = (this.options.horizontal === false) ? this.options.sliders : this.options.slidersHorz;
-    var icns = this.picker.find('i');
+    let sl = (this.options.horizontal === false) ? this.options.sliders : this.options.slidersHorz;
+    let icns = this.picker.find('i');
+
     if (icns.length === 0) {
-      return;
+      return false;
     }
     if (this.options.horizontal === false) {
       sl = this.options.sliders;
@@ -267,9 +286,10 @@ Colorpicker.prototype = {
       .css('backgroundColor', this.color.toString(true, this.format));
 
     return val;
-  },
-  updateComponent: function(val) {
-    var color;
+  }
+
+  updateComponent(val) {
+    let color;
 
     if (typeof val !== 'undefined') {
       color = this.createColor(val);
@@ -278,7 +298,8 @@ Colorpicker.prototype = {
     }
 
     if (this.component !== false) {
-      var icn = this.component.find('i').eq(0);
+      let icn = this.component.find('i').eq(0);
+
       if (icn.length > 0) {
         icn.css({
           'backgroundColor': color.toString(true, this.format)
@@ -291,9 +312,11 @@ Colorpicker.prototype = {
     }
 
     return color.toString(false, this.format);
-  },
-  update: function(force) {
-    var val;
+  }
+
+  update(force) {
+    let val;
+
     if ((this.getValue(false) !== false) || (force === true)) {
       // Update input/data only if the current value is not empty
       val = this.updateComponent();
@@ -303,8 +326,9 @@ Colorpicker.prototype = {
     }
     return val;
 
-  },
-  setValue: function(val) { // set color manually
+  }
+
+  setValue(val) { // set color manually
     this.color = this.createColor(val);
     this.update(true);
     this.element.trigger({
@@ -312,14 +336,15 @@ Colorpicker.prototype = {
       color: this.color,
       value: val
     });
-  },
+  }
+
   /**
    * Creates a new color using the instance options
    * @protected
    * @param {String} val
    * @returns {Color}
    */
-  createColor: function(val) {
+  createColor(val) {
     return new Color(
       val ? val : null,
       this.options.colorSelectors,
@@ -327,10 +352,12 @@ Colorpicker.prototype = {
       this.options.fallbackFormat,
       this.options.hexNumberSignPrefix
     );
-  },
-  getValue: function(defaultValue) {
+  }
+
+  getValue(defaultValue) {
     defaultValue = (typeof defaultValue === 'undefined') ? this.options.fallbackColor : defaultValue;
-    var val;
+    let val;
+
     if (this.hasInput()) {
       val = this.input.val();
     } else {
@@ -341,14 +368,17 @@ Colorpicker.prototype = {
       val = defaultValue;
     }
     return val;
-  },
-  hasInput: function() {
+  }
+
+  hasInput() {
     return (this.input !== false);
-  },
-  isDisabled: function() {
+  }
+
+  isDisabled() {
     return this.disabled;
-  },
-  disable: function() {
+  }
+
+  disable() {
     if (this.hasInput()) {
       this.input.prop('disabled', true);
     }
@@ -359,8 +389,9 @@ Colorpicker.prototype = {
       value: this.getValue()
     });
     return true;
-  },
-  enable: function() {
+  }
+
+  enable() {
     if (this.hasInput()) {
       this.input.prop('disabled', false);
     }
@@ -371,13 +402,9 @@ Colorpicker.prototype = {
       value: this.getValue()
     });
     return true;
-  },
-  currentSlider: null,
-  mousePointer: {
-    left: 0,
-    top: 0
-  },
-  mousedown: function(e) {
+  }
+
+  mousedown(e) {
     if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
       e.pageX = e.originalEvent.touches[0].pageX;
       e.pageY = e.originalEvent.touches[0].pageY;
@@ -385,11 +412,12 @@ Colorpicker.prototype = {
     e.stopPropagation();
     e.preventDefault();
 
-    var target = $(e.target);
+    let target = $(e.target);
 
-    //detect the slider and set the limits and callbacks
-    var zone = target.closest('div');
-    var sl = this.options.horizontal ? this.options.slidersHorz : this.options.sliders;
+    // detect the slider and set the limits and callbacks
+    let zone = target.closest('div');
+    let sl = this.options.horizontal ? this.options.slidersHorz : this.options.sliders;
+
     if (!zone.is('.colorpicker')) {
       if (zone.is('.colorpicker-saturation')) {
         this.currentSlider = $.extend({}, sl.saturation);
@@ -400,8 +428,9 @@ Colorpicker.prototype = {
       } else {
         return false;
       }
-      var offset = zone.offset();
-      //reference to guide's style
+      let offset = zone.offset();
+      // reference to guide's style
+
       this.currentSlider.guide = zone.find('i')[0].style;
       this.currentSlider.left = e.pageX - offset.left;
       this.currentSlider.top = e.pageY - offset.top;
@@ -409,7 +438,7 @@ Colorpicker.prototype = {
         left: e.pageX,
         top: e.pageY
       };
-      //trigger mousemove to move the guide to the current position
+      // trigger mousemove to move the guide to the current position
       $(window.document).on({
         'mousemove.colorpicker': $.proxy(this.mousemove, this),
         'touchmove.colorpicker': $.proxy(this.mousemove, this),
@@ -418,28 +447,30 @@ Colorpicker.prototype = {
       }).trigger('mousemove');
     }
     return false;
-  },
-  mousemove: function(e) {
+  }
+
+  mousemove(e) {
     if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
       e.pageX = e.originalEvent.touches[0].pageX;
       e.pageY = e.originalEvent.touches[0].pageY;
     }
     e.stopPropagation();
     e.preventDefault();
-    var left = Math.max(
+    let left = Math.max(
       0,
       Math.min(
         this.currentSlider.maxLeft,
         this.currentSlider.left + ((e.pageX || this.mousePointer.left) - this.mousePointer.left)
       )
     );
-    var top = Math.max(
+    let top = Math.max(
       0,
       Math.min(
         this.currentSlider.maxTop,
         this.currentSlider.top + ((e.pageY || this.mousePointer.top) - this.mousePointer.top)
       )
     );
+
     this.currentSlider.guide.left = left + 'px';
     this.currentSlider.guide.top = top + 'px';
     if (this.currentSlider.callLeft) {
@@ -457,14 +488,12 @@ Colorpicker.prototype = {
         this.currentSlider.callLeft === 'setAlpha')
     ) {
 
-      // Converting from hex / rgb to rgba
       if (this.color.value.a !== 1) {
+        // Converting from hex / rgb to rgba
         this.format = 'rgba';
         this.color.origFormat = 'rgba';
-      }
-
-      // Converting from rgba to hex
-      else {
+      } else {
+        // Converting from rgba to hex
         this.format = 'hex';
         this.color.origFormat = 'hex';
       }
@@ -476,8 +505,9 @@ Colorpicker.prototype = {
       color: this.color
     });
     return false;
-  },
-  mouseup: function(e) {
+  }
+
+  mouseup(e) {
     e.stopPropagation();
     e.preventDefault();
     $(window.document).off({
@@ -487,11 +517,13 @@ Colorpicker.prototype = {
       'touchend.colorpicker': this.mouseup
     });
     return false;
-  },
-  change: function(e) {
+  }
+
+  change(e) {
     this.keyup(e);
-  },
-  keyup: function(e) {
+  }
+
+  keyup(e) {
     if ((e.keyCode === 38)) {
       if (this.color.value.a < 1) {
         this.color.value.a = Math.round((this.color.value.a + 0.01) * 100) / 100;
@@ -522,40 +554,6 @@ Colorpicker.prototype = {
       value: this.input.val()
     });
   }
-};
+}
 
-$.colorpicker = Colorpicker;
-
-$.fn.colorpicker = function(option) {
-  var apiArgs = Array.prototype.slice.call(arguments, 1),
-    isSingleElement = (this.length === 1),
-    returnValue = null;
-
-  var $jq = this.each(function() {
-    var $this = $(this),
-      inst = $this.data('colorpicker'),
-      options = ((typeof option === 'object') ? option : {});
-
-    if (!inst) {
-      inst = new Colorpicker(this, options);
-      $this.data('colorpicker', inst);
-    }
-
-    if (typeof option === 'string') {
-      if ($.isFunction(inst[option])) {
-        returnValue = inst[option].apply(inst, apiArgs);
-      } else { // its a property ?
-        if (apiArgs.length) {
-          // set property
-          inst[option] = apiArgs[0];
-        }
-        returnValue = inst[option];
-      }
-    } else {
-      returnValue = $this;
-    }
-  });
-  return isSingleElement ? returnValue : $jq;
-};
-
-$.fn.colorpicker.constructor = Colorpicker;
+export default Colorpicker;

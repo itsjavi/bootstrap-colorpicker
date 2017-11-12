@@ -1,7 +1,7 @@
 {
   "name": "bootstrap-colorpicker",
-  "version": "2.5.2",
-  "description": "Fancy and customizable colorpicker plugin for Twitter Bootstrap",
+  "version": "3.0.0",
+  "description": "Simple and customizable colorpicker component for Twitter Bootstrap.",
   "main": "./dist/js/bootstrap-colorpicker.js",
   "homepage": "https://itsjavi.com/bootstrap-colorpicker/",
   "repository": {
@@ -15,34 +15,54 @@
     "bootstrap",
     "colorpicker"
   ],
-  "author": "Javier Aguilar",
-  "license": "Apache-2.0",
-  "licenses": [
-    {
-      "type": "Apache-2.0",
-      "url": "http://opensource.org/licenses/Apache-2.0"
-    }
-  ],
+  "author": "Javi Aguilar",
+  "license": "MIT",
   "dependencies": {
     "jquery": ">=1.10"
   },
   "scripts": {
-    "test": "jasmine"
+    "test": "gulp && ava --color",
+    "start": "node_modules/.bin/http-server ./dist"
   },
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-assemble": "~0.4.0",
-    "grunt-combine": "~0.8.3",
-    "grunt-contrib-clean": "~1.0.0",
-    "grunt-contrib-cssmin": "~1.0.1",
-    "grunt-contrib-jshint": "~1.0.0",
-    "grunt-contrib-less": "~1.2.0",
-    "grunt-contrib-uglify": "~1.0.0",
-    "grunt-contrib-watch": "~1.0.0",
-    "grunt-jsbeautifier": "~0.2.10",
-    "grunt-strip-code": "^1.0.6",
-    "jasmine": "^2.6.0",
-    "jquery": "^3.2.1",
-    "jsdom": "^10.1.0"
+    "ava": "^0.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.6.1",
+    "del": "^3.0.0",
+    "eslint": "^4.11.0",
+    "eslint-loader": "^1.9.0",
+    "gh-pages": "^1.0.0",
+    "gulp": "^3.9.1",
+    "gulp-compile-handlebars": "^0.6.1",
+    "gulp-header": "^1.8.9",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.1",
+    "handlebars-layouts": "^3.1.4",
+    "http-server": "^0.10.0",
+    "jsdom": "^11.3.0",
+    "uglifyjs-webpack-plugin": "^1.0.1",
+    "webpack": "^3.8.1",
+    "webpack-stream": "^4.0.0"
+  },
+  "ava": {
+    "files": [
+      "tests/**/*.js"
+    ],
+    "source": [
+      "src/js/**/*.{js,jsx}"
+    ],
+    "concurrency": 5,
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "tap": true,
+    "powerAssert": false,
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
   }
 }

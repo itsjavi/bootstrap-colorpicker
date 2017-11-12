@@ -24,8 +24,7 @@ Please note that PRs not following this template may be potentially discarded if
 Please mark with `x` inside the `[ ]` for anything that applies to this PR.
 
 - [ ] All tests passed in travis-ci
-- [ ] Regenerated the `dist` files via `grunt`
-- [ ] All documentation examples are still working after testing them via `node serve`
+- [ ] All documentation examples are still working after testing them via `npm start`
 - [ ] Added an example in the documentation for the newly introduced feature
 - [ ] Provided an example via JsFiddle in the description of this PR
 - [ ] Tested at least with latest Chrome, Firefox and Mobile (iOS Safari and/or Chrome for Android)

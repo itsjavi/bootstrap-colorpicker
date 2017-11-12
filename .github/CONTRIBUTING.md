@@ -29,14 +29,13 @@ These steps are mandatory. Issues that are not clear or are not clearly reproduc
 
 Patches and new features are welcome!
 
-- Prerequisites: having `node`, `npm`, `bower` and `grunt` installed in your machine.
-- After a fresh clone for your fork, you need to run `npm install && bower install` inside the project's root folder.
-- For checking your changes in the browser you can execute `node serve` and navigate to http://localhost:5000/
-- Before any commit run always `grunt` inside the project's root folder, to update the dist files
-  (never modify them manually).
-- Do not change the plugin coding style.
-- Check that the index.html demos aren't broken (modify if necessary).
+- Prerequisites: having `node`, `npm`, `yarn` and `gulp` installed in your machine.
+- After a fresh clone for your fork, you need to run `yarn install` inside the project's root folder.
+- For checking your changes in the browser you can execute `npm start` and navigate to 
+  [http://localhost:8080/](http://localhost:8080/)
+- Before any commit run always `gulp` inside the project's root folder, to check if the build process passes.
+- Do not change the plugin coding style if not necessary.
+- Check that the documentation demos aren't broken (modify if necessary).
 - Test your code at least in Chrome, Firefox and IE >= 10 / Edge.
 - Any new feature should come with updated docs if applicable (a demonstration).
-- Generate the `/dist` files executing `grunt` before your Pull Request.
 - Push to your fork and submit the pull request.

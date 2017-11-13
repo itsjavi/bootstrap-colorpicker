@@ -1,0 +1,27 @@
+{{#extend "layout"}}
+  {{#content "body"}}
+    <div class="page-header">
+      <h1><i class="glyphicon glyphicon-tint"></i> Bootstrap Colorpicker {{package.version}}
+        <small>for Twitter Bootstrap</small>
+      </h1>
+    </div>
+    <div class="row">
+      <article class="col-md-12">
+        <p>
+          {{package.description}}.
+          Maintained by <a href="https://itsjavi.com/" target="_blank">Javi Aguilar</a> and the
+          <a href="https://github.com/farbelous/" target="_blank">Farbelous</a> Github organisation.
+        </p>
+      </article>
+    </div>
+    {{> buttons }}
+    <div class="row">
+      <div class="col-md-7">
+        {{> docs }}
+      </div>
+      <div class="col-md-5">
+        {{> examples }}
+      </div>
+    </div>
+  {{/content}}
+{{/extend}}

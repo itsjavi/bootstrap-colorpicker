@@ -7,7 +7,7 @@ Please note that issues not following this template may be potentially discarded
 with live examples (in case of code issues) and/or the description is not clear enough.
 -->
 
-### Brief description
+### Description
 
 {Please write here a summary of the issue}
 
@@ -16,7 +16,7 @@ The following sections are only mandatory for bug reports.
 For feature requests and other kind of tickets, you only need to fill the first section,
 optionally with additional comments and examples.
 -->
-### Which software are you using?
+### Context
 
 - bootstrap-colorpicker version: {Please write here}
 - bootstrap version: {Please write here}
@@ -24,17 +24,13 @@ optionally with additional comments and examples.
 - Browser name and version: {Please write here}
 - Operative System name an version: {Please write here}
 
-### What's the expected or desirable behavior?
+### Expected behavior
 
 {Please write here in case of code-related issues or remove this section}
 
-### What's the actual current behavior?
+### Actual behavior
 
 {Please write here in case of code-related issues or remove this section}
-
-### Are there some other related issues or PRs?
-
-{Please write here if applicable the issue numbers or remove this section}
 
 ### Steps to reproduce
 

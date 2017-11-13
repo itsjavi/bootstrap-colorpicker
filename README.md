@@ -1,13 +1,13 @@
-# Bootstrap Colorpicker 2
+# Bootstrap Colorpicker 3
 
-Fancy and customizable color picker plugin for Twitter Bootstrap
+Simple and customizable colorpicker component for Twitter Bootstrap.
 
-[![Build Status](https://api.travis-ci.org/farbelous/bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/itsjavi/bootstrap-colorpicker)
+[![Build Status](https://api.travis-ci.org/farbelous/bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
 
 ## Installation
 For downloading the source code, you have many choices:
 
-- Downloading the [latest source code ZIP file](https://github.com/itsjavi/bootstrap-colorpicker/archive/master.zip)
+- Downloading the [latest master ZIP file](https://github.com/itsjavi/bootstrap-colorpicker/archive/master.zip)
 - Cloning the source code: `git clone https://github.com/itsjavi/bootstrap-colorpicker.git`
 - Installing via NPM: `npm install bootstrap-colorpicker`
 - Installing via Yarn: `yarn add bootstrap-colorpicker`
@@ -18,7 +18,10 @@ For downloading the source code, you have many choices:
 - You can read the [documentation here](https://itsjavi.com/bootstrap-colorpicker/)
 
 ## Contributing and reporting issues
-If you want to contribute to the source code or report issues and suggestions, please read the [CONTRIBUTING.md](CONTRIBUTING.md) guidelines first. Some steps are mandatory in order to accept a Pull Request.
+It is mandatory to use the provided templates that are suggested whenever you open a new Issue or Pull Request.
+They can also be found under the `.github` folder.
+
+Please also respect the [Code of Conduct](./.github/CODE_OF_CONDUCT.md).
 
 ## Credits
-Originally written by [Stefan Petre](http://www.eyecon.ro/)
+Originally written by [Stefan Petre](http://www.eyecon.ro/).

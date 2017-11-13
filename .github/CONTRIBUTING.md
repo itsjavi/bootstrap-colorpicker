@@ -35,6 +35,7 @@ Patches and new features are welcome!
   [http://localhost:8080/](http://localhost:8080/)
 - Before any commit run always `gulp && npm test` inside the project's root folder, to check that everything still works.
 - Do not change the plugin coding style if not necessary.
+- The `dist` folder needs to be regenerated using `gulp`.
 - Check that the documentation demos aren't broken (modify if necessary).
 - Test your code at least in Chrome, Firefox.
 - Any new feature should come with updated docs if applicable (a demonstration).

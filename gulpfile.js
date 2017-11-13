@@ -13,7 +13,7 @@ const pkg = JSON.parse(fs.readFileSync('./package.json'));
 
 handlebars.Handlebars.registerHelper(handlebars_layouts(handlebars.Handlebars));
 
-// TODO: minification of CSS and JS files, source maps.
+// TODO: CSS and JS source maps.
 
 let banner = `/*!
  * Bootstrap Colorpicker - <%= pkg.description %>
@@ -46,7 +46,14 @@ gulp.task('js', ['js:clean'], function () {
 gulp.task('css:clean', function () {
   return del(['dist/css/**/*']);
 });
-gulp.task('css', ['css:clean'], function () {
+gulp.task('css-min', ['css:clean'], function () {
+  return gulp.src('./src/sass/colorpicker.scss')
+    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+    .pipe(header(banner, {pkg: pkg}))
+    .pipe(rename('bootstrap-colorpicker.min.css'))
+    .pipe(gulp.dest('dist/css'));
+});
+gulp.task('css', ['css:clean', 'css-min'], function () {
   return gulp.src('./src/sass/colorpicker.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(header(banner, {pkg: pkg}))

@@ -15,6 +15,7 @@ Please mark with `x` inside the `[ ]` for anything that applies to this PR.
 
 - [ ] Running `gulp` and `npm test` locally didn't report any error.
 - [ ] All tests passed and are green in travis-ci.
+- [ ] The `dist` files have been regenerated using `gulp`.
 - [ ] All documentation examples are still working after checking them locally via `npm start`.
 - [ ] An example of this Pull Request has been added in the documentation templates or in this PR as JSFiddle link.
 - [ ] This PR has been tested at least with latest Chrome, Firefox.

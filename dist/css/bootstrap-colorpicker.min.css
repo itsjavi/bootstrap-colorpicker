@@ -1,6 +1,6 @@
 /*!
  * Bootstrap Colorpicker - Simple and customizable colorpicker component for Twitter Bootstrap.
- * @package vbootstrap-colorpicker
+ * @package bootstrap-colorpicker
  * @version v3.0.0
  * @license MIT
  * @link https://itsjavi.com/bootstrap-colorpicker/

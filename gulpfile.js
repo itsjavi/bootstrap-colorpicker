@@ -17,7 +17,7 @@ handlebars.Handlebars.registerHelper(handlebars_layouts(handlebars.Handlebars));
 
 let banner = `/*!
  * Bootstrap Colorpicker - <%= pkg.description %>
- * @package v<%= pkg.name %>
+ * @package <%= pkg.name %>
  * @version v<%= pkg.version %>
  * @license <%= pkg.license %>
  * @link <%= pkg.homepage %>

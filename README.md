@@ -1,4 +1,4 @@
-# Bootstrap Colorpicker 2
+# Bootstrap Colorpicker 3
 
 Simple and customizable colorpicker component for Twitter Bootstrap.
 
@@ -24,4 +24,4 @@ They can also be found under the `.github` folder.
 Please also respect the [Code of Conduct](./.github/CODE_OF_CONDUCT.md).
 
 ## Credits
-Originally written by [Stefan Petre](http://www.eyecon.ro/)
+Originally written by [Stefan Petre](http://www.eyecon.ro/).

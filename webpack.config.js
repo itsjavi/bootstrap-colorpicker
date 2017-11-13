@@ -15,7 +15,7 @@ module.exports = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
-  // devtool: 'source-map',
+  devtool: 'source-map',
   resolve: {
     modules: [
       path.resolve('./src/js'),
@@ -53,7 +53,8 @@ module.exports = {
     }),
     new webpack.optimize.UglifyJsPlugin({
       include: /\.min\.js$/,
-      minimize: true
+      minimize: true,
+      sourceMap: true
     })
   ]
 };

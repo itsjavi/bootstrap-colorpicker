@@ -13,7 +13,7 @@ const pkg = JSON.parse(fs.readFileSync('./package.json'));
 
 handlebars.Handlebars.registerHelper(handlebars_layouts(handlebars.Handlebars));
 
-// TODO: CSS and JS source maps.
+// TODO: add CSS source maps.
 
 let banner = `/*!
  * Bootstrap Colorpicker - <%= pkg.description %>

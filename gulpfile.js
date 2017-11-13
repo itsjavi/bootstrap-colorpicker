@@ -103,7 +103,7 @@ gulp.task('gh-pages', ['default'], function () {
   );
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', ['default'], function () {
   gulp.watch('src/hbs/**/*.hbs', ['html']);
   gulp.watch('src/sass/**/*.scss', ['css']);
   gulp.watch('src/js/**/*.js', ['js']);

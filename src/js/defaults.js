@@ -8,9 +8,10 @@ export default {
   input: 'input', // children input selector
   container: false, // container selector
   component: '.add-on, .input-group-addon', // children component selector
-  fallbackColor: false, // fallback color value. null = keeps current color.
-  fallbackFormat: 'hex', // fallback color format
-  hexNumberSignPrefix: true, // put a '#' (number sign) before hex strings
+  fallbackColor: false, // fallback color value. null = latest valid color.
+  useHashPrefix: true, // put a '#' (number sign) before hex strings
+  useAlpha: true, // null = auto, false = always hide, true = always show
+  hex8Compatible: true, // if true the hex8 format will be used whenever there is an alpha channel, otherwise rgba
   sliders: {
     saturation: {
       maxLeft: 100,
@@ -56,9 +57,9 @@ export default {
     <div class="colorpicker-hue"><i></i></div>
     <div class="colorpicker-alpha"><i></i></div>
     <div class="colorpicker-color"><div /></div>
-    <div class="colorpicker-selectors"></div>
+    <div class="colorpicker-palette"></div>
   </div>`,
   align: 'right',
   customClass: null, // custom class added to the colorpicker element
-  colorSelectors: null // custom color aliases
+  colorPalette: null // custom color aliases
 };

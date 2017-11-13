@@ -1,11 +1,9 @@
 'use strict';
 
-import Color from './Color';
 import Colorpicker from './Colorpicker';
 import $ from 'jquery';
 
 $.colorpicker = Colorpicker;
-$.colorpicker.Color = Color;
 
 $.fn.colorpicker = function (option) {
   let apiArgs = Array.prototype.slice.call(arguments, 1),

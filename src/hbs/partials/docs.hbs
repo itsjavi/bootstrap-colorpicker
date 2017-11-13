@@ -56,7 +56,7 @@
     <td>Children selector for the input that will store the picker selected value.</td>
   </tr>
   <tr>
-    <td>hexNumberSignPrefix</td>
+    <td>useHashPrefix (previously hexNumberSignPrefix)</td>
     <td>boolean</td>
     <td>true</td>
     <td>If true, put a '&num;' (number sign) before hex strings.
@@ -109,12 +109,11 @@
     <td>Adds this class to the colorpicker widget.</td>
   </tr>
   <tr>
-    <td>colorSelectors</td>
+    <td>colorPalette</td>
     <td>object</td>
     <td>null</td>
-    <td>List of pre selected colors (hex format). If you choose one of these colors, the alias is returned instead of
-      the hex
-      code.
+    <td>List of pre selected colors (string format).
+      If you choose one of these colors, the alias is used instead of the color code.
     </td>
   </tr>
   <tr>

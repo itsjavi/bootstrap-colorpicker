@@ -138,21 +138,21 @@
   height: 10px;
 }
 
-.colorpicker-selectors {
+.colorpicker-palette {
   display: none;
   height: 10px;
   margin-top: 5px;
   clear: both;
 }
 
-.colorpicker-selectors i {
+.colorpicker-palette i {
   cursor: pointer;
   float: left;
   height: 10px;
   width: 10px;
 }
 
-.colorpicker-selectors i + i {
+.colorpicker-palette i + i {
   margin-left: 3px;
 }
 
@@ -241,7 +241,7 @@
 .colorpicker-alpha,
 .colorpicker-saturation,
 .colorpicker-hue,
-.colorpicker-selectors {
+.colorpicker-palette {
   &.colorpicker-visible {
     display: block;
   }
@@ -251,7 +251,7 @@
 .colorpicker-alpha,
 .colorpicker-saturation,
 .colorpicker-hue,
-.colorpicker-selectors {
+.colorpicker-palette {
   &.colorpicker-hidden {
     display: none;
   }

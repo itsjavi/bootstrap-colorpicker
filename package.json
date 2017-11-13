@@ -18,10 +18,11 @@
   "author": "Javi Aguilar",
   "license": "MIT",
   "dependencies": {
-    "jquery": ">=1.10"
+    "jquery": ">=2.1.0",
+    "tinycolor2": "^1.4.1"
   },
   "scripts": {
-    "test": "ava --color",
+    "test": "node_modules/.bin/eslint ./test && ava --color --verbose",
     "dist": "gulp",
     "start": "node_modules/.bin/http-server ./dist",
     "serve": "npm start",

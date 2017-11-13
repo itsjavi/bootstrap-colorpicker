@@ -7,10 +7,25 @@ import $ from 'jquery';
 /**
  * Colorpicker component class
  */
-class Colorpicker {
+export default class Colorpicker {
+  /**
+   * @returns {tinycolor}
+   */
+  static get Color() {
+    return Color;
+  }
+
+  /**
+   * @returns {tinycolor}
+   */
+  static get TinyColor() {
+    return this.Color.TinyColor;
+  }
+
   /**
    * @param {Object|String} element
    * @param {Object} options
+   * @constructor
    */
   constructor(element, options) {
     this.element = $(element).addClass('colorpicker-element');
@@ -34,15 +49,11 @@ class Colorpicker {
     if (this.input && (this.input.length === 0)) {
       this.input = false;
     }
-    // Set HSB color
+
+    /**
+     * @type {Color}
+     */
     this.color = this.createColor(this.options.color !== false ? this.options.color : this.getValue());
-
-    this.format = this.options.format !== false ? this.options.format : this.color.origFormat;
-
-    if (this.options.color !== false) {
-      this.updateInput(this.color);
-      this.updateData(this.color);
-    }
 
     this.disabled = false;
 
@@ -60,35 +71,36 @@ class Colorpicker {
     if (this.options.horizontal) {
       $picker.addClass('colorpicker-horizontal');
     }
+
     if (
-      (['rgba', 'hsla', 'alias'].indexOf(this.format) !== -1) ||
-      this.options.format === false ||
-      this.getValue() === 'transparent'
+      (this.options.useAlpha || this.color.hasAlpha()) &&
+      (this.options.useAlpha !== false)
     ) {
+      this.options.useAlpha = true;
       $picker.addClass('colorpicker-with-alpha');
     }
+
     if (this.options.align === 'right') {
       $picker.addClass('colorpicker-right');
     }
     if (this.options.inline === true) {
       $picker.addClass('colorpicker-no-arrow');
     }
-    if (this.options.colorSelectors) {
+    if (this.options.colorPalette) {
       let colorpicker = this,
-        selectorsContainer = colorpicker.picker.find('.colorpicker-selectors');
+        selectorsContainer = colorpicker.picker.find('.colorpicker-palette');
 
       if (selectorsContainer.length > 0) {
-        $.each(this.options.colorSelectors, function (name, color) {
+        $.each(this.options.colorPalette, function (name, color) {
           let $btn = $('<i />')
-            .addClass('colorpicker-selectors-color')
+            .addClass('colorpicker-palette-color')
             .css('background-color', color)
+            .attr('title', `${name}: ${color}`)
             .data('class', name).data('alias', name);
 
           $btn.on('mousedown.colorpicker touchstart.colorpicker', function (event) {
             event.preventDefault();
-            colorpicker.setValue(
-              colorpicker.format === 'alias' ? $(this).data('alias') : $(this).css('background-color')
-            );
+            colorpicker.setValue($(this).data('alias'));
           });
           selectorsContainer.append($btn);
         });
@@ -149,7 +161,8 @@ class Colorpicker {
         'focus.colorpicker': $.proxy(this.show, this)
       });
     }
-    this.update();
+
+    this.update(this.options.color !== false);
 
     $($.proxy(function () {
       this.element.trigger('create');
@@ -169,6 +182,51 @@ class Colorpicker {
     this.element.trigger({
       type: 'destroy'
     });
+  }
+
+  get color() {
+    return this.element.data('color');
+  }
+
+  set color(value) {
+    this.element.data('color', value);
+  }
+
+  get format() {
+    if (this.options.format) {
+      return this.options.format;
+    }
+
+    if (this.color) {
+      if (this.color.hasAlpha() && this.color.format.match(/^hex/)) {
+        return this.options.hex8Compatible ? 'hex8' : 'rgba';
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Formatted color string, translated to the palette alias if available and with the other formatting options applied
+   * (e.g. useHashPrefix)
+   * @returns {String}
+   */
+  getColorString() {
+    let str = this.color.toString(this.format);
+
+    if (this.options.useHashPrefix === false) {
+      str = str.replace(/^#/g, '');
+    }
+
+    return this.getPaletteColorName(str, this.getPaletteColorName('#' + str, str));
+  }
+
+  /**
+   * Formatted color string, suitable for CSS
+   * @returns {String}
+   */
+  getCssColorString() {
+    return this.color.toString(this.format, true);
   }
 
   reposition() {
@@ -237,121 +295,67 @@ class Colorpicker {
     return true;
   }
 
-  updateData(val) {
-    val = val || this.color.toString(false, this.format);
-    this.element.data('color', val);
-    return val;
-  }
-
-  updateInput(val) {
-    val = val || this.color.toString(false, this.format);
+  updateInput() {
     if (this.input !== false) {
-      this.input.prop('value', val);
+      this.input.prop('value', this.getColorString());
       this.input.trigger('change');
     }
-    return val;
   }
 
-  updatePicker(val) {
-    if (typeof val !== 'undefined') {
-      this.color = this.createColor(val);
-    }
+  updatePicker() {
     let sl = (this.options.horizontal === false) ? this.options.sliders : this.options.slidersHorz;
     let icns = this.picker.find('i');
 
     if (icns.length === 0) {
-      return false;
+      return;
     }
     if (this.options.horizontal === false) {
       sl = this.options.sliders;
-      icns.eq(1).css('top', sl.hue.maxTop * (1 - this.color.value.h)).end()
-        .eq(2).css('top', sl.alpha.maxTop * (1 - this.color.value.a));
+      icns.eq(1).css('top', sl.hue.maxTop * (1 - this.color.h)).end()
+        .eq(2).css('top', sl.alpha.maxTop * (1 - this.color.a));
     } else {
       sl = this.options.slidersHorz;
-      icns.eq(1).css('left', sl.hue.maxLeft * (1 - this.color.value.h)).end()
-        .eq(2).css('left', sl.alpha.maxLeft * (1 - this.color.value.a));
+      icns.eq(1).css('left', sl.hue.maxLeft * (1 - this.color.h)).end()
+        .eq(2).css('left', sl.alpha.maxLeft * (1 - this.color.a));
     }
     icns.eq(0).css({
-      'top': sl.saturation.maxTop - this.color.value.b * sl.saturation.maxTop,
-      'left': this.color.value.s * sl.saturation.maxLeft
+      'top': sl.saturation.maxTop - this.color.v * sl.saturation.maxTop,
+      'left': this.color.s * sl.saturation.maxLeft
     });
 
     this.picker.find('.colorpicker-saturation')
-      .css('backgroundColor', this.color.toHex(true, this.color.value.h, 1, 1, 1));
+      .css('backgroundColor', this.color.getHueOnlyCopy().toHexString()); // we only need hue
 
     this.picker.find('.colorpicker-alpha')
-      .css('backgroundColor', this.color.toHex(true));
+      .css('backgroundColor', this.color.toHexString()); // we don't need alpha
 
     this.picker.find('.colorpicker-color, .colorpicker-color div')
-      .css('backgroundColor', this.color.toString(true, this.format));
-
-    return val;
+      .css('backgroundColor', this.color.toRgbString()); // we need all the channels
   }
 
-  updateComponent(val) {
-    let color;
-
-    if (typeof val !== 'undefined') {
-      color = this.createColor(val);
-    } else {
-      color = this.color;
-    }
-
+  updateComponent() {
     if (this.component !== false) {
       let icn = this.component.find('i').eq(0);
 
       if (icn.length > 0) {
         icn.css({
-          'backgroundColor': color.toString(true, this.format)
+          'backgroundColor': this.getCssColorString()
         });
       } else {
         this.component.css({
-          'backgroundColor': color.toString(true, this.format)
+          'backgroundColor': this.getCssColorString()
         });
       }
     }
-
-    return color.toString(false, this.format);
   }
 
   update(force) {
-    let val;
-
     if ((this.getValue(false) !== false) || (force === true)) {
-      // Update input/data only if the current value is not empty
-      val = this.updateComponent();
-      this.updateInput(val);
-      this.updateData(val);
-      this.updatePicker(); // only update picker if value is not empty
+      // Update only if the current value (from input or data) is not empty
+      this.updateComponent();
+      this.updateInput();
+      this.updatePicker();
     }
-    return val;
-
-  }
-
-  setValue(val) { // set color manually
-    this.color = this.createColor(val);
-    this.update(true);
-    this.element.trigger({
-      type: 'changeColor',
-      color: this.color,
-      value: val
-    });
-  }
-
-  /**
-   * Creates a new color using the instance options
-   * @protected
-   * @param {String} val
-   * @returns {Color}
-   */
-  createColor(val) {
-    return new Color(
-      val ? val : null,
-      this.options.colorSelectors,
-      this.options.fallbackColor ? this.options.fallbackColor : this.color,
-      this.options.fallbackFormat,
-      this.options.hexNumberSignPrefix
-    );
   }
 
   getValue(defaultValue) {
@@ -368,6 +372,64 @@ class Colorpicker {
       val = defaultValue;
     }
     return val;
+  }
+
+  setValue(val) { // set color manually
+    this.color = this.createColor(val);
+    this.update(true);
+    this.element.trigger({
+      type: 'changeColor',
+      color: this.color,
+      value: val
+    });
+  }
+
+  /**
+   * Creates a new color using the instance options
+   * @protected
+   * @param {*} val
+   * @returns {Color}
+   */
+  createColor(val) {
+    val = val ? val : null;
+    let fallback = this.options.fallbackColor ? this.options.fallbackColor : (this.color ? this.color._hsva : null);
+
+    val = this.getPaletteColor(val, val);
+    fallback = this.getPaletteColor(fallback, fallback);
+
+    let color = new Color(val, {fallbackColor: fallback, format: this.format});
+
+    if (color.hasAlpha() && !this.options.useAlpha) {
+      // alpha is disabled
+      return color.getOpaqueCopy();
+    }
+
+    return color;
+  }
+
+  getPaletteColor(colorName, defaultValue = null) {
+    if (!(typeof colorName === 'string') || !this.options.colorPalette) {
+      return defaultValue;
+    }
+    if (this.options.colorPalette.hasOwnProperty(colorName)) {
+      return this.options.colorPalette[colorName];
+    }
+    return defaultValue;
+  }
+
+  getPaletteColorName(colorValue, defaultValue = null) {
+    if (!(typeof colorValue === 'string') || !this.options.colorPalette) {
+      return defaultValue;
+    }
+    for (let colorName in this.options.colorPalette) {
+      if (!this.options.colorPalette.hasOwnProperty(colorName)) {
+        continue;
+      }
+      if (this.options.colorPalette[colorName].toLowerCase() === colorValue.toLowerCase()) {
+        return colorName;
+      }
+    }
+    return defaultValue;
   }
 
   hasInput() {
@@ -479,25 +541,7 @@ class Colorpicker {
     if (this.currentSlider.callTop) {
       this.color[this.currentSlider.callTop].call(this.color, top / this.currentSlider.maxTop);
     }
-    // Change format dynamically
-    // Only occurs if user choose the dynamic format by
-    // setting option format to false
-    if (
-      this.options.format === false &&
-      (this.currentSlider.callTop === 'setAlpha' ||
-        this.currentSlider.callLeft === 'setAlpha')
-    ) {
 
-      if (this.color.value.a !== 1) {
-        // Converting from hex / rgb to rgba
-        this.format = 'rgba';
-        this.color.origFormat = 'rgba';
-      } else {
-        // Converting from rgba to hex
-        this.format = 'hex';
-        this.color.origFormat = 'hex';
-      }
-    }
     this.update(true);
 
     this.element.trigger({
@@ -524,26 +568,19 @@ class Colorpicker {
   }
 
   keyup(e) {
-    if ((e.keyCode === 38)) {
-      if (this.color.value.a < 1) {
-        this.color.value.a = Math.round((this.color.value.a + 0.01) * 100) / 100;
+    if ((e.keyCode === 38) && this.options.useAlpha) {
+      if (this.color.a < 1) {
+        this.color.a = Math.round((this.color.a + 0.01) * 100) / 100;
       }
       this.update(true);
-    } else if ((e.keyCode === 40)) {
-      if (this.color.value.a > 0) {
-        this.color.value.a = Math.round((this.color.value.a - 0.01) * 100) / 100;
+    } else if ((e.keyCode === 40) && this.options.useAlpha) {
+      if (this.color.a > 0) {
+        this.color.a = Math.round((this.color.a - 0.01) * 100) / 100;
       }
       this.update(true);
-    } else {
+    } else if (e.keyCode !== 38 && e.keyCode !== 40) {
       this.color = this.createColor(this.input.val());
-      // Change format dynamically
-      // Only occurs if user choose the dynamic format by
-      // setting option format to false
-      if (this.color.origFormat && this.options.format === false) {
-        this.format = this.color.origFormat;
-      }
       if (this.getValue(false) !== false) {
-        this.updateData();
         this.updateComponent();
         this.updatePicker();
       }
@@ -555,5 +592,3 @@ class Colorpicker {
     });
   }
 }
-
-export default Colorpicker;

@@ -8,13 +8,13 @@ Simple and customizable colorpicker component for Twitter Bootstrap.
 For downloading the source code, you have many choices:
 
 - Downloading the [latest master ZIP file](https://github.com/itsjavi/bootstrap-colorpicker/archive/master.zip)
-- Cloning the source code: `git clone https://github.com/itsjavi/bootstrap-colorpicker.git`
+- Cloning the source code: `git clone https://github.com/itsjavi/bootstrap-colorpicker.git` (`npm install` and then `gulp`)
 - Installing via NPM: `npm install bootstrap-colorpicker`
 - Installing via Yarn: `yarn add bootstrap-colorpicker`
 - Installing via Composer: `composer require itsjavi/bootstrap-colorpicker`
 
 ## Getting started
-- For using the plugin you will only need the files under the `dist` folder
+- For using the plugin you will only need the files under the `dist` folder after having it built
 - You can read the [documentation here](https://itsjavi.com/bootstrap-colorpicker/)
 
 ## Contributing and reporting issues

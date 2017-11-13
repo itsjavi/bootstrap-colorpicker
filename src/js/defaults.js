@@ -11,7 +11,7 @@ export default {
   fallbackColor: false, // fallback color value. null = latest valid color.
   useHashPrefix: true, // put a '#' (number sign) before hex strings
   useAlpha: true, // null = auto, false = always hide, true = always show
-  hex8Compatible: true, // if true the hex8 format will be used whenever there is an alpha channel, otherwise rgba
+  enableHex8: true, // if true the hex8 format will be used whenever there is an alpha channel, otherwise rgba
   sliders: {
     saturation: {
       maxLeft: 100,

@@ -199,7 +199,7 @@ export default class Colorpicker {
 
     if (this.color) {
       if (this.color.hasAlpha() && this.color.format.match(/^hex/)) {
-        return this.options.hex8Compatible ? 'hex8' : 'rgba';
+        return this.options.enableHex8 ? 'hex8' : 'rgba';
       }
     }
 

@@ -1,5 +1,5 @@
 <h2>Documentation</h2>
-
+<!-- TODO: use jsdoc + docstrap or some bootstrap jsdoc template generator -->
 <hr>
 
 <p>Call the colopicker via javascript:</p>
@@ -56,10 +56,24 @@
     <td>Children selector for the input that will store the picker selected value.</td>
   </tr>
   <tr>
-    <td>useHashPrefix (previously hexNumberSignPrefix)</td>
+    <td>useHashPrefix</td>
     <td>boolean</td>
     <td>true</td>
     <td>If true, put a '&num;' (number sign) before hex strings.
+    </td>
+  </tr>
+  <tr>
+    <td>useAlpha</td>
+    <td>boolean</td>
+    <td>true</td>
+    <td>If true, the alpha channel is allowed, if false it is disabled, if null it is automatically detected.
+    </td>
+  </tr>
+  <tr>
+    <td>enableHex8</td>
+    <td>boolean</td>
+    <td>true</td>
+    <td>If true, the hex8 format (with alpha) will be supported, otherwise rgba will be used
     </td>
   </tr>
   <tr>
@@ -122,7 +136,7 @@
     <td>null</td>
     <td>
       Fallback color string that will be applied when the color failed to be parsed.
-      If <var>null</var>, it will keep the current color if any.
+      If <var>null</var>, it will keep the current valid color if any.
     </td>
   </tr>
   <tr>
@@ -136,12 +150,21 @@
   </tbody>
 </table>
 
+<h3>Classes</h3>
+<h4>jQuery.colorpicker</h4>
+<h4>jQuery.colorpicker.Color</h4>
+<h4>jQuery.colorpicker.TinyColor</h4>
+
 <h3>jQuery API Methods</h3>
 
 <p>General usage methods</p>
 <h4>.colorpicker(options)</h4>
 
 <p>Initializes an colorpicker.</p>
+
+<h4>.colorpicker('color')</h4>
+
+<p>Gets the current color object.</p>
 
 <h4>.colorpicker('getValue', defaultValue)</h4>
 
@@ -192,13 +215,9 @@
 
 <h3>Color object methods</h3>
 
-<p>Each triggered events have a color object (avaliable through event.color, see the example at the
+<p>Each triggered events have a color object (available through event.color, see the example at the
   bottom) used internally by the picker. This object has several useful methods. These are the more
   commonly used:</p>
-
-<h4>.setColor(value)</h4>
-
-<p>Set a new color. The value is parsed and tries to do a quess on the format.</p>
 
 <h4>.setHue(value)</h4>
 
@@ -216,17 +235,21 @@
 
 <p>Set the transparency with a value between 0 and 1.</p>
 
-<h4>.toRGB()</h4>
+<h4>.toRgbString()</h4>
 
 <p>Returns a hash with red, green, blue and alpha.</p>
 
-<h4>.toHex()</h4>
+<h4>.toHexString()</h4>
 
 <p>Returns a string with HEX format for the current color.</p>
 
-<h4>.toHSL()</h4>
+<h4>.toHslString()</h4>
 
 <p>Returns a hash with HSLA values.</p>
+
+<h4>.toString()</h4>
+
+<p>Returns a string representation of the color, with the original format.</p>
 
 <hr>
 

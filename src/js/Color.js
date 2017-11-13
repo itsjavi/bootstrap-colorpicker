@@ -14,7 +14,7 @@ export default class Color {
 
   /**
    * @param {*} color
-   * @param {{[fallbackColor], [format]}} [options]
+   * @param {{fallbackColor, format}} [options]
    * @constructor
    */
   constructor(color, options = {fallbackColor: fallbackFallbackColor, format: null}) {
@@ -24,7 +24,7 @@ export default class Color {
     this.originalColor = color;
 
     /**
-     * @type {{[fallbackColor], [format]}}
+     * @type {{fallbackColor, format}}
      */
     this.options = options;
 

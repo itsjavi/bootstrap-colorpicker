@@ -7,6 +7,5 @@ before_script:
 
 script:
   - yarn install
-  - bower install
   - gulp
   - npm test

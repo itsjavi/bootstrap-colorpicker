@@ -103,10 +103,10 @@ gulp.task('docs', ['docs:clean', 'dist', 'tutorials'], shell.task([
   'cp -R dist build/docs/dist'
 ]));
 
-gulp.task('gh-pages', ['default'], function () {
+gulp.task('publish-docs', ['default'], function () {
   // WARNING! You won't be able to publish unless you have write permissions on the repo.
   // Check the gh-pages npm package documentation.
-  ghPages.publish('dist',
+  ghPages.publish('build/docs',
     {
       message: 'Update build with latest master changes'
     },

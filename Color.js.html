@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   
-  <title>Bootstrap Colorpicker, a color picker component for Twitter Bootstrap.</title>
+  <title>Bootstrap Colorpicker | Color.js - Documentation</title>
   
 
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
@@ -33,80 +33,300 @@
     <div class="main-content col-md-9 col-lg-10">
       <div class="main-content-wrapper">
         
+        <h1 class="page-title">Color.js</h1>
+        
 
         
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+/**
+ * @module
+ */
 
+import tinycolor from 'tinycolor2';
 
+let defaultFallbackColor = '#000000';
+let defaultFallbackFormat = null;
 
+function unwrapColor(color) {
+  if (color instanceof tinycolor) {
+    return {
+      r: color._r,
+      g: color._g,
+      b: color._b,
+      a: color._a
+    };
+  }
+  return color;
+}
 
+/**
+ * Color manipulation class.
+ */
+class Color extends tinycolor {
+  /**
+   * Identifier of the color instance.
+   *
+   * @type {int}
+   * @readonly
+   */
+  get id() {
+    return this._tc_id;
+  }
 
+  /**
+   * Format of the parsed color.
+   *
+   * @type {String}
+   * @readonly
+   */
+  get format() {
+    return this._format;
+  }
 
+  /**
+   * All options of the current instance.
+   *
+   * @type {{format: String, gradientType: String, fallbackColor: *}}
+   * @readonly
+   */
+  get options() {
+    return {
+      format: this._format,
+      gradientType: this._gradientType,
+      fallbackColor: this._fallbackColor
+    };
+  }
 
+  /**
+   * @returns {{h, s, v, a}}
+   */
+  get hsva() {
+    return this.toHsv();
+  }
 
+  /**
+   * @returns {{h, s, v, a}}
+   */
+  get hsvaRatio() {
+    let hsv = this.hsva;
 
-    
+    return {
+      h: hsv.h / 360,
+      s: hsv.s,
+      v: hsv.v,
+      a: hsv.a
+    };
+  }
 
+  /**
+   * foo bar
+   * @param {Color|*} color
+   * @param {{fallbackColor, format}} [options]
+   * @constructor
+   */
+  constructor(color, options = {fallbackColor: defaultFallbackColor, format: null}) {
+    super(unwrapColor(color), options);
 
-    <section class="readme">
-        <article><h1>Bootstrap Colorpicker 3</h1><p><a href="https://github.com/farbelous/bootstrap-colorpicker/">Bootstrap Colorpicker</a> is a simple and customizable
-colorpicker component for Twitter Bootstrap.</p>
-<p><a href="https://travis-ci.org/farbelous/bootstrap-colorpicker"><img src="https://api.travis-ci.org/farbelous/bootstrap-colorpicker.svg?branch=master" alt="Build Status"></a></p>
-<h2>Install</h2><p>You can get the code in many different ways, depending on your needs:</p>
-<ul>
-<li>Download the <a href="https://github.com/farbelous/bootstrap-colorpicker/archive/master.zip">latest master ZIP file</a></li>
-<li>Clone using Git: <code>git clone https://github.com/farbelous/bootstrap-colorpicker.git</code></li>
-<li>Install using NPM: <code>npm install bootstrap-colorpicker</code></li>
-<li>Install using Yarn: <code>yarn add bootstrap-colorpicker</code></li>
-<li>Install using Composer: <code>composer require itsjavi/bootstrap-colorpicker</code></li>
-</ul>
-<p>To start using the component, most of the time you will only need the files under the <code>dist</code> folder.
-Example:</p>
-<pre class="prettyprint source lang-html"><code>&lt;!DOCTYPE html>
-&lt;html lang=&quot;en&quot;>
-&lt;head>
-  &lt;meta charset=&quot;utf-8&quot;>
-  &lt;link href=&quot;//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css&quot; rel=&quot;stylesheet&quot;>
-  &lt;link href=&quot;dist/css/bootstrap-colorpicker.css&quot; rel=&quot;stylesheet&quot;>
-&lt;/head>
-&lt;body>
-  &lt;div class=&quot;container&quot;>
-      &lt;input id=&quot;mycp&quot; type=&quot;text&quot; class=&quot;form-control&quot; />
-  &lt;/div>
-  &lt;script src=&quot;//code.jquery.com/jquery-3.2.1.js&quot;>&lt;/script>
-  &lt;script src=&quot;dist/js/bootstrap-colorpicker.js&quot;>&lt;/script>
-  &lt;script>
-    $(function () {
-      $('#mycp').colorpicker();
-    });
-  &lt;/script>
-&lt;/body></code></pre><h2>Requirements</h2><p>Note that this library depends on:</p>
-<ul>
-<li>jQuery &gt;= 2.1.0</li>
-<li>Twitter Bootstrap &gt;= 3.0.0 (required only the CSS)</li>
-</ul>
-<h2>Documentation</h2><p>The documentation of this project is powered by JSDoc and the Minami template together with Handlebars for the
-examples.</p>
-<ul>
-<li><a href="https://farbelous.github.io/bootstrap-colorpicker/">Documentation</a></li>
-<li><a href="https://farbelous.github.io/bootstrap-colorpicker/tutorial-01_Basics.html">Examples</a></li>
-</ul>
-<h2>Contributing</h2><p>Please see <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md">CONTRIBUTING</a> 
-for details.</p>
-<ul>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/issues">Current Issues</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/pulls">Current Pull Requests</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/milestones">Roadmap</a></li>
-</ul>
-<h2>Credits</h2><p>Originally written by Stefan Petre.</p>
-<h2>License</h2><p>The MIT License (MIT).
-Please see <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/LICENSE">License File</a> for more information.</p></article>
+    /**
+     * @type {Color|*}
+     */
+    this._originalInput = color;
+
+    /**
+     * @type {Color|*}
+     */
+    this._fallbackColor = unwrapColor(options.fallbackColor);
+
+    this._validOrFallback();
+  }
+
+  /**
+   * Imports all variables of the given color to this instance, excepting `_tc_id`.
+   * @param {Color} color
+   */
+  importColor(color) {
+    if (!color instanceof tinycolor) {
+      throw new Error('Color.importColor: The color argument is not an instance of tinycolor.');
+    }
+    this._originalInput = color._originalInput;
+    this._r = color._r;
+    this._g = color._g;
+    this._b = color._b;
+    this._a = color._a;
+    this._roundA = color._roundA;
+    this._format = color._format;
+    this._gradientType = color._gradientType;
+    this._ok = color._ok;
+    // omit color._tc_id import
+  }
+
+  /**
+   * Imports the _r, _g, _b, _a and _ok variables of the given color to this instance.
+   * @param {Color} color
+   */
+  importRgb(color) {
+    if (!color instanceof tinycolor) {
+      throw new Error('Color.importColor: The color argument is not an instance of tinycolor.');
+    }
+    this._r = color._r;
+    this._g = color._g;
+    this._b = color._b;
+    this._a = color._a;
+    this._ok = color._ok;
+  }
+
+  /**
+   * @param {{h,s,v,a}} hsv
+   */
+  importHsv(hsv) {
+    this.importRgb(new Color(hsv, this.options));
+  }
+
+  /**
+   * If the current color is not valid, applies the fallback and,
+   * in case the fallback is neither valid, applies the default fallback.
+   *
+   * @returns {boolean}
+   */
+  _validOrFallback() {
+    if (!this.isValid()) {
+      let fallbackOptions = Object.assign({}, this.options);
+
+      if (!fallbackOptions.format) {
+        fallbackOptions.format = defaultFallbackFormat;
+      }
+      // given color is invalid
+      this.importColor(tinycolor(this._fallbackColor, fallbackOptions));
+
+      if (!this.isValid()) {
+        // fallback color is invalid
+        this.importColor(tinycolor(defaultFallbackColor, fallbackOptions));
+      }
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * @returns {Color}
+   */
+  getCopy() {
+    return new Color(this.hsva, this.options);
+  }
+
+  /**
+   * @returns {Color}
+   */
+  getHueOnlyCopy() {
+    return new Color(Object.assign({}, this.hsva, {s: 100, v: 100}), this.options);
+  }
+
+  /**
+   * @returns {Color}
+   */
+  getOpaqueCopy() {
+    return new Color(Object.assign({}, this.hsva, {a: 1}), this.options);
+  }
+
+  /**
+   * @param {number} h Degrees from 0 to 360
+   */
+  setHue(h) {
+    this.importHsv(Object.assign({}, this.hsva, {h: h}));
+  }
+
+  /**
+   * @param {number} s Percent from 0 o 100
+   */
+  setSaturation(s) {
+    this.importHsv(Object.assign({}, this.hsva, {s: s}));
+  }
+
+  /**
+   * @param {number} v Percent from 0 o 100
+   */
+  setBrightness(v) {
+    this.importHsv(Object.assign({}, this.hsva, {v: v}));
+  }
+
+  /**
+   * @param {number} h Ratio from 0.0 to 1.0
+   */
+  setHueRatio(h) {
+    if (h === 0) {
+      return;
+    }
+    this.setHue((1 - h) * 360);
+  }
+
+  /**
+   * @param {number} s Ratio from 0.0 to 1.0
+   */
+  setSaturationRatio(s) {
+    this.setSaturation(s);
+  }
+
+  /**
+   * @param {number} v Ratio from 0.0 to 1.0
+   */
+  setBrightnessRatio(v) {
+    this.setBrightness(1 - v);
+  }
+
+  /**
+   * @param {number} a Ratio from 0.0 to 1.0
+   */
+  setAlphaRatio(a) {
+    this.setAlpha(1 - a);
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  isTransparent() {
+    return this._a === 0;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  hasTransparency() {
+    return this._a !== 1;
+  }
+
+  /**
+   * @param {string|null} [format] One of "rgb", "prgb", "hex"/"hex6", "hex3", "hex8", "hsl", "hsv"/"hsb", "name"
+   * @returns {String}
+   */
+  toString(format = null) {
+    format = (format ? format : this.format).replace(/a$/g, '').toLowerCase();
+
+    let colorStr = super.toString(format);
+
+    if (format.match(/hex/gi) &amp;&amp; !format.match(/hex8/gi)) {
+      if (this.isTransparent() &amp;&amp; (this._r === 0) &amp;&amp; (this._g === 0) &amp;&amp; (this._b === 0)) {
+        return 'transparent';
+      }
+
+      if (Color.names.hasOwnProperty(colorStr)) {
+        return colorStr;
+      }
+    }
+
+    return colorStr;
+  }
+}
+
+export default Color;
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  
+  <title>Bootstrap Colorpicker | Getting started - Documentation</title>
+  
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-zF4BRsG/fLiTGfR9QL82DrilZxrwgY/+du4p/c7J72zZj+FLYq4zY00RylP9ZjiT" crossorigin="anonymous">
+  <link href="dist/css/bootstrap-colorpicker.css" rel="stylesheet">
+
+  <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"/>
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+
+  <!-- This needs to be loaded before the examples scripts: -->
+  <script src="//code.jquery.com/jquery-3.2.1.js"></script>
+  <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>-->
+  <script src="dist/js/bootstrap-colorpicker.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row is-flex">
+    <nav class="main-nav col-md-3 col-lg-2">
+      <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="search-box"><input placeholder="Search" class="form-control" type="search" /></li><li class="nav-heading">Examples</li><li class="nav-item nav-item-kind-default"><a href="tutorial-Basics.html">Getting started</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-ColorApi.html">Color object API</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-CustomSize.html">Custom widget size</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-Events.html">Working with events</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-Palette.html">Color palettes</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-legacy_docs.html">Legacy Documentation</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html">Colorpicker</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#change">change</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#createColor">createColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#destroy">destroy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#disable">disable</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#enable">enable</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#getColorString">getColorString</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#getCssColorString">getCssColorString</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#getPaletteColor">getPaletteColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#getPaletteColorName">getPaletteColorName</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#getValue">getValue</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#hasColor">hasColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#hasInput">hasInput</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#hide">hide</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#isDisabled">isDisabled</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#keyup">keyup</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#mousedown">mousedown</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#mousemove">mousemove</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#mouseup">mouseup</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#reposition">reposition</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#setValue">setValue</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#show">show</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#update">update</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#updateComponent">updateComponent</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#updateInput">updateInput</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Colorpicker-Colorpicker.html#updatePicker">updatePicker</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-Color-Color.html">Color</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#_validOrFallback">_validOrFallback</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#getCopy">getCopy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#getHueOnlyCopy">getHueOnlyCopy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#getOpaqueCopy">getOpaqueCopy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#hasTransparency">hasTransparency</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#importColor">importColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#importHsv">importHsv</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#importRgb">importRgb</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#isTransparent">isTransparent</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#setAlphaRatio">setAlphaRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#setBrightness">setBrightness</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#setBrightnessRatio">setBrightnessRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#setHue">setHue</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#setHueRatio">setHueRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#setSaturation">setSaturation</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#setSaturationRatio">setSaturationRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-Color-Color.html#toString">toString</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-Color.html">Color</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-Colorpicker.html">Colorpicker</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-defaults.html">defaults</a></span></li><li class="nav-heading">Events</li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="module-Colorpicker.html#~event:change">change</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="module-Colorpicker.html#~event:changeColor">changeColor</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="module-Colorpicker.html#~event:create">create</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="module-Colorpicker.html#~event:destroy">destroy</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="module-Colorpicker.html#~event:disable">disable</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="module-Colorpicker.html#~event:enable">enable</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="module-Colorpicker.html#~event:hidePicker">hidePicker</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="module-Colorpicker.html#~event:mousemove">mousemove</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="module-Colorpicker.html#~event:showPicker">showPicker</a></span></li>
+    </nav>
+
+    <div class="main-content col-md-9 col-lg-10">
+      <div class="main-content-wrapper">
+        
+        <h1 class="page-title">Getting started</h1>
+        
+
+        <section>
+
+<header>
+    
+</header>
+
+<article>
+    <div class="example-group">
+    <div class="example-group-description">
+          Get started with these basic examples, showcasing the different plugin options.
+    You can also view the whole list of <a href="defaults.js.html">default options here.</a>
+
+    </div>
+
+  <div class="example-group-body">
+    
+
+<div class="example">
+  <div class="panel panel-default">
+      <div class="panel-heading example-title"><h2> Simple usage </h2></div>
+    <div class="panel-body">
+        <div class="example-description">
+                  Most simple example, with any options or color information.
+
+        </div>
+      <div class="example-demo">
+                <input id="cp1" type="text" class="form-control input-lg" value=""/>
+        <script>
+          $(function () {
+            $('#cp1').colorpicker();
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="panel-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;input id=&quot;cp1&quot; type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;&quot;&#x2F;&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp1&#39;).colorpicker();
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
+
+
+<div class="example">
+  <div class="panel panel-default">
+      <div class="panel-heading example-title"><h2> Setting the initial color </h2></div>
+    <div class="panel-body">
+        <div class="example-description">
+                  <p>
+          The initial color can be specified in 3 ways: input value, <var>data-color</var> attribute
+          and programmatically with the <var>color</var> constructor option.<br>
+          This demo is also showing how to use the input addon component to display the color.
+        </p>
+
+        <p>
+          The used initial color has this precedence order when present and not empty:
+          <var>color</var> option, input value, input <var>data-color</var> attribute,
+          colopicker element <var>data-color</var> attribute.
+        </p>
+
+        </div>
+      <div class="example-demo">
+        
+        <div id="cp2" class="input-group colorpicker-component" title="Using input value">
+          <input type="text" class="form-control input-lg" value="#DD0F20"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+
+        <div id="cp3a" class="input-group colorpicker-component" data-color="#F18A31"
+             title="Using data-color attribute in the colorpicker element">
+          <input type="text" class="form-control input-lg"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+
+        <div id="cp3b" class="input-group colorpicker-component" title="Using data-color attribute in the input">
+          <input type="text" class="form-control input-lg" data-color="#F8EB48"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+
+        <div id="cp4" class="input-group colorpicker-component" title="Using color option">
+          <input type="text" class="form-control input-lg"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+
+        <script>
+          $(function () {
+            $('#cp2, #cp3a, #cp3b').colorpicker();
+            $('#cp4').colorpicker({"color": "#16813D"});
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="panel-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp2&quot; class=&quot;input-group colorpicker-component&quot; title=&quot;Using input value&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;#DD0F20&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+
+&lt;div id=&quot;cp3a&quot; class=&quot;input-group colorpicker-component&quot; data-color=&quot;#F18A31&quot;
+     title=&quot;Using data-color attribute in the colorpicker element&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+
+&lt;div id=&quot;cp3b&quot; class=&quot;input-group colorpicker-component&quot; title=&quot;Using data-color attribute in the input&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; data-color=&quot;#F8EB48&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+
+&lt;div id=&quot;cp4&quot; class=&quot;input-group colorpicker-component&quot; title=&quot;Using color option&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp2, #cp3a, #cp3b&#39;).colorpicker();
+    $(&#39;#cp4&#39;).colorpicker({&quot;color&quot;: &quot;#16813D&quot;});
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
+
+
+<div class="example">
+  <div class="panel panel-default">
+      <div class="panel-heading example-title"><h2> Force a format </h2></div>
+    <div class="panel-body">
+        <div class="example-description">
+                  If defined, the format option forces an specific format, ignoring the original one.
+
+        </div>
+      <div class="example-demo">
+                <div id="cp5" class="input-group colorpicker-component" title="Using format option">
+          <input type="text" class="form-control input-lg" value="#305AA2"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp5').colorpicker({
+              format: "rgba"
+            });
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="panel-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp5&quot; class=&quot;input-group colorpicker-component&quot; title=&quot;Using format option&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;#305AA2&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp5&#39;).colorpicker({
+      format: &quot;rgba&quot;
+    });
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
+
+
+<div class="example">
+  <div class="panel panel-default">
+      <div class="panel-heading example-title"><h2> Horizontal mode </h2></div>
+    <div class="panel-body">
+        <div class="example-description">
+                  In this mode the hue and alpha bars are horizontal instead of vertical.
+
+        </div>
+      <div class="example-demo">
+                <div id="cp6" class="input-group colorpicker-component" title="Using horizontal option">
+          <input type="text" class="form-control input-lg" value="#6D2781"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp6').colorpicker({
+              horizontal: true
+            });
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="panel-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp6&quot; class=&quot;input-group colorpicker-component&quot; title=&quot;Using horizontal option&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;#6D2781&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp6&#39;).colorpicker({
+      horizontal: true
+    });
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
+
+
+<div class="example">
+  <div class="panel panel-default">
+      <div class="panel-heading example-title"><h2> Inline containerized mode </h2></div>
+    <div class="panel-body">
+        <div class="example-description">
+                  In this mode the colorpicker widget is an inline element and it is also placed inside the
+        element (otherwise it is placed in the body).
+        This example also shows the two ways of using the container option.
+
+        </div>
+      <div class="example-demo">
+                <div id="cp7" style="border:1px dashed #DD0F20;">Inner inline &rightarrow;</div>
+        <hr>
+        <div id="cp8_container">
+          <span id="cp8" style="border:1px dashed #F18A31;">Sibling inline &rightarrow;</span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp7').colorpicker({
+              color: '#DD0F20',
+              inline: true,
+              container: true
+            });
+            $('#cp8').colorpicker({
+              color: '#F18A31',
+              inline: true,
+              container: '#cp8_container'
+            });
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="panel-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp7&quot; style=&quot;border:1px dashed #DD0F20;&quot;&gt;Inner inline &amp;rightarrow;&lt;&#x2F;div&gt;
+&lt;hr&gt;
+&lt;div id=&quot;cp8_container&quot;&gt;
+  &lt;span id=&quot;cp8&quot; style=&quot;border:1px dashed #F18A31;&quot;&gt;Sibling inline &amp;rightarrow;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp7&#39;).colorpicker({
+      color: &#39;#DD0F20&#39;,
+      inline: true,
+      container: true
+    });
+    $(&#39;#cp8&#39;).colorpicker({
+      color: &#39;#F18A31&#39;,
+      inline: true,
+      container: &#39;#cp8_container&#39;
+    });
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="example">
+  <div class="panel panel-default">
+      <div class="panel-heading example-title"><h2> Disable alpha channel </h2></div>
+    <div class="panel-body">
+        <div class="example-description">
+                  When the alpha channel is disabled, the alpha bar will be hidden but also the color values
+        cannot contain alpha values.
+
+        </div>
+      <div class="example-demo">
+                <div id="cp9" class="input-group colorpicker-component">
+          <input type="text" class="form-control input-lg" value="rgba(248, 235, 72, 0.5)"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp9').colorpicker({
+              useAlpha: false
+            });
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="panel-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp9&quot; class=&quot;input-group colorpicker-component&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;rgba(248, 235, 72, 0.5)&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp9&#39;).colorpicker({
+      useAlpha: false
+    });
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="example">
+  <div class="panel panel-default">
+      <div class="panel-heading example-title"><h2> Disable hexadecimal hash </h2></div>
+    <div class="panel-body">
+        <div class="example-description">
+                  This example shows how to avoid the input to have the hexadecimal hash prefix.
+
+        </div>
+      <div class="example-demo">
+                <div id="cp10" class="input-group colorpicker-component">
+          <input type="text" class="form-control input-lg" value="#16813d"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp10').colorpicker({
+              useHashPrefix: false
+            });
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="panel-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp10&quot; class=&quot;input-group colorpicker-component&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;#16813d&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp10&#39;).colorpicker({
+      useHashPrefix: false
+    });
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
+
+
+<div class="example">
+  <div class="panel panel-default">
+      <div class="panel-heading example-title"><h2> Custom fallback color </h2></div>
+    <div class="panel-body">
+        <div class="example-description">
+                  Use a predefined fallback color whenever the given one is invalid.
+
+        </div>
+      <div class="example-demo">
+                <div id="cp11" class="input-group colorpicker-component">
+          <input type="text" class="form-control input-lg" value="invalid color"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp11').colorpicker({
+              fallbackColor: 'rgb(48, 90, 162)'
+            });
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="panel-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp11&quot; class=&quot;input-group colorpicker-component&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;invalid color&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp11&#39;).colorpicker({
+      fallbackColor: &#39;rgb(48, 90, 162)&#39;
+    });
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
+
+
+<div class="example">
+  <div class="panel panel-default">
+      <div class="panel-heading example-title"><h2> <code>transparent</code> support </h2></div>
+    <div class="panel-body">
+        <div class="example-description">
+                  Example showing the <code>transparent</code> named color support.
+
+        </div>
+      <div class="example-demo">
+                <div id="cp12" class="input-group colorpicker-component">
+          <input type="text" class="form-control input-lg" value="transparent"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp12').colorpicker();
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="panel-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp12&quot; class=&quot;input-group colorpicker-component&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;transparent&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp12&#39;).colorpicker();
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
+
+
+
+  </div>
+</div>
+
+</article>
+
+</section>
+
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <footer class="col-md-12 main-footer">
+      Generated by <a
+      href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+      
+      on Thu Nov 16 2017 15:58:01 GMT+0100 (CET) using a custom Minami theme. Search powered by Algolia.
+    </footer>
+  </div>
+</div>
+
+
+<script src="scripts/prettify/prettify.js"></script>
+<script src="scripts/prettify/lang-css.js"></script>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+  apiKey: 'f9d6cc05026da0e826ec3612dd26ce33',
+  indexName: 'farbelous',
+  inputSelector: '.search-box input',
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

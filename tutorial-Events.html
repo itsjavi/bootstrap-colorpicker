@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   
-  <title>Bootstrap Colorpicker, a color picker component for Twitter Bootstrap.</title>
+  <title>Bootstrap Colorpicker | Working with events - Documentation</title>
   
 
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
@@ -33,83 +33,93 @@
     <div class="main-content col-md-9 col-lg-10">
       <div class="main-content-wrapper">
         
-
+        <h1 class="page-title">Working with events</h1>
         
 
+        <section>
 
-
+<header>
     
+</header>
 
+<article>
+    <div class="example-group">
 
+  <div class="example-group-body">
+    <div class="example">
+  <div class="panel panel-default">
+      <div class="panel-heading example-title"><h2> Playing with <code>changeColor</code> and the Color object </h2></div>
+    <div class="panel-body">
+        <div class="example-description">
+                  This example listens to the changeColor event and changes the background color
+        of the parent element using the complementary color of the selected one.
+        <br>
+        This also shows how to use the Color object, which extends
+        <a href="https://github.com/bgrins/TinyColor">tinycolor</a>.
+        <br>
+        In all events the <code>e</code> event variable contains the <code>colorpicker</code> and <code>color</code>
+        objects, but in the <code>changeColor</code> event it also contains <code>value</code>, representing
+        the color string.
 
+        </div>
+      <div class="example-demo">
+                <div id="cp1" data-color="rgba(194, 39, 219, 0.4)"></div>
+        <script>
+          $(function () {
+            $('#cp1')
+              .colorpicker({
+                inline: true,
+                container: true
+              })
+              .on('changeColor', function (e) {
+                if (!e.colorpicker) {
+                  // Not yet created
+                  return;
+                }
+                e.colorpicker.picker.parents('.panel').find('.panel-heading')
+                  .css('background-color', e.value);
 
+                e.colorpicker.picker.parents('.panel-body')
+                  .css('background-color', e.color.complement().toRgbString());
+              });
+          });
+        </script>
 
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="panel-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp1&quot; data-color=&quot;rgba(194, 39, 219, 0.4)&quot;&gt;&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp1&#39;)
+      .colorpicker({
+        inline: true,
+        container: true
+      })
+      .on(&#39;changeColor&#39;, function (e) {
+        if (!e.colorpicker) {
+          &#x2F;&#x2F; Not yet created
+          return;
+        }
+        e.colorpicker.picker.parents(&#39;.panel&#39;).find(&#39;.panel-heading&#39;)
+          .css(&#39;background-color&#39;, e.value);
 
+        e.colorpicker.picker.parents(&#39;.panel-body&#39;)
+          .css(&#39;background-color&#39;, e.color.complement().toRgbString());
+      });
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
 
+  </div>
+</div>
 
+</article>
 
-    
-
-
-    <section class="readme">
-        <article><h1>Bootstrap Colorpicker 3</h1><p><a href="https://github.com/farbelous/bootstrap-colorpicker/">Bootstrap Colorpicker</a> is a simple and customizable
-colorpicker component for Twitter Bootstrap.</p>
-<p><a href="https://travis-ci.org/farbelous/bootstrap-colorpicker"><img src="https://api.travis-ci.org/farbelous/bootstrap-colorpicker.svg?branch=master" alt="Build Status"></a></p>
-<h2>Install</h2><p>You can get the code in many different ways, depending on your needs:</p>
-<ul>
-<li>Download the <a href="https://github.com/farbelous/bootstrap-colorpicker/archive/master.zip">latest master ZIP file</a></li>
-<li>Clone using Git: <code>git clone https://github.com/farbelous/bootstrap-colorpicker.git</code></li>
-<li>Install using NPM: <code>npm install bootstrap-colorpicker</code></li>
-<li>Install using Yarn: <code>yarn add bootstrap-colorpicker</code></li>
-<li>Install using Composer: <code>composer require itsjavi/bootstrap-colorpicker</code></li>
-</ul>
-<p>To start using the component, most of the time you will only need the files under the <code>dist</code> folder.
-Example:</p>
-<pre class="prettyprint source lang-html"><code>&lt;!DOCTYPE html>
-&lt;html lang=&quot;en&quot;>
-&lt;head>
-  &lt;meta charset=&quot;utf-8&quot;>
-  &lt;link href=&quot;//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css&quot; rel=&quot;stylesheet&quot;>
-  &lt;link href=&quot;dist/css/bootstrap-colorpicker.css&quot; rel=&quot;stylesheet&quot;>
-&lt;/head>
-&lt;body>
-  &lt;div class=&quot;container&quot;>
-      &lt;input id=&quot;mycp&quot; type=&quot;text&quot; class=&quot;form-control&quot; />
-  &lt;/div>
-  &lt;script src=&quot;//code.jquery.com/jquery-3.2.1.js&quot;>&lt;/script>
-  &lt;script src=&quot;dist/js/bootstrap-colorpicker.js&quot;>&lt;/script>
-  &lt;script>
-    $(function () {
-      $('#mycp').colorpicker();
-    });
-  &lt;/script>
-&lt;/body></code></pre><h2>Requirements</h2><p>Note that this library depends on:</p>
-<ul>
-<li>jQuery &gt;= 2.1.0</li>
-<li>Twitter Bootstrap &gt;= 3.0.0 (required only the CSS)</li>
-</ul>
-<h2>Documentation</h2><p>The documentation of this project is powered by JSDoc and the Minami template together with Handlebars for the
-examples.</p>
-<ul>
-<li><a href="https://farbelous.github.io/bootstrap-colorpicker/">Documentation</a></li>
-<li><a href="https://farbelous.github.io/bootstrap-colorpicker/tutorial-01_Basics.html">Examples</a></li>
-</ul>
-<h2>Contributing</h2><p>Please see <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md">CONTRIBUTING</a> 
-for details.</p>
-<ul>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/issues">Current Issues</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/pulls">Current Pull Requests</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/milestones">Roadmap</a></li>
-</ul>
-<h2>Credits</h2><p>Originally written by Stefan Petre.</p>
-<h2>License</h2><p>The MIT License (MIT).
-Please see <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/LICENSE">License File</a> for more information.</p></article>
-    </section>
-
-
-
-
-
+</section>
 
       </div>
     </div>

@@ -133,7 +133,7 @@ gulp.task('docs:clean', function () {
   return del([docsDir + '/*']);
 });
 
-gulp.task('docs:add-dist', ['docs:clean'], shell.task([
+gulp.task('docs:add-dist', ['docs:clean', 'dist'], shell.task([
   `mkdir -p ${distDir}`,
   `rm -rf ${docsDir}/dist`,
   `cp -R ${distDir} ${docsDir}/dist`

@@ -3,21 +3,23 @@
 import Colorpicker from './Colorpicker';
 import $ from 'jquery';
 
-$.colorpicker = Colorpicker;
+let plugin = 'colorpicker';
 
-$.fn.colorpicker = function (option) {
+$[plugin] = Colorpicker;
+
+$.fn[plugin] = function (option) {
   let apiArgs = Array.prototype.slice.call(arguments, 1),
     isSingleElement = (this.length === 1),
     returnValue = null;
 
   let $jq = this.each(function () {
     let $this = $(this),
-      inst = $this.data('colorpicker'),
+      inst = $this.data(plugin),
       options = ((typeof option === 'object') ? option : {});
 
     if (!inst) {
       inst = new Colorpicker(this, options);
-      $this.data('colorpicker', inst);
+      $this.data(plugin, inst);
     }
 
     if (typeof option === 'string') {
@@ -38,4 +40,4 @@ $.fn.colorpicker = function (option) {
   return isSingleElement ? returnValue : $jq;
 };
 
-$.fn.colorpicker.constructor = Colorpicker;
+$.fn[plugin].constructor = Colorpicker;

@@ -36,7 +36,7 @@ gulp.task('js:clean', function () {
   return del(['dist/js/**/*']);
 });
 gulp.task('js', ['js:clean'], function () {
-  return gulp.src([]) // 'src/js/plugin.js'
+  return gulp.src([])
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest('dist/js/'));

@@ -1,15 +1,22 @@
 <div class="tutorial">
-  <div class="tutorial-title">{{#block "title"}}{{/block}}</div>
-  <div class="tutorial-description">
-    {{#block "description"}}{{/block}}
-  </div>
-  <div class="tutorial-container">
-    <div class="tutorial-container--body">
-      {{#block "code"}}{{/block}}
+  <div class="panel panel-default">
+    {{#if (content "title")}}
+      <div class="panel-heading tutorial-title">{{#block "title"}}{{/block}}</div>
+    {{/if}}
+    <div class="panel-body">
+      {{#if (content "description")}}
+        <div class="tutorial-description">
+          {{#block "description"}}{{/block}}
+        </div>
+      {{/if}}
+      <div class="tutorial-demo">
+        {{#block "code"}}{{/block}}
+      </div>
     </div>
-    <button type="button" class="btn btn-link btn-sm tutorial-container--code-toggle">View code</button>
-    <pre class="tutorial-container--code prettyprint lang-html">
-      {{~#code}}{{~#block "code"}}{{~/block}}{{~/code}}
-    </pre>
+    <div class="panel-footer">
+      <div class="panel-footer--legend">Code</div>
+      <pre class="tutorial-code prettyprint lang-html">
+        {{~#code}}{{~#block "code"}}{{~/block}}{{~/code}}</pre>
+    </div>
   </div>
 </div>

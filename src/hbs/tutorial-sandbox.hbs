@@ -4,23 +4,31 @@
   <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
   <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
   <style>
-    .tutorial-title {
-      font-size: 14px;
-      margin: 10px 0 10px 2px;
-      font-weight: bold;
+    h1.page-title {
+      border: none;
+    }
+
+    .tutorial {
+      max-width: 960px;
     }
 
     .tutorial-description {
-      margin: 10px 0 10px 2px;
+      margin-bottom: 20px;
     }
 
-    .tutorial-container--code {
-      display: none;
+    .panel-footer pre.tutorial-code {
+      border: none;
+      padding: 0;
+      box-shadow: none;
+      margin: 0;
     }
 
-    .tutorial-container--body {
-      margin-bottom: 2px;
-      max-width: 480px;
+    .panel-footer--legend {
+      font-size: 80%;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: #bbb;
+      margin-bottom: 5px;
     }
   </style>
 
@@ -29,12 +37,4 @@
   <script src="dist/js/bootstrap-colorpicker.js"></script>
 
   {{#block "body"}}{{/block}}
-
-  <script>
-    $(function () {
-      $('.tutorial-container--code-toggle').on('click', function () {
-        $(this).parent().find('.tutorial-container--code').toggle();
-      });
-    });
-  </script>
 </div>

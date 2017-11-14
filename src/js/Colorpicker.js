@@ -576,22 +576,10 @@ export default class Colorpicker {
   }
 
   keyup(e) {
-    if ((e.keyCode === 38) && this.options.useAlpha) {
-      if (this.color.a < 1) {
-        this.color.a = Math.round((this.color.a + 0.01) * 100) / 100;
-      }
-      this.update(true);
-    } else if ((e.keyCode === 40) && this.options.useAlpha) {
-      if (this.color.a > 0) {
-        this.color.a = Math.round((this.color.a - 0.01) * 100) / 100;
-      }
-      this.update(true);
-    } else if (e.keyCode !== 38 && e.keyCode !== 40) {
-      this.color = this.createColor(this.input.val());
-      if (this.getValue(false) !== false) {
-        this.updateComponent();
-        this.updatePicker();
-      }
+    this.color = this.createColor(this.input.val());
+    if (this.getValue(false) !== false) {
+      this.updateComponent();
+      this.updatePicker();
     }
     this.element.trigger({
       type: 'changeColor',

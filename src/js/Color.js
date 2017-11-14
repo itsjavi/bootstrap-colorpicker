@@ -218,7 +218,7 @@ export default class Color extends tinycolor {
    * @param {number} v Ratio from 0.0 to 1.0
    */
   setBrightnessRatio(v) {
-    this.setBrightness((1 - v));
+    this.setBrightness(1 - v);
   }
 
   /**

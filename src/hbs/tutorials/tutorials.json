@@ -32,7 +32,7 @@
   "11_modal": {
     "title": "Inside a modal"
   },
-  "old_docs": {
-    "title": "[Old documentation]"
+  "legacy_docs": {
+    "title": "v2.x Documentation"
   }
 }

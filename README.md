@@ -1,4 +1,4 @@
-# Bootstrap Colorpicker 3
+# Bootstrap Colorpicker v3.0.0 (master)
 
 Simple and customizable colorpicker component for Twitter Bootstrap.
 
@@ -15,8 +15,7 @@ For downloading the source code, you have many choices:
 
 ## Getting started
 For using the plugin you will only need the files under the `dist` folder.
-* [Documentation](https://farbelous.github.io/bootstrap-colorpicker/)
-* [Tutorials](https://farbelous.github.io/bootstrap-colorpicker/)
+* [Documentation and demos](https://farbelous.github.io/bootstrap-colorpicker/)
 * [Source code](https://github.com/farbelous/bootstrap-colorpicker/)
 
 ## Contributing

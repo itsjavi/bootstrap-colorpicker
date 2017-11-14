@@ -8,9 +8,13 @@ Thumbs.db
 /bower_components/
 /nbproject/
 /gh-pages/
-.idea
 /package-lock.json
 gulpfile.js_*
 /build
-/dist/LICENSE
-/dist/README.md
+/docs
+/tests
+.*
+*.html
+webpack.config.js
+composer.json
+gulpfile.js

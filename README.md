@@ -2,12 +2,12 @@
 
 Simple and customizable colorpicker component for Twitter Bootstrap.
 
-[![Build Status](https://api.travis-ci.org/farbelous/bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
+[![Build Status](https://api.travis-ci.org/farbelous/bootstrap-colorpicker.svg?branch=v2)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
 
 ## Installation
 For downloading the source code, you have many choices:
 
-- Downloading the [latest source code ZIP file](https://github.com/farbelous/bootstrap-colorpicker/archive/master.zip)
+- Downloading the [latest source code ZIP file](https://github.com/farbelous/bootstrap-colorpicker/archive/v2.zip)
 - Cloning the source code: `git clone https://github.com/farbelous/bootstrap-colorpicker.git`
 - Installing via NPM: `npm install bootstrap-colorpicker`
 - Installing via Yarn: `yarn add bootstrap-colorpicker`

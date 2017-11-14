@@ -11,44 +11,45 @@ export default {
   fallbackColor: false, // fallback color value. null = latest valid color.
   useHashPrefix: true, // put a '#' (number sign) before hex strings
   useAlpha: true, // null = auto, false = always hide, true = always show
+  useNames: true, // if true, the web named colors will be used when chosen
   enableHex8: true, // if true the hex8 format will be used whenever there is an alpha channel, otherwise rgba
   sliders: {
     saturation: {
       maxLeft: 100,
       maxTop: 100,
-      callLeft: 'setSaturation',
-      callTop: 'setBrightness'
+      callLeft: 'setSaturationRatio',
+      callTop: 'setBrightnessRatio'
     },
     hue: {
       maxLeft: 0,
       maxTop: 100,
       callLeft: false,
-      callTop: 'setHue'
+      callTop: 'setHueRatio'
     },
     alpha: {
       maxLeft: 0,
       maxTop: 100,
       callLeft: false,
-      callTop: 'setAlpha'
+      callTop: 'setAlphaRatio'
     }
   },
   slidersHorz: {
     saturation: {
       maxLeft: 100,
       maxTop: 100,
-      callLeft: 'setSaturation',
-      callTop: 'setBrightness'
+      callLeft: 'setSaturationRatio',
+      callTop: 'setBrightnessRatio'
     },
     hue: {
       maxLeft: 100,
       maxTop: 0,
-      callLeft: 'setHue',
+      callLeft: 'setHueRatio',
       callTop: false
     },
     alpha: {
       maxLeft: 100,
       maxTop: 0,
-      callLeft: 'setAlpha',
+      callLeft: 'setAlphaRatio',
       callTop: false
     }
   },

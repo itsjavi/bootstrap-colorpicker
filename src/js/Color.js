@@ -2,205 +2,244 @@
 
 import tinycolor from 'tinycolor2';
 
-let fallbackFallbackColor = '#000000';
+let defaultFallbackColor = '#000000';
+let defaultFallbackFormat = 'hex';
 
-export default class Color {
+function unwrapColor(color) {
+  if (color instanceof tinycolor) {
+    return {
+      r: color._r,
+      g: color._g,
+      b: color._b,
+      a: color._a
+    };
+  }
+  return color;
+}
+
+export default class Color extends tinycolor {
   /**
-   * @returns {tinycolor}
+   * @returns {int}
    */
-  static get TinyColor() {
-    return tinycolor;
+  get id() {
+    return this._tc_id;
+  }
+
+  /**
+   * @returns {String}
+   */
+  get format() {
+    return this._format;
+  }
+
+  get options() {
+    return {
+      format: this._format,
+      gradientType: this._gradientType,
+      fallbackColor: this._fallbackColor,
+      useNames: this._useNames
+    };
+  }
+
+  /**
+   * @returns {{h, s, v, a}}
+   */
+  get hsva() {
+    return this.toHsv();
+  }
+
+  /**
+   * @returns {{h, s, v, a}}
+   */
+  get hsvaRatio() {
+    let hsv = this.hsva;
+
+    return {
+      h: hsv.h / 360,
+      s: hsv.s,
+      v: hsv.v,
+      a: hsv.a
+    };
   }
 
   /**
    * @param {*} color
-   * @param {{fallbackColor, format}} [options]
+   * @param {{fallbackColor, format, useNames}} [options]
    * @constructor
    */
-  constructor(color, options = {fallbackColor: fallbackFallbackColor, format: null}) {
+  constructor(color, options = {fallbackColor: defaultFallbackColor, format: null, useNames: true}) {
+    super(unwrapColor(color), options);
+
     /**
      * @type {*}
      */
-    this.originalColor = color;
+    this._originalInput = color;
 
     /**
-     * @type {{fallbackColor, format}}
+     * @type {*}
      */
-    this.options = options;
+    this._fallbackColor = unwrapColor(options.fallbackColor);
 
     /**
-     * @type {tinycolor}
+     * @type {boolean}
      */
-    this._api = null;
+    this._useNames = options.useNames;
 
-    /**
-     * @type {{h, s, v, a}}
-     */
-    this._hsva = null;
-
-    this.update(color);
+    this._validOrFallback();
   }
 
-  update(color) {
-    /**
-     * @type {tinycolor}
-     */
-    this._api = tinycolor(color, {format: this.format});
+  /**
+   * Imports all variables of the given color to this instance, excepting `_tc_id`.
+   * @param {Color} color
+   */
+  importColor(color) {
+    if (!color instanceof tinycolor) {
+      throw new Error('Color.importColor: The color argument is not an instance of tinycolor.');
+    }
+    this._originalInput = color._originalInput;
+    this._r = color._r;
+    this._g = color._g;
+    this._b = color._b;
+    this._a = color._a;
+    this._roundA = color._roundA;
+    this._format = color._format;
+    this._gradientType = color._gradientType;
+    this._ok = color._ok;
+    // omit color._tc_id import
+  }
 
+  /**
+   * Imports the _r, _g, _b, _a and _ok variables of the given color to this instance.
+   * @param {Color} color
+   */
+  importRgb(color) {
+    if (!color instanceof tinycolor) {
+      throw new Error('Color.importColor: The color argument is not an instance of tinycolor.');
+    }
+    this._r = color._r;
+    this._g = color._g;
+    this._b = color._b;
+    this._a = color._a;
+    this._ok = color._ok;
+  }
+
+  /**
+   * @param {{h,s,v,a}} hsv
+   */
+  importHsv(hsv) {
+    this.importRgb(new Color(hsv, this.options));
+  }
+
+  /**
+   * If the current color is not valid, applies the fallback and,
+   * in case the fallback is neither valid, applies the default fallback.
+   *
+   * @returns {boolean}
+   */
+  _validOrFallback() {
     if (!this.isValid()) {
+      let fallbackOptions = Object.assign({}, this.options);
+
+      if (!fallbackOptions.format) {
+        fallbackOptions.format = defaultFallbackFormat;
+      }
       // given color is invalid
-      this._api = tinycolor(this.options.fallbackColor, {format: this.format ? this.format : 'rgba'});
+      this.importColor(tinycolor(this._fallbackColor, fallbackOptions));
 
       if (!this.isValid()) {
         // fallback color is invalid
-        this._api = tinycolor(fallbackFallbackColor, {format: this.format ? this.format : 'rgba'});
+        this.importColor(tinycolor(defaultFallbackColor, fallbackOptions));
       }
+      return false;
     }
-
-    this._hsva = this._api.toHsv();
+    return true;
   }
 
   /**
    * @returns {Color}
    */
   getCopy() {
-    return new Color(
-      {h: this.h * 360, s: this.s * 100, v: this.v * 100, a: this.a},
-      {format: this.format, fallbackColor: this.options.fallbackColor}
-    );
+    return new Color(this.hsva, this.options);
   }
 
   /**
    * @returns {Color}
    */
   getHueOnlyCopy() {
-    return new Color(
-      {h: this.h * 360, s: 100, v: 100, a: this.a},
-      {format: this.format, fallbackColor: this.options.fallbackColor}
-    );
+    return new Color(Object.assign({}, this.hsva, {s: 100, v: 100}), this.options);
   }
 
   /**
    * @returns {Color}
    */
   getOpaqueCopy() {
-    return new Color(
-      {h: this.h * 360, s: this.s * 100, v: this.v * 100, a: 1},
-      {format: this.format, fallbackColor: this.options.fallbackColor}
-    );
+    return new Color(Object.assign({}, this.hsva, {a: 1}), this.options);
   }
 
-  get h() {
-    return this._hsva.h / 360;
-  }
-
-  set h(val) {
-    let oldVal = this._hsva.h;
-
-    this._hsva.h = val;
-
-    if (oldVal !== val) {
-      this.update(this._hsva);
-    }
-  }
-
-  get s() {
-    return this._hsva.s;
-  }
-
-  set s(val) {
-    let oldVal = this._hsva.s;
-
-    this._hsva.s = val;
-
-    if (oldVal !== val) {
-      this.update(this._hsva);
-    }
-  }
-
-  get v() {
-    return this._hsva.v;
-  }
-
-  set v(val) {
-    let oldVal = this._hsva.v;
-
-    this._hsva.v = val;
-
-    if (oldVal !== val) {
-      this.update(this._hsva);
-    }
-  }
-
-  get a() {
-    return this._hsva.a;
-  }
-
-  set a(val) {
-    let oldVal = this._hsva.a;
-
-    this._hsva.a = val;
-
-    if (oldVal !== val) {
-      this.update(this._hsva);
-    }
-  }
-
+  /**
+   * @param {number} h Degrees from 0 to 360
+   */
   setHue(h) {
-    this.h = (1 - h) * 360;
+    this.importHsv(Object.assign({}, this.hsva, {h: h}));
   }
 
+  /**
+   * @param {number} s Percent from 0 o 100
+   */
   setSaturation(s) {
-    this.s = s;
-  }
-
-  setBrightness(b) {
-    this.v = 1 - b;
-  }
-
-  setAlpha(a) {
-    this.a = 1 - a;
+    this.importHsv(Object.assign({}, this.hsva, {s: s}));
   }
 
   /**
-   * @returns {String} One of "rgb", "prgb", "hex"/"hex6", "hex3", "hex8", "hsl", "hsv"/"hsb", "name"
+   * @param {number} v Percent from 0 o 100
    */
-  get format() {
-    return this.options.format ? this.options.format : (this._api ? this._api.getFormat() : null);
+  setBrightness(v) {
+    this.importHsv(Object.assign({}, this.hsva, {v: v}));
+  }
+
+  /**
+   * @param {number} h Ratio from 0.0 to 1.0
+   */
+  setHueRatio(h) {
+    if (h === 0) {
+      return;
+    }
+    this.setHue((1 - h) * 360);
+  }
+
+  /**
+   * @param {number} s Ratio from 0.0 to 1.0
+   */
+  setSaturationRatio(s) {
+    this.setSaturation(s);
+  }
+
+  /**
+   * @param {number} v Ratio from 0.0 to 1.0
+   */
+  setBrightnessRatio(v) {
+    this.setBrightness((1 - v));
+  }
+
+  /**
+   * @param {number} a Ratio from 0.0 to 1.0
+   */
+  setAlphaRatio(a) {
+    this.setAlpha(1 - a);
   }
 
   /**
    * @returns {boolean}
    */
-  hasAlpha() {
-    return this.a !== 1;
-  }
-
-  isFallback() {
-    return this.originalColor !== this._api.getOriginalInput();
+  isTransparent() {
+    return this._a === 0;
   }
 
   /**
    * @returns {boolean}
    */
-  isValid() {
-    return this._api.isValid();
-  }
-
-  toHexString() {
-    return this.toString('hex6');
-  }
-
-  toRgbString() {
-    return this.toString('rgb');
-  }
-
-  toHslString() {
-    return this.toString('hsl');
-  }
-
-  toHsvString() {
-    return this.toString('hsv');
+  hasTransparency() {
+    return this._a !== 1;
   }
 
   /**
@@ -210,16 +249,16 @@ export default class Color {
   toString(format = null) {
     format = (format ? format : this.format).replace(/a$/g, '').toLowerCase();
 
-    // let color = this.hasChanged() ? this.getCopy() : this;
-    let colorStr = this._api.toString(format);
-    let original = this._api.getOriginalInput();
+    let colorStr = super.toString(format);
 
-    if (original === 'transparent') {
-      return 'transparent';
-    }
+    if (format.match(/hex/gi) && !format.match(/hex8/gi)) {
+      if (this.isTransparent() && (this._r === 0) && (this._g === 0) && (this._b === 0)) {
+        return 'transparent';
+      }
 
-    if (tinycolor.names.hasOwnProperty(original)) {
-      return original;
+      if (Color.names.hasOwnProperty(colorStr)) {
+        return colorStr;
+      }
     }
 
     return colorStr;

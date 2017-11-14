@@ -251,7 +251,7 @@ var Colorpicker = function () {
       $picker.addClass('colorpicker-horizontal');
     }
 
-    if ((this.options.useAlpha || this.color.hasAlpha()) && this.options.useAlpha !== false) {
+    if ((this.options.useAlpha || this.color.hasTransparency()) && this.options.useAlpha !== false) {
       this.options.useAlpha = true;
       $picker.addClass('colorpicker-with-alpha');
     }
@@ -267,8 +267,8 @@ var Colorpicker = function () {
           selectorsContainer = colorpicker.picker.find('.colorpicker-palette');
 
       if (selectorsContainer.length > 0) {
-        _jquery2.default.each(this.options.colorPalette, function (name, color) {
-          var $btn = (0, _jquery2.default)('<i />').addClass('colorpicker-palette-color').css('background-color', color).attr('title', name + ': ' + color).data('class', name).data('alias', name);
+        _jquery2.default.each(this.options.colorPalette, function (name, value) {
+          var $btn = (0, _jquery2.default)('<i />').addClass('colorpicker-palette-color').css('background-color', value).attr('title', name + ': ' + value).data('class', name).data('alias', name);
 
           $btn.on('mousedown.colorpicker touchstart.colorpicker', function (event) {
             event.preventDefault();
@@ -326,7 +326,6 @@ var Colorpicker = function () {
 
     // for HTML5 input[type='color']
     if (this.input !== false && this.component !== false && this.input.attr('type') === 'color') {
-
       this.input.on({
         'click.colorpicker': _jquery2.default.proxy(this.show, this),
         'focus.colorpicker': _jquery2.default.proxy(this.show, this)
@@ -356,6 +355,11 @@ var Colorpicker = function () {
         type: 'destroy'
       });
     }
+
+    /**
+     * @returns {Color|null}
+     */
+
   }, {
     key: 'getColorString',
 
@@ -383,7 +387,7 @@ var Colorpicker = function () {
   }, {
     key: 'getCssColorString',
     value: function getCssColorString() {
-      return this.color.toString(this.format, true);
+      return this.color.toString(this.format);
     }
   }, {
     key: 'reposition',
@@ -468,21 +472,24 @@ var Colorpicker = function () {
       if (icns.length === 0) {
         return;
       }
+
+      var hsva = this.color.hsvaRatio;
+
       if (this.options.horizontal === false) {
         sl = this.options.sliders;
-        icns.eq(1).css('top', sl.hue.maxTop * (1 - this.color.h)).end().eq(2).css('top', sl.alpha.maxTop * (1 - this.color.a));
+        icns.eq(1).css('top', sl.hue.maxTop * (1 - hsva.h)).end().eq(2).css('top', sl.alpha.maxTop * (1 - hsva.a));
       } else {
         sl = this.options.slidersHorz;
-        icns.eq(1).css('left', sl.hue.maxLeft * (1 - this.color.h)).end().eq(2).css('left', sl.alpha.maxLeft * (1 - this.color.a));
+        icns.eq(1).css('left', sl.hue.maxLeft * (1 - hsva.h)).end().eq(2).css('left', sl.alpha.maxLeft * (1 - hsva.a));
       }
       icns.eq(0).css({
-        'top': sl.saturation.maxTop - this.color.v * sl.saturation.maxTop,
-        'left': this.color.s * sl.saturation.maxLeft
+        'top': sl.saturation.maxTop - hsva.v * sl.saturation.maxTop,
+        'left': hsva.s * sl.saturation.maxLeft
       });
 
       this.picker.find('.colorpicker-saturation').css('backgroundColor', this.color.getHueOnlyCopy().toHexString()); // we only need hue
 
-      this.picker.find('.colorpicker-alpha').css('backgroundColor', this.color.toHexString()); // we don't need alpha
+      this.picker.find('.colorpicker-alpha').css('backgroundColor', this.color.toString('hex6')); // we don't need alpha
 
       this.picker.find('.colorpicker-color, .colorpicker-color div').css('backgroundColor', this.color.toRgbString()); // we need all the channels
     }
@@ -554,14 +561,14 @@ var Colorpicker = function () {
     key: 'createColor',
     value: function createColor(val) {
       val = val ? val : null;
-      var fallback = this.options.fallbackColor ? this.options.fallbackColor : this.color ? this.color._hsva : null;
+      var fallback = this.options.fallbackColor ? this.options.fallbackColor : this.color ? this.color.hsva : null;
 
       val = this.getPaletteColor(val, val);
       fallback = this.getPaletteColor(fallback, fallback);
 
-      var color = new _Color2.default(val, { fallbackColor: fallback, format: this.format });
+      var color = new _Color2.default(val, { fallbackColor: fallback, format: this.format, useNames: this.options.useNames });
 
-      if (color.hasAlpha() && !this.options.useAlpha) {
+      if (color.hasTransparency() && !this.options.useAlpha) {
         // alpha is disabled
         return color.getOpaqueCopy();
       }
@@ -733,22 +740,10 @@ var Colorpicker = function () {
   }, {
     key: 'keyup',
     value: function keyup(e) {
-      if (e.keyCode === 38 && this.options.useAlpha) {
-        if (this.color.a < 1) {
-          this.color.a = Math.round((this.color.a + 0.01) * 100) / 100;
-        }
-        this.update(true);
-      } else if (e.keyCode === 40 && this.options.useAlpha) {
-        if (this.color.a > 0) {
-          this.color.a = Math.round((this.color.a - 0.01) * 100) / 100;
-        }
-        this.update(true);
-      } else if (e.keyCode !== 38 && e.keyCode !== 40) {
-        this.color = this.createColor(this.input.val());
-        if (this.getValue(false) !== false) {
-          this.updateComponent();
-          this.updatePicker();
-        }
+      this.color = this.createColor(this.input.val());
+      if (this.getValue(false) !== false) {
+        this.updateComponent();
+        this.updatePicker();
       }
       this.element.trigger({
         type: 'changeColor',
@@ -760,7 +755,12 @@ var Colorpicker = function () {
     key: 'color',
     get: function get() {
       return this.element.data('color');
-    },
+    }
+
+    /**
+     * @param {Color|null} value
+     */
+    ,
     set: function set(value) {
       this.element.data('color', value);
     }
@@ -772,7 +772,7 @@ var Colorpicker = function () {
       }
 
       if (this.color) {
-        if (this.color.hasAlpha() && this.color.format.match(/^hex/)) {
+        if (this.color.hasTransparency() && this.color.format.match(/^hex/)) {
           return this.options.enableHex8 ? 'hex8' : 'rgba';
         }
       }
@@ -797,84 +797,209 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _tinycolor = __webpack_require__(4);
+var _tinycolor2 = __webpack_require__(4);
 
-var _tinycolor2 = _interopRequireDefault(_tinycolor);
+var _tinycolor3 = _interopRequireDefault(_tinycolor2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var fallbackFallbackColor = '#000000';
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-var Color = function () {
-  _createClass(Color, null, [{
-    key: 'TinyColor',
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var defaultFallbackColor = '#000000';
+var defaultFallbackFormat = 'hex';
+
+function unwrapColor(color) {
+  if (color instanceof _tinycolor3.default) {
+    return {
+      r: color._r,
+      g: color._g,
+      b: color._b,
+      a: color._a
+    };
+  }
+  return color;
+}
+
+var Color = function (_tinycolor) {
+  _inherits(Color, _tinycolor);
+
+  _createClass(Color, [{
+    key: 'id',
 
     /**
-     * @returns {tinycolor}
+     * @returns {int}
      */
     get: function get() {
-      return _tinycolor2.default;
+      return this._tc_id;
+    }
+
+    /**
+     * @returns {String}
+     */
+
+  }, {
+    key: 'format',
+    get: function get() {
+      return this._format;
+    }
+  }, {
+    key: 'options',
+    get: function get() {
+      return {
+        format: this._format,
+        gradientType: this._gradientType,
+        fallbackColor: this._fallbackColor,
+        useNames: this._useNames
+      };
+    }
+
+    /**
+     * @returns {{h, s, v, a}}
+     */
+
+  }, {
+    key: 'hsva',
+    get: function get() {
+      return this.toHsv();
+    }
+
+    /**
+     * @returns {{h, s, v, a}}
+     */
+
+  }, {
+    key: 'hsvaRatio',
+    get: function get() {
+      var hsv = this.hsva;
+
+      return {
+        h: hsv.h / 360,
+        s: hsv.s,
+        v: hsv.v,
+        a: hsv.a
+      };
     }
 
     /**
      * @param {*} color
-     * @param {{fallbackColor, format}} [options]
+     * @param {{fallbackColor, format, useNames}} [options]
      * @constructor
      */
 
   }]);
 
   function Color(color) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { fallbackColor: fallbackFallbackColor, format: null };
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { fallbackColor: defaultFallbackColor, format: null, useNames: true };
 
     _classCallCheck(this, Color);
 
     /**
      * @type {*}
      */
-    this.originalColor = color;
+    var _this = _possibleConstructorReturn(this, (Color.__proto__ || Object.getPrototypeOf(Color)).call(this, unwrapColor(color), options));
+
+    _this._originalInput = color;
 
     /**
-     * @type {{fallbackColor, format}}
+     * @type {*}
      */
-    this.options = options;
+    _this._fallbackColor = unwrapColor(options.fallbackColor);
 
     /**
-     * @type {tinycolor}
+     * @type {boolean}
      */
-    this._api = null;
+    _this._useNames = options.useNames;
 
-    /**
-     * @type {{h, s, v, a}}
-     */
-    this._hsva = null;
-
-    this.update(color);
+    _this._validOrFallback();
+    return _this;
   }
 
-  _createClass(Color, [{
-    key: 'update',
-    value: function update(color) {
-      /**
-       * @type {tinycolor}
-       */
-      this._api = (0, _tinycolor2.default)(color, { format: this.format });
+  /**
+   * Imports all variables of the given color to this instance, excepting `_tc_id`.
+   * @param {Color} color
+   */
 
+
+  _createClass(Color, [{
+    key: 'importColor',
+    value: function importColor(color) {
+      if (!color instanceof _tinycolor3.default) {
+        throw new Error('Color.importColor: The color argument is not an instance of tinycolor.');
+      }
+      this._originalInput = color._originalInput;
+      this._r = color._r;
+      this._g = color._g;
+      this._b = color._b;
+      this._a = color._a;
+      this._roundA = color._roundA;
+      this._format = color._format;
+      this._gradientType = color._gradientType;
+      this._ok = color._ok;
+      // omit color._tc_id import
+    }
+
+    /**
+     * Imports the _r, _g, _b, _a and _ok variables of the given color to this instance.
+     * @param {Color} color
+     */
+
+  }, {
+    key: 'importRgb',
+    value: function importRgb(color) {
+      if (!color instanceof _tinycolor3.default) {
+        throw new Error('Color.importColor: The color argument is not an instance of tinycolor.');
+      }
+      this._r = color._r;
+      this._g = color._g;
+      this._b = color._b;
+      this._a = color._a;
+      this._ok = color._ok;
+    }
+
+    /**
+     * @param {{h,s,v,a}} hsv
+     */
+
+  }, {
+    key: 'importHsv',
+    value: function importHsv(hsv) {
+      this.importRgb(new Color(hsv, this.options));
+    }
+
+    /**
+     * If the current color is not valid, applies the fallback and,
+     * in case the fallback is neither valid, applies the default fallback.
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: '_validOrFallback',
+    value: function _validOrFallback() {
       if (!this.isValid()) {
+        var fallbackOptions = Object.assign({}, this.options);
+
+        if (!fallbackOptions.format) {
+          fallbackOptions.format = defaultFallbackFormat;
+        }
         // given color is invalid
-        this._api = (0, _tinycolor2.default)(this.options.fallbackColor, { format: this.format ? this.format : 'rgba' });
+        this.importColor((0, _tinycolor3.default)(this._fallbackColor, fallbackOptions));
 
         if (!this.isValid()) {
           // fallback color is invalid
-          this._api = (0, _tinycolor2.default)(fallbackFallbackColor, { format: this.format ? this.format : 'rgba' });
+          this.importColor((0, _tinycolor3.default)(defaultFallbackColor, fallbackOptions));
         }
+        return false;
       }
-
-      this._hsva = this._api.toHsv();
+      return true;
     }
 
     /**
@@ -884,7 +1009,7 @@ var Color = function () {
   }, {
     key: 'getCopy',
     value: function getCopy() {
-      return new Color({ h: this.h * 360, s: this.s * 100, v: this.v * 100, a: this.a }, { format: this.format, fallbackColor: this.options.fallbackColor });
+      return new Color(this.hsva, this.options);
     }
 
     /**
@@ -894,7 +1019,7 @@ var Color = function () {
   }, {
     key: 'getHueOnlyCopy',
     value: function getHueOnlyCopy() {
-      return new Color({ h: this.h * 360, s: 100, v: 100, a: this.a }, { format: this.format, fallbackColor: this.options.fallbackColor });
+      return new Color(Object.assign({}, this.hsva, { s: 100, v: 100 }), this.options);
     }
 
     /**
@@ -904,47 +1029,90 @@ var Color = function () {
   }, {
     key: 'getOpaqueCopy',
     value: function getOpaqueCopy() {
-      return new Color({ h: this.h * 360, s: this.s * 100, v: this.v * 100, a: 1 }, { format: this.format, fallbackColor: this.options.fallbackColor });
+      return new Color(Object.assign({}, this.hsva, { a: 1 }), this.options);
     }
+
+    /**
+     * @param {number} h Degrees from 0 to 360
+     */
+
   }, {
     key: 'setHue',
     value: function setHue(h) {
-      this.h = (1 - h) * 360;
+      this.importHsv(Object.assign({}, this.hsva, { h: h }));
     }
+
+    /**
+     * @param {number} s Percent from 0 o 100
+     */
+
   }, {
     key: 'setSaturation',
     value: function setSaturation(s) {
-      this.s = s;
+      this.importHsv(Object.assign({}, this.hsva, { s: s }));
     }
+
+    /**
+     * @param {number} v Percent from 0 o 100
+     */
+
   }, {
     key: 'setBrightness',
-    value: function setBrightness(b) {
-      this.v = 1 - b;
-    }
-  }, {
-    key: 'setAlpha',
-    value: function setAlpha(a) {
-      this.a = 1 - a;
+    value: function setBrightness(v) {
+      this.importHsv(Object.assign({}, this.hsva, { v: v }));
     }
 
     /**
-     * @returns {String} One of "rgb", "prgb", "hex"/"hex6", "hex3", "hex8", "hsl", "hsv"/"hsb", "name"
+     * @param {number} h Ratio from 0.0 to 1.0
      */
 
   }, {
-    key: 'hasAlpha',
+    key: 'setHueRatio',
+    value: function setHueRatio(h) {
+      if (h === 0) {
+        return;
+      }
+      this.setHue((1 - h) * 360);
+    }
 
+    /**
+     * @param {number} s Ratio from 0.0 to 1.0
+     */
+
+  }, {
+    key: 'setSaturationRatio',
+    value: function setSaturationRatio(s) {
+      this.setSaturation(s);
+    }
+
+    /**
+     * @param {number} v Ratio from 0.0 to 1.0
+     */
+
+  }, {
+    key: 'setBrightnessRatio',
+    value: function setBrightnessRatio(v) {
+      this.setBrightness(1 - v);
+    }
+
+    /**
+     * @param {number} a Ratio from 0.0 to 1.0
+     */
+
+  }, {
+    key: 'setAlphaRatio',
+    value: function setAlphaRatio(a) {
+      this.setAlpha(1 - a);
+    }
 
     /**
      * @returns {boolean}
      */
-    value: function hasAlpha() {
-      return this.a !== 1;
-    }
+
   }, {
-    key: 'isFallback',
-    value: function isFallback() {
-      return this.originalColor !== this._api.getOriginalInput();
+    key: 'isTransparent',
+    value: function isTransparent() {
+      return this._a === 0;
     }
 
     /**
@@ -952,29 +1120,9 @@ var Color = function () {
      */
 
   }, {
-    key: 'isValid',
-    value: function isValid() {
-      return this._api.isValid();
-    }
-  }, {
-    key: 'toHexString',
-    value: function toHexString() {
-      return this.toString('hex6');
-    }
-  }, {
-    key: 'toRgbString',
-    value: function toRgbString() {
-      return this.toString('rgb');
-    }
-  }, {
-    key: 'toHslString',
-    value: function toHslString() {
-      return this.toString('hsl');
-    }
-  }, {
-    key: 'toHsvString',
-    value: function toHsvString() {
-      return this.toString('hsv');
+    key: 'hasTransparency',
+    value: function hasTransparency() {
+      return this._a !== 1;
     }
 
     /**
@@ -989,85 +1137,24 @@ var Color = function () {
 
       format = (format ? format : this.format).replace(/a$/g, '').toLowerCase();
 
-      // let color = this.hasChanged() ? this.getCopy() : this;
-      var colorStr = this._api.toString(format);
-      var original = this._api.getOriginalInput();
+      var colorStr = _get(Color.prototype.__proto__ || Object.getPrototypeOf(Color.prototype), 'toString', this).call(this, format);
 
-      if (original === 'transparent') {
-        return 'transparent';
-      }
+      if (format.match(/hex/gi) && !format.match(/hex8/gi)) {
+        if (this.isTransparent() && this._r === 0 && this._g === 0 && this._b === 0) {
+          return 'transparent';
+        }
 
-      if (_tinycolor2.default.names.hasOwnProperty(original)) {
-        return original;
+        if (Color.names.hasOwnProperty(colorStr)) {
+          return colorStr;
+        }
       }
 
       return colorStr;
     }
-  }, {
-    key: 'h',
-    get: function get() {
-      return this._hsva.h / 360;
-    },
-    set: function set(val) {
-      var oldVal = this._hsva.h;
-
-      this._hsva.h = val;
-
-      if (oldVal !== val) {
-        this.update(this._hsva);
-      }
-    }
-  }, {
-    key: 's',
-    get: function get() {
-      return this._hsva.s;
-    },
-    set: function set(val) {
-      var oldVal = this._hsva.s;
-
-      this._hsva.s = val;
-
-      if (oldVal !== val) {
-        this.update(this._hsva);
-      }
-    }
-  }, {
-    key: 'v',
-    get: function get() {
-      return this._hsva.v;
-    },
-    set: function set(val) {
-      var oldVal = this._hsva.v;
-
-      this._hsva.v = val;
-
-      if (oldVal !== val) {
-        this.update(this._hsva);
-      }
-    }
-  }, {
-    key: 'a',
-    get: function get() {
-      return this._hsva.a;
-    },
-    set: function set(val) {
-      var oldVal = this._hsva.a;
-
-      this._hsva.a = val;
-
-      if (oldVal !== val) {
-        this.update(this._hsva);
-      }
-    }
-  }, {
-    key: 'format',
-    get: function get() {
-      return this.options.format ? this.options.format : this._api ? this._api.getFormat() : null;
-    }
   }]);
 
   return Color;
-}();
+}(_tinycolor3.default);
 
 exports.default = Color;
 
@@ -2294,44 +2381,45 @@ exports.default = {
   fallbackColor: false, // fallback color value. null = latest valid color.
   useHashPrefix: true, // put a '#' (number sign) before hex strings
   useAlpha: true, // null = auto, false = always hide, true = always show
+  useNames: true, // if true, the web named colors will be used when chosen
   enableHex8: true, // if true the hex8 format will be used whenever there is an alpha channel, otherwise rgba
   sliders: {
     saturation: {
       maxLeft: 100,
       maxTop: 100,
-      callLeft: 'setSaturation',
-      callTop: 'setBrightness'
+      callLeft: 'setSaturationRatio',
+      callTop: 'setBrightnessRatio'
     },
     hue: {
       maxLeft: 0,
       maxTop: 100,
       callLeft: false,
-      callTop: 'setHue'
+      callTop: 'setHueRatio'
     },
     alpha: {
       maxLeft: 0,
       maxTop: 100,
       callLeft: false,
-      callTop: 'setAlpha'
+      callTop: 'setAlphaRatio'
     }
   },
   slidersHorz: {
     saturation: {
       maxLeft: 100,
       maxTop: 100,
-      callLeft: 'setSaturation',
-      callTop: 'setBrightness'
+      callLeft: 'setSaturationRatio',
+      callTop: 'setBrightnessRatio'
     },
     hue: {
       maxLeft: 100,
       maxTop: 0,
-      callLeft: 'setHue',
+      callLeft: 'setHueRatio',
       callTop: false
     },
     alpha: {
       maxLeft: 100,
       maxTop: 0,
-      callLeft: 'setAlpha',
+      callLeft: 'setAlphaRatio',
       callTop: false
     }
   },

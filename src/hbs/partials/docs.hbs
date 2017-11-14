@@ -140,11 +140,11 @@
     </td>
   </tr>
   <tr>
-    <td>fallbackFormat</td>
-    <td>string</td>
-    <td>hex</td>
+    <td>useNames</td>
+    <td>boolean</td>
+    <td>true</td>
     <td>
-      Fallback color format (e.g. when not specified or for alias mode, when selecting non aliased colors)
+      if true, the web named colors will be used when chosen
     </td>
   </tr>
   </tbody>
@@ -152,8 +152,7 @@
 
 <h3>Classes</h3>
 <h4>jQuery.colorpicker</h4>
-<h4>jQuery.colorpicker.Color</h4>
-<h4>jQuery.colorpicker.TinyColor</h4>
+<h4>jQuery.colorpicker.Color (extends tinycolor)</h4>
 
 <h3>jQuery API Methods</h3>
 
@@ -215,23 +214,28 @@
 
 <h3>Color object methods</h3>
 
-<p>Each triggered events have a color object (available through event.color, see the example at the
+<p>
+  The Color object is a class extending <a href="https://github.com/bgrins/TinyColor" target="_blank">TinyColor</a>,
+  so it shares all its API, adding fallbackColor and HSV manipulation support with ratio values (from 0.0 to 1.0).
+  <br>
+  Each triggered events have a color object (available through event.color, see the example at the
   bottom) used internally by the picker. This object has several useful methods. These are the more
-  commonly used:</p>
+  commonly used:
+</p>
 
-<h4>.setHue(value)</h4>
+<h4>.setHueRatio(value)</h4>
 
 <p>Set the HUE with a value between 0 and 1.</p>
 
-<h4>.setSaturation(value)</h4>
+<h4>.setSaturationRatio(value)</h4>
 
 <p>Set the saturation with a value between 0 and 1.</p>
 
-<h4>.setBrightness(value)</h4>
+<h4>.setBrightnessRatio(value)</h4>
 
 <p>Set the brightness with a value between 0 and 1.</p>
 
-<h4>.setAlpha(value)</h4>
+<h4>.setAlphaRatio(value)</h4>
 
 <p>Set the transparency with a value between 0 and 1.</p>
 
@@ -249,7 +253,7 @@
 
 <h4>.toString()</h4>
 
-<p>Returns a string representation of the color, with the original format.</p>
+<p>Returns a string representation of the color, with the original or given format.</p>
 
 <hr>
 

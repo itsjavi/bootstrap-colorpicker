@@ -73,7 +73,7 @@ export default class Colorpicker {
     }
 
     if (
-      (this.options.useAlpha || this.color.hasAlpha()) &&
+      (this.options.useAlpha || this.color.hasTransparency()) &&
       (this.options.useAlpha !== false)
     ) {
       this.options.useAlpha = true;
@@ -91,11 +91,11 @@ export default class Colorpicker {
         selectorsContainer = colorpicker.picker.find('.colorpicker-palette');
 
       if (selectorsContainer.length > 0) {
-        $.each(this.options.colorPalette, function (name, color) {
+        $.each(this.options.colorPalette, function (name, value) {
           let $btn = $('<i />')
             .addClass('colorpicker-palette-color')
-            .css('background-color', color)
-            .attr('title', `${name}: ${color}`)
+            .css('background-color', value)
+            .attr('title', `${name}: ${value}`)
             .data('class', name).data('alias', name);
 
           $btn.on('mousedown.colorpicker touchstart.colorpicker', function (event) {
@@ -155,7 +155,6 @@ export default class Colorpicker {
 
     // for HTML5 input[type='color']
     if ((this.input !== false) && (this.component !== false) && (this.input.attr('type') === 'color')) {
-
       this.input.on({
         'click.colorpicker': $.proxy(this.show, this),
         'focus.colorpicker': $.proxy(this.show, this)
@@ -184,10 +183,16 @@ export default class Colorpicker {
     });
   }
 
+  /**
+   * @returns {Color|null}
+   */
   get color() {
     return this.element.data('color');
   }
 
+  /**
+   * @param {Color|null} value
+   */
   set color(value) {
     this.element.data('color', value);
   }
@@ -198,7 +203,7 @@ export default class Colorpicker {
     }
 
     if (this.color) {
-      if (this.color.hasAlpha() && this.color.format.match(/^hex/)) {
+      if (this.color.hasTransparency() && this.color.format.match(/^hex/)) {
         return this.options.enableHex8 ? 'hex8' : 'rgba';
       }
     }
@@ -226,7 +231,7 @@ export default class Colorpicker {
    * @returns {String}
    */
   getCssColorString() {
-    return this.color.toString(this.format, true);
+    return this.color.toString(this.format);
   }
 
   reposition() {
@@ -309,25 +314,28 @@ export default class Colorpicker {
     if (icns.length === 0) {
       return;
     }
+
+    let hsva = this.color.hsvaRatio;
+
     if (this.options.horizontal === false) {
       sl = this.options.sliders;
-      icns.eq(1).css('top', sl.hue.maxTop * (1 - this.color.h)).end()
-        .eq(2).css('top', sl.alpha.maxTop * (1 - this.color.a));
+      icns.eq(1).css('top', sl.hue.maxTop * (1 - hsva.h)).end()
+        .eq(2).css('top', sl.alpha.maxTop * (1 - hsva.a));
     } else {
       sl = this.options.slidersHorz;
-      icns.eq(1).css('left', sl.hue.maxLeft * (1 - this.color.h)).end()
-        .eq(2).css('left', sl.alpha.maxLeft * (1 - this.color.a));
+      icns.eq(1).css('left', sl.hue.maxLeft * (1 - hsva.h)).end()
+        .eq(2).css('left', sl.alpha.maxLeft * (1 - hsva.a));
     }
     icns.eq(0).css({
-      'top': sl.saturation.maxTop - this.color.v * sl.saturation.maxTop,
-      'left': this.color.s * sl.saturation.maxLeft
+      'top': sl.saturation.maxTop - hsva.v * sl.saturation.maxTop,
+      'left': hsva.s * sl.saturation.maxLeft
     });
 
     this.picker.find('.colorpicker-saturation')
       .css('backgroundColor', this.color.getHueOnlyCopy().toHexString()); // we only need hue
 
     this.picker.find('.colorpicker-alpha')
-      .css('backgroundColor', this.color.toHexString()); // we don't need alpha
+      .css('backgroundColor', this.color.toString('hex6')); // we don't need alpha
 
     this.picker.find('.colorpicker-color, .colorpicker-color div')
       .css('backgroundColor', this.color.toRgbString()); // we need all the channels
@@ -392,14 +400,14 @@ export default class Colorpicker {
    */
   createColor(val) {
     val = val ? val : null;
-    let fallback = this.options.fallbackColor ? this.options.fallbackColor : (this.color ? this.color._hsva : null);
+    let fallback = this.options.fallbackColor ? this.options.fallbackColor : (this.color ? this.color.hsva : null);
 
     val = this.getPaletteColor(val, val);
     fallback = this.getPaletteColor(fallback, fallback);
 
-    let color = new Color(val, {fallbackColor: fallback, format: this.format});
+    let color = new Color(val, {fallbackColor: fallback, format: this.format, useNames: this.options.useNames});
 
-    if (color.hasAlpha() && !this.options.useAlpha) {
+    if (color.hasTransparency() && !this.options.useAlpha) {
       // alpha is disabled
       return color.getOpaqueCopy();
     }

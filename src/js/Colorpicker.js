@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * @module
+ */
 
 import Color from './Color';
 import defaults from './defaults';
@@ -7,7 +10,7 @@ import $ from 'jquery';
 /**
  * Colorpicker component class
  */
-export default class Colorpicker {
+class Colorpicker {
   /**
    * @returns {tinycolor}
    */
@@ -588,3 +591,5 @@ export default class Colorpicker {
     });
   }
 }
+
+export default Colorpicker;

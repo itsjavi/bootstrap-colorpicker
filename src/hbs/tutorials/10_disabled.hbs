@@ -1,0 +1,33 @@
+{{#extend "tutorial-sandbox"}}
+  {{#content "body"}}
+    {{#extend "tutorial"}}
+      {{#content "description"}}{{/content}}
+
+      {{#content "code"}}
+        <div id="cp10" class="input-group colorpicker-component">
+          <input disabled type="text" value="" class="form-control input-lg"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+        <br>
+        <p>
+          <a class="btn btn-sm btn-default enable-button" href="#">Enable</a>
+          <a class="btn btn-sm btn-default disable-button" href="#">Disable</a>
+        </p>
+        <script>
+          $(function () {
+            $(".disable-button").click(function (e) {
+              e.preventDefault();
+              $("#cp10").colorpicker('disable');
+            });
+
+            $(".enable-button").click(function (e) {
+              e.preventDefault();
+              $("#cp10").colorpicker('enable');
+            });
+            $('#cp10').colorpicker();
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+  {{/content}}
+{{/extend}}

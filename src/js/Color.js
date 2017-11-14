@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * @module
+ */
 
 import tinycolor from 'tinycolor2';
 
@@ -17,27 +20,41 @@ function unwrapColor(color) {
   return color;
 }
 
-export default class Color extends tinycolor {
+/**
+ * Color manipulation class.
+ */
+class Color extends tinycolor {
   /**
-   * @returns {int}
+   * Identifier of the color instance.
+   *
+   * @type {int}
+   * @readonly
    */
   get id() {
     return this._tc_id;
   }
 
   /**
-   * @returns {String}
+   * Format of the parsed color.
+   *
+   * @type {String}
+   * @readonly
    */
   get format() {
     return this._format;
   }
 
+  /**
+   * All options of the current instance.
+   *
+   * @type {{format: String, gradientType: String, fallbackColor: *}}
+   * @readonly
+   */
   get options() {
     return {
       format: this._format,
       gradientType: this._gradientType,
-      fallbackColor: this._fallbackColor,
-      useNames: this._useNames
+      fallbackColor: this._fallbackColor
     };
   }
 
@@ -63,27 +80,23 @@ export default class Color extends tinycolor {
   }
 
   /**
-   * @param {*} color
-   * @param {{fallbackColor, format, useNames}} [options]
+   * foo bar
+   * @param {Color|*} color
+   * @param {{fallbackColor, format}} [options]
    * @constructor
    */
-  constructor(color, options = {fallbackColor: defaultFallbackColor, format: null, useNames: true}) {
+  constructor(color, options = {fallbackColor: defaultFallbackColor, format: null}) {
     super(unwrapColor(color), options);
 
     /**
-     * @type {*}
+     * @type {Color|*}
      */
     this._originalInput = color;
 
     /**
-     * @type {*}
+     * @type {Color|*}
      */
     this._fallbackColor = unwrapColor(options.fallbackColor);
-
-    /**
-     * @type {boolean}
-     */
-    this._useNames = options.useNames;
 
     this._validOrFallback();
   }
@@ -264,3 +277,5 @@ export default class Color extends tinycolor {
     return colorStr;
   }
 }
+
+export default Color;

@@ -8,6 +8,7 @@ const handlebars = require('gulp-compile-handlebars');
 const handlebars_layouts = require('handlebars-layouts');
 const rename = require('gulp-rename');
 const header = require('gulp-header');
+const shell = require('gulp-shell');
 const fs = require('fs');
 const pkg = JSON.parse(fs.readFileSync('./package.json'));
 
@@ -62,14 +63,14 @@ gulp.task('css', ['css:clean', 'css-min'], function () {
 });
 
 
-gulp.task('html:clean', function () {
-  return del(['dist/index.html']);
+gulp.task('tutorials:clean', function () {
+  return del(['build/tutorials/*']);
 });
-gulp.task('html', ['html:clean'], function () {
+gulp.task('tutorials', ['tutorials:clean'], function () {
 
   let data = {banner: banner, package: pkg};
   let options = {
-    batch: ['./src/hbs', './src/hbs/partials', './src/hbs/partials/examples'],
+    batch: ['./src/hbs'],
     helpers: {
       code: function (hbsOptions) {
         let entityMap = {
@@ -81,20 +82,29 @@ gulp.task('html', ['html:clean'], function () {
           "/": '&#x2F;'
         };
 
-        let code = String(hbsOptions.fn(this)).trim().replace(/[&<>"'\/]/g, function (s) {
+        return String(hbsOptions.fn(this)).trim().replace(/[&<>"'\/]/g, function (s) {
           return entityMap[s];
-        });
-
-        return '<div class="example-code">' + code + '</div>';
+        }).replace(/^ {2,8}/mgi, '');
       }
     }
   };
 
-  return gulp.src('src/hbs/index.hbs')
+  gulp.src('src/hbs/tutorials/tutorials.json')
+    .pipe(gulp.dest('build/tutorials'));
+
+  return gulp.src('src/hbs/tutorials/**/*.hbs')
     .pipe(handlebars(data, options))
-    .pipe(rename('index.html'))
-    .pipe(gulp.dest('dist'));
+    .pipe(rename({extname: '.html'}))
+    .pipe(gulp.dest('build/tutorials'));
 });
+
+gulp.task('docs:clean', function () {
+  return del(['build/docs/*']);
+});
+gulp.task('docs', ['docs:clean', 'dist', 'tutorials'], shell.task([
+  'node_modules/.bin/jsdoc --configure .jsdoc.json --verbose',
+  'cp -R dist build/docs/dist'
+]));
 
 
 gulp.task('gh-pages', ['default'], function () {
@@ -110,13 +120,17 @@ gulp.task('gh-pages', ['default'], function () {
   );
 });
 
+
 gulp.task('watch', ['default'], function () {
-  gulp.watch('src/hbs/**/*.hbs', ['html']);
+  gulp.watch('src/hbs/**/*.hbs', ['tutorials']);
   gulp.watch('src/sass/**/*.scss', ['css']);
   gulp.watch('src/js/**/*.js', ['js']);
 });
 
 
-gulp.task('default', ['js', 'css', 'html'], function () {
-  console.info("The dist files have been rebuilt ✨.");
+gulp.task('dist', ['js', 'css']);
+
+
+gulp.task('default', ['dist', 'docs'], function () {
+  console.info("The dist and docs files have been rebuilt ✨.");
 });

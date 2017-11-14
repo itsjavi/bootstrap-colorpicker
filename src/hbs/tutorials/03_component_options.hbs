@@ -1,0 +1,25 @@
+{{#extend "tutorial-sandbox"}}
+  {{#content "body"}}
+    {{#extend "tutorial"}}
+      {{#content "description"}}
+        Sample overriding the initial color and format
+      {{/content}}
+
+      {{#content "code"}}
+        <div id="cp3" class="input-group colorpicker-component">
+          <input type="text" value="#00AABB" class="form-control input-lg"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp3').colorpicker({
+              color: '#AA3399',
+              format: 'rgb',
+              useAlpha: false
+            });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+  {{/content}}
+{{/extend}}

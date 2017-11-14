@@ -7,15 +7,15 @@ Simple and customizable colorpicker component for Twitter Bootstrap.
 ## Installation
 For downloading the source code, you have many choices:
 
-- Downloading the [latest master ZIP file](https://github.com/itsjavi/bootstrap-colorpicker/archive/master.zip)
-- Cloning the source code: `git clone https://github.com/itsjavi/bootstrap-colorpicker.git`
+- Downloading the [latest master ZIP file](https://github.com/farbelous/bootstrap-colorpicker/archive/master.zip)
+- Cloning the source code: `git clone https://github.com/farbelous/bootstrap-colorpicker.git`
 - Installing via NPM: `npm install bootstrap-colorpicker`
 - Installing via Yarn: `yarn add bootstrap-colorpicker`
 - Installing via Composer: `composer require itsjavi/bootstrap-colorpicker`
 
 ## Getting started
 - For using the plugin you will only need the files under the `dist` folder
-- You can read the [documentation here](https://itsjavi.com/bootstrap-colorpicker/)
+- You can read the [documentation here](https://farbelous.github.io/bootstrap-colorpicker/)
 
 ## Contributing and reporting issues
 It is mandatory to use the provided templates that are suggested whenever you open a new Issue or Pull Request.

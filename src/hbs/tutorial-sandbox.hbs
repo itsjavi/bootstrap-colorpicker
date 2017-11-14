@@ -1,0 +1,39 @@
+<div class="tutorial-sandbox">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+  <style>
+    .tutorial-title {
+      font-size: 14px;
+      margin: 10px 0 10px 2px;
+      font-weight: bold;
+    }
+
+    .tutorial-description {
+      margin: 10px 0 10px 2px;
+    }
+
+    .tutorial-container--code {
+      display: none;
+    }
+
+    .tutorial-container--body {
+      margin-bottom: 2px;
+    }
+  </style>
+
+  <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="dist/js/bootstrap-colorpicker.min.js"></script>
+
+  {{#block "body"}}{{/block}}
+
+  <script>
+    $(function () {
+      $('.tutorial-container--code-toggle').on('click', function () {
+        $(this).parent().find('.tutorial-container--code').toggle();
+      });
+    });
+  </script>
+</div>

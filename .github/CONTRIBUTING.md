@@ -29,7 +29,7 @@ These steps are mandatory. Issues that are not clear or are not clearly reproduc
 
 Patches and new features are welcome!
 
-- Prerequisites: having `node`, `npm`, `yarn`, `gulp` and `ava` installed in your machine.
+- Prerequisites: having `node`, `npm`, `yarn`, `gulp` and `ava` installed in your machine globally.
 - After a fresh clone for your fork, you need to run `yarn install` inside the project's root folder.
 - For checking your changes in the browser you can execute `npm start` and navigate to 
   [http://localhost:8080/](http://localhost:8080/)

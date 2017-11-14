@@ -1,0 +1,38 @@
+{
+  "01_basic": {
+    "title": "Simple input field"
+  },
+  "02_component": {
+    "title": "As a component"
+  },
+  "03_component_options": {
+    "title": "With custom options"
+  },
+  "04_events": {
+    "title": "Working with events"
+  },
+  "05_transparent": {
+    "title": "Transparent color support"
+  },
+  "06_horizontal": {
+    "title": "Horizontal mode"
+  },
+  "07_inline": {
+    "title": "Inline mode"
+  },
+  "08_palette": {
+    "title": "Aliased color palette"
+  },
+  "09_size": {
+    "title": "Customized widget size"
+  },
+  "10_disabled": {
+    "title": "Disabled / enabled status"
+  },
+  "11_modal": {
+    "title": "Inside a modal"
+  },
+  "old_docs": {
+    "title": "[Old documentation]"
+  }
+}

@@ -14,4 +14,4 @@ package-lock.json
 gh-pages
 gulpfile.js_*
 /*ignore/
-/dist/index.html
+/build

@@ -1,7 +1,21 @@
 'use strict';
+/**
+ * @module
+ */
 
+/**
+ * Colorpicker default options
+ */
 export default {
-  horizontal: false, // horizontal mode layout ?
+  /**
+   * Horizontal mode layout.
+   *
+   * If true, the hue and alpha channel bars will be rendered horizontally, above the saturation selector.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  horizontal: false,
   inline: false, // forces to show the colorpicker as an inline element
   color: false, // forces a color
   format: false, // forces a format

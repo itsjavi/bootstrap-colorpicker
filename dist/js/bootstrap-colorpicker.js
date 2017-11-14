@@ -3,8 +3,8 @@
  * @package bootstrap-colorpicker
  * @version v3.0.0
  * @license MIT
- * @link https://itsjavi.com/bootstrap-colorpicker/
- * @link https://github.com/itsjavi/bootstrap-colorpicker.git
+ * @link https://farbelous.github.io/bootstrap-colorpicker/
+ * @link https://github.com/farbelous/bootstrap-colorpicker.git
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -106,21 +106,23 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_jquery2.default.colorpicker = _Colorpicker2.default;
+var plugin = 'colorpicker';
 
-_jquery2.default.fn.colorpicker = function (option) {
+_jquery2.default[plugin] = _Colorpicker2.default;
+
+_jquery2.default.fn[plugin] = function (option) {
   var apiArgs = Array.prototype.slice.call(arguments, 1),
       isSingleElement = this.length === 1,
       returnValue = null;
 
   var $jq = this.each(function () {
     var $this = (0, _jquery2.default)(this),
-        inst = $this.data('colorpicker'),
+        inst = $this.data(plugin),
         options = (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? option : {};
 
     if (!inst) {
       inst = new _Colorpicker2.default(this, options);
-      $this.data('colorpicker', inst);
+      $this.data(plugin, inst);
     }
 
     if (typeof option === 'string') {
@@ -142,7 +144,7 @@ _jquery2.default.fn.colorpicker = function (option) {
   return isSingleElement ? returnValue : $jq;
 };
 
-_jquery2.default.fn.colorpicker.constructor = _Colorpicker2.default;
+_jquery2.default.fn[plugin].constructor = _Colorpicker2.default;
 
 /***/ }),
 /* 2 */
@@ -150,6 +152,9 @@ _jquery2.default.fn.colorpicker.constructor = _Colorpicker2.default;
 
 "use strict";
 
+/**
+ * @module
+ */
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -792,6 +797,9 @@ exports.default = Colorpicker;
 
 "use strict";
 
+/**
+ * @module
+ */
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -828,6 +836,10 @@ function unwrapColor(color) {
   return color;
 }
 
+/**
+ * Color manipulation class.
+ */
+
 var Color = function (_tinycolor) {
   _inherits(Color, _tinycolor);
 
@@ -835,14 +847,20 @@ var Color = function (_tinycolor) {
     key: 'id',
 
     /**
-     * @returns {int}
+     * Identifier of the color instance.
+     *
+     * @type {int}
+     * @readonly
      */
     get: function get() {
       return this._tc_id;
     }
 
     /**
-     * @returns {String}
+     * Format of the parsed color.
+     *
+     * @type {String}
+     * @readonly
      */
 
   }, {
@@ -850,14 +868,21 @@ var Color = function (_tinycolor) {
     get: function get() {
       return this._format;
     }
+
+    /**
+     * All options of the current instance.
+     *
+     * @type {{format: String, gradientType: String, fallbackColor: *}}
+     * @readonly
+     */
+
   }, {
     key: 'options',
     get: function get() {
       return {
         format: this._format,
         gradientType: this._gradientType,
-        fallbackColor: this._fallbackColor,
-        useNames: this._useNames
+        fallbackColor: this._fallbackColor
       };
     }
 
@@ -889,34 +914,30 @@ var Color = function (_tinycolor) {
     }
 
     /**
-     * @param {*} color
-     * @param {{fallbackColor, format, useNames}} [options]
+     * foo bar
+     * @param {Color|*} color
+     * @param {{fallbackColor, format}} [options]
      * @constructor
      */
 
   }]);
 
   function Color(color) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { fallbackColor: defaultFallbackColor, format: null, useNames: true };
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { fallbackColor: defaultFallbackColor, format: null };
 
     _classCallCheck(this, Color);
 
     /**
-     * @type {*}
+     * @type {Color|*}
      */
     var _this = _possibleConstructorReturn(this, (Color.__proto__ || Object.getPrototypeOf(Color)).call(this, unwrapColor(color), options));
 
     _this._originalInput = color;
 
     /**
-     * @type {*}
+     * @type {Color|*}
      */
     _this._fallbackColor = unwrapColor(options.fallbackColor);
-
-    /**
-     * @type {boolean}
-     */
-    _this._useNames = options.useNames;
 
     _this._validOrFallback();
     return _this;
@@ -2366,12 +2387,27 @@ else {
 
 "use strict";
 
+/**
+ * @module
+ */
+
+/**
+ * Colorpicker default options
+ */
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  horizontal: false, // horizontal mode layout ?
+  /**
+   * Horizontal mode layout.
+   *
+   * If true, the hue and alpha channel bars will be rendered horizontally, above the saturation selector.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  horizontal: false,
   inline: false, // forces to show the colorpicker as an inline element
   color: false, // forces a color
   format: false, // forces a format

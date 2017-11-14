@@ -3,13 +3,13 @@
   "version": "3.0.0",
   "description": "Simple and customizable colorpicker component for Twitter Bootstrap.",
   "main": "./dist/js/bootstrap-colorpicker.js",
-  "homepage": "https://itsjavi.com/bootstrap-colorpicker/",
+  "homepage": "https://farbelous.github.io/bootstrap-colorpicker/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/itsjavi/bootstrap-colorpicker.git"
+    "url": "https://github.com/farbelous/bootstrap-colorpicker.git"
   },
   "bugs": {
-    "url": "https://github.com/itsjavi/bootstrap-colorpicker/issues"
+    "url": "https://github.com/farbelous/bootstrap-colorpicker/issues"
   },
   "keywords": [
     "bootstrap",
@@ -22,12 +22,11 @@
     "tinycolor2": "^1.4.1"
   },
   "scripts": {
-    "test": "node_modules/.bin/eslint ./test && ava --color --verbose",
-    "dist": "gulp",
-    "start": "node_modules/.bin/http-server ./dist",
+    "test": "npm run lint && ava --color --verbose",
+    "start": "node_modules/.bin/http-server ./build/docs",
     "serve": "npm start",
-    "lint": "node_modules/.bin/eslint --fix ./src",
-    "lint-fix": "node_modules/.bin/eslint --fix ./src"
+    "lint": "node_modules/.bin/eslint ./src ./*.js ./test",
+    "lint-fix": "node_modules/.bin/eslint --fix ./src ./*.js ./test"
   },
   "devDependencies": {
     "ava": "^0.23.0",
@@ -45,10 +44,13 @@
     "gulp-header": "^1.8.9",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
+    "gulp-shell": "^0.6.3",
     "gulp-sourcemaps": "^2.6.1",
     "handlebars-layouts": "^3.1.4",
     "http-server": "^0.10.0",
+    "jsdoc": "^3.5.5",
     "jsdom": "^11.3.0",
+    "minami": "^1.2.3",
     "uglifyjs-webpack-plugin": "^1.0.1",
     "webpack": "^3.8.1",
     "webpack-stream": "^4.0.0"

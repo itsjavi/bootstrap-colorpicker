@@ -1,0 +1,19 @@
+{{#extend "tutorial-sandbox"}}
+  {{#content "body"}}
+    {{#extend "tutorial"}}
+      {{#content "description"}}{{/content}}
+
+      {{#content "code"}}
+        <input type="text" class="form-control input-lg" id="cp6"/>
+        <script>
+          $(function () {
+            $('#cp6').colorpicker({
+              color: "#88cc33",
+              horizontal: true
+            });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+  {{/content}}
+{{/extend}}

@@ -1,6 +1,6 @@
 <!-- 
 
-THIS TEMPLATE IS MANDATORY!!
+FILLING THIS TEMPLATE IS MANDATORY IN CASE YOU MODIFY THE SOURCE CODE!!
 
 Thank you for your contribution to bootstrap-colorpicker! Please replace {Please write here} with your description.
 Please note that PRs not following this template may be potentially discarded if they are not clear enough.

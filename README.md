@@ -14,12 +14,14 @@ For downloading the source code, you have many choices:
 - Installing via Composer: `composer require itsjavi/bootstrap-colorpicker`
 
 ## Getting started
-- For using the plugin you will only need the files under the `dist` folder
-- You can read the [documentation here](https://farbelous.github.io/bootstrap-colorpicker/)
+For using the plugin you will only need the files under the `dist` folder.
+* [Documentation](https://farbelous.github.io/bootstrap-colorpicker/)
+* [Tutorials](https://farbelous.github.io/bootstrap-colorpicker/)
+* [Source code](https://github.com/farbelous/bootstrap-colorpicker/)
 
-## Contributing and reporting issues
-It is mandatory to use the provided templates that are suggested whenever you open a new Issue or Pull Request.
-They can also be found under the `.github` folder.
+## Contributing
+It is mandatory to use the provided templates that are suggested whenever you report a new bug or change the source
+code in a Pull Request. They can also be found under the `.github` folder.
 
 Please also respect the [Code of Conduct](./.github/CODE_OF_CONDUCT.md).
 

@@ -1,4 +1,4 @@
-# Bootstrap Colorpicker v3.0.0 (master)
+# Bootstrap Colorpicker v3.0.0 (WIP)
 
 Simple and customizable colorpicker component for Twitter Bootstrap.
 

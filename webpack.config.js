@@ -20,7 +20,7 @@ module.exports = {
     modules: [
       path.resolve('./src/js'),
       path.resolve('./node_modules')
-    ],
+    ]
   },
   module: {
     loaders: [
@@ -46,10 +46,10 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery",
-      'window.$': "jquery",
-      'window.jQuery': "jquery"
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.$': 'jquery',
+      'window.jQuery': 'jquery'
     }),
     new webpack.optimize.UglifyJsPlugin({
       include: /\.min\.js$/,

@@ -3,16 +3,16 @@ const gulp = require('gulp');
 const del = require('del');
 const webpack = require('webpack-stream');
 const sass = require('gulp-sass');
-const gh_pages = require('gh-pages');
+const ghPages = require('gh-pages');
 const handlebars = require('gulp-compile-handlebars');
-const handlebars_layouts = require('handlebars-layouts');
+const handlebarsLayouts = require('handlebars-layouts');
 const rename = require('gulp-rename');
 const header = require('gulp-header');
 const shell = require('gulp-shell');
 const fs = require('fs');
 const pkg = JSON.parse(fs.readFileSync('./package.json'));
 
-handlebars.Handlebars.registerHelper(handlebars_layouts(handlebars.Handlebars));
+handlebars.Handlebars.registerHelper(handlebarsLayouts(handlebars.Handlebars));
 
 // TODO: add CSS source maps.
 
@@ -32,7 +32,6 @@ gulp.task('clean', function () {
   ]);
 });
 
-
 gulp.task('js:clean', function () {
   return del(['dist/js/**/*']);
 });
@@ -42,7 +41,6 @@ gulp.task('js', ['js:clean'], function () {
     .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest('dist/js/'));
 });
-
 
 gulp.task('css:clean', function () {
   return del(['dist/css/**/*']);
@@ -62,7 +60,6 @@ gulp.task('css', ['css:clean', 'css-min'], function () {
     .pipe(gulp.dest('dist/css'));
 });
 
-
 gulp.task('tutorials:clean', function () {
   return del(['build/tutorials/*']);
 });
@@ -74,12 +71,12 @@ gulp.task('tutorials', ['tutorials:clean'], function () {
     helpers: {
       code: function (hbsOptions) {
         let entityMap = {
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
           '"': '&quot;',
           "'": '&#39;',
-          "/": '&#x2F;'
+          '/': '&#x2F;'
         };
 
         return String(hbsOptions.fn(this)).trim().replace(/[&<>"'\/]/g, function (s) {
@@ -106,20 +103,18 @@ gulp.task('docs', ['docs:clean', 'dist', 'tutorials'], shell.task([
   'cp -R dist build/docs/dist'
 ]));
 
-
 gulp.task('gh-pages', ['default'], function () {
   // WARNING! You won't be able to publish unless you have write permissions on the repo.
   // Check the gh-pages npm package documentation.
-  gh_pages.publish('dist',
+  ghPages.publish('dist',
     {
       message: 'Update build with latest master changes'
     },
     function () {
-      console.info("The gh-pages branch is updated and pushed 📦.");
+      console.info('The gh-pages branch is updated and pushed 📦.');
     }
   );
 });
-
 
 gulp.task('watch', ['default'], function () {
   gulp.watch('src/hbs/**/*.hbs', ['tutorials']);
@@ -127,10 +122,8 @@ gulp.task('watch', ['default'], function () {
   gulp.watch('src/js/**/*.js', ['js']);
 });
 
-
 gulp.task('dist', ['js', 'css']);
 
-
 gulp.task('default', ['dist', 'docs'], function () {
-  console.info("The dist and docs files have been rebuilt ✨.");
+  console.info('The dist and docs files have been rebuilt 👏✨.');
 });

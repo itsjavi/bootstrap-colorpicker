@@ -6,7 +6,7 @@
 import tinycolor from 'tinycolor2';
 
 let defaultFallbackColor = '#000000';
-let defaultFallbackFormat = 'hex';
+let defaultFallbackFormat = null;
 
 function unwrapColor(color) {
   if (color instanceof tinycolor) {

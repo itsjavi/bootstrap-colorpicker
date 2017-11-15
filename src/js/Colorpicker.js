@@ -8,56 +8,97 @@ import defaults from './defaults';
 import $ from 'jquery';
 
 /**
- * Colorpicker component class
+ * Colorpicker widget class
  */
 class Colorpicker {
   /**
-   * @returns {tinycolor}
+   * Color class
+   *
+   * @static
+   * @type {Color}
    */
   static get Color() {
     return Color;
   }
 
   /**
-   * @returns {tinycolor}
+   * color getter
+   *
+   * @type {Color|null}
    */
-  static get TinyColor() {
-    return this.Color.TinyColor;
+  get color() {
+    return this.element.data('color');
   }
 
   /**
+   * color setter
+   *
+   * @ignore
+   * @param {Color|null} value
+   */
+  set color(value) {
+    this.element.data('color', value);
+  }
+
+  /**
+   * @fires create
    * @param {Object|String} element
    * @param {Object} options
    * @constructor
    */
   constructor(element, options) {
+    /**
+     * @type {*|jQuery}
+     */
     this.element = $(element).addClass('colorpicker-element');
+    /**
+     * @type {defaults}
+     */
     this.options = $.extend(true, {}, defaults, this.element.data(), options);
+    /**
+     * @type {*|jQuery}
+     */
     this.component = this.options.component;
     this.component = (this.component !== false) ? this.element.find(this.component) : false;
     if (this.component && (this.component.length === 0)) {
       this.component = false;
     }
+    /**
+     * @type {*|jQuery}
+     */
     this.container = (this.options.container === true) ? this.element : this.options.container;
     this.container = (this.container !== false) ? $(this.container) : false;
+    /**
+     * @type {*|String}
+     * @private
+     */
     this.currentSlider = null;
+    /**
+     * @type {{left: number, top: number}}
+     * @private
+     */
     this.mousePointer = {
       left: 0,
       top: 0
     };
 
     // Is the element an input? Should we search inside for any input?
+    /**
+     * @type {*|jQuery}
+     */
     this.input = this.element.is('input') ? this.element : (this.options.input ?
       this.element.find(this.options.input) : false);
+
     if (this.input && (this.input.length === 0)) {
       this.input = false;
     }
 
-    /**
-     * @type {Color}
-     */
     this.color = this.createColor(this.options.color !== false ? this.options.color : this.getValue());
 
+    /**
+     * @type {boolean}
+     * @private
+     */
     this.disabled = false;
 
     // Setup picker
@@ -76,7 +117,7 @@ class Colorpicker {
     }
 
     if (
-      (this.options.useAlpha || this.color.hasTransparency()) &&
+      (this.options.useAlpha || (this.hasColor() && this.color.hasTransparency())) &&
       (this.options.useAlpha !== false)
     ) {
       this.options.useAlpha = true;
@@ -167,10 +208,20 @@ class Colorpicker {
     this.update(this.options.color !== false);
 
     $($.proxy(function () {
+      /**
+       * (Colorpicker) When the Colorpicker instance has been created and the DOM is ready.
+       *
+       * @event create
+       */
       this.element.trigger('create');
     }, this));
   }
 
+  /**
+   * Destroys the current instance
+   *
+   * @fires destroy
+   */
   destroy() {
     this.picker.remove();
     this.element.removeData('colorpicker', 'color').off('.colorpicker');
@@ -181,23 +232,23 @@ class Colorpicker {
       this.component.off('.colorpicker');
     }
     this.element.removeClass('colorpicker-element');
+
+    /**
+     * (Colorpicker) When the instance is destroyed with all events unbound.
+     *
+     * @event destroy
+     */
     this.element.trigger({
       type: 'destroy'
     });
   }
 
   /**
-   * @returns {Color|null}
+   * Returns true if the current color object is an instance of Color, false otherwise.
+   * @returns {boolean}
    */
-  get color() {
-    return this.element.data('color');
-  }
-
-  /**
-   * @param {Color|null} value
-   */
-  set color(value) {
-    this.element.data('color', value);
+  hasColor() {
+    return this.color instanceof Color;
   }
 
   get format() {
@@ -205,10 +256,8 @@ class Colorpicker {
       return this.options.format;
     }
 
-    if (this.color) {
-      if (this.color.hasTransparency() && this.color.format.match(/^hex/)) {
-        return this.options.enableHex8 ? 'hex8' : 'rgba';
-      }
+    if (this.hasColor() && this.color.hasTransparency() && this.color.format.match(/^hex/)) {
+      return this.options.enableHex8 ? 'hex8' : 'rgba';
     }
 
     return null;
@@ -237,6 +286,11 @@ class Colorpicker {
     return this.color.toString(this.format);
   }
 
+  /**
+   * If the widget is not inside a container or inline, rearranges its position relative to its element offset.
+   *
+   * @returns {boolean} Returns false if the widget is inside a container or inline, true otherwise
+   */
   reposition() {
     if (this.options.inline !== false || this.options.container) {
       return false;
@@ -255,6 +309,13 @@ class Colorpicker {
     return true;
   }
 
+  /**
+   * Shows the colorpicker widget if hidden.
+   * If the input is disabled this call will be ignored.
+   *
+   * @fires showPicker
+   * @param {Event} [e]
+   */
   show(e) {
     if (this.isDisabled()) {
       // Don't show the widget if it's disabled (the input)
@@ -263,6 +324,7 @@ class Colorpicker {
     this.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
     this.reposition();
     $(window).on('resize.colorpicker', $.proxy(this.reposition, this));
+
     if (e && (!this.hasInput() || this.input.attr('type') === 'color')) {
       if (e.stopPropagation && e.preventDefault) {
         e.stopPropagation();
@@ -274,12 +336,26 @@ class Colorpicker {
         'mousedown.colorpicker': $.proxy(this.hide, this)
       });
     }
+
+    /**
+     * (Colorpicker) When show() is called and the widget can be shown.
+     *
+     * @event showPicker
+     */
     this.element.trigger({
       type: 'showPicker',
       color: this.color
     });
   }
 
+  /**
+   * Hides the colorpicker widget.
+   * Hide is prevented when it is triggered by an event whose target element has been clicked/touched.
+   *
+   * @fires hidePicker
+   * @param {Event} [e]
+   * @returns {boolean} True if hidden, false if prevented.
+   */
   hide(e) {
     if ((typeof e !== 'undefined') && e.target) {
       // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
@@ -296,6 +372,12 @@ class Colorpicker {
       'mousedown.colorpicker': this.hide
     });
     this.update();
+
+    /**
+     * (Colorpicker) When hide() is called and the widget can be hidden.
+     *
+     * @event hidePicker
+     */
     this.element.trigger({
       type: 'hidePicker',
       color: this.color
@@ -303,36 +385,56 @@ class Colorpicker {
     return true;
   }
 
+  /**
+   * If the input element is present, it updates the value with the current color object color string.
+   * If value is set, this method fires a "change" event on the input element.
+   *
+   * @fires change
+   */
   updateInput() {
     if (this.input !== false) {
       this.input.prop('value', this.getColorString());
+
+      /**
+       * (Input) Triggered on the input element when a new color is selected.
+       *
+       * @event change
+       */
       this.input.trigger('change');
     }
   }
 
+  /**
+   * Changes the color adjustment bars using the current color object information.
+   */
   updatePicker() {
-    let sl = (this.options.horizontal === false) ? this.options.sliders : this.options.slidersHorz;
-    let icns = this.picker.find('i');
-
-    if (icns.length === 0) {
+    if (!this.hasColor()) {
       return;
     }
 
+    let vertical = (this.options.horizontal === false),
+      sl = vertical ? this.options.sliders : this.options.slidersHorz;
+
+    let saturationGuide = this.picker.find('.colorpicker-saturation .colorpicker-guide'),
+      hueGuide = this.picker.find('.colorpicker-hue .colorpicker-guide'),
+      alphaGuide = this.picker.find('.colorpicker-alpha .colorpicker-guide');
+
     let hsva = this.color.hsvaRatio;
 
-    if (this.options.horizontal === false) {
-      sl = this.options.sliders;
-      icns.eq(1).css('top', sl.hue.maxTop * (1 - hsva.h)).end()
-        .eq(2).css('top', sl.alpha.maxTop * (1 - hsva.a));
-    } else {
-      sl = this.options.slidersHorz;
-      icns.eq(1).css('left', sl.hue.maxLeft * (1 - hsva.h)).end()
-        .eq(2).css('left', sl.alpha.maxLeft * (1 - hsva.a));
+    if (hueGuide.length) {
+      hueGuide.css(vertical ? 'top' : 'left', (vertical ? sl.hue.maxTop : sl.hue.maxLeft) * (1 - hsva.h));
     }
-    icns.eq(0).css({
-      'top': sl.saturation.maxTop - hsva.v * sl.saturation.maxTop,
-      'left': hsva.s * sl.saturation.maxLeft
-    });
+
+    if (alphaGuide.length) {
+      alphaGuide.css(vertical ? 'top' : 'left', (vertical ? sl.alpha.maxTop : sl.alpha.maxLeft) * (1 - hsva.a));
+    }
+
+    if (saturationGuide.length) {
+      saturationGuide.css({
+        'top': sl.saturation.maxTop - hsva.v * sl.saturation.maxTop,
+        'left': hsva.s * sl.saturation.maxLeft
+      });
+    }
 
     this.picker.find('.colorpicker-saturation')
       .css('backgroundColor', this.color.getHueOnlyCopy().toHexString()); // we only need hue
@@ -344,7 +446,14 @@ class Colorpicker {
       .css('backgroundColor', this.color.toRgbString()); // we need all the channels
   }
 
+  /**
+   * If the component element is present, its background color is updated
+   */
   updateComponent() {
+    if (!this.hasColor()) {
+      return;
+    }
+
     if (this.component !== false) {
       let icn = this.component.find('i').eq(0);
 
@@ -360,8 +469,15 @@ class Colorpicker {
     }
   }
 
+  /**
+   * Updated the component color, the input value and the widget if a color is present.
+   *
+   * If force is true, it is updated anyway.
+   *
+   * @param {boolean} force
+   */
   update(force) {
-    if ((this.getValue(false) !== false) || (force === true)) {
+    if (this.hasColor() && ((this.getValue(false) !== false) || (force === true))) {
       // Update only if the current value (from input or data) is not empty
       this.updateComponent();
       this.updateInput();
@@ -369,25 +485,53 @@ class Colorpicker {
     }
   }
 
-  getValue(defaultValue) {
+  /**
+   * Returns the color string from the input value or the 'data-color' attribute of the input or element.
+   * If empty, it returns the defaultValue parameter.
+   *
+   * @param {String|*} [defaultValue]
+   * @returns {String|*}
+   */
+  getValue(defaultValue = null) {
     defaultValue = (typeof defaultValue === 'undefined') ? this.options.fallbackColor : defaultValue;
-    let val;
+    let candidates = [], val = false;
 
     if (this.hasInput()) {
-      val = this.input.val();
-    } else {
-      val = this.element.data('color');
+      candidates.push(this.input.val());
+      candidates.push(this.input.data('color'));
     }
-    if ((val === undefined) || (val === '') || (val === null)) {
-      // if not defined or empty, return default
-      val = defaultValue;
+    candidates.push(this.element.data('color'));
+
+    candidates.map((item) => {
+      if (item && (val === false)) {
+        val = item;
+      }
+    });
+
+    val = ((val === false) ? defaultValue : val);
+
+    if (val instanceof Color) {
+      return val.toString(this.format);
     }
+
     return val;
   }
 
-  setValue(val) { // set color manually
+  /**
+   * Sets the color manually
+   *
+   * @fires changeColor
+   * @param {String|Color} val
+   */
+  setValue(val) {
     this.color = this.createColor(val);
     this.update(true);
+
+    /**
+     * (Colorpicker) When the color is set programmatically with setValue().
+     *
+     * @event changeColor
+     */
     this.element.trigger({
       type: 'changeColor',
       color: this.color,
@@ -396,19 +540,19 @@ class Colorpicker {
   }
 
   /**
-   * Creates a new color using the instance options
-   * @protected
+   * Creates a new color using the widget instance options (fallbackColor, format).
+   *
    * @param {*} val
    * @returns {Color}
    */
   createColor(val) {
     val = val ? val : null;
-    let fallback = this.options.fallbackColor ? this.options.fallbackColor : (this.color ? this.color.hsva : null);
+    let fallback = this.options.fallbackColor ? this.options.fallbackColor : (this.hasColor() ? this.color.hsva : null);
 
     val = this.getPaletteColor(val, val);
     fallback = this.getPaletteColor(fallback, fallback);
 
-    let color = new Color(val, {fallbackColor: fallback, format: this.format, useNames: this.options.useNames});
+    let color = new Color(val, {fallbackColor: fallback, format: this.format});
 
     if (color.hasTransparency() && !this.options.useAlpha) {
       // alpha is disabled
@@ -418,6 +562,13 @@ class Colorpicker {
     return color;
   }
 
+  /**
+   * Given a colorName (alias), returns the corresponding color code or defaultValue.
+   *
+   * @param {String} colorName
+   * @param {*} defaultValue
+   * @returns {*}
+   */
   getPaletteColor(colorName, defaultValue = null) {
     if (!(typeof colorName === 'string') || !this.options.colorPalette) {
       return defaultValue;
@@ -428,6 +579,13 @@ class Colorpicker {
     return defaultValue;
   }
 
+  /**
+   * Given a colorValue, returns the corresponding color name (alias) or defaultValue.
+   *
+   * @param {String} colorValue
+   * @param {*} defaultValue
+   * @returns {*}
+   */
   getPaletteColorName(colorValue, defaultValue = null) {
     if (!(typeof colorValue === 'string') || !this.options.colorPalette) {
       return defaultValue;
@@ -443,19 +601,39 @@ class Colorpicker {
     return defaultValue;
   }
 
+  /**
+   * Returns true if the widget has an associated input element, false otherwise
+   * @returns {boolean}
+   */
   hasInput() {
     return (this.input !== false);
   }
 
+  /**
+   * Returns true if this instance is disabled
+   * @returns {boolean}
+   */
   isDisabled() {
-    return this.disabled;
+    return this.disabled === true;
   }
 
+  /**
+   * Disables the widget and the input if any
+   *
+   * @fires disable
+   * @returns {boolean}
+   */
   disable() {
     if (this.hasInput()) {
       this.input.prop('disabled', true);
     }
     this.disabled = true;
+
+    /**
+     * (Colorpicker) When the widget has been disabled.
+     *
+     * @event disable
+     */
     this.element.trigger({
       type: 'disable',
       color: this.color,
@@ -464,11 +642,23 @@ class Colorpicker {
     return true;
   }
 
+  /**
+   * Enables the widget and the input if any
+   *
+   * @fires enable
+   * @returns {boolean}
+   */
   enable() {
     if (this.hasInput()) {
       this.input.prop('disabled', false);
     }
     this.disabled = false;
+
+    /**
+     * (Colorpicker) When the widget has been enabled.
+     *
+     * @event enable
+     */
     this.element.trigger({
       type: 'enable',
       color: this.color,
@@ -477,6 +667,13 @@ class Colorpicker {
     return true;
   }
 
+  /**
+   * Function triggered when clicking in one of the color adjustment bars
+   *
+   * @fires mousemove
+   * @param {Event} e
+   * @returns {boolean}
+   */
   mousedown(e) {
     if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
       e.pageX = e.originalEvent.touches[0].pageX;
@@ -504,14 +701,20 @@ class Colorpicker {
       let offset = zone.offset();
       // reference to guide's style
 
-      this.currentSlider.guide = zone.find('i')[0].style;
+      this.currentSlider.guide = zone.find('.colorpicker-guide')[0].style;
       this.currentSlider.left = e.pageX - offset.left;
       this.currentSlider.top = e.pageY - offset.top;
       this.mousePointer = {
         left: e.pageX,
         top: e.pageY
       };
-      // trigger mousemove to move the guide to the current position
+
+      /**
+       * (window.document) Triggered on mousedown for the document object,
+       * so the color adjustment guide is moved to the clicked position.
+       *
+       * @event mousemove
+       */
       $(window.document).on({
         'mousemove.colorpicker': $.proxy(this.mousemove, this),
         'touchmove.colorpicker': $.proxy(this.mousemove, this),
@@ -522,7 +725,18 @@ class Colorpicker {
     return false;
   }
 
+  /**
+   * Function triggered when dragging a guide inside one of the color adjustment bars.
+   *
+   * @fires changeColor
+   * @param {Event} e
+   * @returns {boolean}
+   */
   mousemove(e) {
+    if (!this.hasColor()) {
+      return null;
+    }
+
     if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
       e.pageX = e.originalEvent.touches[0].pageX;
       e.pageY = e.originalEvent.touches[0].pageY;
@@ -555,6 +769,11 @@ class Colorpicker {
 
     this.update(true);
 
+    /**
+     * (Colorpicker) When the color guides have been dragged.
+     *
+     * @event changeColor
+     */
     this.element.trigger({
       type: 'changeColor',
       color: this.color
@@ -562,6 +781,12 @@ class Colorpicker {
     return false;
   }
 
+  /**
+   * Function triggered when releasing the click in one of the color adjustment bars.
+   *
+   * @param {Event} e
+   * @returns {boolean}
+   */
   mouseup(e) {
     e.stopPropagation();
     e.preventDefault();
@@ -574,16 +799,35 @@ class Colorpicker {
     return false;
   }
 
+  /**
+   * Function triggered when the input has changed, so the colorpicker gets updated.
+   *
+   * @param {Event} e
+   * @returns {boolean}
+   */
   change(e) {
     this.keyup(e);
   }
 
+  /**
+   * Function triggered after a keyboard key has been released.
+   *
+   * @fires changeColor
+   * @param {Event} e
+   * @returns {boolean}
+   */
   keyup(e) {
     this.color = this.createColor(this.input.val());
     if (this.getValue(false) !== false) {
       this.updateComponent();
       this.updatePicker();
     }
+
+    /**
+     * (Colorpicker) When a keyboard key has been released.
+     *
+     * @event changeColor
+     */
     this.element.trigger({
       type: 'changeColor',
       color: this.color,

@@ -25,7 +25,6 @@ export default {
   fallbackColor: false, // fallback color value. null = latest valid color.
   useHashPrefix: true, // put a '#' (number sign) before hex strings
   useAlpha: true, // null = auto, false = always hide, true = always show
-  useNames: true, // if true, the web named colors will be used when chosen
   enableHex8: true, // if true the hex8 format will be used whenever there is an alpha channel, otherwise rgba
   sliders: {
     saturation: {
@@ -68,9 +67,9 @@ export default {
     }
   },
   template: `<div class="colorpicker dropdown-menu">
-    <div class="colorpicker-saturation"><i><b></b></i></div>
-    <div class="colorpicker-hue"><i></i></div>
-    <div class="colorpicker-alpha"><i></i></div>
+    <div class="colorpicker-saturation"><i class="colorpicker-guide"><b></b></i></div>
+    <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
+    <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>
     <div class="colorpicker-color"><div /></div>
     <div class="colorpicker-palette"></div>
   </div>`,

@@ -31,7 +31,6 @@ Example:
       <input id="mycp" type="text" class="form-control" />
   </div>
   <script src="//code.jquery.com/jquery-3.2.1.js"></script>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
   <script src="dist/js/bootstrap-colorpicker.js"></script>
   <script>
     $(function () {
@@ -45,7 +44,7 @@ Example:
 Note that this library depends on:
 
 * jQuery >= 2.1.0
-* Twitter Bootstrap >= 3.0.0
+* Twitter Bootstrap >= 3.0.0 (required only the CSS)
 
 ## Documentation
 

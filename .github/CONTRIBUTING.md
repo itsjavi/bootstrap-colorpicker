@@ -33,7 +33,7 @@ If your new feature works and receives the approval of the community, it will be
 - Before committing your changes to Github you have to assure that the tests are green, that the `dist`
   files are regenerated with your `src` changes and that the documentation and examples are still working.
   
-  - Regenerate `dist` and the documentation: `gulp`.
+  - Regenerate `dist` and the documentation: `npm run build`.
   - Run all tests and the linter: `npm test`.
   - Check the documentation: `npm start` and go to [http://localhost:8080/](http://localhost:8080/).
 

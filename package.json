@@ -22,6 +22,7 @@
     "tinycolor2": "^1.4.1"
   },
   "scripts": {
+    "build": "gulp && gulp docs",
     "test": "npm run lint && ava --color --verbose",
     "start": "node_modules/.bin/http-server ./build/docs",
     "serve": "npm start",

@@ -12,7 +12,7 @@ Please note that PRs not following this template may be potentially discarded if
 
 ### Check list
 
-- [ ] The `dist` files have been regenerated and committed in this PR.
+- [ ] The `dist` files have been regenerated with `npm run build` and committed in this PR.
 - [ ] New tests have been added or modified for the introduced changes.
 - [ ] New examples have been added for the newly introduced features.
 - [ ] All tests are green after running `npm test`.

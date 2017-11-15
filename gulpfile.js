@@ -95,9 +95,6 @@ gulp.task('css:minify', ['css:compile'], function () {
 
 gulp.task('css', ['css:clean'], tasksCb('css:minify'));
 
-// All distributable files
-gulp.task('dist', ['js', 'css']);
-
 // ##########################
 // Handlebars tutorials
 // ##########################
@@ -199,8 +196,6 @@ gulp.task('watch', ['default'], function () {
   gulp.watch('src/js/**/*.js', ['js']);
 });
 
-gulp.task('default', ['dist', 'docs'], function () {
-  console.info('The dist and docs files have been rebuilt 👏✨.');
-});
+gulp.task('default', ['js', 'css', 'docs:add-dist']);
 
 // To list all tasks run "gulp --tasks" or "gulp --tasks-simple"

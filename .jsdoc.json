@@ -19,7 +19,10 @@
     "cleverLinks": false,
     "monospaceLinks": false,
     "useLongnameInNav": false,
-    "showInheritedInNav": true
+    "showInheritedInNav": true,
+    "default": {
+      "layoutFile": "./src/jsdoc-layout.tmpl"
+    }
   },
   "opts": {
     "template": "./node_modules/minami",

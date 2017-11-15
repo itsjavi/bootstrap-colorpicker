@@ -1,0 +1,74 @@
+{{#extend "tutorial-group"}}
+  {{#content "description"}}
+    Get started with these basic examples, showcasing the different plugin options.
+    You can also view the whole list of <a href="defaults.js.html">default options here.</a>
+  {{/content}}
+  {{#content "body"}}
+
+
+    {{#extend "tutorial"}}
+      {{#content "title"}} Simple usage {{/content}}
+      {{#content "description"}}
+        Most simple example, with any options or color information.
+      {{/content}}
+      {{#content "code"}}
+        <input id="cp1" type="text" class="form-control input-lg" value=""/>
+        <script>
+          $(function () {
+            $('#cp1').colorpicker();
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+
+
+    {{#extend "tutorial"}}
+      {{#content "title"}} Setting initial color {{/content}}
+      {{#content "description"}}
+        <p>
+          The initial color can be specified in 3 ways: input value, <var>data-color</var> attribute
+          and programmatically with the <var>color</var> constructor option.<br>
+          This demo is also showing how to use the input addon component to display the color.
+        </p>
+
+        <p>
+          The used initial color has this precedence order when present and not empty:
+          <var>color</var> option, input value, input <var>data-color</var> attribute,
+          colopicker element <var>data-color</var> attribute.
+        </p>
+      {{/content}}
+      {{#content "code"}}
+
+        <div id="cp2" class="input-group colorpicker-component" title="Using input value">
+          <input type="text" class="form-control input-lg" value="#DD0F20"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+
+        <div id="cp3a" class="input-group colorpicker-component" data-color="#F18A31"
+             title="Using data-color attribute in the colorpicker element">
+          <input type="text" class="form-control input-lg"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+
+        <div id="cp3b" class="input-group colorpicker-component" title="Using data-color attribute in the input">
+          <input type="text" class="form-control input-lg" data-color="#F8EB48"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+
+        <div id="cp4" class="input-group colorpicker-component" title="Using color option">
+          <input type="text" class="form-control input-lg"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+
+        <script>
+          $(function () {
+            $('#cp2, #cp3a, #cp3b').colorpicker();
+            $('#cp4').colorpicker({"color": "#16813D"});
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+
+
+  {{/content}}
+{{/extend}}

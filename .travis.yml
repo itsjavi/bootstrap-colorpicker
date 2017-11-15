@@ -8,5 +8,5 @@ before_script:
 
 script:
   - yarn install
-  - gulp
+  - gulp && gulp docs
   - npm test

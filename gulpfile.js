@@ -145,7 +145,7 @@ gulp.task('docs:compile', ['tutorials:compile'], shell.task([
 
 gulp.task('docs:add-dist', shell.task([
   'echo "Adding dist files to docs..."',
-  `mkdir -p ${distDir}`,
+  `mkdir -p ${distDir} && mkdir -p ${docsDir}`,
   `cp -R ${distDir} ${docsDir}/dist`
 ]));
 
@@ -167,7 +167,7 @@ gulp.task('docs', ['docs:clean'], tasksCb('docs:compile', 'docs:add-dist'));
 // Publish tools
 // ##########################
 
-gulp.task('publish-docs', ['default', 'docs:add-v2-docs'], function () {
+gulp.task('publish-docs', ['docs', 'docs:add-v2-docs'], function () {
   // WARNING! You won't be able to publish unless you have write permissions on the repo.
   // Check the gh-pages npm package documentation.
   ghPages.publish('build/docs',

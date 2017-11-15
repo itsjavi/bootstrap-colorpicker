@@ -1,0 +1,29 @@
+{{#extend "tutorial-group"}}
+  {{#content "body"}}
+    {{#extend "tutorial"}}
+      {{#content "title"}} Playing with <code>changeColor</code> and the Color object {{/content}}
+
+      {{#content "description"}}
+        This example listens to the changeColor event and changes the background color
+        of the parent element using the complementary color of the selected one.
+        <br>
+        This also shows how to use the Color object, which extends
+        <a href="https://github.com/bgrins/TinyColor">tinycolor</a>.
+      {{/content}}
+      {{#content "code"}}
+        <a href="#" class="btn btn-default btn-lg" id="cp4">Change background colors</a>
+        <script>
+          $(function () {
+            $('#cp4').colorpicker().on('changeColor', function (e) {
+              $(this).parents('.panel').find('.panel-heading')
+                .css('background-color', e.color.toRgbString());
+
+              $(this).parents('.panel-body')
+                .css('background-color', e.color.complement().toRgbString());
+            });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+  {{/content}}
+{{/extend}}

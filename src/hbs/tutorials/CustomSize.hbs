@@ -1,12 +1,12 @@
 {{#extend "tutorial-group"}}
   {{#content "body"}}
     {{#extend "tutorial"}}
+      {{#content "title"}} Enlarge the Colorpicker size {{/content}}
       {{#content "description"}}
-        Also showing the support of HTML color names
+        This example shows how to tweak the Colorpicker styles and settings to make it look bigger.
       {{/content}}
-
       {{#content "code"}}
-        <input id="cp9" type="text" class="form-control input-lg" value="pink"/>
+        <input id="cp1" type="text" class="form-control input-lg" value="#6D2781"/>
         <style>
           .colorpicker-2x .colorpicker-saturation {
             width: 200px;
@@ -23,10 +23,17 @@
           .colorpicker-2x .colorpicker-color div {
             height: 30px;
           }
+
+          .colorpicker-saturation .colorpicker-guide,
+          .colorpicker-saturation .colorpicker-guide b{
+            height: 10px;
+            width: 10px;
+            border-radius: 10px;
+          }
         </style>
         <script>
           $(function () {
-            $('#cp9').colorpicker({
+            $('#cp1').colorpicker({
               customClass: 'colorpicker-2x',
               sliders: {
                 saturation: {

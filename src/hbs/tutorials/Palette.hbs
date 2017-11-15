@@ -1,0 +1,37 @@
+{{#extend "tutorial-group"}}
+  {{#content "body"}}
+    {{#extend "tutorial"}}
+      {{#content "title"}} Color aliases {{/content}}
+
+      {{#content "description"}}
+        This example shows how to define a list of preset color swatches
+        and use their aliases as input values.
+        W3C named colors are also supported.
+      {{/content}}
+
+      {{#content "code"}}
+        <div id="cp1" class="input-group colorpicker-component">
+          <input type="text" value="primary" class="form-control input-lg"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp1').colorpicker({
+              colorPalette: {
+                'black': '#000000',
+                'white': '#ffffff',
+                'red': '#FF0000',
+                'default': '#777777',
+                'primary': '#337ab7',
+                'success': '#5cb85c',
+                'info': '#5bc0de',
+                'warning': '#f0ad4e',
+                'danger': '#d9534f'
+              }
+            });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+  {{/content}}
+{{/extend}}

@@ -1,11 +1,14 @@
 {
-  "01_Basics": {
+  "Basics": {
     "title": "Getting started"
   },
-  "02_Events": {
+  "Palette": {
+    "title": "Color palettes"
+  },
+  "Events": {
     "title": "Working with events"
   },
-  "03_CustomSize": {
+  "CustomSize": {
     "title": "Custom widget size"
   },
   "legacy_docs": {

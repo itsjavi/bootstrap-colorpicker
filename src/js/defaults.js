@@ -153,7 +153,7 @@ export default {
    * @example
    * <!-- This is the default template: -->
    * <div class="colorpicker dropdown-menu">
-   *   <div class="colorpicker-saturation"><i class="colorpicker-guide"><b></b></i></div>
+   *   <div class="colorpicker-saturation"><i class="colorpicker-guide"><i></i></i></div>
    *   <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
    *   <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>
    *   <div class="colorpicker-color"><div /></div>
@@ -161,7 +161,7 @@ export default {
    * </div>
    */
   template: `<div class="colorpicker dropdown-menu">
-    <div class="colorpicker-saturation"><i class="colorpicker-guide"><b></b></i></div>
+    <div class="colorpicker-saturation"><i class="colorpicker-guide"><i></i></i></div>
     <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
     <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>
     <div class="colorpicker-color"><div /></div>
@@ -202,5 +202,13 @@ export default {
    *   'danger': '#d9534f'
    *  }
    */
-  colorPalette: null
+  colorPalette: null,
+  /**
+   * If true, the when a color swatch is selected the name (alias) will be used as input value,
+   * otherwise the swatch real color value will be used.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  useColorPaletteNames: true
 };

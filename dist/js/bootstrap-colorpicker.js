@@ -311,19 +311,20 @@ var Colorpicker = function () {
     }
     if (this.options.colorPalette) {
       var colorpicker = this,
-          selectorsContainer = colorpicker.picker.find('.colorpicker-palette');
+          paletteContainer = colorpicker.picker.find('.colorpicker-palette'),
+          isAliased = this.options.useColorPaletteNames === true;
 
-      if (selectorsContainer.length > 0) {
+      if (paletteContainer.length > 0) {
         _jquery2.default.each(this.options.colorPalette, function (name, value) {
-          var $btn = (0, _jquery2.default)('<i />').addClass('colorpicker-palette-color').css('background-color', value).attr('title', name + ': ' + value).data('class', name).data('alias', name);
+          var $btn = (0, _jquery2.default)('<i />').addClass('colorpicker-palette-color').css('background-color', value).attr('data-name', name).attr('data-value', value).attr('title', name + ': ' + value);
 
           $btn.on('mousedown.colorpicker touchstart.colorpicker', function (event) {
             event.preventDefault();
-            colorpicker.setValue((0, _jquery2.default)(this).data('alias'));
+            colorpicker.setValue(isAliased ? (0, _jquery2.default)(this).data('name') : (0, _jquery2.default)(this).data('value'));
           });
-          selectorsContainer.append($btn);
+          paletteContainer.append($btn);
         });
-        selectorsContainer.show().addClass('colorpicker-visible');
+        paletteContainer.show().addClass('colorpicker-visible');
       }
     }
 
@@ -387,7 +388,11 @@ var Colorpicker = function () {
        *
        * @event create
        */
-      this.element.trigger('create');
+      this.element.trigger({
+        type: 'create',
+        colorpicker: this,
+        color: this.color
+      });
     }, this));
   }
 
@@ -417,7 +422,9 @@ var Colorpicker = function () {
        * @event destroy
        */
       this.element.trigger({
-        type: 'destroy'
+        type: 'destroy',
+        colorpicker: this,
+        color: this.color
       });
     }
 
@@ -525,6 +532,7 @@ var Colorpicker = function () {
        */
       this.element.trigger({
         type: 'showPicker',
+        colorpicker: this,
         color: this.color
       });
     }
@@ -561,6 +569,7 @@ var Colorpicker = function () {
        */
       this.element.trigger({
         type: 'hidePicker',
+        colorpicker: this,
         color: this.color
       });
       return true;
@@ -577,14 +586,21 @@ var Colorpicker = function () {
     key: 'updateInput',
     value: function updateInput() {
       if (this.input !== false) {
-        this.input.prop('value', this.getColorString());
+        var val = this.getColorString();
+
+        this.input.prop('value', val);
 
         /**
          * (Input) Triggered on the input element when a new color is selected.
          *
          * @event change
          */
-        this.input.trigger('change');
+        this.input.trigger({
+          type: 'change',
+          colorpicker: this,
+          color: this.color,
+          value: val
+        });
       }
     }
 
@@ -733,6 +749,7 @@ var Colorpicker = function () {
        */
       this.element.trigger({
         type: 'changeColor',
+        colorpicker: this,
         color: this.color,
         value: val
       });
@@ -857,8 +874,8 @@ var Colorpicker = function () {
        */
       this.element.trigger({
         type: 'disable',
-        color: this.color,
-        value: this.getValue()
+        colorpicker: this,
+        color: this.color
       });
       return true;
     }
@@ -885,8 +902,8 @@ var Colorpicker = function () {
        */
       this.element.trigger({
         type: 'enable',
-        color: this.color,
-        value: this.getValue()
+        colorpicker: this,
+        color: this.color
       });
       return true;
     }
@@ -994,7 +1011,9 @@ var Colorpicker = function () {
        */
       this.element.trigger({
         type: 'changeColor',
-        color: this.color
+        colorpicker: this,
+        color: this.color,
+        value: this.getColorString()
       });
       return false;
     }
@@ -1057,6 +1076,7 @@ var Colorpicker = function () {
        */
       this.element.trigger({
         type: 'changeColor',
+        colorpicker: this,
         color: this.color,
         value: this.input.val()
       });
@@ -1112,7 +1132,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var defaultFallbackColor = '#000000';
-var defaultFallbackFormat = 'hex';
+var defaultFallbackFormat = null;
 
 function unwrapColor(color) {
   if (color instanceof _tinycolor3.default) {
@@ -2835,14 +2855,14 @@ exports.default = {
    * @example
    * <!-- This is the default template: -->
    * <div class="colorpicker dropdown-menu">
-   *   <div class="colorpicker-saturation"><i class="colorpicker-guide"><b></b></i></div>
+   *   <div class="colorpicker-saturation"><i class="colorpicker-guide"><i></i></i></div>
    *   <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
    *   <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>
    *   <div class="colorpicker-color"><div /></div>
    *   <div class="colorpicker-palette"></div>
    * </div>
    */
-  template: '<div class="colorpicker dropdown-menu">\n    <div class="colorpicker-saturation"><i class="colorpicker-guide"><b></b></i></div>\n    <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>\n    <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>\n    <div class="colorpicker-color"><div /></div>\n    <div class="colorpicker-palette"></div>\n  </div>',
+  template: '<div class="colorpicker dropdown-menu">\n    <div class="colorpicker-saturation"><i class="colorpicker-guide"><i></i></i></div>\n    <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>\n    <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>\n    <div class="colorpicker-color"><div /></div>\n    <div class="colorpicker-palette"></div>\n  </div>',
   /**
    * Colorpicker popup alignment.
    * For now only right is supported.
@@ -2878,7 +2898,15 @@ exports.default = {
    *   'danger': '#d9534f'
    *  }
    */
-  colorPalette: null
+  colorPalette: null,
+  /**
+   * If true, the when a color swatch is selected the name (alias) will be used as input value,
+   * otherwise the swatch real color value will be used.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  useColorPaletteNames: true
 };
 
 /***/ })

@@ -132,23 +132,25 @@ class Colorpicker {
     }
     if (this.options.colorPalette) {
       let colorpicker = this,
-        selectorsContainer = colorpicker.picker.find('.colorpicker-palette');
+        paletteContainer = colorpicker.picker.find('.colorpicker-palette'),
+        isAliased = (this.options.useColorPaletteNames === true);
 
-      if (selectorsContainer.length > 0) {
+      if (paletteContainer.length > 0) {
         $.each(this.options.colorPalette, function (name, value) {
           let $btn = $('<i />')
             .addClass('colorpicker-palette-color')
             .css('background-color', value)
-            .attr('title', `${name}: ${value}`)
-            .data('class', name).data('alias', name);
+            .attr('data-name', name)
+            .attr('data-value', value)
+            .attr('title', `${name}: ${value}`);
 
           $btn.on('mousedown.colorpicker touchstart.colorpicker', function (event) {
             event.preventDefault();
-            colorpicker.setValue($(this).data('alias'));
+            colorpicker.setValue(isAliased ? $(this).data('name') : $(this).data('value'));
           });
-          selectorsContainer.append($btn);
+          paletteContainer.append($btn);
         });
-        selectorsContainer.show().addClass('colorpicker-visible');
+        paletteContainer.show().addClass('colorpicker-visible');
       }
     }
 
@@ -213,7 +215,11 @@ class Colorpicker {
        *
        * @event create
        */
-      this.element.trigger('create');
+      this.element.trigger({
+        type: 'create',
+        colorpicker: this,
+        color: this.color
+      });
     }, this));
   }
 
@@ -239,7 +245,9 @@ class Colorpicker {
      * @event destroy
      */
     this.element.trigger({
-      type: 'destroy'
+      type: 'destroy',
+      colorpicker: this,
+      color: this.color
     });
   }
 
@@ -344,6 +352,7 @@ class Colorpicker {
      */
     this.element.trigger({
       type: 'showPicker',
+      colorpicker: this,
       color: this.color
     });
   }
@@ -380,6 +389,7 @@ class Colorpicker {
      */
     this.element.trigger({
       type: 'hidePicker',
+      colorpicker: this,
       color: this.color
     });
     return true;
@@ -393,14 +403,21 @@ class Colorpicker {
    */
   updateInput() {
     if (this.input !== false) {
-      this.input.prop('value', this.getColorString());
+      let val = this.getColorString();
+
+      this.input.prop('value', val);
 
       /**
        * (Input) Triggered on the input element when a new color is selected.
        *
        * @event change
        */
-      this.input.trigger('change');
+      this.input.trigger({
+        type: 'change',
+        colorpicker: this,
+        color: this.color,
+        value: val
+      });
     }
   }
 
@@ -534,6 +551,7 @@ class Colorpicker {
      */
     this.element.trigger({
       type: 'changeColor',
+      colorpicker: this,
       color: this.color,
       value: val
     });
@@ -636,8 +654,8 @@ class Colorpicker {
      */
     this.element.trigger({
       type: 'disable',
-      color: this.color,
-      value: this.getValue()
+      colorpicker: this,
+      color: this.color
     });
     return true;
   }
@@ -661,8 +679,8 @@ class Colorpicker {
      */
     this.element.trigger({
       type: 'enable',
-      color: this.color,
-      value: this.getValue()
+      colorpicker: this,
+      color: this.color
     });
     return true;
   }
@@ -776,7 +794,9 @@ class Colorpicker {
      */
     this.element.trigger({
       type: 'changeColor',
-      color: this.color
+      colorpicker: this,
+      color: this.color,
+      value: this.getColorString()
     });
     return false;
   }
@@ -830,6 +850,7 @@ class Colorpicker {
      */
     this.element.trigger({
       type: 'changeColor',
+      colorpicker: this,
       color: this.color,
       value: this.input.val()
     });

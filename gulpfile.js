@@ -167,7 +167,7 @@ gulp.task('docs', ['docs:clean'], tasksCb('docs:compile', 'docs:add-dist'));
 // Publish tools
 // ##########################
 
-gulp.task('publish-docs', ['docs', 'docs:add-v2-docs'], function () {
+gulp.task('publish-gh-pages', function () {
   // WARNING! You won't be able to publish unless you have write permissions on the repo.
   // Check the gh-pages npm package documentation.
   ghPages.publish('build/docs',
@@ -180,10 +180,9 @@ gulp.task('publish-docs', ['docs', 'docs:add-v2-docs'], function () {
   );
 });
 
-gulp.task('publish-npm', ['default'], shell.task([
+gulp.task('npm-prepublish', shell.task([
   'cp LICENSE dist/LICENSE',
-  'cp README.md dist/README.md',
-  'npm publish'
+  'cp README.md dist/README.md'
 ]));
 
 // ##########################
@@ -196,6 +195,7 @@ gulp.task('watch', ['default'], function () {
   gulp.watch('src/js/**/*.js', ['js']);
 });
 
-gulp.task('default', ['js', 'css', 'docs:add-dist']);
+gulp.task('dist', ['js', 'css']);
+gulp.task('default', ['dist']);
 
 // To list all tasks run "gulp --tasks" or "gulp --tasks-simple"

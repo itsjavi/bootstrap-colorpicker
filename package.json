@@ -22,12 +22,16 @@
     "tinycolor2": "^1.4.1"
   },
   "scripts": {
-    "build": "gulp && gulp docs",
+    "build": "gulp clean && gulp dist && gulp docs && gulp docs:add-v2-docs",
     "test": "npm run lint && ava --color --verbose",
     "start": "node_modules/.bin/http-server ./build/docs",
     "serve": "npm start",
     "lint": "node_modules/.bin/eslint ./src ./*.js ./test",
-    "lint-fix": "node_modules/.bin/eslint --fix ./src ./*.js ./test"
+    "lint-fix": "node_modules/.bin/eslint --fix ./src ./*.js ./test",
+    "build-dist": "gulp dist",
+    "build-docs": "gulp dist && gulp docs",
+    "prepublish": "npm run build && gulp npm-prepublish && npm run test",
+    "publish-docs": "npm run build && gulp publish-gh-pages"
   },
   "devDependencies": {
     "ava": "^0.23.0",

@@ -51,7 +51,7 @@ To contribute with the documentation, you only need to update the JSDoc comments
 and the examples in the `src/hbs` folder.
 
 After that and after the documentation changes have been merged into master, the project maintainers
-can run `gulp publish-docs` to update the `gh-pages` branch and the documentation website.
+can run `npm run publish-docs` to update the `gh-pages` branch and the documentation website.
 
 
 ### Code of Conduct

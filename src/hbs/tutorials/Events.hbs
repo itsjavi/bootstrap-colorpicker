@@ -9,18 +9,31 @@
         <br>
         This also shows how to use the Color object, which extends
         <a href="https://github.com/bgrins/TinyColor">tinycolor</a>.
+        <br>
+        In all events the <code>e</code> event variable contains the <code>colorpicker</code> and <code>color</code>
+        objects, but in the <code>changeColor</code> event it also contains <code>value</code>, representing
+        the color string.
       {{/content}}
       {{#content "code"}}
-        <a href="#" class="btn btn-default btn-lg" id="cp4">Change background colors</a>
+        <div id="cp1" data-color="rgba(194, 39, 219, 0.4)"></div>
         <script>
           $(function () {
-            $('#cp4').colorpicker().on('changeColor', function (e) {
-              $(this).parents('.panel').find('.panel-heading')
-                .css('background-color', e.color.toRgbString());
+            $('#cp1')
+              .colorpicker({
+                inline: true,
+                container: true
+              })
+              .on('changeColor', function (e) {
+                if (!e.colorpicker) {
+                  // Not yet created
+                  return;
+                }
+                e.colorpicker.picker.parents('.panel').find('.panel-heading')
+                  .css('background-color', e.value);
 
-              $(this).parents('.panel-body')
-                .css('background-color', e.color.complement().toRgbString());
-            });
+                e.colorpicker.picker.parents('.panel-body')
+                  .css('background-color', e.color.complement().toRgbString());
+              });
           });
         </script>
       {{/content}}

@@ -5,6 +5,9 @@
   "Palette": {
     "title": "Color palettes"
   },
+  "ColorApi": {
+    "title": "Color object API"
+  },
   "Events": {
     "title": "Working with events"
   },

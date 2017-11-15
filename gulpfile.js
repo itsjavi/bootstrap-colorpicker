@@ -29,6 +29,18 @@ let banner = `/*!
 
 let distDir = 'dist', buildDir = 'build', docsDir = buildDir + '/docs';
 
+/**
+ * Returns a callback that runs the given tasks programmatically
+ * @returns {Function}
+ */
+let tasksCb = function () {
+  let tasks = Array.prototype.slice.call(arguments);
+
+  return function () {
+    return gulp.start(tasks);
+  };
+};
+
 gulp.task('clean', function () {
   return del([
     distDir + '/**/*',
@@ -44,14 +56,14 @@ gulp.task('js:clean', function () {
   return del([distDir + '/js/**/*']);
 });
 
-gulp.task('js:compile', ['js:clean'], function () {
+gulp.task('js:compile', function () {
   return gulp.src([])
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest(distDir + '/js/'));
 });
 
-gulp.task('js', ['js:clean', 'js:compile']);
+gulp.task('js', ['js:clean'], tasksCb('js:compile'));
 
 // ##########################
 // SASS files
@@ -61,7 +73,7 @@ gulp.task('css:clean', function () {
   return del([distDir + '/css/**/*']);
 });
 
-gulp.task('css:compile', ['css:clean'], function () {
+gulp.task('css:compile', function () {
   return gulp.src('./src/sass/colorpicker.scss')
     .pipe(sourcemaps.init())
     .pipe(header(banner, {pkg: pkg}))
@@ -72,7 +84,7 @@ gulp.task('css:compile', ['css:clean'], function () {
     .pipe(gulp.dest(distDir + '/css/'));
 });
 
-gulp.task('css:minify', ['css:clean', 'css:compile'], function () {
+gulp.task('css:minify', ['css:compile'], function () {
   return gulp.src(distDir + '/css/bootstrap-colorpicker.css')
     .pipe(sourcemaps.init())
     .pipe(cleanCss())
@@ -81,7 +93,7 @@ gulp.task('css:minify', ['css:clean', 'css:compile'], function () {
     .pipe(gulp.dest(distDir + '/css/'));
 });
 
-gulp.task('css', ['css:clean', 'css:compile', 'css:minify']);
+gulp.task('css', ['css:clean'], tasksCb('css:minify'));
 
 // All distributable files
 gulp.task('dist', ['js', 'css']);
@@ -90,11 +102,7 @@ gulp.task('dist', ['js', 'css']);
 // Handlebars tutorials
 // ##########################
 
-gulp.task('tutorials:clean', function () {
-  return del([buildDir + '/tutorials/*']);
-});
-
-gulp.task('tutorials:compile', ['tutorials:clean'], function () {
+gulp.task('tutorials:compile', function () {
   let data = {banner: banner, package: pkg};
   let options = {
     batch: ['./src/hbs'],
@@ -133,13 +141,19 @@ gulp.task('docs:clean', function () {
   return del([docsDir + '/*']);
 });
 
-gulp.task('docs:add-dist', ['docs:clean', 'dist'], shell.task([
+gulp.task('docs:compile', ['tutorials:compile'], shell.task([
+  'echo "Compiling docs..."',
+  'node_modules/.bin/jsdoc --configure .jsdoc.json --verbose'
+]));
+
+gulp.task('docs:add-dist', shell.task([
+  'echo "Adding dist files to docs..."',
   `mkdir -p ${distDir}`,
-  `rm -rf ${docsDir}/dist`,
   `cp -R ${distDir} ${docsDir}/dist`
 ]));
 
-gulp.task('docs:add-legacy-versions', ['docs:clean'], shell.task([
+gulp.task('docs:add-v2-docs', shell.task([
+  'echo "Adding v2 docs..."',
   'mkdir -p build/tmp',
   'rm -rf build/tmp/* build/docs/v2/*',
   `git clone ${pkg.repository.url} build/tmp/v2`,
@@ -150,18 +164,13 @@ gulp.task('docs:add-legacy-versions', ['docs:clean'], shell.task([
   'rm -rf build/tmp/*'
 ]));
 
-gulp.task('docs:compile-jsdoc', ['docs:clean', 'tutorials:compile'], shell.task([
-  'node_modules/.bin/jsdoc --configure .jsdoc.json --verbose'
-]));
-
-gulp.task('docs:compile', ['docs:clean', 'tutorials:compile', 'docs:compile-jsdoc']);
-gulp.task('docs', ['docs:compile', 'docs:add-dist', 'docs:add-legacy-versions']);
+gulp.task('docs', ['docs:clean'], tasksCb('docs:compile', 'docs:add-dist'));
 
 // ##########################
 // Publish tools
 // ##########################
 
-gulp.task('publish-docs', ['default'], function () {
+gulp.task('publish-docs', ['default', 'docs:add-v2-docs'], function () {
   // WARNING! You won't be able to publish unless you have write permissions on the repo.
   // Check the gh-pages npm package documentation.
   ghPages.publish('build/docs',
@@ -185,11 +194,13 @@ gulp.task('publish-npm', ['default'], shell.task([
 // ##########################
 
 gulp.task('watch', ['default'], function () {
-  gulp.watch('src/hbs/**/*.hbs', ['docs:compile']);
-  gulp.watch('src/sass/**/*.scss', ['css', 'docs:add-dist']);
-  gulp.watch('src/js/**/*.js', ['js', 'docs:add-dist']);
+  gulp.watch('src/hbs/**/*.hbs', ['docs']);
+  gulp.watch('src/sass/**/*.scss', ['css']);
+  gulp.watch('src/js/**/*.js', ['js']);
 });
 
 gulp.task('default', ['dist', 'docs'], function () {
   console.info('The dist and docs files have been rebuilt 👏✨.');
 });
+
+// To list all tasks run "gulp --tasks" or "gulp --tasks-simple"

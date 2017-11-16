@@ -96,13 +96,13 @@ gulp.task('css:minify', ['css:compile'], function () {
 gulp.task('css', ['css:clean'], tasksCb('css:minify'));
 
 // ##########################
-// Handlebars tutorials
+// Examples written in handlebars
 // ##########################
 
-gulp.task('tutorials:compile', function () {
+gulp.task('examples:compile', function () {
   let data = {banner: banner, package: pkg};
   let options = {
-    batch: ['./src/hbs'],
+    batch: ['./src/docs', './src/docs/examples'],
     helpers: {
       code: function (hbsOptions) {
         let entityMap = {
@@ -121,13 +121,13 @@ gulp.task('tutorials:compile', function () {
     }
   };
 
-  gulp.src('src/hbs/tutorials/tutorials.json')
-    .pipe(gulp.dest(buildDir + '/tutorials'));
+  gulp.src('src/docs/examples.json')
+    .pipe(gulp.dest(buildDir + '/examples'));
 
-  return gulp.src('src/hbs/tutorials/**/*.hbs')
+  return gulp.src('src/docs/examples/**/*.hbs')
     .pipe(handlebars(data, options))
     .pipe(rename({extname: '.html'}))
-    .pipe(gulp.dest(buildDir + '/tutorials'));
+    .pipe(gulp.dest(buildDir + '/examples'));
 });
 
 // ##########################
@@ -138,7 +138,7 @@ gulp.task('docs:clean', function () {
   return del([docsDir + '/*']);
 });
 
-gulp.task('docs:compile', ['tutorials:compile'], shell.task([
+gulp.task('docs:compile', ['examples:compile'], shell.task([
   'echo "Compiling docs..."',
   'node_modules/.bin/jsdoc --configure .jsdoc.json --verbose'
 ]));
@@ -190,7 +190,7 @@ gulp.task('npm-prepublish', shell.task([
 // ##########################
 
 gulp.task('watch', ['default'], function () {
-  gulp.watch('src/hbs/**/*.hbs', ['docs']);
+  gulp.watch('src/docs/**/*.{hbs,tmpl,css,js}', ['docs']);
   gulp.watch('src/sass/**/*.scss', ['css']);
   gulp.watch('src/js/**/*.js', ['js']);
 });

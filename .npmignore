@@ -15,6 +15,7 @@ gulpfile.js_*
 /tests
 .*
 *.html
+/src/docs
 webpack.config.js
 composer.json
 gulpfile.js

@@ -21,13 +21,18 @@
     "useLongnameInNav": false,
     "showInheritedInNav": true,
     "default": {
-      "layoutFile": "./src/jsdoc-layout.tmpl"
+      "tutorialsTitle": "Examples",
+      "searchBox": {
+        "enabled": true,
+        "algoliaApiKey": "f9d6cc05026da0e826ec3612dd26ce33",
+        "algoliaIndexName": "farbelous"
+      }
     }
   },
   "opts": {
-    "template": "./node_modules/minami",
+    "template": "./src/docs/jsdoc-template",
     "destination": "./build/docs/",
-    "tutorials": "./build/tutorials/",
+    "tutorials": "./build/examples/",
     "encoding": "utf8",
     "private": true,
     "recurse": true,

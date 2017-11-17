@@ -22,15 +22,17 @@
     "tinycolor2": "^1.4.1"
   },
   "scripts": {
-    "build": "gulp clean && gulp dist && gulp docs && gulp docs:add-v2-docs",
     "test": "npm run lint && ava --color --verbose",
     "start": "node_modules/.bin/http-server ./build/docs",
     "lint": "node_modules/.bin/eslint ./src/js ./*.js ./test",
     "lint-fix": "node_modules/.bin/eslint --fix ./src/js ./*.js ./test",
+    "build": "gulp clean && gulp dist && gulp docs",
     "build-dist": "gulp dist",
     "build-docs": "gulp dist && gulp docs",
-    "prepublish": "npm run build && gulp npm-prepublish && npm run test",
-    "publish-docs": "npm run build && gulp publish-gh-pages"
+    "build-npm": "npm run build && gulp npm-prepublish",
+    "publish-dist": "echo \"Publishing dist into the docs folder... \" && npm run build && npm run test && gulp docs:add-dist",
+    "publish-docs": "npm run build && && npm run test gulp docs:add-v2-docs && gulp publish-gh-pages",
+    "publish-npm": "npm run build-npm && npm run test && npm publish"
   },
   "devDependencies": {
     "ava": "^0.23.0",

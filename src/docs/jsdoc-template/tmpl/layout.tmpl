@@ -17,8 +17,14 @@
 
   <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"/>
   <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+
+  <?js if(
+      env.conf.templates && env.conf.templates.default && env.conf.templates.default.searchBox &&
+      env.conf.templates.default.searchBox.enabled !== false
+     ) { var searchBoxConfig = env.conf.templates.default.searchBox; ?>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"/>
+  <?js } ?>
 
   <!-- This needs to be loaded before the examples scripts: -->
   <script src="//code.jquery.com/jquery-3.2.1.js"></script>
@@ -57,13 +63,19 @@
 <script src="scripts/prettify/lang-css.js"></script>
 <script>prettyPrint();</script>
 <script src="scripts/linenumber.js"></script>
+
+<?js if(searchBoxConfig) { ?>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
 <script type="text/javascript"> docsearch({
-  apiKey: 'f9d6cc05026da0e826ec3612dd26ce33',
-  indexName: 'farbelous',
+  apiKey: '<?js= searchBoxConfig.algoliaApiKey ?>',
+  indexName: '<?js= searchBoxConfig.algoliaIndexName ?>',
   inputSelector: '.search-box input',
+  algoliaOptions: {
+    hitsPerPage: 15
+  },
   debug: false // Set debug to true if you want to inspect the dropdown
 });
 </script>
+<?js } ?>
 </body>
 </html>

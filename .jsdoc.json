@@ -24,8 +24,8 @@
       "tutorialsTitle": "Examples",
       "searchBox": {
         "enabled": true,
-        "algoliaApiKey": "f9d6cc05026da0e826ec3612dd26ce33",
-        "algoliaIndexName": "farbelous"
+        "algoliaApiKey": "2fbe42dafb0dca80b2422f5b0b2cd82c",
+        "algoliaIndexName": "farbelous_bootstrap_colorpicker"
       }
     }
   },

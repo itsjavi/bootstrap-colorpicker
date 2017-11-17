@@ -129,7 +129,7 @@
   background-position: 0 100%; }
 
 .colorpicker-color div {
-  height: 10px; }
+  height: 100%; }
 
 .colorpicker-palette {
   display: none;

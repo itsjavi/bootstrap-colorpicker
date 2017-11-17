@@ -108,15 +108,28 @@
 .colorpicker.colorpicker-with-alpha .colorpicker-alpha {
   display: block; }
 
+.colorpicker-bar,
 .colorpicker-color {
-  height: 10px;
+  height: 15px;
   margin-top: 5px;
   clear: both;
+  text-align: center;
+  font-size: 12px;
+  line-height: normal; }
+
+.colorpicker-bar-horizontal {
+  width: 100px;
+  height: 15px;
+  float: left;
+  margin-left: 0px;
+  margin-bottom: 4px; }
+
+.colorpicker-color {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAABkCAQAAAAVxWkcAAABr0lEQVR4Xo2VwU0DQQxF7dmRuNIFlzlSAR3QAaXQQdIBJVABFXDcOVAAd67cjJLR07dkhcSrkZKfb/t7bG88rFo3B5gZPMNycItu2xloGV7MWHzM9zuzFWCkmA0nK6AszCUJDW6+mG6R03ncw5v8EMTEvZ2O3AliYjpslblc0RF9LmZYWxURU6aKytWZYsoWCAe+xwOZp1GsEukGiIkYxcQCHck99+gRgB7JncyIB5SGEhP3Yh5P6JwX+u6AnYot104d8DJT7uH7M9JH6OZbimj0vfMVaYnJIZFJDBW9kHlerL2C6JV4mSt7uuo2N57RxnZ+usQjn0R1jwBJBrNO3evJpVYUWsJ/E3UiXRlv24/7YZ04xmEdWlzcKS+B/eapeyMvFd2k0+hRk/T0AmTW8h69s2sjYMsdPntECiILhAeIMZAeH4QvUwfn6ijC0tTV+fT9ky8jM9nK2g7Ly1VjSpKYq6IvsAm7MtNu1orEqa/K3KNvgMFdhfquPfJmp2dbh0/8Gzb6Y22ViaNr6n5410zXdngVhbu6XqdOtWOuin5hjABGp4a2uotZ71MVCfwDBt2/v37yo6AAAAAASUVORK5CYII=");
   background-position: 0 100%; }
 
 .colorpicker-color div {
-  height: 10px; }
+  height: 100%; }
 
 .colorpicker-palette {
   display: none;

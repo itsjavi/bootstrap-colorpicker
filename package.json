@@ -31,7 +31,7 @@
     "build-docs": "gulp dist && gulp docs",
     "build-npm": "npm run build && gulp npm-prepublish",
     "publish-dist": "echo \"Publishing dist into the docs folder... \" && npm run build && npm run test && gulp docs:add-dist",
-    "publish-docs": "npm run build && && npm run test gulp docs:add-v2-docs && gulp publish-gh-pages",
+    "publish-docs": "npm run build && npm run test && gulp docs:add-v2-docs && gulp publish-gh-pages",
     "publish-npm": "npm run build-npm && npm run test && npm publish"
   },
   "devDependencies": {

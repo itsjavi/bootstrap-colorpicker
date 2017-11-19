@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   
-  <title>Bootstrap Colorpicker | Color.js - Documentation</title>
+  <title>Bootstrap Colorpicker | options.js - Documentation</title>
   
 
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet"
@@ -37,7 +37,7 @@
     <div class="main-content col-md-9 col-lg-10">
       <div id="main" class="main-content-wrapper">
         
-        <h1 class="page-title">Color.js</h1>
+        <h1 class="page-title">options.js</h1>
         
 
         
@@ -48,295 +48,228 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
-
-import tinycolor from 'tinycolor2';
-
-function unwrapColor(color) {
-  if (color instanceof tinycolor) {
-    return {
-      r: color._r,
-      g: color._g,
-      b: color._b,
-      a: color._a
-    };
-  }
-  return color;
-}
+/**
+ * @module
+ */
 
 /**
- * Sanitizes a format string, so it is compatible with tinycolor,
- * or returns the same value if it is not a string.
- *
- * @param {String} format
- * @returns {String|*}
- * @private
+ * Colorpicker default options
  */
-function getCompatibleFormat(format) {
-  if (format instanceof String || typeof format === 'string') {
-    return format.replace(/a$/gi, '');
-  }
-
-  return format;
-}
-
-/**
- * Color manipulation class that extends the tinycolor library class.
- */
-class Color extends tinycolor {
+export default {
   /**
-   * Identifier of the color instance.
-   *
-   * @type {int}
-   * @readonly
+   * If true, loads the Debugger extension automatically into the current instance
+   * @type {boolean}
+   * @default false
    */
-  get id() {
-    return this._tc_id;
-  }
-
+  debug: false,
   /**
-   * Format of the parsed color.
+   * Forces a color, ignoring the one from the elements value or data-color attribute.
+   *
+   * @type {(String|Color|boolean)}
+   * @default false
+   */
+  color: false,
+  /**
+   * Forces an specific color format. If false, it will be automatically detected the first time,
+   * but if null it will be always recalculated.
+   *
+   * Note that the ending 'a' of the format meaning "alpha" has currently no effect, meaning that rgb is the same as
+   * rgba excepting if the alpha channel is disabled (see useAlpha).
+   *
+   * @type {('rgb'|'rgba'|'prgb'|'prgba'|'hex'|'hex3'|'hex6'|'hex8'|'hsl'|'hsla'|'hsv'|'hsva'|'name'|boolean)}
+   * @default false
+   */
+  format: false,
+  /**
+   * Horizontal mode layout.
+   *
+   * If true, the hue and alpha channel bars will be rendered horizontally, above the saturation selector.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  horizontal: false,
+  /**
+   * Forces to show the colorpicker as an inline element
+   *
+   * @type {boolean}
+   * @default false
+   */
+  inline: false,
+  /**
+   * Children input CSS selector
    *
    * @type {String}
-   * @readonly
+   * @default 'input'
    */
-  get format() {
-    return this._format;
-  }
-
+  input: 'input',
   /**
-   * All options of the current instance.
+   * Colorpicker container CSS selector. If given, the colorpicker will be placed inside this container.
+   * If true, the colorpicker element itself will be used as the container.
    *
-   * @type {{format: String, gradientType: String}}
-   * @readonly
+   * @type {String|boolean}
+   * @default false
    */
-  get options() {
-    return {
-      format: this._format,
-      gradientType: this._gradientType
-    };
-  }
-
+  container: false, // container selector
   /**
-   * @returns {{h, s, v, a}}
-   */
-  get hsva() {
-    return this.toHsv();
-  }
-
-  /**
-   * @returns {{h, s, v, a}}
-   */
-  get hsvaRatio() {
-    let hsv = this.hsva;
-
-    return {
-      h: hsv.h / 360,
-      s: hsv.s,
-      v: hsv.v,
-      a: hsv.a
-    };
-  }
-
-  /**
-   * foo bar
-   * @param {Color|*} color
-   * @param {{format}} [options]
-   * @constructor
-   */
-  constructor(color, options = {format: null}) {
-    if (options.format) {
-      options.format = getCompatibleFormat(options.format);
-    }
-    super(unwrapColor(color), options);
-
-    /**
-     * @type {Color|*}
-     */
-    this._originalInput = color; // keep real original color
-    /**
-     * Hue backup to not lose the information when saturation is 0.
-     * @type {number}
-     */
-    this._hbak = this.hsva.h;
-    /**
-     * If set, it contains a reference to a previous color that caused the creation of this one.
-     * @type {Color}
-     */
-    this.previous = null;
-  }
-
-  /**
-   * Compares a color object with this one and returns true if it is equal or false if not.
+   * Children color component CSS selector.
+   * If it exists, the child &lt;i> element background will be changed on color change.
    *
-   * @param {Color} color
-   * @returns {boolean}
+   * @type {String|boolean}
+   * @default '.add-on, .input-group-addon'
    */
-  equals(color) {
-    if (!(color instanceof tinycolor)) {
-      return false;
+  component: '.add-on, .input-group-addon',
+  /**
+   * Fallback color to use when the given color is invalid.
+   * If false, the latest valid color will be used as a fallback.
+   *
+   * @type {String|Color|boolean}
+   * @default false
+   */
+  fallbackColor: false,
+  /**
+   * If enabled, the input content will be replaced always with a valid color,
+   * if not enabled the invalid color will be left in the input, but valid in the internal color object.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  autoInputFallback: false,
+  /**
+   * If true a hash will be prepended to hexadecimal colors.
+   * If false, the hash will be removed.
+   * This only affects the input values.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  useHashPrefix: true,
+  /**
+   * If true or false the alpha adjustment bar will be displayed no matter what.
+   * If false it will be always hidden and alpha channel won't be allowed programmatically for this instance,
+   * so the selected or typed color will be always opaque.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  useAlpha: true,
+  /**
+   * This only applies when the color format is hexadecimal.
+   * If true, the alpha channel will be allowed for hexadecimal formatted colors, making them having 4 or 8 chars
+   * (RGBA or RRGGBBAA). This format is not yet supported in all modern browsers, so it is disabled by default.
+   * If false, rgba will be used whenever there is an alpha change different than 1 and the color format is
+   * automatic.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  enableHex8: false,
+  /**
+   * Vertical sliders configuration
+   * @type {Object}
+   */
+  sliders: {
+    saturation: {
+      maxLeft: 100,
+      maxTop: 100,
+      callLeft: 'setSaturationRatio',
+      callTop: 'setBrightnessRatio'
+    },
+    hue: {
+      maxLeft: 0,
+      maxTop: 100,
+      callLeft: false,
+      callTop: 'setHueRatio'
+    },
+    alpha: {
+      maxLeft: 0,
+      maxTop: 100,
+      callLeft: false,
+      callTop: 'setAlphaRatio'
     }
-    return this._r === color._r &amp;&amp;
-      this._g === color._g &amp;&amp;
-      this._b === color._b &amp;&amp;
-      this._a === color._a &amp;&amp;
-      this._roundA === color._roundA &amp;&amp;
-      this._format === color._format &amp;&amp;
-      this._gradientType === color._gradientType &amp;&amp;
-      this._ok === color._ok;
-  }
-
+  },
   /**
-   * Imports all variables of the given color to this instance, excepting `_tc_id`.
-   * @param {Color} color
+   * Horizontal sliders configuration
+   * @type {Object}
    */
-  importColor(color) {
-    if (!(color instanceof tinycolor)) {
-      throw new Error('Color.importColor: The color argument is not an instance of tinycolor.');
+  slidersHorz: {
+    saturation: {
+      maxLeft: 100,
+      maxTop: 100,
+      callLeft: 'setSaturationRatio',
+      callTop: 'setBrightnessRatio'
+    },
+    hue: {
+      maxLeft: 100,
+      maxTop: 0,
+      callLeft: 'setHueRatio',
+      callTop: false
+    },
+    alpha: {
+      maxLeft: 100,
+      maxTop: 0,
+      callLeft: 'setAlphaRatio',
+      callTop: false
     }
-    this._originalInput = color._originalInput;
-    this._r = color._r;
-    this._g = color._g;
-    this._b = color._b;
-    this._a = color._a;
-    this._roundA = color._roundA;
-    this._format = getCompatibleFormat(color._format);
-    this._gradientType = color._gradientType;
-    this._ok = color._ok;
-    // omit .previous and ._tc_id import
-  }
-
+  },
   /**
-   * Imports the _r, _g, _b, _a, _hbak and _ok variables of the given color to this instance.
-   * @param {Color} color
+   * Colorpicker popup alignment.
+   * For now only right is supported.
+   *
+   * @type {('right')}
+   * @default 'right'
+   */ // TODO: add 'left' and 'auto' support.
+  align: 'right',
+  /**
+   * Custom class to be added to the colorpicker element
+   *
+   * @type {String}
    */
-  importRgb(color) {
-    if (!color instanceof Color) {
-      throw new Error('Color.importColor: The color argument is not an instance of tinycolor.');
+  customClass: null,
+  /**
+   * Colorpicker widget template
+   * @type {String}
+   * @example
+   * &lt;!-- This is the default template: -->
+   * &lt;div class="colorpicker">
+   *   &lt;div class="colorpicker-saturation">&lt;i class="colorpicker-guide">&lt;i>&lt;/i>&lt;/i>&lt;/div>
+   *   &lt;div class="colorpicker-hue">&lt;i class="colorpicker-guide">&lt;/i>&lt;/div>
+   *   &lt;div class="colorpicker-alpha">&lt;i class="colorpicker-guide">&lt;/i>&lt;/div>
+   *   &lt;div class="colorpicker-color">&lt;div />&lt;/div>
+   * &lt;/div>
+   */
+  template: `&lt;div class="colorpicker">
+    &lt;div class="colorpicker-saturation">&lt;i class="colorpicker-guide">&lt;i />&lt;/div>
+    &lt;div class="colorpicker-hue">&lt;i class="colorpicker-guide">&lt;/i>&lt;/div>
+    &lt;div class="colorpicker-alpha">&lt;i class="colorpicker-guide">&lt;/i>&lt;/div>&lt;/div>`,
+  /**
+   *
+   * Associative object with the extension class name and its config.
+   * Colorpicker comes with many bundled extensions: debugger, palette, preview and swatches (a superset of Palette).
+   *
+   * @type {Object}
+   * @example
+   *   extensions: [
+   *     {
+   *       name: 'swatches'
+   *       colors: {
+   *         'primary': '#337ab7',
+   *         'success': '#5cb85c',
+   *         'info': '#5bc0de',
+   *         'warning': '#f0ad4e',
+   *         'danger': '#d9534f'
+   *       },
+   *       namesAsValues: true
+   *     }
+   *   ]
+   */
+  extensions: [
+    {
+      name: 'preview',
+      showText: false
     }
-    this._r = color._r;
-    this._g = color._g;
-    this._b = color._b;
-    this._a = color._a;
-    this._ok = color._ok;
-    this._hbak = color._hbak;
-  }
-
-  /**
-   * @param {{h,s,v,a}} hsv
-   */
-  importHsv(hsv) {
-    this._hbak = hsv.h;
-    this.importRgb(new Color(hsv, this.options));
-  }
-
-  /**
-   * @returns {Color}
-   */
-  getCopy() {
-    return new Color(this.hsva, this.options);
-  }
-
-  /**
-   * @returns {Color}
-   */
-  getHueOnlyCopy() {
-    return new Color({h: this._hbak ? this._hbak : this.hsva.h, s: 100, v: 100}, this.options);
-  }
-
-  /**
-   * @returns {Color}
-   */
-  getOpaqueCopy() {
-    return new Color(Object.assign({}, this.hsva, {a: 1}), this.options);
-  }
-
-  /**
-   * @param {number} h Degrees from 0 to 360
-   */
-  setHue(h) {
-    this.importHsv(Object.assign({}, this.hsva, {h: h}));
-  }
-
-  /**
-   * @param {number} s Percent from 0 o 100
-   */
-  setSaturation(s) {
-    this.importHsv(Object.assign({}, this.hsva, {s: s}));
-  }
-
-  /**
-   * @param {number} v Percent from 0 o 100
-   */
-  setBrightness(v) {
-    this.importHsv(Object.assign({}, this.hsva, {v: v}));
-  }
-
-  /**
-   * @param {number} h Ratio from 0.0 to 1.0
-   */
-  setHueRatio(h) {
-    if (h === 0) {
-      return;
-    }
-    this.setHue((1 - h) * 360);
-  }
-
-  /**
-   * @param {number} s Ratio from 0.0 to 1.0
-   */
-  setSaturationRatio(s) {
-    this.setSaturation(s);
-  }
-
-  /**
-   * @param {number} v Ratio from 0.0 to 1.0
-   */
-  setBrightnessRatio(v) {
-    this.setBrightness(1 - v);
-  }
-
-  /**
-   * @param {number} a Ratio from 0.0 to 1.0
-   */
-  setAlphaRatio(a) {
-    this.setAlpha(1 - a);
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  isTransparent() {
-    return this._a === 0;
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  hasTransparency() {
-    return this._a !== 1;
-  }
-
-  /**
-   * @param {string|null} [format] One of "rgb", "prgb", "hex"/"hex6", "hex3", "hex8", "hsl", "hsv"/"hsb", "name"
-   * @returns {String}
-   */
-  toString(format = null) {
-    format = format ? getCompatibleFormat(format) : this.format;
-
-    let colorStr = super.toString(format);
-
-    if (colorStr &amp;&amp; colorStr.match(/^#[0-9a-f]{3,8}$/i)) {
-      // Support transparent for hex formats
-      if (this.isTransparent() &amp;&amp; (this._r === 0) &amp;&amp; (this._g === 0) &amp;&amp; (this._b === 0)) {
-        return 'transparent';
-      }
-    }
-
-    return colorStr;
-  }
-}
-
-export default Color;
+  ]
+};
 </code></pre>
         </article>
     </section>

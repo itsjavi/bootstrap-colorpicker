@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  
+  <title>Bootstrap Colorpicker | Extension - Documentation</title>
+  
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-zF4BRsG/fLiTGfR9QL82DrilZxrwgY/+du4p/c7J72zZj+FLYq4zY00RylP9ZjiT" crossorigin="anonymous">
+  <link href="dist/css/bootstrap-colorpicker.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"/>
+  
+
+  <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+
+  <!-- This needs to be loaded before the examples scripts: -->
+  <script src="//code.jquery.com/jquery-3.2.1.js"></script>
+  <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.js"></script>-->
+  <script src="dist/js/bootstrap-colorpicker.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row is-flex">
+    <nav class="main-nav col-md-3 col-lg-2">
+      <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="search-box"><input placeholder="Search" class="form-control" type="search" /></li><li class="nav-heading">Examples</li><li class="nav-item nav-item-kind-default"><a href="tutorial-Basics.html">Getting started</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-ColorApi.html">Color manipulation</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-ColorSwatches.html">Color swatches</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-CustomSize.html">Custom size</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-CustomTemplate.html">Custom template</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-DebugMode.html">Debug mode</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-Events.html">Event handling</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-legacy_docs.html">Legacy documentation</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Color.html">Color</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#equals">equals</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#getCopy">getCopy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#getHueOnlyCopy">getHueOnlyCopy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#getOpaqueCopy">getOpaqueCopy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#hasTransparency">hasTransparency</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#importColor">importColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#importHsv">importHsv</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#importRgb">importRgb</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#isTransparent">isTransparent</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setAlphaRatio">setAlphaRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setBrightness">setBrightness</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setBrightnessRatio">setBrightnessRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setHue">setHue</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setHueRatio">setHueRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setSaturation">setSaturation</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setSaturationRatio">setSaturationRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#toString">toString</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Colorpicker.html">Colorpicker</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#addExtension">addExtension</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#createColor">createColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#destroy">destroy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#disable">disable</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#enable">enable</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#getValue">getValue</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#hasColor">hasColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#hasInput">hasInput</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#hide">hide</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#isAlphaEnabled">isAlphaEnabled</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#isDisabled">isDisabled</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#isHidden">isHidden</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#isInvalidColor">isInvalidColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#isVisible">isVisible</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#setValue">setValue</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#show">show</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#toCssColorString">toCssColorString</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#toInputColorString">toInputColorString</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#update">update</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Extension.html">Extension</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onChange">onChange</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onCreate">onCreate</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onDestroy">onDestroy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onDisable">onDisable</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onEnable">onEnable</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onHide">onHide</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onInvalid">onInvalid</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onShow">onShow</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onUpdate">onUpdate</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#resolveColor">resolveColor</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-options.html">options</a></span></li><li class="nav-heading">Events</li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:change">change</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerChange">colorpickerChange</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerCreate">colorpickerCreate</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerDebug">colorpickerDebug</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerDestroy">colorpickerDestroy</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerDisable">colorpickerDisable</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerEnable">colorpickerEnable</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerHide">colorpickerHide</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerInvalid">colorpickerInvalid</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerShow">colorpickerShow</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerUpdate">colorpickerUpdate</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:mousemove">mousemove</a></span></li>
+    </nav>
+
+    <div class="main-content col-md-9 col-lg-10">
+      <div id="main" class="main-content-wrapper">
+        
+        <h1 class="page-title">Extension</h1>
+        
+
+        
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        Extension
+        </h2>
+        
+            <div class="class-description"><p>Colorpicker extension class.</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+<div class="section-method">
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="Extension"><span class="type-signature"></span>new Extension<span class="signature">(colorpicker, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>colorpicker</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code><a href="Colorpicker.html">Colorpicker</a></code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Object</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="colorpicker"><span class="type-signature"></span>colorpicker<span class="type-signature"> :<a href="Colorpicker.html">Colorpicker</a></span></h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code><a href="Colorpicker.html">Colorpicker</a></code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="options"><span class="type-signature"></span>options<span class="type-signature"> :Object</span></h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>Object</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="onChange"><span class="type-signature"></span>onChange<span class="signature">(event)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line78">line 78</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Event</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+<h5>Listens to Events:</h5>
+<ul>
+    <li><a href="global.html#event:colorpickerChange">event:colorpickerChange</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="onCreate"><span class="type-signature"></span>onCreate<span class="signature">(event)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line54">line 54</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Event</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+<h5>Listens to Events:</h5>
+<ul>
+    <li><a href="global.html#event:colorpickerCreate">event:colorpickerCreate</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="onDestroy"><span class="type-signature"></span>onDestroy<span class="signature">(event)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line62">line 62</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Event</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+<h5>Listens to Events:</h5>
+<ul>
+    <li><a href="global.html#event:colorpickerDestroy">event:colorpickerDestroy</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="onDisable"><span class="type-signature"></span>onDisable<span class="signature">(event)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line110">line 110</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Event</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+<h5>Listens to Events:</h5>
+<ul>
+    <li><a href="global.html#event:colorpickerDisable">event:colorpickerDisable</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="onEnable"><span class="type-signature"></span>onEnable<span class="signature">(event)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line118">line 118</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Event</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+<h5>Listens to Events:</h5>
+<ul>
+    <li><a href="global.html#event:colorpickerEnable">event:colorpickerEnable</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="onHide"><span class="type-signature"></span>onHide<span class="signature">(event)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line94">line 94</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Event</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+<h5>Listens to Events:</h5>
+<ul>
+    <li><a href="global.html#event:colorpickerHide">event:colorpickerHide</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="onInvalid"><span class="type-signature"></span>onInvalid<span class="signature">(event)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line86">line 86</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Event</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+<h5>Listens to Events:</h5>
+<ul>
+    <li><a href="global.html#event:colorpickerInvalid">event:colorpickerInvalid</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="onShow"><span class="type-signature"></span>onShow<span class="signature">(event)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line102">line 102</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Event</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+<h5>Listens to Events:</h5>
+<ul>
+    <li><a href="global.html#event:colorpickerShow">event:colorpickerShow</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="onUpdate"><span class="type-signature"></span>onUpdate<span class="signature">(event)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Event</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+<h5>Listens to Events:</h5>
+<ul>
+    <li><a href="global.html#event:colorpickerUpdate">event:colorpickerUpdate</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="resolveColor"><span class="type-signature"></span>resolveColor<span class="signature">(color)</span><span class="type-signature"> &rarr; {<a href="Color.html">Color</a>|String|*}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Function called every time a new color needs to be created.
+Return false to skip this resolver and continue with other extensions' ones
+or return anything else to consider the color resolved.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Extension.js.html">Extension.js</a>, <a href="Extension.js.html#line46">line 46</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code><a href="Color.html">Color</a></code></span>
+|
+
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code>*</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code><a href="Color.html">Color</a></code></span>
+|
+
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code>*</code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+</div>
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <footer class="col-md-12 main-footer">
+      Generated by <a
+      href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+      
+      on Sun Nov 19 2017 09:52:45 GMT+0100 (CET) using a custom Minami theme. Search powered by Algolia.
+    </footer>
+  </div>
+</div>
+
+
+<script src="scripts/prettify/prettify.js"></script>
+<script src="scripts/prettify/lang-css.js"></script>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+  apiKey: '2fbe42dafb0dca80b2422f5b0b2cd82c',
+  indexName: 'farbelous_bootstrap_colorpicker',
+  inputSelector: '.search-box input',
+  algoliaOptions: {
+    hitsPerPage: 10
+  },
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+
+</body>
+</html>

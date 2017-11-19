@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  
+  <title>Bootstrap Colorpicker | options - Documentation</title>
+  
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-zF4BRsG/fLiTGfR9QL82DrilZxrwgY/+du4p/c7J72zZj+FLYq4zY00RylP9ZjiT" crossorigin="anonymous">
+  <link href="dist/css/bootstrap-colorpicker.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"/>
+  
+
+  <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+
+  <!-- This needs to be loaded before the examples scripts: -->
+  <script src="//code.jquery.com/jquery-3.2.1.js"></script>
+  <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.js"></script>-->
+  <script src="dist/js/bootstrap-colorpicker.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row is-flex">
+    <nav class="main-nav col-md-3 col-lg-2">
+      <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="search-box"><input placeholder="Search" class="form-control" type="search" /></li><li class="nav-heading">Examples</li><li class="nav-item nav-item-kind-default"><a href="tutorial-Basics.html">Getting started</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-ColorApi.html">Color manipulation</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-ColorSwatches.html">Color swatches</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-CustomSize.html">Custom size</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-CustomTemplate.html">Custom template</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-DebugMode.html">Debug mode</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-Events.html">Event handling</a></li><li class="nav-item nav-item-kind-default"><a href="tutorial-legacy_docs.html">Legacy documentation</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Color.html">Color</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#equals">equals</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#getCopy">getCopy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#getHueOnlyCopy">getHueOnlyCopy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#getOpaqueCopy">getOpaqueCopy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#hasTransparency">hasTransparency</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#importColor">importColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#importHsv">importHsv</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#importRgb">importRgb</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#isTransparent">isTransparent</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setAlphaRatio">setAlphaRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setBrightness">setBrightness</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setBrightnessRatio">setBrightnessRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setHue">setHue</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setHueRatio">setHueRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setSaturation">setSaturation</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#setSaturationRatio">setSaturationRatio</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Color.html#toString">toString</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Colorpicker.html">Colorpicker</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#addExtension">addExtension</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#createColor">createColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#destroy">destroy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#disable">disable</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#enable">enable</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#getValue">getValue</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#hasColor">hasColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#hasInput">hasInput</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#hide">hide</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#isAlphaEnabled">isAlphaEnabled</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#isDisabled">isDisabled</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#isHidden">isHidden</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#isInvalidColor">isInvalidColor</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#isVisible">isVisible</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#setValue">setValue</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#show">show</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#toCssColorString">toCssColorString</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#toInputColorString">toInputColorString</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Colorpicker.html#update">update</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Extension.html">Extension</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onChange">onChange</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onCreate">onCreate</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onDestroy">onDestroy</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onDisable">onDisable</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onEnable">onEnable</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onHide">onHide</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onInvalid">onInvalid</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onShow">onShow</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#onUpdate">onUpdate</a></span></li><li class="nav-item nav-item-kind-function"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Extension.html#resolveColor">resolveColor</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-options.html">options</a></span></li><li class="nav-heading">Events</li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:change">change</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerChange">colorpickerChange</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerCreate">colorpickerCreate</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerDebug">colorpickerDebug</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerDestroy">colorpickerDestroy</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerDisable">colorpickerDisable</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerEnable">colorpickerEnable</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerHide">colorpickerHide</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerInvalid">colorpickerInvalid</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerShow">colorpickerShow</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:colorpickerUpdate">colorpickerUpdate</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="global.html#event:mousemove">mousemove</a></span></li>
+    </nav>
+
+    <div class="main-content col-md-9 col-lg-10">
+      <div id="main" class="main-content-wrapper">
+        
+        <h1 class="page-title">options</h1>
+        
+
+        
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="module:options"><span class="type-signature"></span>module:options<span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Colorpicker default options</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line9">line 9</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".align"><span class="type-signature">(static) </span>align<span class="type-signature"> :'right'</span></h4>
+
+
+
+
+<div class="description">
+    <p>Colorpicker popup alignment.
+For now only right is supported.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>'right'</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line173">line 173</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>'right'</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".autoInputFallback"><span class="type-signature">(static) </span>autoInputFallback<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>If enabled, the input content will be replaced always with a valid color,
+if not enabled the invalid color will be left in the input, but valid in the internal color object.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>false</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line88">line 88</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".color"><span class="type-signature">(static) </span>color<span class="type-signature"> :String|<a href="Color.html">Color</a>|boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>Forces a color, ignoring the one from the elements value or data-color attribute.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>false</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code><a href="Color.html">Color</a></code></span>
+|
+
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".component"><span class="type-signature">(static) </span>component<span class="type-signature"> :String|boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>Children color component CSS selector.
+If it exists, the child <i> element background will be changed on color change.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>'.add-on, .input-group-addon'</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line72">line 72</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".container"><span class="type-signature">(static) </span>container<span class="type-signature"> :String|boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>Colorpicker container CSS selector. If given, the colorpicker will be placed inside this container.
+If true, the colorpicker element itself will be used as the container.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>false</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line64">line 64</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".customClass"><span class="type-signature">(static) </span>customClass<span class="type-signature"> :String</span></h4>
+
+
+
+
+<div class="description">
+    <p>Custom class to be added to the colorpicker element</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line179">line 179</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>String</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".debug"><span class="type-signature">(static) </span>debug<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>If true, loads the Debugger extension automatically into the current instance</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>false</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".enableHex8"><span class="type-signature">(static) </span>enableHex8<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>This only applies when the color format is hexadecimal.
+If true, the alpha channel will be allowed for hexadecimal formatted colors, making them having 4 or 8 chars
+(RGBA or RRGGBBAA). This format is not yet supported in all modern browsers, so it is disabled by default.
+If false, rgba will be used whenever there is an alpha change different than 1 and the color format is
+automatic.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>true</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line117">line 117</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".extensions"><span class="type-signature">(static) </span>extensions<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>Associative object with the extension class name and its config.
+Colorpicker comes with many bundled extensions: debugger, palette, preview and swatches (a superset of Palette).</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line217">line 217</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>Object</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>extensions: [
+    {
+      name: 'swatches'
+      colors: {
+        'primary': '#337ab7',
+        'success': '#5cb85c',
+        'info': '#5bc0de',
+        'warning': '#f0ad4e',
+        'danger': '#d9534f'
+      },
+      namesAsValues: true
+    }
+  ]</code></pre>
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".fallbackColor"><span class="type-signature">(static) </span>fallbackColor<span class="type-signature"> :String|<a href="Color.html">Color</a>|boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>Fallback color to use when the given color is invalid.
+If false, the latest valid color will be used as a fallback.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>false</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code><a href="Color.html">Color</a></code></span>
+|
+
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".format"><span class="type-signature">(static) </span>format<span class="type-signature"> :'rgb'|'rgba'|'prgb'|'prgba'|'hex'|'hex3'|'hex6'|'hex8'|'hsl'|'hsla'|'hsv'|'hsva'|'name'|boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>Forces an specific color format. If false, it will be automatically detected the first time,
+but if null it will be always recalculated.</p>
+<p>Note that the ending 'a' of the format meaning &quot;alpha&quot; has currently no effect, meaning that rgb is the same as
+rgba excepting if the alpha channel is disabled (see useAlpha).</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>false</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>'rgb'</code></span>
+|
+
+<span class="param-type"><code>'rgba'</code></span>
+|
+
+<span class="param-type"><code>'prgb'</code></span>
+|
+
+<span class="param-type"><code>'prgba'</code></span>
+|
+
+<span class="param-type"><code>'hex'</code></span>
+|
+
+<span class="param-type"><code>'hex3'</code></span>
+|
+
+<span class="param-type"><code>'hex6'</code></span>
+|
+
+<span class="param-type"><code>'hex8'</code></span>
+|
+
+<span class="param-type"><code>'hsl'</code></span>
+|
+
+<span class="param-type"><code>'hsla'</code></span>
+|
+
+<span class="param-type"><code>'hsv'</code></span>
+|
+
+<span class="param-type"><code>'hsva'</code></span>
+|
+
+<span class="param-type"><code>'name'</code></span>
+|
+
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".horizontal"><span class="type-signature">(static) </span>horizontal<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>Horizontal mode layout.</p>
+<p>If true, the hue and alpha channel bars will be rendered horizontally, above the saturation selector.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>false</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line42">line 42</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".inline"><span class="type-signature">(static) </span>inline<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>Forces to show the colorpicker as an inline element</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>false</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line49">line 49</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".input"><span class="type-signature">(static) </span>input<span class="type-signature"> :String</span></h4>
+
+
+
+
+<div class="description">
+    <p>Children input CSS selector</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>'input'</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line56">line 56</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>String</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".sliders"><span class="type-signature">(static) </span>sliders<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>Vertical sliders configuration</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line122">line 122</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>Object</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".slidersHorz"><span class="type-signature">(static) </span>slidersHorz<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>Horizontal sliders configuration</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line146">line 146</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>Object</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".template"><span class="type-signature">(static) </span>template<span class="type-signature"> :String</span></h4>
+
+
+
+
+<div class="description">
+    <p>Colorpicker widget template</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line192">line 192</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>String</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;!-- This is the default template: -->
+&lt;div class="colorpicker">
+  &lt;div class="colorpicker-saturation">&lt;i class="colorpicker-guide">&lt;i>&lt;/i>&lt;/i>&lt;/div>
+  &lt;div class="colorpicker-hue">&lt;i class="colorpicker-guide">&lt;/i>&lt;/div>
+  &lt;div class="colorpicker-alpha">&lt;i class="colorpicker-guide">&lt;/i>&lt;/div>
+  &lt;div class="colorpicker-color">&lt;div />&lt;/div>
+&lt;/div></code></pre>
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".useAlpha"><span class="type-signature">(static) </span>useAlpha<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>If true or false the alpha adjustment bar will be displayed no matter what.
+If false it will be always hidden and alpha channel won't be allowed programmatically for this instance,
+so the selected or typed color will be always opaque.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>true</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line106">line 106</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".useHashPrefix"><span class="type-signature">(static) </span>useHashPrefix<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    <p>If true a hash will be prepended to hexadecimal colors.
+If false, the hash will be removed.
+This only affects the input values.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>false</li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="options.js.html">options.js</a>, <a href="options.js.html#line97">line 97</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>boolean</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <footer class="col-md-12 main-footer">
+      Generated by <a
+      href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+      
+      on Sun Nov 19 2017 09:52:45 GMT+0100 (CET) using a custom Minami theme. Search powered by Algolia.
+    </footer>
+  </div>
+</div>
+
+
+<script src="scripts/prettify/prettify.js"></script>
+<script src="scripts/prettify/lang-css.js"></script>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+  apiKey: '2fbe42dafb0dca80b2422f5b0b2cd82c',
+  indexName: 'farbelous_bootstrap_colorpicker',
+  inputSelector: '.search-box input',
+  algoliaOptions: {
+    hitsPerPage: 10
+  },
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+
+</body>
+</html>

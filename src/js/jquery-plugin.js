@@ -23,7 +23,9 @@ $.fn[plugin] = function (option) {
     }
 
     if (typeof option === 'string') {
-      if ($.isFunction(inst[option])) {
+      if (option === 'colorpicker') {
+        returnValue = inst;
+      } else if ($.isFunction(inst[option])) {
         returnValue = inst[option].apply(inst, apiArgs);
       } else { // its a property ?
         if (apiArgs.length) {

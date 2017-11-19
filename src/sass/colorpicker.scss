@@ -73,11 +73,24 @@
 }
 
 .colorpicker {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  float: left;
+  font-size: inherit;
+  color: inherit;
+  text-align: left;
+  list-style: none;
+  background-color: #ffffff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   padding: 4px;
   min-width: 130px;
   margin-top: 1px;
   @include borderRadius(4px);
-  z-index: 2500;
+  z-index: 1055;
 }
 
 .colorpicker:before,
@@ -114,8 +127,10 @@
   left: 7px;
 }
 
-.colorpicker div {
-  position: relative;
+.colorpicker {
+  div {
+    position: relative;
+  }
 }
 
 .colorpicker.colorpicker-with-alpha {
@@ -126,49 +141,20 @@
   display: block;
 }
 
-.colorpicker-bar,
-.colorpicker-color {
+.colorpicker-bar {
   height: 15px;
-  margin-top: 5px;
+  margin: 5px 0 0 0;
   clear: both;
   text-align: center;
-  font-size: 12px;
+  font-size: 10px;
   line-height: normal;
 }
 
 .colorpicker-bar-horizontal {
-  width: 100px;
   height: 15px;
+  margin: 0 0 4px 0;
   float: left;
-  margin-left: 0px;
-  margin-bottom: 4px;
-}
-
-.colorpicker-color {
-  @include bgImg('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAABkCAQAAAAVxWkcAAABr0lEQVR4Xo2VwU0DQQxF7dmRuNIFlzlSAR3QAaXQQdIBJVABFXDcOVAAd67cjJLR07dkhcSrkZKfb/t7bG88rFo3B5gZPMNycItu2xloGV7MWHzM9zuzFWCkmA0nK6AszCUJDW6+mG6R03ncw5v8EMTEvZ2O3AliYjpslblc0RF9LmZYWxURU6aKytWZYsoWCAe+xwOZp1GsEukGiIkYxcQCHck99+gRgB7JncyIB5SGEhP3Yh5P6JwX+u6AnYot104d8DJT7uH7M9JH6OZbimj0vfMVaYnJIZFJDBW9kHlerL2C6JV4mSt7uuo2N57RxnZ+usQjn0R1jwBJBrNO3evJpVYUWsJ/E3UiXRlv24/7YZ04xmEdWlzcKS+B/eapeyMvFd2k0+hRk/T0AmTW8h69s2sjYMsdPntECiILhAeIMZAeH4QvUwfn6ijC0tTV+fT9ky8jM9nK2g7Ly1VjSpKYq6IvsAm7MtNu1orEqa/K3KNvgMFdhfquPfJmp2dbh0/8Gzb6Y22ViaNr6n5410zXdngVhbu6XqdOtWOuin5hjABGp4a2uotZ71MVCfwDBt2/v37yo6AAAAAASUVORK5CYII=');
-  background-position: 0 100%;
-}
-
-.colorpicker-color div {
-  height: 100%;
-}
-
-.colorpicker-palette {
-  display: none;
-  height: 10px;
-  margin-top: 5px;
-  clear: both;
-}
-
-.colorpicker-palette .colorpicker-palette-color {
-  cursor: pointer;
-  float: left;
-  height: 10px;
-  width: 10px;
-}
-
-.colorpicker-palette .colorpicker-palette-color + .colorpicker-palette-color {
-  margin-left: 3px;
+  width: 100px;
 }
 
 .colorpicker-element .input-group-addon i,
@@ -185,6 +171,7 @@
   display: inline-block;
   float: none;
   z-index: auto;
+  vertical-align: text-bottom;
 }
 
 .colorpicker.colorpicker-horizontal {
@@ -197,7 +184,7 @@
   margin-bottom: 4px;
 }
 
-.colorpicker.colorpicker-horizontal .colorpicker-color {
+.colorpicker.colorpicker-horizontal .colorpicker-bar {
   width: 100px;
 }
 
@@ -221,7 +208,7 @@
   left: 0;
   width: 1px;
   border: none;
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .colorpicker.colorpicker-horizontal .colorpicker-hue {
@@ -256,7 +243,7 @@
 .colorpicker-alpha,
 .colorpicker-saturation,
 .colorpicker-hue,
-.colorpicker-palette {
+.colorpicker-bar {
   &.colorpicker-visible {
     display: block;
   }
@@ -266,7 +253,7 @@
 .colorpicker-alpha,
 .colorpicker-saturation,
 .colorpicker-hue,
-.colorpicker-palette {
+.colorpicker-bar {
   &.colorpicker-hidden {
     display: none;
   }
@@ -274,4 +261,28 @@
 
 .colorpicker-inline.colorpicker-visible {
   display: inline-block;
+}
+
+/** EXTENSIONS **/
+
+.colorpicker-preview {
+  @include bgImg('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAABkCAQAAAAVxWkcAAABr0lEQVR4Xo2VwU0DQQxF7dmRuNIFlzlSAR3QAaXQQdIBJVABFXDcOVAAd67cjJLR07dkhcSrkZKfb/t7bG88rFo3B5gZPMNycItu2xloGV7MWHzM9zuzFWCkmA0nK6AszCUJDW6+mG6R03ncw5v8EMTEvZ2O3AliYjpslblc0RF9LmZYWxURU6aKytWZYsoWCAe+xwOZp1GsEukGiIkYxcQCHck99+gRgB7JncyIB5SGEhP3Yh5P6JwX+u6AnYot104d8DJT7uH7M9JH6OZbimj0vfMVaYnJIZFJDBW9kHlerL2C6JV4mSt7uuo2N57RxnZ+usQjn0R1jwBJBrNO3evJpVYUWsJ/E3UiXRlv24/7YZ04xmEdWlzcKS+B/eapeyMvFd2k0+hRk/T0AmTW8h69s2sjYMsdPntECiILhAeIMZAeH4QvUwfn6ijC0tTV+fT9ky8jM9nK2g7Ly1VjSpKYq6IvsAm7MtNu1orEqa/K3KNvgMFdhfquPfJmp2dbh0/8Gzb6Y22ViaNr6n5410zXdngVhbu6XqdOtWOuin5hjABGp4a2uotZ71MVCfwDBt2/v37yo6AAAAAASUVORK5CYII=');
+  background-position: 0 100%;
+}
+
+.colorpicker-preview div {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.colorpicker-swatch {
+  cursor: pointer;
+  float: left;
+  height: 12px;
+  width: 12px;
+}
+
+.colorpicker-swatch + .colorpicker-swatch {
+  margin-left: 2px;
 }

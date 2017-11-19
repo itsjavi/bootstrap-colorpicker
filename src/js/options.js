@@ -8,6 +8,12 @@
  */
 export default {
   /**
+   * If true, loads the Debugger extension automatically into the current instance
+   * @type {boolean}
+   * @default false
+   */
+  debug: false,
+  /**
    * Forces a color, ignoring the one from the elements value or data-color attribute.
    *
    * @type {(String|Color|boolean)}
@@ -15,7 +21,9 @@ export default {
    */
   color: false,
   /**
-   * Forces an specific color format. If false, it will be automatically detected.
+   * Forces an specific color format. If false, it will be automatically detected the first time,
+   * but if null it will be always recalculated.
+   *
    * Note that the ending 'a' of the format meaning "alpha" has currently no effect, meaning that rgb is the same as
    * rgba excepting if the alpha channel is disabled (see useAlpha).
    *
@@ -70,6 +78,14 @@ export default {
    * @default false
    */
   fallbackColor: false,
+  /**
+   * If enabled, the input content will be replaced always with a valid color,
+   * if not enabled the invalid color will be left in the input, but valid in the internal color object.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  autoInputFallback: false,
   /**
    * If true a hash will be prepended to hexadecimal colors.
    * If false, the hash will be removed.
@@ -148,26 +164,6 @@ export default {
     }
   },
   /**
-   * Colorpicker widget template
-   * @type {String}
-   * @example
-   * <!-- This is the default template: -->
-   * <div class="colorpicker dropdown-menu">
-   *   <div class="colorpicker-saturation"><i class="colorpicker-guide"><i></i></i></div>
-   *   <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
-   *   <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>
-   *   <div class="colorpicker-color"><div /></div>
-   *   <div class="colorpicker-palette"></div>
-   * </div>
-   */
-  template: `<div class="colorpicker dropdown-menu">
-    <div class="colorpicker-saturation"><i class="colorpicker-guide"><i></i></i></div>
-    <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
-    <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>
-    <div class="colorpicker-color"><div /></div>
-    <div class="colorpicker-palette"></div>
-  </div>`,
-  /**
    * Colorpicker popup alignment.
    * For now only right is supported.
    *
@@ -182,33 +178,46 @@ export default {
    */
   customClass: null,
   /**
-   * Preset list of colors to be added to the colorpicker widget as clickable color selectors.
-   * The value should be an object containing key-value pairs defining a color alias and its CSS color representation.
+   * Colorpicker widget template
+   * @type {String}
+   * @example
+   * <!-- This is the default template: -->
+   * <div class="colorpicker">
+   *   <div class="colorpicker-saturation"><i class="colorpicker-guide"><i></i></i></div>
+   *   <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
+   *   <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>
+   *   <div class="colorpicker-color"><div /></div>
+   * </div>
+   */
+  template: `<div class="colorpicker">
+    <div class="colorpicker-saturation"><i class="colorpicker-guide"><i /></div>
+    <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
+    <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div></div>`,
+  /**
    *
-   * For this to work, a '.colorpicker-palette' element needs to be defined inside the colorpicker template.
+   * Associative object with the extension class name and its config.
+   * Colorpicker comes with many bundled extensions: debugger, palette, preview and swatches (a superset of Palette).
    *
    * @type {Object}
-   * @default null
    * @example
-   *  {
-   *   'black': '#000000',
-   *   'white': '#ffffff',
-   *   'red': '#FF0000',
-   *   'default': '#777777',
-   *   'primary': '#337ab7',
-   *   'success': '#5cb85c',
-   *   'info': '#5bc0de',
-   *   'warning': '#f0ad4e',
-   *   'danger': '#d9534f'
-   *  }
+   *   extensions: [
+   *     {
+   *       name: 'swatches'
+   *       colors: {
+   *         'primary': '#337ab7',
+   *         'success': '#5cb85c',
+   *         'info': '#5bc0de',
+   *         'warning': '#f0ad4e',
+   *         'danger': '#d9534f'
+   *       },
+   *       namesAsValues: true
+   *     }
+   *   ]
    */
-  colorPalette: null,
-  /**
-   * If true, the when a color swatch is selected the name (alias) will be used as input value,
-   * otherwise the swatch real color value will be used.
-   *
-   * @type {boolean}
-   * @default true
-   */
-  useColorPaletteNames: true
+  extensions: [
+    {
+      name: 'preview',
+      showText: false
+    }
+  ]
 };

@@ -1,12 +1,6 @@
 'use strict';
-/**
- * @module
- */
 
 import tinycolor from 'tinycolor2';
-
-let defaultFallbackColor = '#000000';
-let defaultFallbackFormat = null;
 
 function unwrapColor(color) {
   if (color instanceof tinycolor) {
@@ -21,7 +15,23 @@ function unwrapColor(color) {
 }
 
 /**
- * Color manipulation class.
+ * Sanitizes a format string, so it is compatible with tinycolor,
+ * or returns the same value if it is not a string.
+ *
+ * @param {String} format
+ * @returns {String|*}
+ * @private
+ */
+function getCompatibleFormat(format) {
+  if (format instanceof String || typeof format === 'string') {
+    return format.replace(/a$/gi, '');
+  }
+
+  return format;
+}
+
+/**
+ * Color manipulation class that extends the tinycolor library class.
  */
 class Color extends tinycolor {
   /**
@@ -47,14 +57,13 @@ class Color extends tinycolor {
   /**
    * All options of the current instance.
    *
-   * @type {{format: String, gradientType: String, fallbackColor: *}}
+   * @type {{format: String, gradientType: String}}
    * @readonly
    */
   get options() {
     return {
       format: this._format,
-      gradientType: this._gradientType,
-      fallbackColor: this._fallbackColor
+      gradientType: this._gradientType
     };
   }
 
@@ -82,23 +91,49 @@ class Color extends tinycolor {
   /**
    * foo bar
    * @param {Color|*} color
-   * @param {{fallbackColor, format}} [options]
+   * @param {{format}} [options]
    * @constructor
    */
-  constructor(color, options = {fallbackColor: defaultFallbackColor, format: null}) {
+  constructor(color, options = {format: null}) {
+    if (options.format) {
+      options.format = getCompatibleFormat(options.format);
+    }
     super(unwrapColor(color), options);
 
     /**
      * @type {Color|*}
      */
-    this._originalInput = color;
-
+    this._originalInput = color; // keep real original color
     /**
-     * @type {Color|*}
+     * Hue backup to not lose the information when saturation is 0.
+     * @type {number}
      */
-    this._fallbackColor = unwrapColor(options.fallbackColor);
+    this._hbak = this.hsva.h;
+    /**
+     * If set, it contains a reference to a previous color that caused the creation of this one.
+     * @type {Color}
+     */
+    this.previous = null;
+  }
 
-    this._validOrFallback();
+  /**
+   * Compares a color object with this one and returns true if it is equal or false if not.
+   *
+   * @param {Color} color
+   * @returns {boolean}
+   */
+  equals(color) {
+    if (!(color instanceof tinycolor)) {
+      return false;
+    }
+    return this._r === color._r &&
+      this._g === color._g &&
+      this._b === color._b &&
+      this._a === color._a &&
+      this._roundA === color._roundA &&
+      this._format === color._format &&
+      this._gradientType === color._gradientType &&
+      this._ok === color._ok;
   }
 
   /**
@@ -106,7 +141,7 @@ class Color extends tinycolor {
    * @param {Color} color
    */
   importColor(color) {
-    if (!color instanceof tinycolor) {
+    if (!(color instanceof tinycolor)) {
       throw new Error('Color.importColor: The color argument is not an instance of tinycolor.');
     }
     this._originalInput = color._originalInput;
@@ -115,18 +150,18 @@ class Color extends tinycolor {
     this._b = color._b;
     this._a = color._a;
     this._roundA = color._roundA;
-    this._format = color._format;
+    this._format = getCompatibleFormat(color._format);
     this._gradientType = color._gradientType;
     this._ok = color._ok;
-    // omit color._tc_id import
+    // omit .previous and ._tc_id import
   }
 
   /**
-   * Imports the _r, _g, _b, _a and _ok variables of the given color to this instance.
+   * Imports the _r, _g, _b, _a, _hbak and _ok variables of the given color to this instance.
    * @param {Color} color
    */
   importRgb(color) {
-    if (!color instanceof tinycolor) {
+    if (!color instanceof Color) {
       throw new Error('Color.importColor: The color argument is not an instance of tinycolor.');
     }
     this._r = color._r;
@@ -134,38 +169,15 @@ class Color extends tinycolor {
     this._b = color._b;
     this._a = color._a;
     this._ok = color._ok;
+    this._hbak = color._hbak;
   }
 
   /**
    * @param {{h,s,v,a}} hsv
    */
   importHsv(hsv) {
+    this._hbak = hsv.h;
     this.importRgb(new Color(hsv, this.options));
-  }
-
-  /**
-   * If the current color is not valid, applies the fallback and,
-   * in case the fallback is neither valid, applies the default fallback.
-   *
-   * @returns {boolean}
-   */
-  _validOrFallback() {
-    if (!this.isValid()) {
-      let fallbackOptions = Object.assign({}, this.options);
-
-      if (!fallbackOptions.format) {
-        fallbackOptions.format = defaultFallbackFormat;
-      }
-      // given color is invalid
-      this.importColor(tinycolor(this._fallbackColor, fallbackOptions));
-
-      if (!this.isValid()) {
-        // fallback color is invalid
-        this.importColor(tinycolor(defaultFallbackColor, fallbackOptions));
-      }
-      return false;
-    }
-    return true;
   }
 
   /**
@@ -179,7 +191,7 @@ class Color extends tinycolor {
    * @returns {Color}
    */
   getHueOnlyCopy() {
-    return new Color(Object.assign({}, this.hsva, {s: 100, v: 100}), this.options);
+    return new Color({h: this._hbak ? this._hbak : this.hsva.h, s: 100, v: 100}, this.options);
   }
 
   /**
@@ -260,17 +272,14 @@ class Color extends tinycolor {
    * @returns {String}
    */
   toString(format = null) {
-    format = (format ? format : this.format).replace(/a$/g, '').toLowerCase();
+    format = format ? getCompatibleFormat(format) : this.format;
 
     let colorStr = super.toString(format);
 
-    if (format.match(/hex/gi) && !format.match(/hex8/gi)) {
+    if (colorStr && colorStr.match(/^#[0-9a-f]{3,8}$/i)) {
+      // Support transparent for hex formats
       if (this.isTransparent() && (this._r === 0) && (this._g === 0) && (this._b === 0)) {
         return 'transparent';
-      }
-
-      if (Color.names.hasOwnProperty(colorStr)) {
-        return colorStr;
       }
     }
 

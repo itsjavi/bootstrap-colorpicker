@@ -34,7 +34,7 @@
     "destination": "./build/docs/",
     "tutorials": "./build/examples/",
     "encoding": "utf8",
-    "private": true,
+    "private": false,
     "recurse": true,
     "verbose": true
   },

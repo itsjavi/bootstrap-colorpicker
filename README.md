@@ -1,7 +1,7 @@
 # Bootstrap Colorpicker 3
 
 [Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) is a simple and customizable
-colorpicker component for Twitter Bootstrap.
+colorpicker component for jQuery, compatible with Twitter Bootstrap.
 
 [![Build Status](https://api.travis-ci.org/farbelous/bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
 
@@ -23,7 +23,6 @@ Example:
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
   <link href="dist/css/bootstrap-colorpicker.css" rel="stylesheet">
 </head>
 <body>
@@ -31,7 +30,6 @@ Example:
       <input id="mycp" type="text" class="form-control" />
   </div>
   <script src="//code.jquery.com/jquery-3.2.1.js"></script>
-  <script src="dist/js/bootstrap-colorpicker.js"></script>
   <script>
     $(function () {
       $('#mycp').colorpicker();
@@ -41,10 +39,11 @@ Example:
 ```
 
 ## Requirements
-Note that this library depends on:
+Note that this library depends on `jQuery >= 2.1.0`.
 
-* jQuery >= 2.1.0
-* Twitter Bootstrap >= 3.0.0 (required only the CSS)
+The `Twitter Bootstrap` dependency is totally optional, since this library does not depend directly
+on it in order to work, but only whenever Bootstrap-related classes like `form-control` and `input-group-addon` are used 
+like in the examples, which will indeed need the Bootstrap CSS loaded to be displayed correctly.
 
 ## Documentation
 

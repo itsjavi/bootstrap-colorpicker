@@ -1,19 +1,19 @@
 {{#extend "example-group"}}
   {{#content "body"}}
     {{#extend "example"}}
-      {{#content "title"}} Playing with <code>changeColor</code> and the Color object {{/content}}
+      {{#content "title"}} Playing with events and the Color object {{/content}}
 
       {{#content "description"}}
         <p>
-          This example listens to the changeColor event and changes the background color
+          This example listens to the colorpickerChange and colorpickerCreate events and changes the background color
           of the parent element using the complementary color of the selected one.
           <br>
           This also shows how to use the Color object, which extends
           <a href="https://github.com/bgrins/TinyColor">tinycolor</a>.
           <br>
           In all events the <code>e</code> event variable contains the <code>colorpicker</code> and <code>color</code>
-          objects, but in the <code>changeColor</code> event it also contains <code>value</code>, representing
-          the color string.
+          objects, but in the <code>colorpickerChange</code> and <code>colorpickerInvalid</code> events
+          it also contains <code>value</code>, representing the color string.
         </p>
       {{/content}}
       {{#content "code"}}
@@ -25,13 +25,9 @@
                 inline: true,
                 container: true
               })
-              .on('changeColor', function (e) {
-                if (!e.colorpicker) {
-                  // Not yet created
-                  return;
-                }
+              .on('colorpickerChange colorpickerCreate', function (e) {
                 e.colorpicker.picker.parents('.panel').find('.panel-heading')
-                  .css('background-color', e.value);
+                  .css('background-color', e.color.toRgbString());
 
                 e.colorpicker.picker.parents('.panel-body')
                   .css('background-color', e.color.complement().toRgbString());

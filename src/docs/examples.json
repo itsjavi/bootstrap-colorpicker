@@ -2,22 +2,28 @@
   "Basics": {
     "title": "Getting started"
   },
-  "Palette": {
-    "title": "Color palettes"
-  },
   "ColorApi": {
-    "title": "Color object API"
+    "title": "Color manipulation"
   },
-  "Events": {
-    "title": "Working with events"
+  "ColorSwatches": {
+    "title": "Color swatches"
   },
   "CustomSize": {
-    "title": "Custom widget size"
+    "title": "Custom size"
   },
   "CustomTemplate": {
-    "title": "Custom widget template"
+    "title": "Custom template"
+  },
+  "DebugMode": {
+    "title": "Debug mode"
+  },
+  "Events": {
+    "title": "Event handling"
+  },
+  "ExtensionApi": {
+    "title": "Extensions"
   },
   "legacy_docs": {
-    "title": "Legacy Documentation"
+    "title": "Legacy documentation"
   }
 }

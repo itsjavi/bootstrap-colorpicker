@@ -73,9 +73,13 @@
 
 
     {{#extend "example"}}
-      {{#content "title"}} Force a format {{/content}}
+      {{#content "title"}} Automatic format detection {{/content}}
       {{#content "description"}}
-        <p>If defined, the format option forces an specific format, ignoring the original one.</p>
+        <p>
+          Whenever the <code>format</code> option is <var>false</var> (default), the first parsed color format will be
+          detected and used as default, but when the option equals <var>null</var> or empty string,
+          the format is recalculated every time.
+        </p>
       {{/content}}
       {{#content "code"}}
         <div id="cp5" class="input-group colorpicker-component" title="Using format option">
@@ -85,6 +89,27 @@
         <script>
           $(function () {
             $('#cp5').colorpicker({
+              format: null
+            });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+
+
+    {{#extend "example"}}
+      {{#content "title"}} Force a format {{/content}}
+      {{#content "description"}}
+        <p>If defined, the format option forces an specific format, ignoring the original one.</p>
+      {{/content}}
+      {{#content "code"}}
+        <div id="cp5b" class="input-group colorpicker-component" title="Using format option">
+          <input type="text" class="form-control input-lg" value="#305AA2"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp5b').colorpicker({
               format: "rgba"
             });
           });
@@ -151,8 +176,10 @@
     {{#extend "example"}}
       {{#content "title"}} Disable alpha channel {{/content}}
       {{#content "description"}}
-        <p>When the alpha channel is disabled, the alpha bar will be hidden but also the color values
-          cannot contain alpha values.</p>
+        <p>
+          When the alpha channel is disabled with the <code>useAlpha</code> option,
+          the alpha bar will be hidden and the color object will be restricted to opaque (alpha = 1).
+        </p>
       {{/content}}
       {{#content "code"}}
         <div id="cp9" class="input-group colorpicker-component">
@@ -174,7 +201,10 @@
     {{#extend "example"}}
       {{#content "title"}} Disable hexadecimal hash {{/content}}
       {{#content "description"}}
-        <p>This example shows how to avoid the input to have the hexadecimal hash prefix.</p>
+        <p>
+          This example shows how to avoid the input to have the hexadecimal hash prefix,
+          using the <code>useHashPrefix</code> option.
+        </p>
       {{/content}}
       {{#content "code"}}
         <div id="cp10" class="input-group colorpicker-component">
@@ -193,9 +223,31 @@
 
 
     {{#extend "example"}}
+      {{#content "title"}} <code>transparent</code> support {{/content}}
+      {{#content "description"}}
+        <p>Example showing the <var>transparent</var> named color support.</p>
+      {{/content}}
+      {{#content "code"}}
+        <div id="cp12" class="input-group colorpicker-component">
+          <input type="text" class="form-control input-lg" value="transparent"/>
+          <span class="input-group-addon"><i></i></span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp12').colorpicker();
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+
+
+    {{#extend "example"}}
       {{#content "title"}} Custom fallback color {{/content}}
       {{#content "description"}}
-        <p>Use a predefined fallback color whenever the given one is invalid.</p>
+        <p>
+          Use a predefined fallback color with the <code>fallbackColor</code> option,
+          whenever the given one is invalid.
+        </p>
       {{/content}}
       {{#content "code"}}
         <div id="cp11" class="input-group colorpicker-component">
@@ -214,18 +266,32 @@
 
 
     {{#extend "example"}}
-      {{#content "title"}} <code>transparent</code> support {{/content}}
+      {{#content "title"}} Invalid color auto-replacement {{/content}}
       {{#content "description"}}
-        <p>Example showing the <code>transparent</code> named color support.</p>
+        <p>
+          By default, the <code>autoInputFallback</code> option is enabled, meaning that
+          whenever there is an invalid color typed in the input, it will be automatically
+          replaced by a valid color or the fallback one.
+          <br>
+          You can stop this behavior by setting this option to false. Note that this only affects the input
+          value and not the internal color object.
+
+          This allows you introduce errors in the input while typing without having the input constantly replaced with
+          the fallback.
+
+          This way, the internal color object will be equal to the fallback until the input has a valid color.
+        </p>
       {{/content}}
       {{#content "code"}}
-        <div id="cp12" class="input-group colorpicker-component">
-          <input type="text" class="form-control input-lg" value="transparent"/>
+        <div id="cp13" class="input-group colorpicker-component">
+          <input type="text" class="form-control input-lg" value="I am an invalid color"/>
           <span class="input-group-addon"><i></i></span>
         </div>
         <script>
           $(function () {
-            $('#cp12').colorpicker();
+            $('#cp13').colorpicker({
+              autoInputFallback: false
+            });
           });
         </script>
       {{/content}}

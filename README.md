@@ -51,7 +51,7 @@ The documentation of this project is powered by JSDoc and the Minami template to
 examples.
 
 * [Documentation](https://farbelous.github.io/bootstrap-colorpicker/)
-* [Examples](https://farbelous.github.io/bootstrap-colorpicker/tutorial-01_Basics.html)
+* [Examples](https://farbelous.github.io/bootstrap-colorpicker/tutorial-Basics.html)
 
 ## Contributing
 Please see [CONTRIBUTING](https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md) 

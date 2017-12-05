@@ -64,6 +64,8 @@ for details.
 ## Credits
 Originally written by Stefan Petre.
 
+Continued and maintained by [Javi Aguilar](https://itsjavi.com) and other [project contributors](https://github.com/farbelous/bootstrap-colorpicker/graphs/contributors).
+
 ## License
 The MIT License (MIT).
 Please see [License File](https://github.com/farbelous/bootstrap-colorpicker/blob/master/LICENSE) for more information.

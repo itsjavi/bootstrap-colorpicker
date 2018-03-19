@@ -15,7 +15,7 @@
 		exports["bootstrap-colorpicker"] = factory(require("jQuery"));
 	else
 		root["bootstrap-colorpicker"] = factory(root["jQuery"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_0__) {
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_0__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -3312,7 +3312,7 @@ if (typeof module !== "undefined" && module.exports) {
 }
 // AMD/requirejs: Define the module
 else if (true) {
-    !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {return tinycolor;}.call(exports, __webpack_require__, exports, module),
+    !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {return tinycolor;}).call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 }
 // Browser: Expose to window

@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-colorpicker",
-  "version": "3.0.0-wip",
+  "version": "3.0.0-beta.1",
   "description": "Simple and customizable colorpicker component for Twitter Bootstrap.",
   "main": "./dist/js/bootstrap-colorpicker.js",
   "homepage": "https://farbelous.github.io/bootstrap-colorpicker/",
@@ -26,12 +26,11 @@
     "start": "node_modules/.bin/http-server ./build/docs",
     "lint": "node_modules/.bin/eslint ./src/js ./*.js ./test",
     "lint-fix": "node_modules/.bin/eslint --fix ./src/js ./*.js ./test",
-    "build": "gulp clean && gulp dist && gulp docs",
+    "build": "gulp clean && gulp dist && gulp docs && gulp docs:add-v2-docs",
     "build-dist": "gulp dist",
-    "build-docs": "gulp dist && gulp docs",
+    "build-docs": "gulp dist && gulp docs && gulp docs:add-v2-docs",
     "build-npm": "npm run build && gulp npm-prepublish",
-    "publish-dist": "echo \"Publishing dist into the docs folder... \" && npm run build && npm run test && gulp docs:add-dist",
-    "publish-docs": "npm run build && npm run test && gulp docs:add-v2-docs && gulp publish-gh-pages",
+    "publish-docs": "npm run build && npm run test && gulp publish-gh-pages",
     "publish-npm": "npm run build-npm && npm run test && npm publish"
   },
   "devDependencies": {

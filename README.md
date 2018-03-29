@@ -1,18 +1,22 @@
 # Bootstrap Colorpicker 3
 
-[Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) is a simple and customizable
-colorpicker component for jQuery, compatible with Twitter Bootstrap.
+[Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) is a simple and customizable colorpicker 
+component for jQuery, which is also compatible with Twitter Bootstrap.
 
 [![Build Status](https://api.travis-ci.org/farbelous/bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
 
-## Install
-You can get the code in many different ways, depending on your needs:
 
-- Download the [latest master ZIP file](https://github.com/farbelous/bootstrap-colorpicker/archive/master.zip)
-- Clone using Git: `git clone https://github.com/farbelous/bootstrap-colorpicker.git`
-- Install using NPM: `npm install bootstrap-colorpicker`
-- Install using Yarn: `yarn add bootstrap-colorpicker`
-- Install using Composer: `composer require itsjavi/bootstrap-colorpicker`
+> NOTE that this documentation refers to the latest stable version of the project **( v3.0.0 )**.<br>
+> Previous documentation can be found here: [v2.5](https://farbelous.github.io/bootstrap-colorpicker/v2/).
+
+## Install
+You can get the latest version in many different ways:
+
+- Downloading [a ZIP file from the releases](https://github.com/farbelous/bootstrap-colorpicker/releases)
+- Cloning using Git: `git clone https://github.com/farbelous/bootstrap-colorpicker.git`
+- Installing via NPM: `npm install bootstrap-colorpicker`
+- Installing via Yarn: `yarn add bootstrap-colorpicker`
+- Installing via Composer: `composer require itsjavi/bootstrap-colorpicker`
 
 
 To start using the component, most of the time you will only need the files under the `dist` folder.
@@ -30,6 +34,7 @@ Example:
       <input id="mycp" type="text" class="form-control" />
   </div>
   <script src="//code.jquery.com/jquery-3.2.1.js"></script>
+  <script src="dist/js/bootstrap-colorpicker.js"></script>
   <script>
     $(function () {
       $('#mycp').colorpicker();
@@ -42,16 +47,19 @@ Example:
 Note that this library depends on `jQuery >= 2.1.0`.
 
 The `Twitter Bootstrap` dependency is totally optional, since this library does not depend directly
-on it in order to work, but only whenever Bootstrap-related classes like `form-control` and `input-group-addon` are used 
-like in the examples, which will indeed need the Bootstrap CSS loaded to be displayed correctly.
+on it in order to work, except when Bootstrap-related classes like `form-control` and `input-group-addon` are used 
+like in the examples. In that case you will need at least the Bootstrap CSS for everything to be displayed correctly.
 
 ## Documentation
 
 The documentation of this project is powered by JSDoc and the Minami template together with Handlebars for the
 examples.
 
-* [Documentation](https://farbelous.github.io/bootstrap-colorpicker/)
+* [Documentation (latest)](https://farbelous.github.io/bootstrap-colorpicker/)
 * [Examples](https://farbelous.github.io/bootstrap-colorpicker/tutorial-Basics.html)
+    
+Older versions:
+* [Documentation (v2.5)](https://farbelous.github.io/bootstrap-colorpicker/v2/)
 
 ## Contributing
 Please see [CONTRIBUTING](https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md) 

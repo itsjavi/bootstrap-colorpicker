@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Simple and customizable colorpicker component for Twitter Bootstrap.
  * @package bootstrap-colorpicker
- * @version v3.0.0-wip
+ * @version v3.0.0-beta.1
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -3820,6 +3820,11 @@ var Preview = function (_Extension) {
     key: 'onUpdate',
     value: function onUpdate(event) {
       _get(Preview.prototype.__proto__ || Object.getPrototypeOf(Preview.prototype), 'onUpdate', this).call(this, event);
+
+      if (!event.color) {
+        this.elementInner.css('backgroundColor', null).css('color', null).html('');
+        return;
+      }
 
       this.elementInner.css('backgroundColor', event.color.toRgbString());
 

@@ -26,6 +26,14 @@ class Preview extends Extension {
   onUpdate(event) {
     super.onUpdate(event);
 
+    if (!event.color) {
+      this.elementInner
+        .css('backgroundColor', null)
+        .css('color', null)
+        .html('');
+      return;
+    }
+
     this.elementInner
       .css('backgroundColor', event.color.toRgbString());
 

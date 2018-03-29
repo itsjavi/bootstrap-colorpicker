@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Simple and customizable colorpicker component for Twitter Bootstrap.
  * @package bootstrap-colorpicker
- * @version v3.0.0-wip
+ * @version v3.0.0-beta.1
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -15,7 +15,7 @@
 		exports["bootstrap-colorpicker"] = factory(require("jQuery"));
 	else
 		root["bootstrap-colorpicker"] = factory(root["jQuery"]);
-})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_0__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_0__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -3312,7 +3312,7 @@ if (typeof module !== "undefined" && module.exports) {
 }
 // AMD/requirejs: Define the module
 else if (true) {
-    !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {return tinycolor;}).call(exports, __webpack_require__, exports, module),
+    !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {return tinycolor;}.call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 }
 // Browser: Expose to window
@@ -3820,6 +3820,11 @@ var Preview = function (_Extension) {
     key: 'onUpdate',
     value: function onUpdate(event) {
       _get(Preview.prototype.__proto__ || Object.getPrototypeOf(Preview.prototype), 'onUpdate', this).call(this, event);
+
+      if (!event.color) {
+        this.elementInner.css('backgroundColor', null).css('color', null).html('');
+        return;
+      }
 
       this.elementInner.css('backgroundColor', event.color.toRgbString());
 

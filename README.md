@@ -6,7 +6,7 @@ component for jQuery, which is also compatible with Twitter Bootstrap.
 [![Build Status](https://api.travis-ci.org/farbelous/bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
 
 
-> NOTE that this documentation refers to the latest stable version of the project **( v3.0.0 )**.<br>
+> NOTE that this documentation refers to the latest major version of the project.<br>
 > Previous documentation can be found here: [v2.5](https://farbelous.github.io/bootstrap-colorpicker/v2/).
 
 ## Install

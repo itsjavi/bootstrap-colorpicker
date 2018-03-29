@@ -154,7 +154,7 @@ gulp.task('docs:add-v2-docs', shell.task([
   'mkdir -p build/tmp',
   'rm -rf build/tmp/* build/docs/v2/*',
   `git clone ${pkg.repository.url} build/tmp/v2`,
-  'cd build/tmp/v2 && git checkout v2 && cd ../../../',
+  'cd build/tmp/v2 && git checkout v2.x && cd ../../../',
   'mkdir -p build/docs/v2 && cp build/tmp/v2/index.html build/docs/v2/index.html',
   'mkdir -p build/docs/v2/dist && cp -R build/tmp/v2/dist/* build/docs/v2/dist',
   'mkdir -p build/docs/v2/docs/assets && cp -R build/tmp/v2/docs/assets/* build/docs/v2/docs/assets',

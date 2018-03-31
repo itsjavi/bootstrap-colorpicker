@@ -24,6 +24,9 @@
     "title": "Extensions"
   },
   "legacy_docs": {
-    "title": "Legacy documentation (v2)"
+    "title": "Legacy documentation"
+  },
+  "project_donations": {
+    "title": "Donate"
   }
 }

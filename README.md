@@ -3,11 +3,14 @@
 [Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) is a simple and customizable colorpicker 
 component for jQuery, which is also compatible with Twitter Bootstrap.
 
-[![Build Status](https://api.travis-ci.org/farbelous/bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
+[![Build Status](https://img.shields.io/travis/farbelous/bootstrap-colorpicker/master.svg?style=flat-square)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
+[![npm](https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square)](https://www.npmjs.com/package/bootstrap-colorpicker)
+[![npm@next](https://img.shields.io/npm/v/bootstrap-colorpicker/next.svg?style=flat-square)](https://www.npmjs.com/package/bootstrap-colorpicker?activeTab=versions)
+[![Donate](https://img.shields.io/badge/%E2%9D%A4-Donate%20to%20this%20project-e0a61d.svg?longCache=true&style=flat-square)](https://github.com/farbelous/farbelous.github.io/blob/master/README.md#donate)
+[![Supporters](https://img.shields.io/badge/%F0%9F%92%AA-Supporters-333333.svg?longCache=true&style=flat-square)](https://github.com/farbelous/farbelous.github.io/blob/master/BACKERS.md#backers)
 
-
-> NOTE that this documentation refers to the latest major version of the project.<br>
-> Previous documentation can be found here: [v2.5](https://farbelous.github.io/bootstrap-colorpicker/v2/).
+> NOTE that this documentation refers to the next major version of the project.<br>
+> Previous documentation can be found here: [v2.5.2](https://farbelous.github.io/bootstrap-colorpicker/v2/).
 
 ## Install
 You can get the latest version in many different ways:
@@ -55,11 +58,11 @@ like in the examples. In that case you will need at least the Bootstrap CSS for 
 The documentation of this project is powered by JSDoc and the Minami template together with Handlebars for the
 examples.
 
-* [Documentation (latest)](https://farbelous.github.io/bootstrap-colorpicker/)
+* [Documentation (@next)](https://farbelous.github.io/bootstrap-colorpicker/)
 * [Examples](https://farbelous.github.io/bootstrap-colorpicker/tutorial-Basics.html)
     
 Older versions:
-* [Documentation (v2.5)](https://farbelous.github.io/bootstrap-colorpicker/v2/)
+* [Documentation (v2.5.2)](https://farbelous.github.io/bootstrap-colorpicker/v2/)
 
 ## Contributing
 Please see [CONTRIBUTING](https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md) 

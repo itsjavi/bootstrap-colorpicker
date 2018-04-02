@@ -9,7 +9,7 @@ component for jQuery, which is also compatible with Twitter Bootstrap.
 [![Slack](https://img.shields.io/badge/chat-on%20slack-509689.svg?longCache=true&style=flat-square)](https://farbelous.slack.com)
 [![Backers](https://img.shields.io/badge/[-Backers%20]-555555.svg?longCache=true&style=flat-square)](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#backers)
 [![Sponsors](https://img.shields.io/badge/[-Sponsors%20]-555555.svg?longCache=true&style=flat-square)](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#sponsors)
-[![Donate](https://img.shields.io/badge/%E2%9D%A4-Donate%20to%20this%20project-e0a61d.svg?longCache=true&style=flat-square)](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md)
+[![Donate](https://img.shields.io/badge/%E2%9D%A4-Donate%20to%20this%20project-e0a61d.svg?longCache=true&style=flat-square)](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#sponsors--backers)
 
 > NOTE that this documentation refers to the next major version of the project, living in the master branch.<br>
 > Previous documentation can be found here: [v2.5.2](https://farbelous.github.io/bootstrap-colorpicker/v2/).
@@ -78,8 +78,8 @@ This project exists thanks to all the [people who contribute](https://github.com
 Please read [CONTRIBUTING](https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md) 
 before sending a pull request or issue.
 
-You can also contribute in form of [**donations**](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md) like all the awesome
-[Backers and Sponsors](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md) that are already doing that.
+You can also contribute in form of [**donations**](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#sponsors--backers) like all the awesome
+[Backers and Sponsors](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#sponsors--backers) that are already doing that.
 
 
 ## Sponsors

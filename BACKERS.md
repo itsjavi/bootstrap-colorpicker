@@ -1,11 +1,12 @@
 <h1 align="center">Sponsors &amp; Backers</h1>
 
-Bootstrap Colorpicker is an MIT-licensed open source project. It's an independent project with its ongoing development made possible 
-entirely thanks to the support of these awesome backers. If you'd like to join them, please consider:
+Bootstrap Colorpicker is an MIT-licensed open source project. It's an independent project with its ongoing development made possible entirely thanks to the support of these awesome backers.
 
-- [Become a backer or sponsor on Patreon](https://www.patreon.com/bePatron?c=1647889).
-- [Become a backer or sponsor on OpenCollective](https://opencollective.com/bootstrap-colorpicker).
-- [One-time donation via PayPal](https://www.paypal.me/metaunicorn?locale.x=en_US).
+If you'd like to join them and **be featured in the project repository and website**, please consider:
+
+- [❤️ Become a backer or sponsor on Patreon](https://www.patreon.com/bePatron?c=1647889).
+- [💙 Become a backer or sponsor on OpenCollective](https://opencollective.com/bootstrap-colorpicker).
+- [🎁 One-time donation via PayPal](https://www.paypal.me/metaunicorn?locale.x=en_US).
 
 **What's the difference between Patreon and OpenCollective?**
 

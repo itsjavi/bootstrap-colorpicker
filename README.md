@@ -1,3 +1,5 @@
+[![Logo by @reallinfo](https://cdn.rawgit.com/farbelous/bootstrap-colorpicker/master/src/logo/logo_sm.png)](https://farbelous.io/bootstrap-colorpicker)
+
 # Bootstrap Colorpicker 3
 
 [Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) is a simple and customizable colorpicker 

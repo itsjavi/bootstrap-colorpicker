@@ -3,14 +3,15 @@
 [Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) is a simple and customizable colorpicker 
 component for jQuery, which is also compatible with Twitter Bootstrap.
 
- [![Build Status](https://img.shields.io/travis/farbelous/bootstrap-colorpicker/master.svg?style=flat-square)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
+[![Build Status](https://img.shields.io/travis/farbelous/bootstrap-colorpicker/master.svg?style=flat-square)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
 [![npm](https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square)](https://www.npmjs.com/package/bootstrap-colorpicker)
 [![npm@next](https://img.shields.io/npm/v/bootstrap-colorpicker/next.svg?style=flat-square)](https://www.npmjs.com/package/bootstrap-colorpicker?activeTab=versions)
-[![Donate](https://img.shields.io/badge/%E2%9D%A4-Donate%20to%20this%20project-e0a61d.svg?longCache=true&style=flat-square)](https://github.com/farbelous/farbelous.github.io/blob/master/README.md#donate)
-[![Supporters](https://img.shields.io/badge/%F0%9F%92%AA-Supporters-333333.svg?longCache=true&style=flat-square)](https://github.com/farbelous/farbelous.github.io/blob/master/BACKERS.md#backers)
-[![Backers on Open Collective](https://opencollective.com/bootstrap-colorpicker/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/bootstrap-colorpicker/sponsors/badge.svg)](#sponsors)
+[![Slack](https://img.shields.io/badge/chat-on%20slack-509689.svg?longCache=true&style=flat-square)](https://farbelous.slack.com)
+[![Backers](https://img.shields.io/badge/[-Backers%20]-555555.svg?longCache=true&style=flat-square)](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#backers)
+[![Sponsors](https://img.shields.io/badge/[-Sponsors%20]-555555.svg?longCache=true&style=flat-square)](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#sponsors)
+[![Donate](https://img.shields.io/badge/%E2%9D%A4-Donate%20to%20this%20project-e0a61d.svg?longCache=true&style=flat-square)](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md)
 
-> NOTE that this documentation refers to the next major version of the project.<br>
+> NOTE that this documentation refers to the next major version of the project, living in the master branch.<br>
 > Previous documentation can be found here: [v2.5.2](https://farbelous.github.io/bootstrap-colorpicker/v2/).
 
 ## Install
@@ -56,8 +57,7 @@ like in the examples. In that case you will need at least the Bootstrap CSS for 
 
 ## Documentation
 
-The documentation of this project is powered by JSDoc and the Minami template together with Handlebars for the
-examples.
+The documentation of this project has been created with by Handlebars, JSDoc and the Minami template.
 
 * [Documentation (@next)](https://farbelous.github.io/bootstrap-colorpicker/)
 * [Examples](https://farbelous.github.io/bootstrap-colorpicker/tutorial-Basics.html)
@@ -65,35 +65,24 @@ examples.
 Older versions:
 * [Documentation (v2.5.2)](https://farbelous.github.io/bootstrap-colorpicker/v2/)
 
-## Contributing
-Please see [CONTRIBUTING](https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md) 
-for details.
+## Contributions
+* [Issues](https://github.com/farbelous/bootstrap-colorpicker/issues)
+* [Pull Requests](https://github.com/farbelous/bootstrap-colorpicker/pulls)
+* [Milestones](https://github.com/farbelous/bootstrap-colorpicker/milestones)
+* [Planned Features](https://github.com/farbelous/bootstrap-colorpicker/projects)
 
-* [Current Issues](https://github.com/farbelous/bootstrap-colorpicker/issues)
-* [Current Pull Requests](https://github.com/farbelous/bootstrap-colorpicker/pulls)
-* [Roadmap](https://github.com/farbelous/bootstrap-colorpicker/milestones)
+This project exists thanks to all the [people who contribute](https://github.com/farbelous/bootstrap-colorpicker/graphs/contributors).
 
-## Credits
-Originally written by Stefan Petre.
+<a href="https://github.com/farbelous/bootstrap-colorpicker/graphs/contributors"><img src="https://opencollective.com/bootstrap-colorpicker/contributors.svg?width=890&button=false" /></a>
 
-Continued and maintained by [Javi Aguilar](https://itsjavi.com) and other [project contributors](https://github.com/farbelous/bootstrap-colorpicker/graphs/contributors).
+Please read [CONTRIBUTING](https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md) 
+before sending a pull request or issue.
 
-## Contributors
-
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<a href="graphs/contributors"><img src="https://opencollective.com/bootstrap-colorpicker/contributors.svg?width=890&button=false" /></a>
-
-
-## Backers
-
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/bootstrap-colorpicker#backer)]
-
-<a href="https://opencollective.com/bootstrap-colorpicker#backers" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/backers.svg?width=890"></a>
+You can also contribute in form of [**donations**](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md) like all the awesome
+[Backers and Sponsors](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md) that are already doing that.
 
 
 ## Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/bootstrap-colorpicker#sponsor)]
 
 <a href="https://opencollective.com/bootstrap-colorpicker/sponsor/0/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/bootstrap-colorpicker/sponsor/1/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/1/avatar.svg"></a>
@@ -107,7 +96,6 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://opencollective.com/bootstrap-colorpicker/sponsor/9/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/9/avatar.svg"></a>
 
 
-
 ## License
 The MIT License (MIT).
-Please see [License File](https://github.com/farbelous/bootstrap-colorpicker/blob/master/LICENSE) for more information.
+Please see the [License File](https://github.com/farbelous/bootstrap-colorpicker/blob/master/LICENSE) for more information.

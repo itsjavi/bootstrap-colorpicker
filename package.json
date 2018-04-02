@@ -19,7 +19,6 @@
   "license": "MIT",
   "dependencies": {
     "jquery": ">=2.1.0",
-    "opencollective": "^1.0.3",
     "tinycolor2": "^1.4.1"
   },
   "scripts": {
@@ -32,8 +31,7 @@
     "build-docs": "gulp dist && gulp docs && gulp docs:add-v2-docs",
     "build-npm": "npm run build && gulp npm-prepublish",
     "publish-docs": "npm run build && npm run test && gulp publish-gh-pages",
-    "publish-npm": "npm run build-npm && npm run test && npm publish",
-    "postinstall": "opencollective postinstall"
+    "publish-npm": "npm run build-npm && npm run test && npm publish"
   },
   "devDependencies": {
     "ava": "^0.23.0",
@@ -79,9 +77,5 @@
       "babel-register"
     ],
     "babel": "inherit"
-  },
-  "collective": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/bootstrap-colorpicker"
   }
 }

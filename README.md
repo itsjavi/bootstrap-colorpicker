@@ -2,7 +2,7 @@
     <img alt="Logo by @reallinfo" src="logo.png" width="190px" />
 </a>
 
-# Bootstrap Colorpicker 3
+# Bootstrap Colorpicker
 
 [Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) is a simple and customizable colorpicker 
 component for jQuery, which is also compatible with Twitter Bootstrap.

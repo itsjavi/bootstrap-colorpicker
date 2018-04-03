@@ -6,7 +6,7 @@ If you'd like to join them and **be featured in the project repository and websi
 
 - [❤️ Become a backer or sponsor on Patreon](https://www.patreon.com/bePatron?c=1647889).
 - [💙 Become a backer or sponsor on OpenCollective](https://opencollective.com/bootstrap-colorpicker).
-- [🎁 One-time donation via PayPal](https://www.paypal.me/metaunicorn?locale.x=en_US).
+- [🎁 One-time donation via PayPal](https://www.paypal.com/pools/c/83dpr34ivs/send).
 
 **What's the difference between Patreon and OpenCollective?**
 

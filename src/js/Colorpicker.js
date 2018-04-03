@@ -62,7 +62,7 @@ class Colorpicker {
   }
 
   /**
-   * @fires colorpickerCreate
+   * @fires Colorpicker#colorpickerCreate
    * @param {Object|String} element
    * @param {Object} options
    * @constructor
@@ -261,7 +261,7 @@ class Colorpicker {
       /**
        * (Colorpicker) When the Colorpicker instance has been created and the DOM is ready.
        *
-       * @event colorpickerCreate
+       * @event Colorpicker#colorpickerCreate
        */
       this.element.trigger({
         type: 'colorpickerCreate',
@@ -289,7 +289,7 @@ class Colorpicker {
   /**
    * Destroys the current instance
    *
-   * @fires colorpickerDestroy
+   * @fires Colorpicker#colorpickerDestroy
    */
   destroy() {
     this.picker.remove();
@@ -305,7 +305,7 @@ class Colorpicker {
     /**
      * (Colorpicker) When the instance is destroyed with all events unbound.
      *
-     * @event colorpickerDestroy
+     * @event Colorpicker#colorpickerDestroy
      */
     this.element.trigger({
       type: 'colorpickerDestroy',
@@ -407,7 +407,7 @@ class Colorpicker {
    * Shows the colorpicker widget if hidden.
    * If the input is disabled this call will be ignored.
    *
-   * @fires colorpickerShow
+   * @fires Colorpicker#colorpickerShow
    * @param {Event} [e]
    * @returns {boolean} True if was hidden and afterwards visible, false if nothing happened.
    */
@@ -439,7 +439,7 @@ class Colorpicker {
     /**
      * (Colorpicker) When show() is called and the widget can be shown.
      *
-     * @event colorpickerShow
+     * @event Colorpicker#colorpickerShow
      */
     this.element.trigger({
       type: 'colorpickerShow',
@@ -454,7 +454,7 @@ class Colorpicker {
    * Hides the colorpicker widget.
    * Hide is prevented when it is triggered by an event whose target element has been clicked/touched.
    *
-   * @fires colorpickerHide
+   * @fires Colorpicker#colorpickerHide
    * @param {Event} [e]
    * @returns {boolean} True if was visible and afterwards hidden, false if nothing happened.
    */
@@ -484,7 +484,7 @@ class Colorpicker {
     /**
      * (Colorpicker) When hide() is called and the widget can be hidden.
      *
-     * @event colorpickerHide
+     * @event Colorpicker#colorpickerHide
      */
     this.element.trigger({
       type: 'colorpickerHide',
@@ -518,7 +518,7 @@ class Colorpicker {
    * If the input element is present, it updates the value with the current color object color string.
    * If value is set, this method fires a "change" event on the input element.
    *
-   * @fires change
+   * @fires Colorpicker#change
    * @private
    */
   _updateInput() {
@@ -535,7 +535,7 @@ class Colorpicker {
       /**
        * (Input) Triggered on the input element when a new color is selected.
        *
-       * @event change
+       * @event Colorpicker#change
        */
       this.input.trigger({
         type: 'change',
@@ -623,7 +623,7 @@ class Colorpicker {
    *
    * If force is true, it is updated anyway.
    *
-   * @fires colorpickerUpdate
+   * @fires Colorpicker#colorpickerUpdate
    * @param {boolean} [force]
    */
   update(force = false) {
@@ -649,7 +649,7 @@ class Colorpicker {
       /**
        * (Colorpicker) Fired when the widget is updated.
        *
-       * @event colorpickerUpdate
+       * @event Colorpicker#colorpickerUpdate
        */
       this.element.trigger({
         type: 'colorpickerUpdate',
@@ -694,7 +694,7 @@ class Colorpicker {
   /**
    * Sets the color manually
    *
-   * @fires colorpickerChange
+   * @fires Colorpicker#colorpickerChange
    * @param {String|Color} val
    */
   setValue(val) {
@@ -718,7 +718,7 @@ class Colorpicker {
     /**
      * (Colorpicker) When the color is set programmatically with setValue().
      *
-     * @event colorpickerChange
+     * @event Colorpicker#colorpickerChange
      */
     this.element.trigger({
       type: 'colorpickerChange',
@@ -734,7 +734,7 @@ class Colorpicker {
   /**
    * Creates a new color using the widget instance options (fallbackColor, format).
    *
-   * @fires colorpickerInvalid
+   * @fires Colorpicker#colorpickerInvalid
    * @param {*} val
    * @param {boolean} useFallback
    * @returns {Color}
@@ -761,7 +761,7 @@ class Colorpicker {
       /**
        * (Colorpicker) Fired when the color is invalid and the fallback color is going to be used.
        *
-       * @event colorpickerInvalid
+       * @event Colorpicker#colorpickerInvalid
        */
       this.element.trigger({
         type: 'colorpickerInvalid',
@@ -861,7 +861,7 @@ class Colorpicker {
   /**
    * Disables the widget and the input if any
    *
-   * @fires colorpickerDisable
+   * @fires Colorpicker#colorpickerDisable
    * @returns {boolean}
    */
   disable() {
@@ -873,7 +873,7 @@ class Colorpicker {
     /**
      * (Colorpicker) When the widget has been disabled.
      *
-     * @event colorpickerDisable
+     * @event Colorpicker#colorpickerDisable
      */
     this.element.trigger({
       type: 'colorpickerDisable',
@@ -886,7 +886,7 @@ class Colorpicker {
   /**
    * Enables the widget and the input if any
    *
-   * @fires colorpickerEnable
+   * @fires Colorpicker#colorpickerEnable
    * @returns {boolean}
    */
   enable() {
@@ -898,7 +898,7 @@ class Colorpicker {
     /**
      * (Colorpicker) When the widget has been enabled.
      *
-     * @event colorpickerEnable
+     * @event Colorpicker#colorpickerEnable
      */
     this.element.trigger({
       type: 'colorpickerEnable',
@@ -912,7 +912,7 @@ class Colorpicker {
    * Function triggered when clicking in one of the color adjustment bars
    *
    * @private
-   * @fires mousemove
+   * @fires Colorpicker#mousemove
    * @param {Event} e
    * @returns {boolean}
    */
@@ -958,7 +958,7 @@ class Colorpicker {
        * (window.document) Triggered on mousedown for the document object,
        * so the color adjustment guide is moved to the clicked position.
        *
-       * @event mousemove
+       * @event Colorpicker#mousemove
        */
       $(window.document).on({
         'mousemove.colorpicker': $.proxy(this._mousemove, this),

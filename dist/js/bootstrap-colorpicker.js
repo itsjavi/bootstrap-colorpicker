@@ -162,7 +162,7 @@ var Extension = function () {
     }
 
     /**
-     * @listens colorpickerCreate
+     * @listens Colorpicker#colorpickerCreate
      * @param {Event} event
      */
 
@@ -173,7 +173,7 @@ var Extension = function () {
 
 
     /**
-     * @listens colorpickerDestroy
+     * @listens Colorpicker#colorpickerDestroy
      * @param {Event} event
      */
 
@@ -184,7 +184,7 @@ var Extension = function () {
     }
 
     /**
-     * @listens colorpickerUpdate
+     * @listens Colorpicker#colorpickerUpdate
      * @param {Event} event
      */
 
@@ -195,7 +195,7 @@ var Extension = function () {
 
 
     /**
-     * @listens colorpickerChange
+     * @listens Colorpicker#colorpickerChange
      * @param {Event} event
      */
 
@@ -206,7 +206,7 @@ var Extension = function () {
 
 
     /**
-     * @listens colorpickerInvalid
+     * @listens Colorpicker#colorpickerInvalid
      * @param {Event} event
      */
 
@@ -217,7 +217,7 @@ var Extension = function () {
 
 
     /**
-     * @listens colorpickerHide
+     * @listens Colorpicker#colorpickerHide
      * @param {Event} event
      */
 
@@ -228,7 +228,7 @@ var Extension = function () {
 
 
     /**
-     * @listens colorpickerShow
+     * @listens Colorpicker#colorpickerShow
      * @param {Event} event
      */
 
@@ -239,7 +239,7 @@ var Extension = function () {
 
 
     /**
-     * @listens colorpickerDisable
+     * @listens Colorpicker#colorpickerDisable
      * @param {Event} event
      */
 
@@ -250,7 +250,7 @@ var Extension = function () {
 
 
     /**
-     * @listens colorpickerEnable
+     * @listens Colorpicker#colorpickerEnable
      * @param {Event} event
      */
 
@@ -592,7 +592,7 @@ var Colorpicker = function () {
     }
 
     /**
-     * @fires colorpickerCreate
+     * @fires Colorpicker#colorpickerCreate
      * @param {Object|String} element
      * @param {Object} options
      * @constructor
@@ -831,7 +831,7 @@ var Colorpicker = function () {
       /**
        * (Colorpicker) When the Colorpicker instance has been created and the DOM is ready.
        *
-       * @event colorpickerCreate
+       * @event Colorpicker#colorpickerCreate
        */
       this.element.trigger({
         type: 'colorpickerCreate',
@@ -865,7 +865,7 @@ var Colorpicker = function () {
     /**
      * Destroys the current instance
      *
-     * @fires colorpickerDestroy
+     * @fires Colorpicker#colorpickerDestroy
      */
 
   }, {
@@ -884,7 +884,7 @@ var Colorpicker = function () {
       /**
        * (Colorpicker) When the instance is destroyed with all events unbound.
        *
-       * @event colorpickerDestroy
+       * @event Colorpicker#colorpickerDestroy
        */
       this.element.trigger({
         type: 'colorpickerDestroy',
@@ -980,7 +980,7 @@ var Colorpicker = function () {
      * Shows the colorpicker widget if hidden.
      * If the input is disabled this call will be ignored.
      *
-     * @fires colorpickerShow
+     * @fires Colorpicker#colorpickerShow
      * @param {Event} [e]
      * @returns {boolean} True if was hidden and afterwards visible, false if nothing happened.
      */
@@ -1015,7 +1015,7 @@ var Colorpicker = function () {
       /**
        * (Colorpicker) When show() is called and the widget can be shown.
        *
-       * @event colorpickerShow
+       * @event Colorpicker#colorpickerShow
        */
       this.element.trigger({
         type: 'colorpickerShow',
@@ -1030,7 +1030,7 @@ var Colorpicker = function () {
      * Hides the colorpicker widget.
      * Hide is prevented when it is triggered by an event whose target element has been clicked/touched.
      *
-     * @fires colorpickerHide
+     * @fires Colorpicker#colorpickerHide
      * @param {Event} [e]
      * @returns {boolean} True if was visible and afterwards hidden, false if nothing happened.
      */
@@ -1060,7 +1060,7 @@ var Colorpicker = function () {
       /**
        * (Colorpicker) When hide() is called and the widget can be hidden.
        *
-       * @event colorpickerHide
+       * @event Colorpicker#colorpickerHide
        */
       this.element.trigger({
         type: 'colorpickerHide',
@@ -1100,7 +1100,7 @@ var Colorpicker = function () {
      * If the input element is present, it updates the value with the current color object color string.
      * If value is set, this method fires a "change" event on the input element.
      *
-     * @fires change
+     * @fires Colorpicker#change
      * @private
      */
 
@@ -1120,7 +1120,7 @@ var Colorpicker = function () {
         /**
          * (Input) Triggered on the input element when a new color is selected.
          *
-         * @event change
+         * @event Colorpicker#change
          */
         this.input.trigger({
           type: 'change',
@@ -1215,7 +1215,7 @@ var Colorpicker = function () {
      *
      * If force is true, it is updated anyway.
      *
-     * @fires colorpickerUpdate
+     * @fires Colorpicker#colorpickerUpdate
      * @param {boolean} [force]
      */
 
@@ -1242,7 +1242,7 @@ var Colorpicker = function () {
         /**
          * (Colorpicker) Fired when the widget is updated.
          *
-         * @event colorpickerUpdate
+         * @event Colorpicker#colorpickerUpdate
          */
         this.element.trigger({
           type: 'colorpickerUpdate',
@@ -1293,7 +1293,7 @@ var Colorpicker = function () {
     /**
      * Sets the color manually
      *
-     * @fires colorpickerChange
+     * @fires Colorpicker#colorpickerChange
      * @param {String|Color} val
      */
 
@@ -1320,7 +1320,7 @@ var Colorpicker = function () {
       /**
        * (Colorpicker) When the color is set programmatically with setValue().
        *
-       * @event colorpickerChange
+       * @event Colorpicker#colorpickerChange
        */
       this.element.trigger({
         type: 'colorpickerChange',
@@ -1336,7 +1336,7 @@ var Colorpicker = function () {
     /**
      * Creates a new color using the widget instance options (fallbackColor, format).
      *
-     * @fires colorpickerInvalid
+     * @fires Colorpicker#colorpickerInvalid
      * @param {*} val
      * @param {boolean} useFallback
      * @returns {Color}
@@ -1368,7 +1368,7 @@ var Colorpicker = function () {
         /**
          * (Colorpicker) Fired when the color is invalid and the fallback color is going to be used.
          *
-         * @event colorpickerInvalid
+         * @event Colorpicker#colorpickerInvalid
          */
         this.element.trigger({
           type: 'colorpickerInvalid',
@@ -1479,7 +1479,7 @@ var Colorpicker = function () {
     /**
      * Disables the widget and the input if any
      *
-     * @fires colorpickerDisable
+     * @fires Colorpicker#colorpickerDisable
      * @returns {boolean}
      */
 
@@ -1494,7 +1494,7 @@ var Colorpicker = function () {
       /**
        * (Colorpicker) When the widget has been disabled.
        *
-       * @event colorpickerDisable
+       * @event Colorpicker#colorpickerDisable
        */
       this.element.trigger({
         type: 'colorpickerDisable',
@@ -1507,7 +1507,7 @@ var Colorpicker = function () {
     /**
      * Enables the widget and the input if any
      *
-     * @fires colorpickerEnable
+     * @fires Colorpicker#colorpickerEnable
      * @returns {boolean}
      */
 
@@ -1522,7 +1522,7 @@ var Colorpicker = function () {
       /**
        * (Colorpicker) When the widget has been enabled.
        *
-       * @event colorpickerEnable
+       * @event Colorpicker#colorpickerEnable
        */
       this.element.trigger({
         type: 'colorpickerEnable',
@@ -1536,7 +1536,7 @@ var Colorpicker = function () {
      * Function triggered when clicking in one of the color adjustment bars
      *
      * @private
-     * @fires mousemove
+     * @fires Colorpicker#mousemove
      * @param {Event} e
      * @returns {boolean}
      */
@@ -1585,7 +1585,7 @@ var Colorpicker = function () {
          * (window.document) Triggered on mousedown for the document object,
          * so the color adjustment guide is moved to the clicked position.
          *
-         * @event mousemove
+         * @event Colorpicker#mousemove
          */
         (0, _jquery2.default)(window.document).on({
           'mousemove.colorpicker': _jquery2.default.proxy(this._mousemove, this),
@@ -3623,6 +3623,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * Debugger extension class
+ * @alias DebuggerExtension
+ */
 var Debugger = function (_Extension) {
   _inherits(Debugger, _Extension);
 
@@ -3644,7 +3648,7 @@ var Debugger = function (_Extension) {
   }
 
   /**
-   * @fires colorpickerDebug
+   * @fires DebuggerExtension#colorpickerDebug
    * @param {string} eventName
    * @param {*} args
    */
@@ -3666,9 +3670,14 @@ var Debugger = function (_Extension) {
       (_console = console).debug.apply(_console, [logMessage].concat(args));
 
       /**
-       * (Colorpicker) Fired by the ConsoleDebug extension whenever it logs something
+       * Whenever the debugger logs an event, this other event is emitted.
        *
-       * @event colorpickerDebug
+       * @event DebuggerExtension#colorpickerDebug
+       * @type {object} The event object
+       * @property {Colorpicker} colorpicker The Colorpicker instance
+       * @property {Color} color The color instance
+       * @property {{debugger: DebuggerExtension, eventName: String, logArgs: Array, logMessage: String}} debug
+       *  The debug info
        */
       this.colorpicker.element.trigger({
         type: 'colorpickerDebug',
@@ -3713,7 +3722,7 @@ var Debugger = function (_Extension) {
     }
 
     /**
-     * @listens _change
+     * @listens Colorpicker#change
      * @param {Event} event
      */
 

@@ -48,7 +48,7 @@ class Extension {
   }
 
   /**
-   * @listens colorpickerCreate
+   * @listens Colorpicker#colorpickerCreate
    * @param {Event} event
    */
   onCreate(event) {
@@ -56,7 +56,7 @@ class Extension {
   }
 
   /**
-   * @listens colorpickerDestroy
+   * @listens Colorpicker#colorpickerDestroy
    * @param {Event} event
    */
   onDestroy(event) {
@@ -64,7 +64,7 @@ class Extension {
   }
 
   /**
-   * @listens colorpickerUpdate
+   * @listens Colorpicker#colorpickerUpdate
    * @param {Event} event
    */
   onUpdate(event) {
@@ -72,7 +72,7 @@ class Extension {
   }
 
   /**
-   * @listens colorpickerChange
+   * @listens Colorpicker#colorpickerChange
    * @param {Event} event
    */
   onChange(event) {
@@ -80,7 +80,7 @@ class Extension {
   }
 
   /**
-   * @listens colorpickerInvalid
+   * @listens Colorpicker#colorpickerInvalid
    * @param {Event} event
    */
   onInvalid(event) {
@@ -88,7 +88,7 @@ class Extension {
   }
 
   /**
-   * @listens colorpickerHide
+   * @listens Colorpicker#colorpickerHide
    * @param {Event} event
    */
   onHide(event) {
@@ -96,7 +96,7 @@ class Extension {
   }
 
   /**
-   * @listens colorpickerShow
+   * @listens Colorpicker#colorpickerShow
    * @param {Event} event
    */
   onShow(event) {
@@ -104,7 +104,7 @@ class Extension {
   }
 
   /**
-   * @listens colorpickerDisable
+   * @listens Colorpicker#colorpickerDisable
    * @param {Event} event
    */
   onDisable(event) {
@@ -112,7 +112,7 @@ class Extension {
   }
 
   /**
-   * @listens colorpickerEnable
+   * @listens Colorpicker#colorpickerEnable
    * @param {Event} event
    */
   onEnable(event) {

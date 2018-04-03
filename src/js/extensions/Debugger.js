@@ -3,6 +3,10 @@
 import Extension from 'Extension';
 import $ from 'jquery';
 
+/**
+ * Debugger extension class
+ * @alias DebuggerExtension
+ */
 class Debugger extends Extension {
   constructor(colorpicker, options = {}) {
     super(colorpicker, options);
@@ -17,7 +21,7 @@ class Debugger extends Extension {
   }
 
   /**
-   * @fires colorpickerDebug
+   * @fires DebuggerExtension#colorpickerDebug
    * @param {string} eventName
    * @param {*} args
    */
@@ -29,9 +33,14 @@ class Debugger extends Extension {
     console.debug(logMessage, ...args);
 
     /**
-     * (Colorpicker) Fired by the ConsoleDebug extension whenever it logs something
+     * Whenever the debugger logs an event, this other event is emitted.
      *
-     * @event colorpickerDebug
+     * @event DebuggerExtension#colorpickerDebug
+     * @type {object} The event object
+     * @property {Colorpicker} colorpicker The Colorpicker instance
+     * @property {Color} color The color instance
+     * @property {{debugger: DebuggerExtension, eventName: String, logArgs: Array, logMessage: String}} debug
+     *  The debug info
      */
     this.colorpicker.element.trigger({
       type: 'colorpickerDebug',
@@ -72,7 +81,7 @@ class Debugger extends Extension {
   }
 
   /**
-   * @listens _change
+   * @listens Colorpicker#change
    * @param {Event} event
    */
   onChangeInput(event) {

@@ -103,3 +103,8 @@ You can also contribute in form of [**donations**](https://github.com/farbelous/
 ## License
 The MIT License (MIT).
 Please see the [License File](https://github.com/farbelous/bootstrap-colorpicker/blob/master/LICENSE) for more information.
+
+## Credits
+Originally written by Stefan Petre in 2013.
+
+Rewritten and maintained by [Javi Aguilar](https://itsjavi.com) and the contributors.

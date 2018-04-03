@@ -16,6 +16,8 @@ gulpfile.js_*
 .*
 *.html
 /src/docs
+*.psd
+*.ai
 webpack.config.js
 composer.json
 gulpfile.js

@@ -1,4 +1,6 @@
-[![Logo by @reallinfo](https://cdn.rawgit.com/farbelous/bootstrap-colorpicker/master/src/logo/logo_sm.png)](https://farbelous.io/bootstrap-colorpicker)
+<a href="https://farbelous.io/bootstrap-colorpicker">
+    <img alt="Logo by @reallinfo" src="logo.png" width="190px" />
+</a>
 
 # Bootstrap Colorpicker 3
 

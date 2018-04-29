@@ -11,9 +11,7 @@ component for jQuery, which is also compatible with Twitter Bootstrap.
 [![npm](https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square)](https://www.npmjs.com/package/bootstrap-colorpicker)
 [![npm@next](https://img.shields.io/npm/v/bootstrap-colorpicker/next.svg?style=flat-square)](https://www.npmjs.com/package/bootstrap-colorpicker?activeTab=versions)
 [![Slack](https://img.shields.io/badge/chat-on%20slack-509689.svg?longCache=true&style=flat-square)](https://farbelous.slack.com)
-[![Backers](https://img.shields.io/badge/[-Backers%20]-555555.svg?longCache=true&style=flat-square)](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#backers)
-[![Sponsors](https://img.shields.io/badge/[-Sponsors%20]-555555.svg?longCache=true&style=flat-square)](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#sponsors)
-[![Donate](https://img.shields.io/badge/%E2%9D%A4-Donate%20to%20this%20project-e0a61d.svg?longCache=true&style=flat-square)](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#sponsors--backers)
+[![Donate](https://img.shields.io/badge/%E2%9D%A4-Support%20this%20project-e0a61d.svg?longCache=true&style=flat-square)](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#sponsors--backers)
 
 > NOTE that this documentation refers to the next major version of the project, living in the master branch.<br>
 > Previous documentation can be found here: [v2.5.2](https://farbelous.github.io/bootstrap-colorpicker/v2/).
@@ -77,28 +75,22 @@ Older versions:
 
 This project exists thanks to all the [people who contribute](https://github.com/farbelous/bootstrap-colorpicker/graphs/contributors).
 
-<a href="https://github.com/farbelous/bootstrap-colorpicker/graphs/contributors"><img src="https://opencollective.com/bootstrap-colorpicker/contributors.svg?width=890&button=false" /></a>
-
 Please read [CONTRIBUTING](https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md) 
 before sending a pull request or issue.
 
 You can also contribute in form of [**donations**](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#sponsors--backers) like all the awesome
 [Backers and Sponsors](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#sponsors--backers) that are already doing that.
 
+## Support this project
+Bootstrap Colorpicker is a MIT-licensed independent project with its ongoing development made possible entirely thanks to the
+support of all the awesome contributors and [bakers](https://github.com/farbelous/bootstrap-colorpicker/blob/master/BACKERS.md#sponsors--backers).
 
-## Sponsors
+If you'd like to be part of them, please consider:
 
-<a href="https://opencollective.com/bootstrap-colorpicker/sponsor/0/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/bootstrap-colorpicker/sponsor/1/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/bootstrap-colorpicker/sponsor/2/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/bootstrap-colorpicker/sponsor/3/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/bootstrap-colorpicker/sponsor/4/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/bootstrap-colorpicker/sponsor/5/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/bootstrap-colorpicker/sponsor/6/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/bootstrap-colorpicker/sponsor/7/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/bootstrap-colorpicker/sponsor/8/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/bootstrap-colorpicker/sponsor/9/website" target="_blank"><img src="https://opencollective.com/bootstrap-colorpicker/sponsor/9/avatar.svg"></a>
+- [❤️ Become a backer or sponsor on Patreon](https://www.patreon.com/bePatron?c=1647889).
+- [🎁 One-time donation via PayPal](https://www.paypal.com/pools/c/83dpr34ivs/send).
 
+A big thank you to all our contributors, backers, sponsors and donors! 🙏 
 
 ## License
 The MIT License (MIT).

@@ -10,3 +10,4 @@ Thumbs.db
 static_server.js
 *.php
 .idea
+package-lock.json

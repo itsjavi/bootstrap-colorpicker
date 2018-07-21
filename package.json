@@ -42,7 +42,7 @@
     "grunt-jsbeautifier": "~0.2.10",
     "grunt-strip-code": "^1.0.6",
     "jasmine": "^2.6.0",
-    "jquery": "^3.2.1",
+    "jquery": ">=1.10",
     "jsdom": "^10.1.0"
   }
 }

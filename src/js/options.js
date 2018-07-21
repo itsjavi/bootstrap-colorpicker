@@ -96,9 +96,13 @@ export default {
    */
   useHashPrefix: true,
   /**
-   * If true or false the alpha adjustment bar will be displayed no matter what.
-   * If false it will be always hidden and alpha channel won't be allowed programmatically for this instance,
-   * so the selected or typed color will be always opaque.
+   * If true, the alpha channel bar will be displayed no matter what.
+   *
+   * If false, it will be always hidden and alpha channel will be disabled also programmatically, meaning that
+   * the selected or typed color will be always opaque.
+   *
+   * If null, the alpha channel will be automatically disabled/enabled depending if the initial color format supports
+   * alpha or not.
    *
    * @type {boolean}
    * @default true

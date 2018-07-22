@@ -14,14 +14,14 @@ export default {
    */
   debug: false,
   /**
-   * Forces a color, ignoring the one from the elements value or data-color attribute.
+   * Sets a initial color, ignoring the one from the element/input value or the data-color attribute.
    *
    * @type {(String|Color|boolean)}
    * @default false
    */
   color: false,
   /**
-   * Forces an specific color format. If false, it will be automatically detected the first time,
+   * Forces an specific color format. If false, it will be automatically detected the first time only,
    * but if null it will be always recalculated.
    *
    * Note that the ending 'a' of the format meaning "alpha" has currently no effect, meaning that rgb is the same as
@@ -30,7 +30,7 @@ export default {
    * @type {('rgb'|'rgba'|'prgb'|'prgba'|'hex'|'hex3'|'hex6'|'hex8'|'hsl'|'hsla'|'hsv'|'hsva'|'name'|boolean)}
    * @default false
    */
-  format: false,
+  format: null,
   /**
    * Horizontal mode layout.
    *
@@ -48,22 +48,24 @@ export default {
    */
   inline: false,
   /**
-   * Children input CSS selector
+   * Child input CSS selector
    *
    * @type {String}
    * @default 'input'
    */
   input: 'input',
   /**
-   * Colorpicker container CSS selector. If given, the colorpicker will be placed inside this container.
-   * If true, the colorpicker element itself will be used as the container.
+   * Colorpicker container CSS selector.
+   * If is a string (CSS selector), the colorpicker will be placed inside this container.
+   * If true, the `.colorpicker-element` element itself will be used as the container.
+   * If false or null, the document body is used as the container.
    *
    * @type {String|boolean}
    * @default false
    */
   container: false, // container selector
   /**
-   * Children color component CSS selector.
+   * Child color component CSS selector.
    * If it exists, the child <i> element background will be changed on color change.
    *
    * @type {String|boolean}
@@ -79,8 +81,9 @@ export default {
    */
   fallbackColor: false,
   /**
-   * If enabled, the input content will be replaced always with a valid color,
-   * if not enabled the invalid color will be left in the input, but valid in the internal color object.
+   * If true, the input content will be replaced always with a valid color,
+   * if false, the invalid color will be left in the input,
+   *   while the internal color object will still resolve into a valid one.
    *
    * @type {boolean}
    * @default false
@@ -89,7 +92,7 @@ export default {
   /**
    * If true a hash will be prepended to hexadecimal colors.
    * If false, the hash will be removed.
-   * This only affects the input values.
+   * This only affects the input values in hexadecimal format.
    *
    * @type {boolean}
    * @default false

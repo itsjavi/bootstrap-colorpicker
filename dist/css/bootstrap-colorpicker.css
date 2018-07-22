@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Simple and customizable colorpicker component for Twitter Bootstrap.
  * @package bootstrap-colorpicker
- * @version v3.0.0-beta.1
+ * @version v3.0.0-beta.3
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -25,17 +25,13 @@
     height: 5px;
     width: 5px;
     border: 1px solid #000;
+    -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.33);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.33);
     border-radius: 5px;
     position: absolute;
     top: 0;
     left: 0;
     margin: -4px 0 0 -4px; }
-    .colorpicker-saturation .colorpicker-guide i {
-      display: block;
-      height: 5px;
-      width: 5px;
-      border: 1px solid #fff;
-      border-radius: 5px; }
 
 .colorpicker-hue,
 .colorpicker-alpha {
@@ -58,8 +54,9 @@
 .colorpicker-alpha .colorpicker-guide {
   display: block;
   height: 1px;
-  background: #000;
-  border-top: 1px solid #fff;
+  background: rgba(0, 0, 0, 0.85);
+  -webkit-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.85);
+          box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.85);
   position: absolute;
   top: 0;
   left: 0;

@@ -356,3 +356,10 @@
 .colorpicker-swatch + .colorpicker-swatch {
   margin-left: 2px;
 }
+
+*[dir='rtl'] .colorpicker-component input,
+.colorpicker-component[dir='rtl'] input,
+.colorpicker-component input[dir='rtl'] {
+  direction: ltr;
+  text-align: right;
+}

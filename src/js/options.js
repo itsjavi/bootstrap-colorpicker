@@ -125,20 +125,20 @@ export default {
    */
   sliders: {
     saturation: {
-      maxLeft: 100,
-      maxTop: 100,
+      maxLeft: 115,
+      maxTop: 115,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
       maxLeft: 0,
-      maxTop: 100,
+      maxTop: 115,
       callLeft: false,
       callTop: 'setHueRatio'
     },
     alpha: {
       maxLeft: 0,
-      maxTop: 100,
+      maxTop: 115,
       callLeft: false,
       callTop: 'setAlphaRatio'
     }
@@ -149,19 +149,19 @@ export default {
    */
   slidersHorz: {
     saturation: {
-      maxLeft: 100,
-      maxTop: 100,
+      maxLeft: 115,
+      maxTop: 115,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
-      maxLeft: 100,
+      maxLeft: 115,
       maxTop: 0,
       callLeft: 'setHueRatio',
       callTop: false
     },
     alpha: {
-      maxLeft: 100,
+      maxLeft: 115,
       maxTop: 0,
       callLeft: 'setAlphaRatio',
       callTop: false

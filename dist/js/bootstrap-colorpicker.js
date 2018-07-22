@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Simple and customizable colorpicker component for Twitter Bootstrap.
  * @package bootstrap-colorpicker
- * @version v3.0.0-beta.3
+ * @version v3.0.0-beta.4
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -3366,14 +3366,14 @@ exports.default = {
    */
   debug: false,
   /**
-   * Forces a color, ignoring the one from the elements value or data-color attribute.
+   * Sets a initial color, ignoring the one from the element/input value or the data-color attribute.
    *
    * @type {(String|Color|boolean)}
    * @default false
    */
   color: false,
   /**
-   * Forces an specific color format. If false, it will be automatically detected the first time,
+   * Forces an specific color format. If false, it will be automatically detected the first time only,
    * but if null it will be always recalculated.
    *
    * Note that the ending 'a' of the format meaning "alpha" has currently no effect, meaning that rgb is the same as
@@ -3382,7 +3382,7 @@ exports.default = {
    * @type {('rgb'|'rgba'|'prgb'|'prgba'|'hex'|'hex3'|'hex6'|'hex8'|'hsl'|'hsla'|'hsv'|'hsva'|'name'|boolean)}
    * @default false
    */
-  format: false,
+  format: null,
   /**
    * Horizontal mode layout.
    *
@@ -3400,28 +3400,30 @@ exports.default = {
    */
   inline: false,
   /**
-   * Children input CSS selector
+   * Child input CSS selector
    *
    * @type {String}
    * @default 'input'
    */
   input: 'input',
   /**
-   * Colorpicker container CSS selector. If given, the colorpicker will be placed inside this container.
-   * If true, the colorpicker element itself will be used as the container.
+   * Colorpicker container CSS selector.
+   * If is a string (CSS selector), the colorpicker will be placed inside this container.
+   * If true, the `.colorpicker-element` element itself will be used as the container.
+   * If false or null, the document body is used as the container.
    *
    * @type {String|boolean}
    * @default false
    */
   container: false, // container selector
   /**
-   * Children color component CSS selector.
+   * Child color component CSS selector.
    * If it exists, the child <i> element background will be changed on color change.
    *
    * @type {String|boolean}
-   * @default '.add-on, .input-group-addon'
+   * @default '.colorpicker-input-addon'
    */
-  component: '.add-on, .input-group-addon',
+  component: '.colorpicker-input-addon',
   /**
    * Fallback color to use when the given color is invalid.
    * If false, the latest valid color will be used as a fallback.
@@ -3431,8 +3433,9 @@ exports.default = {
    */
   fallbackColor: false,
   /**
-   * If enabled, the input content will be replaced always with a valid color,
-   * if not enabled the invalid color will be left in the input, but valid in the internal color object.
+   * If true, the input content will be replaced always with a valid color,
+   * if false, the invalid color will be left in the input,
+   *   while the internal color object will still resolve into a valid one.
    *
    * @type {boolean}
    * @default false
@@ -3441,7 +3444,7 @@ exports.default = {
   /**
    * If true a hash will be prepended to hexadecimal colors.
    * If false, the hash will be removed.
-   * This only affects the input values.
+   * This only affects the input values in hexadecimal format.
    *
    * @type {boolean}
    * @default false
@@ -3477,20 +3480,20 @@ exports.default = {
    */
   sliders: {
     saturation: {
-      maxLeft: 100,
-      maxTop: 100,
+      maxLeft: 115,
+      maxTop: 115,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
       maxLeft: 0,
-      maxTop: 100,
+      maxTop: 115,
       callLeft: false,
       callTop: 'setHueRatio'
     },
     alpha: {
       maxLeft: 0,
-      maxTop: 100,
+      maxTop: 115,
       callLeft: false,
       callTop: 'setAlphaRatio'
     }
@@ -3501,19 +3504,19 @@ exports.default = {
    */
   slidersHorz: {
     saturation: {
-      maxLeft: 100,
-      maxTop: 100,
+      maxLeft: 115,
+      maxTop: 115,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
-      maxLeft: 100,
+      maxLeft: 115,
       maxTop: 0,
       callLeft: 'setHueRatio',
       callTop: false
     },
     alpha: {
-      maxLeft: 100,
+      maxLeft: 115,
       maxTop: 0,
       callLeft: 'setAlphaRatio',
       callTop: false

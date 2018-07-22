@@ -1,15 +1,15 @@
 /*!
  * Bootstrap Colorpicker - Simple and customizable colorpicker component for Twitter Bootstrap.
  * @package bootstrap-colorpicker
- * @version v3.0.0-beta.3
+ * @version v3.0.0-beta.4
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
  */
 .colorpicker-saturation {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 115px;
+  height: 115px;
   /* FF3.6+ */
   /* Chrome,Safari4+ */
   /* Chrome10+,Safari5.1+ */
@@ -19,29 +19,32 @@
   background: linear-gradient(to bottom, transparent 0%, black 100%), linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 100%);
   /* W3C */
   cursor: crosshair;
-  float: left; }
+  float: left;
+  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  margin-bottom: 5px; }
   .colorpicker-saturation .colorpicker-guide {
     display: block;
-    height: 5px;
-    width: 5px;
+    height: 6px;
+    width: 6px;
     border: 1px solid #000;
-    -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.33);
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.33);
+    -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
     border-radius: 5px;
     position: absolute;
     top: 0;
     left: 0;
-    margin: -4px 0 0 -4px; }
+    margin: -3px 0 0 -3px; }
 
 .colorpicker-hue,
 .colorpicker-alpha {
   position: relative;
   width: 15px;
-  height: 100px;
+  height: 115px;
   float: left;
   cursor: row-resize;
-  margin-left: 4px;
-  margin-bottom: 4px; }
+  margin-left: 5px;
+  margin-bottom: 5px; }
 
 .colorpicker-alpha-color {
   position: absolute;
@@ -49,6 +52,11 @@
   left: 0;
   width: 100%;
   height: 100%; }
+
+.colorpicker-hue,
+.colorpicker-alpha-color {
+  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2); }
 
 .colorpicker-hue .colorpicker-guide,
 .colorpicker-alpha .colorpicker-guide {
@@ -80,10 +88,6 @@
   background-position: 0 0, 5px 5px;
   display: none; }
 
-.colorpicker-saturation,
-.colorpicker-hue {
-  background-size: contain; }
-
 .colorpicker {
   position: absolute;
   top: 100%;
@@ -99,8 +103,8 @@
   border: 1px solid rgba(0, 0, 0, 0.15);
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
           box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  padding: 4px;
-  min-width: 130px;
+  padding: 5px;
+  width: 147px;
   margin-top: 1px;
   border-radius: 4px;
   z-index: 1055; }
@@ -139,7 +143,7 @@
   position: relative; }
 
 .colorpicker.colorpicker-with-alpha {
-  min-width: 140px; }
+  width: 167px; }
 
 .colorpicker.colorpicker-with-alpha .colorpicker-alpha {
   display: block; }
@@ -150,16 +154,18 @@
   clear: both;
   text-align: center;
   font-size: 10px;
-  line-height: normal; }
+  line-height: normal;
+  max-width: 100%;
+  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2); }
 
 .colorpicker-bar-horizontal {
   height: 15px;
-  margin: 0 0 4px 0;
+  margin: 0 0 5px 0;
   float: left;
-  width: 100px; }
+  width: 115px; }
 
-.colorpicker-element .input-group-addon i,
-.colorpicker-element .add-on i {
+.colorpicker-input-addon i {
   display: inline-block;
   cursor: pointer;
   vertical-align: text-top;
@@ -167,8 +173,7 @@
   width: 16px;
   position: relative; }
 
-.colorpicker-element .input-group-addon em,
-.colorpicker-element .add-on em {
+.colorpicker-input-addon em {
   display: inline-block;
   cursor: pointer;
   vertical-align: text-top;
@@ -179,8 +184,7 @@
   background-size: 16px 16px;
   background-position: 0 0, 8px 8px; }
 
-.colorpicker-element .input-group-addon em i,
-.colorpicker-element .add-on em i {
+.colorpicker-input-addon em i {
   position: absolute;
   left: 0;
   top: 0; }
@@ -193,30 +197,28 @@
   vertical-align: text-bottom; }
 
 .colorpicker.colorpicker-horizontal {
-  width: 110px;
-  min-width: 110px;
+  width: 125px;
   height: auto; }
 
-.colorpicker.colorpicker-horizontal .colorpicker-saturation {
-  margin-bottom: 4px; }
-
 .colorpicker.colorpicker-horizontal .colorpicker-bar {
-  width: 100px; }
+  width: 115px; }
 
 .colorpicker.colorpicker-horizontal .colorpicker-hue,
 .colorpicker.colorpicker-horizontal .colorpicker-alpha {
-  width: 100px;
+  width: 115px;
   height: 15px;
   float: left;
   cursor: col-resize;
   margin-left: 0;
-  margin-bottom: 4px; }
+  margin-bottom: 5px; }
 
 .colorpicker.colorpicker-horizontal .colorpicker-hue .colorpicker-guide,
 .colorpicker.colorpicker-horizontal .colorpicker-alpha .colorpicker-guide {
   display: block;
   height: 15px;
-  background: #ffffff;
+  background: rgba(0, 0, 0, 0.85);
+  -webkit-box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.85);
+          box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.85);
   position: absolute;
   top: 0;
   left: 0;
@@ -283,13 +285,35 @@
   width: 100%;
   height: 100%; }
 
+.colorpicker-bar.colorpicker-swatches {
+  -webkit-box-shadow: none;
+          box-shadow: none; }
+
 .colorpicker-swatch {
   cursor: pointer;
   float: left;
-  height: 12px;
-  width: 12px; }
+  height: 15px;
+  width: 15px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  margin-left: 0;
+  display: block;
+  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2); }
 
-.colorpicker-swatch + .colorpicker-swatch {
-  margin-left: 2px; }
+.colorpicker-swatch:nth-of-type(7n+0) {
+  margin-right: 0; }
+
+.colorpicker-with-alpha .colorpicker-swatch:nth-of-type(7n+0) {
+  margin-right: 5px; }
+
+.colorpicker-with-alpha .colorpicker-swatch:nth-of-type(8n+0) {
+  margin-right: 0; }
+
+*[dir='rtl'] .colorpicker-component input,
+.colorpicker-component[dir='rtl'] input,
+.colorpicker-component input[dir='rtl'] {
+  direction: ltr;
+  text-align: right; }
 
 /*# sourceMappingURL=bootstrap-colorpicker.css.map */

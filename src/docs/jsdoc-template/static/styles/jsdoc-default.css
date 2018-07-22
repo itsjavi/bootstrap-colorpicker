@@ -555,13 +555,17 @@ h4.name {
   font-size: 13px;
 }
 
-.panel-heading h2 {
+.card-header h2 {
   font-weight: bold;
   font-size: 1.1em;
   margin: 5px 0;
 }
 
-.example .panel-body {
+.example {
+  margin-bottom: 20px;
+}
+
+.example .card-body {
   padding: 20px 30px 35px 30px;
 }
 
@@ -569,7 +573,7 @@ h4.name {
   margin-bottom: 20px;
 }
 
-.panel-footer pre.example-code {
+.card-footer pre.example-code {
   border: none;
   padding: 0;
   box-shadow: none;
@@ -577,7 +581,7 @@ h4.name {
   background: none;
 }
 
-.panel-footer--legend {
+.card-footer--legend {
   font-size: 80%;
   text-transform: uppercase;
   font-weight: bold;

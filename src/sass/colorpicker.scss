@@ -69,13 +69,6 @@
     top: 0;
     left: 0;
     margin: -4px 0 0 -4px;
-    i {
-      display: block;
-      height: 5px;
-      width: 5px;
-      border: 1px solid #fff;
-      @include borderRadius(5px);
-    }
   }
 }
 

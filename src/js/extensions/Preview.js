@@ -5,7 +5,7 @@ import $ from 'jquery';
 
 class Preview extends Extension {
   constructor(colorpicker, options = {}) {
-    super(colorpicker, Object.assign({},
+    super(colorpicker, $.extend(true, {},
       {
         template: '<div class="colorpicker-bar colorpicker-preview"><div /></div>',
         showText: true,

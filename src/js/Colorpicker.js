@@ -84,7 +84,7 @@ class Colorpicker {
     /**
      * @type {defaults}
      */
-    this.options = Object.assign({}, defaults, options, this.element.data());
+    this.options = $.extend(true, {}, defaults, options, this.element.data());
 
     /**
      * @type {Extension[]}

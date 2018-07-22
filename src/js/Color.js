@@ -1,6 +1,7 @@
 'use strict';
 
 import tinycolor from 'tinycolor2';
+import $ from 'jquery';
 
 function unwrapColor(color) {
   if (color instanceof tinycolor) {
@@ -198,28 +199,28 @@ class Color extends tinycolor {
    * @returns {Color}
    */
   getOpaqueCopy() {
-    return new Color(Object.assign({}, this.hsva, {a: 1}), this.options);
+    return new Color($.extend(true, {}, this.hsva, {a: 1}), this.options);
   }
 
   /**
    * @param {number} h Degrees from 0 to 360
    */
   setHue(h) {
-    this.importHsv(Object.assign({}, this.hsva, {h: h}));
+    this.importHsv($.extend(true, {}, this.hsva, {h: h}));
   }
 
   /**
    * @param {number} s Percent from 0 o 100
    */
   setSaturation(s) {
-    this.importHsv(Object.assign({}, this.hsva, {s: s}));
+    this.importHsv($.extend(true, {}, this.hsva, {s: s}));
   }
 
   /**
    * @param {number} v Percent from 0 o 100
    */
   setBrightness(v) {
-    this.importHsv(Object.assign({}, this.hsva, {v: v}));
+    this.importHsv($.extend(true, {}, this.hsva, {v: v}));
   }
 
   /**

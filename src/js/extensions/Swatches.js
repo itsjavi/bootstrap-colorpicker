@@ -10,7 +10,7 @@ let defaults = {
 
 class Swatches extends Palette {
   constructor(colorpicker, options = {}) {
-    super(colorpicker, Object.assign({}, defaults, options));
+    super(colorpicker, $.extend(true, {}, defaults, options));
   }
 
   isEnabled() {

@@ -285,6 +285,10 @@ var _Extension2 = __webpack_require__(1);
 
 var _Extension3 = _interopRequireDefault(_Extension2);
 
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -347,7 +351,7 @@ var Palette = function (_Extension) {
 
     _classCallCheck(this, Palette);
 
-    var _this = _possibleConstructorReturn(this, (Palette.__proto__ || Object.getPrototypeOf(Palette)).call(this, colorpicker, Object.assign({}, defaults, options)));
+    var _this = _possibleConstructorReturn(this, (Palette.__proto__ || Object.getPrototypeOf(Palette)).call(this, colorpicker, _jquery2.default.extend(true, {}, defaults, options)));
 
     if (!Array.isArray(_this.options.colors) && _typeof(_this.options.colors) !== 'object') {
       _this.options.colors = null;
@@ -659,7 +663,7 @@ var Colorpicker = function () {
     /**
      * @type {defaults}
      */
-    this.options = Object.assign({}, _options2.default, options, this.element.data());
+    this.options = _jquery2.default.extend(true, {}, _options2.default, options, this.element.data());
 
     /**
      * @type {Extension[]}
@@ -1749,6 +1753,10 @@ var _tinycolor2 = __webpack_require__(6);
 
 var _tinycolor3 = _interopRequireDefault(_tinycolor2);
 
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1995,7 +2003,7 @@ var Color = function (_tinycolor) {
   }, {
     key: 'getOpaqueCopy',
     value: function getOpaqueCopy() {
-      return new Color(Object.assign({}, this.hsva, { a: 1 }), this.options);
+      return new Color(_jquery2.default.extend(true, {}, this.hsva, { a: 1 }), this.options);
     }
 
     /**
@@ -2005,7 +2013,7 @@ var Color = function (_tinycolor) {
   }, {
     key: 'setHue',
     value: function setHue(h) {
-      this.importHsv(Object.assign({}, this.hsva, { h: h }));
+      this.importHsv(_jquery2.default.extend(true, {}, this.hsva, { h: h }));
     }
 
     /**
@@ -2015,7 +2023,7 @@ var Color = function (_tinycolor) {
   }, {
     key: 'setSaturation',
     value: function setSaturation(s) {
-      this.importHsv(Object.assign({}, this.hsva, { s: s }));
+      this.importHsv(_jquery2.default.extend(true, {}, this.hsva, { s: s }));
     }
 
     /**
@@ -2025,7 +2033,7 @@ var Color = function (_tinycolor) {
   }, {
     key: 'setBrightness',
     value: function setBrightness(v) {
-      this.importHsv(Object.assign({}, this.hsva, { v: v }));
+      this.importHsv(_jquery2.default.extend(true, {}, this.hsva, { v: v }));
     }
 
     /**
@@ -3812,7 +3820,7 @@ var Preview = function (_Extension) {
 
     _classCallCheck(this, Preview);
 
-    var _this = _possibleConstructorReturn(this, (Preview.__proto__ || Object.getPrototypeOf(Preview)).call(this, colorpicker, Object.assign({}, {
+    var _this = _possibleConstructorReturn(this, (Preview.__proto__ || Object.getPrototypeOf(Preview)).call(this, colorpicker, _jquery2.default.extend(true, {}, {
       template: '<div class="colorpicker-bar colorpicker-preview"><div /></div>',
       showText: true,
       format: colorpicker.format
@@ -3902,7 +3910,7 @@ var Swatches = function (_Palette) {
 
     _classCallCheck(this, Swatches);
 
-    return _possibleConstructorReturn(this, (Swatches.__proto__ || Object.getPrototypeOf(Swatches)).call(this, colorpicker, Object.assign({}, defaults, options)));
+    return _possibleConstructorReturn(this, (Swatches.__proto__ || Object.getPrototypeOf(Swatches)).call(this, colorpicker, _jquery2.default.extend(true, {}, defaults, options)));
   }
 
   _createClass(Swatches, [{

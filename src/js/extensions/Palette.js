@@ -1,6 +1,7 @@
 'use strict';
 
 import Extension from 'Extension';
+import $ from 'jquery';
 
 let defaults = {
   /**
@@ -46,7 +47,7 @@ class Palette extends Extension {
   }
 
   constructor(colorpicker, options = {}) {
-    super(colorpicker, Object.assign({}, defaults, options));
+    super(colorpicker, $.extend(true, {}, defaults, options));
 
     if ((!Array.isArray(this.options.colors)) && (typeof this.options.colors !== 'object')) {
       this.options.colors = null;

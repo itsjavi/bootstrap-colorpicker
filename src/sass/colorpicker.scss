@@ -60,15 +60,15 @@
   float: left;
   .colorpicker-guide {
     display: block;
-    height: 5px;
-    width: 5px;
+    height: 6px;
+    width: 6px;
     border: 1px solid #000;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.33);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
     @include borderRadius(5px);
     position: absolute;
     top: 0;
     left: 0;
-    margin: -4px 0 0 -4px;
+    margin: -3px 0 0 -3px;
   }
 }
 

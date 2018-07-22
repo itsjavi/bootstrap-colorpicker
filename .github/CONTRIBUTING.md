@@ -30,11 +30,10 @@ If your new feature works and receives the approval of the community, it will be
 
 - Your working environment will need `node` (at least v6) with `npm` and `yarn`, `gulp` and `ava`.
 - After a fresh clone for your fork, you need to run `yarn install` inside the project's root folder.
-- Before committing your changes to Github you have to assure that the tests are green, that the `dist`
-  files are regenerated with your `src` changes and that the documentation and examples are still working.
+- Before committing your changes to Github you have to assure that the tests are green and the build is successful.
   
-  - Regenerate `dist` and the documentation: `npm run build`.
-  - Run all tests and the linter: `npm test`.
+  - Run the build process and make sure it doesn't produce any error: `npm run build`.
+  - Run all tests and the linter: `npm run test`.
   - Check the documentation: `npm start` and go to [http://localhost:8080/](http://localhost:8080/).
 
 - Respect the coding style of the project, do not change it if not necessary.

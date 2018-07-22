@@ -12,9 +12,11 @@ Please note that PRs not following this template may be potentially discarded if
 
 ### Check list
 
-- [ ] The `dist` files have been regenerated with `npm run build` and committed in this PR.
+Please fill this check list before submitting a pull request:
+
+- [ ] The build process has been run (`npm run build`) and does not contain any errors.
+- [ ] All tests are green after running `npm run test`.
 - [ ] New tests have been added or modified for the introduced changes.
 - [ ] New examples have been added for the newly introduced features.
-- [ ] All tests are green after running `npm test`.
-- [ ] All examples are still working at least in latest Chrome and Firefox.
+- [ ] All the examples are still working as expected compared to the [official website](https://farbelous.io/bootstrap-colorpicker).
 - [ ] This PR follows all other [`CONTRIBUTING.md`](.github/CONTRIBUTING.md#pull-requests) guidelines for Pull Requests.

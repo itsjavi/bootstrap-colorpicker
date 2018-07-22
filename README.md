@@ -27,6 +27,10 @@ You can get the latest version in many different ways:
 
 
 To start using the component, most of the time you will only need the files under the `dist` folder.
+The `dist` folder will be available if you installed this package via npm or yarn. In any other cases
+you will need to run `yarn install && npm run build` in order to generate it.
+
+
 Example:
 
 ```html

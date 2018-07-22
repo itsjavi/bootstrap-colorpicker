@@ -12,5 +12,4 @@ Thumbs.db
 /package-lock.json
 gulpfile.js_*
 /build
-/dist/LICENSE
-/dist/README.md
+/dist

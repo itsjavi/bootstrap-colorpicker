@@ -194,9 +194,13 @@ export default {
    * </div>
    */
   template: `<div class="colorpicker">
-    <div class="colorpicker-saturation"><i class="colorpicker-guide"><i /></div>
-    <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
-    <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div></div>`,
+      <div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>
+      <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
+      <div class="colorpicker-alpha">
+          <div class="colorpicker-alpha-color"></div>
+          <i class="colorpicker-guide"></i>
+      </div>
+    </div>`,
   /**
    *
    * Associative object with the extension class name and its config.

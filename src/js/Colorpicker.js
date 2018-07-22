@@ -522,28 +522,29 @@ class Colorpicker {
    * @private
    */
   _updateInput() {
-    if (this.hasInput()) {
-      let val = this.toInputColorString();
-
-      if (val === this.input.prop('value')) {
-        // No need to set value or trigger any event if nothing changed
-        return;
-      }
-
-      this.input.prop('value', val ? val : '');
-
-      /**
-       * (Input) Triggered on the input element when a new color is selected.
-       *
-       * @event Colorpicker#change
-       */
-      this.input.trigger({
-        type: 'change',
-        colorpicker: this,
-        color: this.color,
-        value: val
-      });
+    if (!this.hasInput()) {
+      return;
     }
+    let val = this.toInputColorString();
+
+    if (val === this.input.prop('value')) {
+      // No need to set value or trigger any event if nothing changed
+      return;
+    }
+
+    this.input.prop('value', val ? val : '');
+
+    /**
+     * (Input) Triggered on the input element when a new color is selected.
+     *
+     * @event Colorpicker#change
+     */
+    this.input.trigger({
+      type: 'change',
+      colorpicker: this,
+      color: this.color,
+      value: val
+    });
   }
 
   /**
@@ -582,8 +583,16 @@ class Colorpicker {
     this.picker.find('.colorpicker-saturation')
       .css('backgroundColor', this.color.getHueOnlyCopy().toHexString()); // we only need hue
 
-    this.picker.find('.colorpicker-alpha')
-      .css('backgroundColor', this.color.toString('hex6')); // we don't need alpha
+    let hex6Color = this.color.toString('hex6');
+    let alphaBg = '';
+
+    if (this.options.horizontal) {
+      alphaBg = `linear-gradient(to right, ${hex6Color} 0%, transparent 100%)`;
+    } else {
+      alphaBg = `linear-gradient(to bottom, ${hex6Color} 0%, transparent 100%)`;
+    }
+
+    this.picker.find('.colorpicker-alpha-color').css('background', alphaBg);
   }
 
   /**
@@ -591,22 +600,19 @@ class Colorpicker {
    * @private
    */
   _updateComponent() {
-    if (!this.hasColor()) {
+    if (!this.hasColor() || (this.component === false)) {
       return;
     }
 
-    if (this.component !== false) {
-      let icn = this.component.find('i').eq(0);
+    let colorStr = this.toCssColorString();
+    let styles = {'background': colorStr};
 
-      if (icn.length > 0) {
-        icn.css({
-          'backgroundColor': this.toCssColorString()
-        });
-      } else {
-        this.component.css({
-          'backgroundColor': this.toCssColorString()
-        });
-      }
+    let icn = this.component.find('i').eq(0);
+
+    if (icn.length > 0) {
+      icn.css(styles);
+    } else {
+      this.component.css(styles);
     }
   }
 
@@ -931,43 +937,46 @@ class Colorpicker {
 
     // detect the slider and set the limits and callbacks
     let zone = target.closest('div');
-    let sl = this.options.horizontal ? this.options.slidersHorz : this.options.sliders;
+    let sliders = this.options.horizontal ? this.options.slidersHorz : this.options.sliders;
 
-    if (!zone.is('.colorpicker')) {
-      if (zone.is('.colorpicker-saturation')) {
-        this.currentSlider = $.extend({}, sl.saturation);
-      } else if (zone.is('.colorpicker-hue')) {
-        this.currentSlider = $.extend({}, sl.hue);
-      } else if (zone.is('.colorpicker-alpha')) {
-        this.currentSlider = $.extend({}, sl.alpha);
-      } else {
-        return false;
-      }
-      let offset = zone.offset();
-      // reference to guide's style
-
-      this.currentSlider.guide = zone.find('.colorpicker-guide')[0].style;
-      this.currentSlider.left = e.pageX - offset.left;
-      this.currentSlider.top = e.pageY - offset.top;
-      this.mousePointer = {
-        left: e.pageX,
-        top: e.pageY
-      };
-
-      /**
-       * (window.document) Triggered on mousedown for the document object,
-       * so the color adjustment guide is moved to the clicked position.
-       *
-       * @event Colorpicker#mousemove
-       */
-      $(window.document).on({
-        'mousemove.colorpicker': $.proxy(this._mousemove, this),
-        'touchmove.colorpicker': $.proxy(this._mousemove, this),
-        'mouseup.colorpicker': $.proxy(this._mouseup, this),
-        'touchend.colorpicker': $.proxy(this._mouseup, this)
-      }).trigger('mousemove');
+    if (zone.is('.colorpicker')) {
+      return false;
     }
-    return false;
+    if (zone.is('.colorpicker-saturation')) {
+      this.currentSlider = $.extend({}, sliders.saturation);
+    } else if (zone.is('.colorpicker-hue')) {
+      this.currentSlider = $.extend({}, sliders.hue);
+    } else if (zone.is('.colorpicker-alpha')) {
+      this.currentSlider = $.extend({}, sliders.alpha);
+    } else if (zone.is('.colorpicker-alpha-color')) {
+      this.currentSlider = $.extend({}, sliders.alpha);
+      zone = zone.parent();
+    } else {
+      return false;
+    }
+    let offset = zone.offset();
+    // reference to guide's style
+
+    this.currentSlider.guide = zone.find('.colorpicker-guide')[0].style;
+    this.currentSlider.left = e.pageX - offset.left;
+    this.currentSlider.top = e.pageY - offset.top;
+    this.mousePointer = {
+      left: e.pageX,
+      top: e.pageY
+    };
+
+    /**
+     * (window.document) Triggered on mousedown for the document object,
+     * so the color adjustment guide is moved to the clicked position.
+     *
+     * @event Colorpicker#mousemove
+     */
+    $(window.document).on({
+      'mousemove.colorpicker': $.proxy(this._mousemove, this),
+      'touchmove.colorpicker': $.proxy(this._mousemove, this),
+      'mouseup.colorpicker': $.proxy(this._mouseup, this),
+      'touchend.colorpicker': $.proxy(this._mouseup, this)
+    }).trigger('mousemove');
   }
 
   /**

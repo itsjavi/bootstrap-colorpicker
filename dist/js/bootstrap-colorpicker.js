@@ -1111,28 +1111,29 @@ var Colorpicker = function () {
   }, {
     key: '_updateInput',
     value: function _updateInput() {
-      if (this.hasInput()) {
-        var val = this.toInputColorString();
-
-        if (val === this.input.prop('value')) {
-          // No need to set value or trigger any event if nothing changed
-          return;
-        }
-
-        this.input.prop('value', val ? val : '');
-
-        /**
-         * (Input) Triggered on the input element when a new color is selected.
-         *
-         * @event Colorpicker#change
-         */
-        this.input.trigger({
-          type: 'change',
-          colorpicker: this,
-          color: this.color,
-          value: val
-        });
+      if (!this.hasInput()) {
+        return;
       }
+      var val = this.toInputColorString();
+
+      if (val === this.input.prop('value')) {
+        // No need to set value or trigger any event if nothing changed
+        return;
+      }
+
+      this.input.prop('value', val ? val : '');
+
+      /**
+       * (Input) Triggered on the input element when a new color is selected.
+       *
+       * @event Colorpicker#change
+       */
+      this.input.trigger({
+        type: 'change',
+        colorpicker: this,
+        color: this.color,
+        value: val
+      });
     }
 
     /**
@@ -1173,7 +1174,16 @@ var Colorpicker = function () {
 
       this.picker.find('.colorpicker-saturation').css('backgroundColor', this.color.getHueOnlyCopy().toHexString()); // we only need hue
 
-      this.picker.find('.colorpicker-alpha').css('backgroundColor', this.color.toString('hex6')); // we don't need alpha
+      var hex6Color = this.color.toString('hex6');
+      var alphaBg = '';
+
+      if (this.options.horizontal) {
+        alphaBg = 'linear-gradient(to right, ' + hex6Color + ' 0%, transparent 100%)';
+      } else {
+        alphaBg = 'linear-gradient(to bottom, ' + hex6Color + ' 0%, transparent 100%)';
+      }
+
+      this.picker.find('.colorpicker-alpha-color').css('background', alphaBg);
     }
 
     /**
@@ -1184,22 +1194,19 @@ var Colorpicker = function () {
   }, {
     key: '_updateComponent',
     value: function _updateComponent() {
-      if (!this.hasColor()) {
+      if (!this.hasColor() || this.component === false) {
         return;
       }
 
-      if (this.component !== false) {
-        var icn = this.component.find('i').eq(0);
+      var colorStr = this.toCssColorString();
+      var styles = { 'background': colorStr };
 
-        if (icn.length > 0) {
-          icn.css({
-            'backgroundColor': this.toCssColorString()
-          });
-        } else {
-          this.component.css({
-            'backgroundColor': this.toCssColorString()
-          });
-        }
+      var icn = this.component.find('i').eq(0);
+
+      if (icn.length > 0) {
+        icn.css(styles);
+      } else {
+        this.component.css(styles);
       }
     }
 
@@ -1562,43 +1569,46 @@ var Colorpicker = function () {
 
       // detect the slider and set the limits and callbacks
       var zone = target.closest('div');
-      var sl = this.options.horizontal ? this.options.slidersHorz : this.options.sliders;
+      var sliders = this.options.horizontal ? this.options.slidersHorz : this.options.sliders;
 
-      if (!zone.is('.colorpicker')) {
-        if (zone.is('.colorpicker-saturation')) {
-          this.currentSlider = _jquery2.default.extend({}, sl.saturation);
-        } else if (zone.is('.colorpicker-hue')) {
-          this.currentSlider = _jquery2.default.extend({}, sl.hue);
-        } else if (zone.is('.colorpicker-alpha')) {
-          this.currentSlider = _jquery2.default.extend({}, sl.alpha);
-        } else {
-          return false;
-        }
-        var offset = zone.offset();
-        // reference to guide's style
-
-        this.currentSlider.guide = zone.find('.colorpicker-guide')[0].style;
-        this.currentSlider.left = e.pageX - offset.left;
-        this.currentSlider.top = e.pageY - offset.top;
-        this.mousePointer = {
-          left: e.pageX,
-          top: e.pageY
-        };
-
-        /**
-         * (window.document) Triggered on mousedown for the document object,
-         * so the color adjustment guide is moved to the clicked position.
-         *
-         * @event Colorpicker#mousemove
-         */
-        (0, _jquery2.default)(window.document).on({
-          'mousemove.colorpicker': _jquery2.default.proxy(this._mousemove, this),
-          'touchmove.colorpicker': _jquery2.default.proxy(this._mousemove, this),
-          'mouseup.colorpicker': _jquery2.default.proxy(this._mouseup, this),
-          'touchend.colorpicker': _jquery2.default.proxy(this._mouseup, this)
-        }).trigger('mousemove');
+      if (zone.is('.colorpicker')) {
+        return false;
       }
-      return false;
+      if (zone.is('.colorpicker-saturation')) {
+        this.currentSlider = _jquery2.default.extend({}, sliders.saturation);
+      } else if (zone.is('.colorpicker-hue')) {
+        this.currentSlider = _jquery2.default.extend({}, sliders.hue);
+      } else if (zone.is('.colorpicker-alpha')) {
+        this.currentSlider = _jquery2.default.extend({}, sliders.alpha);
+      } else if (zone.is('.colorpicker-alpha-color')) {
+        this.currentSlider = _jquery2.default.extend({}, sliders.alpha);
+        zone = zone.parent();
+      } else {
+        return false;
+      }
+      var offset = zone.offset();
+      // reference to guide's style
+
+      this.currentSlider.guide = zone.find('.colorpicker-guide')[0].style;
+      this.currentSlider.left = e.pageX - offset.left;
+      this.currentSlider.top = e.pageY - offset.top;
+      this.mousePointer = {
+        left: e.pageX,
+        top: e.pageY
+      };
+
+      /**
+       * (window.document) Triggered on mousedown for the document object,
+       * so the color adjustment guide is moved to the clicked position.
+       *
+       * @event Colorpicker#mousemove
+       */
+      (0, _jquery2.default)(window.document).on({
+        'mousemove.colorpicker': _jquery2.default.proxy(this._mousemove, this),
+        'touchmove.colorpicker': _jquery2.default.proxy(this._mousemove, this),
+        'mouseup.colorpicker': _jquery2.default.proxy(this._mouseup, this),
+        'touchend.colorpicker': _jquery2.default.proxy(this._mouseup, this)
+      }).trigger('mousemove');
     }
 
     /**
@@ -3535,7 +3545,7 @@ exports.default = {
    *   <div class="colorpicker-color"><div /></div>
    * </div>
    */
-  template: '<div class="colorpicker">\n    <div class="colorpicker-saturation"><i class="colorpicker-guide"><i /></div>\n    <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>\n    <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div></div>',
+  template: '<div class="colorpicker">\n      <div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>\n      <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>\n      <div class="colorpicker-alpha">\n          <div class="colorpicker-alpha-color"></div>\n          <i class="colorpicker-guide"></i>\n      </div>\n    </div>',
   /**
    *
    * Associative object with the extension class name and its config.

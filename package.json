@@ -30,8 +30,7 @@
     "build-dist": "gulp dist",
     "build-docs": "gulp dist && gulp docs && gulp docs:add-v2-docs",
     "build-npm": "npm run build && gulp npm-prepublish",
-    "publish-docs": "npm run build && npm run test && gulp publish-gh-pages",
-    "publish-npm": "npm run build-npm && npm run test && npm publish"
+    "publish-docs": "npm run build && npm run test && gulp publish-gh-pages"
   },
   "devDependencies": {
     "ava": "^0.23.0",

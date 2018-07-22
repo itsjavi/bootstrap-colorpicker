@@ -210,9 +210,7 @@
   float: left;
   width: 115px;
 }
-
-.colorpicker-element .input-group-addon i,
-.colorpicker-element .add-on i {
+.colorpicker-input-addon i {
   display: inline-block;
   cursor: pointer;
   vertical-align: text-top;
@@ -221,8 +219,7 @@
   position: relative;
 }
 
-.colorpicker-element .input-group-addon em,
-.colorpicker-element .add-on em {
+.colorpicker-input-addon em {
   display: inline-block;
   cursor: pointer;
   vertical-align: text-top;
@@ -237,8 +234,7 @@
   background-position: 0 0, 8px 8px;
 }
 
-.colorpicker-element .input-group-addon em i,
-.colorpicker-element .add-on em i {
+.colorpicker-input-addon em i {
   position: absolute;
   left: 0;
   top: 0;

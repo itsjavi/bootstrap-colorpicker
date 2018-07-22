@@ -69,9 +69,9 @@ export default {
    * If it exists, the child <i> element background will be changed on color change.
    *
    * @type {String|boolean}
-   * @default '.add-on, .input-group-addon'
+   * @default '.colorpicker-input-addon'
    */
-  component: '.add-on, .input-group-addon',
+  component: '.colorpicker-input-addon',
   /**
    * Fallback color to use when the given color is invalid.
    * If false, the latest valid color will be used as a fallback.

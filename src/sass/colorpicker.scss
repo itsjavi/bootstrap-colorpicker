@@ -299,11 +299,13 @@
   right: 7px;
 }
 
+.colorpicker-inline:before,
 .colorpicker-no-arrow:before {
   border-right: 0;
   border-left: 0;
 }
 
+.colorpicker-inline:after,
 .colorpicker-no-arrow:after {
   border-right: 0;
   border-left: 0;

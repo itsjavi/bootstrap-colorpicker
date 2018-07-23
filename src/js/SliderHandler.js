@@ -62,6 +62,18 @@ class SliderHandler {
   }
 
   /**
+   * Unbinds any event bound by this handler
+   */
+  unbind() {
+    $(this.root.document).off({
+      'mousemove.colorpicker': $.proxy(this.moved, this),
+      'touchmove.colorpicker': $.proxy(this.moved, this),
+      'mouseup.colorpicker': $.proxy(this.released, this),
+      'touchend.colorpicker': $.proxy(this.released, this)
+    });
+  }
+
+  /**
    * Function triggered when clicking in one of the color adjustment bars
    *
    * @private

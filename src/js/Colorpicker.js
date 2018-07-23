@@ -257,6 +257,8 @@ class Colorpicker {
    * @fires Colorpicker#colorpickerDestroy
    */
   destroy() {
+    this.slidersHandler.unbind();
+    this.popupHandler.unbind();
     this.picker.remove();
     this.element.removeData('colorpicker', 'color').off('.colorpicker');
     if (this.hasInput()) {
@@ -346,10 +348,9 @@ class Colorpicker {
    *
    * @fires Colorpicker#colorpickerShow
    * @param {Event} [e]
-   * @returns {boolean} True if was hidden and afterwards visible, false if nothing happened.
    */
   show(e) {
-    return this.popupHandler.show(e);
+    this.popupHandler.show(e);
   }
 
   /**
@@ -358,10 +359,20 @@ class Colorpicker {
    *
    * @fires Colorpicker#colorpickerHide
    * @param {Event} [e]
-   * @returns {boolean} True if was visible and afterwards hidden, false if nothing happened.
    */
   hide(e) {
-    return this.popupHandler.hide(e);
+    this.popupHandler.hide(e);
+  }
+
+  /**
+   * Toggles the colorpicker between visible or hidden
+   *
+   * @fires Colorpicker#colorpickerShow
+   * @fires Colorpicker#colorpickerHide
+   * @param {Event} [e]
+   */
+  toggle(e) {
+    this.popupHandler.toggle(e);
   }
 
   /**

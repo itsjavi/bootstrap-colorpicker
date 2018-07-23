@@ -27,18 +27,20 @@ class PopupHandler {
    */
   bind() {
     let cp = this.colorpicker;
-
-    if (cp.options.inline) {
-      cp.picker.addClass('colorpicker-inline colorpicker-no-arrow colorpicker-visible');
-    } else {
-      cp.picker.addClass('colorpicker-hidden');
-    }
+    let addon = cp.component;
 
     if (cp.options.align === 'right') {
       cp.picker.addClass('colorpicker-right');
     }
 
-    // Prevent closing the colorpicker when clicking on itself
+    if (cp.options.inline) {
+      cp.picker.addClass('colorpicker-inline colorpicker-visible');
+      return; // no need to bind show/hide events for inline elements
+    }
+
+    cp.picker.addClass('colorpicker-popup colorpicker-hidden');
+
+    // prevent closing the colorpicker when clicking on itself or any child element
     cp.picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(function (e) {
       if (e.target === e.currentTarget) {
         e.preventDefault();
@@ -46,35 +48,74 @@ class PopupHandler {
       }
     }, this));
 
-    if (cp.options.inline === false) {
-      cp.element.on({
+    // there is no input or addon
+    if (!cp.hasInput() && !addon) {
+      return;
+    }
+
+    // bind addon show/hide events
+    if (addon) {
+      // enable focus on addons
+      if (!addon.attr('tabindex')) {
+        addon.attr('tabindex', 0);
+      }
+
+      addon.on({
+        'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.toggle, this)
+      });
+      addon.on({
+        'focus.colorpicker': $.proxy(this.show, this)
+      });
+      addon.on({
         'focusout.colorpicker': $.proxy(this.hide, this)
       });
     }
 
-    if (cp.component !== false) {
-      cp.component.on({
-        'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.show, this)
-      });
-    } else {
-      cp.element.on({
-        'focus.colorpicker': $.proxy(this.show, this)
-      });
-    }
-
-    if ((cp.hasInput() === false) && (cp.component === false) && !cp.element.has('.colorpicker')) {
-      cp.element.on({
-        'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.show, this)
-      });
-    }
-
-    // for HTML5 input[type='color']
-    if (cp.hasInput() && (cp.component !== false) && (cp.input.attr('type') === 'color')) {
+    // bind input show/hide events
+    if (cp.hasInput() && !addon) {
       cp.input.on({
         'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.show, this),
         'focus.colorpicker': $.proxy(this.show, this)
       });
+      cp.input.on({
+        'focusout.colorpicker': $.proxy(this.hide, this)
+      });
     }
+
+    // reposition popup on window resize
+    $(this.root).on('resize.colorpicker', $.proxy(this.reposition, this));
+  }
+
+  /**
+   * Unbinds any event bound by this handler
+   */
+  unbind() {
+    let cp = this.colorpicker;
+    let addon = cp.component;
+
+    if (cp.hasInput()) {
+      cp.input.off({
+        'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.show, this),
+        'focus.colorpicker': $.proxy(this.show, this)
+      });
+      cp.input.off({
+        'focusout.colorpicker': $.proxy(this.hide, this)
+      });
+    }
+
+    if (addon) {
+      addon.off({
+        'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.toggle, this)
+      });
+      addon.off({
+        'focus.colorpicker': $.proxy(this.show, this)
+      });
+      addon.off({
+        'focusout.colorpicker': $.proxy(this.hide, this)
+      });
+    }
+
+    $(this.root).off('resize.colorpicker', $.proxy(this.reposition, this));
   }
 
   /**
@@ -85,6 +126,11 @@ class PopupHandler {
    * @returns {boolean} Returns false if the widget is inside a container or inline, true otherwise
    */
   reposition(e) {
+    if (this.isHidden()) {
+      // Don't need to reposition if hidden
+      return false;
+    }
+
     let cp = this.colorpicker;
 
     cp.lastEvent.alias = 'reposition';
@@ -110,40 +156,50 @@ class PopupHandler {
   }
 
   /**
+   * Toggles the colorpicker between visible or hidden
+   *
+   * @fires Colorpicker#colorpickerShow
+   * @fires Colorpicker#colorpickerHide
+   * @param {Event} [e]
+   */
+  toggle(e) {
+    if (this.isVisible()) {
+      this.hide(e);
+    } else {
+      this.show(e);
+    }
+  }
+
+  /**
    * Shows the colorpicker widget if hidden.
    * If the input is disabled this call will be ignored.
    *
    * @fires Colorpicker#colorpickerShow
    * @param {Event} [e]
-   * @returns {boolean} True if was hidden and afterwards visible, false if nothing happened.
    */
   show(e) {
+    if (this.isVisible() || this.colorpicker.isDisabled()) {
+      // Don't show the widget if it's already visible or it is disabled
+      return;
+    }
+
     let cp = this.colorpicker;
 
     cp.lastEvent.alias = 'show';
     cp.lastEvent.e = e;
 
-    if (this.isVisible() || cp.isDisabled()) {
-      // Don't show the widget if it's already visible or it is disabled
-      return false;
-    }
     cp.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
 
-    this.reposition(e);
-    $(this.root).on('resize.colorpicker', $.proxy(this.reposition, this));
+    // Prevent showing browser native HTML5 colorpicker
+    if (
+      (e && (!cp.hasInput() || cp.input.attr('type') === 'color')) &&
+      (e.stopPropagation && e.preventDefault)
+    ) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
 
-    if (e && (!cp.hasInput() || cp.input.attr('type') === 'color')) {
-      if (e.stopPropagation && e.preventDefault) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-    }
-    if ((cp.component || !cp.input) && (cp.options.inline === false)) {
-      // hide colorpicker when clicking outside
-      $(this.root.document).on({
-        'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.hide, this)
-      });
-    }
+    this.reposition(e);
 
     /**
      * (Colorpicker) When show() is called and the widget can be shown.
@@ -155,8 +211,6 @@ class PopupHandler {
       colorpicker: cp,
       color: cp.color
     });
-
-    return true;
   }
 
   /**
@@ -165,33 +219,30 @@ class PopupHandler {
    *
    * @fires Colorpicker#colorpickerHide
    * @param {Event} [e]
-   * @returns {boolean} True if was visible and afterwards hidden, false if nothing happened.
    */
   hide(e) {
+    if (this.isHidden()) {
+      // Do not trigger if already hidden
+      return;
+    }
+
     let cp = this.colorpicker;
 
     cp.lastEvent.alias = 'hide';
     cp.lastEvent.e = e;
 
-    if (this.isHidden()) {
-      // Do not trigger if already hidden
-      return false;
-    }
-    if ((typeof e !== 'undefined') && e.target) {
-      // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
-      if (
+    // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
+    if (
+      ((typeof e !== 'undefined') && e.target) &&
+      (
         $(e.currentTarget).parents('.colorpicker').length > 0 ||
         $(e.target).parents('.colorpicker').length > 0
-      ) {
-        return false;
-      }
+      )
+    ) {
+      return;
     }
-    cp.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
 
-    $(this.root).off('resize.colorpicker', this.reposition);
-    $(this.root.document).off({
-      'mousedown.colorpicker touchstart.colorpicker': this.hide
-    });
+    cp.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
 
     /**
      * (Colorpicker) When hide() is called and the widget can be hidden.
@@ -203,7 +254,6 @@ class PopupHandler {
       colorpicker: cp,
       color: cp.color
     });
-    return true;
   }
 
   /**

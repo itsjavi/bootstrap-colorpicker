@@ -8,6 +8,7 @@ import $ from 'jquery';
 import SliderHandler from './SliderHandler';
 
 let colorPickerIdCounter = 0;
+let root = (typeof self !== 'undefined' ? self : this); // window
 
 /**
  * Colorpicker widget class
@@ -216,7 +217,7 @@ class Colorpicker {
     /**
      * @type {SliderHandler}
      */
-    this.slidersHandler = new SliderHandler(window.document, this, onSliderGuideMove);
+    this.slidersHandler = new SliderHandler(root.document, this, onSliderGuideMove);
     this.slidersHandler.bind();
 
     $picker.appendTo(this.container ? this.container : $('body'));
@@ -396,7 +397,7 @@ class Colorpicker {
     if (this.options.inline !== false || this.options.container) {
       return false;
     }
-    let type = this.container && this.container[0] !== window.document.body ? 'position' : 'offset';
+    let type = this.container && this.container[0] !== root.document.body ? 'position' : 'offset';
     let element = this.component || this.element;
     let offset = element[type]();
 
@@ -429,7 +430,7 @@ class Colorpicker {
     this.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
 
     this._reposition(e);
-    $(window).on('resize.colorpicker', $.proxy(this._reposition, this));
+    $(root).on('resize.colorpicker', $.proxy(this._reposition, this));
 
     if (e && (!this.hasInput() || this.input.attr('type') === 'color')) {
       if (e.stopPropagation && e.preventDefault) {
@@ -438,7 +439,7 @@ class Colorpicker {
       }
     }
     if ((this.component || !this.input) && (this.options.inline === false)) {
-      $(window.document).on({
+      $(root.document).on({
         'mousedown.colorpicker': $.proxy(this.hide, this)
       });
     }
@@ -483,8 +484,8 @@ class Colorpicker {
       }
     }
     this.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
-    $(window).off('resize.colorpicker', this._reposition);
-    $(window.document).off({
+    $(root).off('resize.colorpicker', this._reposition);
+    $(root.document).off({
       'mousedown.colorpicker': this.hide
     });
 

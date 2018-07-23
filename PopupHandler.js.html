@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   
-  <title>Bootstrap Colorpicker, a color picker component for jQuery, compatible with Twitter Bootstrap.</title>
+  <title>Bootstrap Colorpicker | PopupHandler.js - Documentation</title>
   
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85082661-5"></script>
@@ -50,98 +50,301 @@
     <div class="main-content col-md-9 col-lg-10">
       <div id="main" class="main-content-wrapper">
         
+        <h1 class="page-title">PopupHandler.js</h1>
+        
 
         
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+import $ from 'jquery';
 
+/**
+ * Handles everything related to the UI of the colorpicker popup: show, hide, position,...
+ */
+class PopupHandler {
+  /**
+   * @param {Window} root
+   * @param {Colorpicker} colorpicker
+   */
+  constructor(root, colorpicker) {
+    /**
+     * @type {Window}
+     */
+    this.root = root;
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+  }
 
+  /**
+   * Binds the different colorpicker elements to the focus/mouse/touch events so it reacts in order to show or
+   * hide the colorpicker popup accordingly. It also adds the proper classes.
+   */
+  bind() {
+    let cp = this.colorpicker;
+    let addon = cp.component;
 
+    if (cp.options.align === 'right') {
+      cp.picker.addClass('colorpicker-right');
+    }
 
+    if (cp.options.inline) {
+      cp.picker.addClass('colorpicker-inline colorpicker-visible');
+      return; // no need to bind show/hide events for inline elements
+    }
 
+    cp.picker.addClass('colorpicker-popup colorpicker-hidden');
 
+    // prevent closing the colorpicker when clicking on itself or any child element
+    cp.picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(function (e) {
+      if (e.target === e.currentTarget) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, this));
 
+    // there is no input or addon
+    if (!cp.hasInput() &amp;&amp; !addon) {
+      return;
+    }
 
-    
+    // bind addon show/hide events
+    if (addon) {
+      // enable focus on addons
+      if (!addon.attr('tabindex')) {
+        addon.attr('tabindex', 0);
+      }
 
+      addon.on({
+        'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.toggle, this)
+      });
+      addon.on({
+        'focus.colorpicker': $.proxy(this.show, this)
+      });
+      addon.on({
+        'focusout.colorpicker': $.proxy(this.hide, this)
+      });
+    }
 
-    <section class="readme">
-        <article><p><a href="https://farbelous.io/bootstrap-colorpicker">
-    <img alt="Logo by @reallinfo" src="logo.png" width="190px" />
-</a></p>
-<h1>Bootstrap Colorpicker</h1><p><a href="https://github.com/farbelous/bootstrap-colorpicker/">Bootstrap Colorpicker</a> is a simple and customizable colorpicker 
-component for jQuery, which is also compatible with Twitter Bootstrap.</p>
-<p><a href="https://travis-ci.org/farbelous/bootstrap-colorpicker"><img src="https://img.shields.io/travis/farbelous/bootstrap-colorpicker/master.svg?style=flat-square" alt="Build Status"></a>
-<a href="https://www.npmjs.com/package/bootstrap-colorpicker"><img src="https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square" alt="npm"></a>
-<a href="https://www.npmjs.com/package/bootstrap-colorpicker?activeTab=versions"><img src="https://img.shields.io/npm/v/bootstrap-colorpicker/next.svg?style=flat-square" alt="npm@next"></a>
-<a href="https://github.com/itsjavi/itsjavi.github.io/blob/master/BACKERS.md#sponsors--backers"><img src="https://img.shields.io/badge/%E2%9D%A4-Donate%20to%20this%20project-e0a61d.svg?longCache=true&amp;style=flat-square" alt="Donate"></a>
-<a href="https://github.com/itsjavi/itsjavi.github.io/blob/master/BACKERS.md#sponsors"><img src="https://img.shields.io/badge/%F0%9F%92%AA-Supporters-333333.svg?longCache=true&amp;style=flat-square" alt="Supporters"></a></p>
-<blockquote>
-<p>NOTE that this documentation refers to the next major version of the project, living in the master branch.<br>
-Previous documentation can be found here: <a href="https://farbelous.github.io/bootstrap-colorpicker/v2/">v2.x</a>.</p>
-</blockquote>
-<h2>Install</h2><p>You can get the latest version in many different ways:</p>
-<ul>
-<li>Downloading <a href="https://github.com/farbelous/bootstrap-colorpicker/releases">a ZIP file from the releases</a></li>
-<li>Cloning using Git: <code>git clone https://github.com/farbelous/bootstrap-colorpicker.git</code></li>
-<li>Installing via NPM: <code>npm install bootstrap-colorpicker</code></li>
-<li>Installing via Yarn: <code>yarn add bootstrap-colorpicker</code></li>
-<li>Installing via Composer: <code>composer require itsjavi/bootstrap-colorpicker</code></li>
-</ul>
-<p>To start using the component, most of the time you will only need the files under the <code>dist</code> folder.
-The <code>dist</code> folder will be available if you installed this package via npm or yarn. In any other cases
-you will need to run <code>yarn install &amp;&amp; npm run build</code> in order to generate it.</p>
-<p>Example:</p>
-<pre class="prettyprint source lang-html"><code>&lt;!DOCTYPE html>
-&lt;html lang=&quot;en&quot;>
-&lt;head>
-  &lt;meta charset=&quot;utf-8&quot;>
-  &lt;link href=&quot;dist/css/bootstrap-colorpicker.css&quot; rel=&quot;stylesheet&quot;>
-&lt;/head>
-&lt;body>
-  &lt;div class=&quot;container&quot;>
-      &lt;input id=&quot;mycp&quot; type=&quot;text&quot; class=&quot;form-control&quot; />
-  &lt;/div>
-  &lt;script src=&quot;//code.jquery.com/jquery-3.2.1.js&quot;>&lt;/script>
-  &lt;script src=&quot;dist/js/bootstrap-colorpicker.js&quot;>&lt;/script>
-  &lt;script>
-    $(function () {
-      $('#mycp').colorpicker();
+    // bind input show/hide events
+    if (cp.hasInput() &amp;&amp; !addon) {
+      cp.input.on({
+        'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.show, this),
+        'focus.colorpicker': $.proxy(this.show, this)
+      });
+      cp.input.on({
+        'focusout.colorpicker': $.proxy(this.hide, this)
+      });
+    }
+
+    // reposition popup on window resize
+    $(this.root).on('resize.colorpicker', $.proxy(this.reposition, this));
+  }
+
+  /**
+   * Unbinds any event bound by this handler
+   */
+  unbind() {
+    let cp = this.colorpicker;
+    let addon = cp.component;
+
+    if (cp.hasInput()) {
+      cp.input.off({
+        'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.show, this),
+        'focus.colorpicker': $.proxy(this.show, this)
+      });
+      cp.input.off({
+        'focusout.colorpicker': $.proxy(this.hide, this)
+      });
+    }
+
+    if (addon) {
+      addon.off({
+        'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.toggle, this)
+      });
+      addon.off({
+        'focus.colorpicker': $.proxy(this.show, this)
+      });
+      addon.off({
+        'focusout.colorpicker': $.proxy(this.hide, this)
+      });
+    }
+
+    $(this.root).off('resize.colorpicker', $.proxy(this.reposition, this));
+  }
+
+  /**
+   * If the widget is not inside a container or inline, rearranges its position relative to its element offset.
+   *
+   * @param {Event} [e]
+   * @private
+   * @returns {boolean} Returns false if the widget is inside a container or inline, true otherwise
+   */
+  reposition(e) {
+    if (this.isHidden()) {
+      // Don't need to reposition if hidden
+      return false;
+    }
+
+    let cp = this.colorpicker;
+
+    cp.lastEvent.alias = 'reposition';
+    cp.lastEvent.e = e;
+
+    if (cp.options.inline !== false || cp.options.container) {
+      return false;
+    }
+    let type = cp.container &amp;&amp;
+    (cp.container[0] !== this.root.document.body) ? 'position' : 'offset';
+
+    let element = cp.component || cp.element;
+    let offset = element[type]();
+
+    if (cp.options.align === 'right') {
+      offset.left -= cp.picker.outerWidth() - element.outerWidth();
+    }
+    cp.picker.css({
+      top: offset.top + element.outerHeight(),
+      left: offset.left
     });
-  &lt;/script>
-&lt;/body></code></pre><h2>Requirements</h2><p>Note that this library depends on <code>jQuery &gt;= 2.1.0</code>.</p>
-<p>The <code>Twitter Bootstrap</code> dependency is totally optional, since this library does not depend directly
-on it in order to work, except when Bootstrap-related classes like <code>form-control</code> and <code>input-group-addon</code> are used 
-like in the examples. In that case you will need at least the Bootstrap CSS for everything to be displayed correctly.</p>
-<h2>Documentation</h2><p>The documentation of this project has been created with by Handlebars, JSDoc and the Minami template.</p>
-<ul>
-<li><a href="https://farbelous.github.io/bootstrap-colorpicker/">Documentation (@next)</a></li>
-<li><a href="https://farbelous.github.io/bootstrap-colorpicker/tutorial-Basics.html">Examples</a></li>
-</ul>
-<p>Older versions:</p>
-<ul>
-<li><a href="https://farbelous.github.io/bootstrap-colorpicker/v2/">Documentation (v2.x)</a></li>
-</ul>
-<h2>Contributions</h2><ul>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/issues">Issues</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/pulls">Pull Requests</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/milestones">Milestones</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/projects">Planned Features</a></li>
-</ul>
-<p>This project exists thanks to all the <a href="https://github.com/farbelous/bootstrap-colorpicker/graphs/contributors">people who contribute</a>.</p>
-<p>Please read <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md">CONTRIBUTING</a> 
-before sending a pull request or issue.</p>
-<h2>License</h2><p>The MIT License (MIT).
-Please see the <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/LICENSE">License File</a> for more information.</p>
-<h2>Credits</h2><p>Originally written by Stefan Petre in 2013.</p>
-<p>Rewritten and maintained by <a href="https://itsjavi.com">Javi Aguilar</a> and all other contributors.</p>
-<p><em>With the support of JetBrains.</em></p></article>
+    return true;
+  }
+
+  /**
+   * Toggles the colorpicker between visible or hidden
+   *
+   * @fires Colorpicker#colorpickerShow
+   * @fires Colorpicker#colorpickerHide
+   * @param {Event} [e]
+   */
+  toggle(e) {
+    if (this.isVisible()) {
+      this.hide(e);
+    } else {
+      this.show(e);
+    }
+  }
+
+  /**
+   * Shows the colorpicker widget if hidden.
+   * If the input is disabled this call will be ignored.
+   *
+   * @fires Colorpicker#colorpickerShow
+   * @param {Event} [e]
+   */
+  show(e) {
+    if (this.isVisible() || this.colorpicker.isDisabled()) {
+      // Don't show the widget if it's already visible or it is disabled
+      return;
+    }
+
+    let cp = this.colorpicker;
+
+    cp.lastEvent.alias = 'show';
+    cp.lastEvent.e = e;
+
+    cp.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
+
+    // Prevent showing browser native HTML5 colorpicker
+    if (
+      (e &amp;&amp; (!cp.hasInput() || cp.input.attr('type') === 'color')) &amp;&amp;
+      (e.stopPropagation &amp;&amp; e.preventDefault)
+    ) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+
+    this.reposition(e);
+
+    /**
+     * (Colorpicker) When show() is called and the widget can be shown.
+     *
+     * @event Colorpicker#colorpickerShow
+     */
+    cp.element.trigger({
+      type: 'colorpickerShow',
+      colorpicker: cp,
+      color: cp.color
+    });
+  }
+
+  /**
+   * Hides the colorpicker widget.
+   * Hide is prevented when it is triggered by an event whose target element has been clicked/touched.
+   *
+   * @fires Colorpicker#colorpickerHide
+   * @param {Event} [e]
+   */
+  hide(e) {
+    if (this.isHidden()) {
+      // Do not trigger if already hidden
+      return;
+    }
+
+    let cp = this.colorpicker;
+
+    cp.lastEvent.alias = 'hide';
+    cp.lastEvent.e = e;
+
+    // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
+    if (
+      ((typeof e !== 'undefined') &amp;&amp; e.target) &amp;&amp;
+      (
+        $(e.currentTarget).parents('.colorpicker').length > 0 ||
+        $(e.target).parents('.colorpicker').length > 0
+      )
+    ) {
+      return;
+    }
+
+    cp.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
+
+    /**
+     * (Colorpicker) When hide() is called and the widget can be hidden.
+     *
+     * @event Colorpicker#colorpickerHide
+     */
+    cp.element.trigger({
+      type: 'colorpickerHide',
+      colorpicker: cp,
+      color: cp.color
+    });
+  }
+
+  /**
+   * Returns true if the colorpicker element has the colorpicker-visible class and not the colorpicker-hidden one.
+   * False otherwise.
+   *
+   * @returns {boolean}
+   */
+  isVisible() {
+    return this.colorpicker.picker.hasClass('colorpicker-visible') &amp;&amp;
+      !this.colorpicker.picker.hasClass('colorpicker-hidden');
+  }
+
+  /**
+   * Returns true if the colorpicker element has the colorpicker-hidden class and not the colorpicker-visible one.
+   * False otherwise.
+   *
+   * @returns {boolean}
+   */
+  isHidden() {
+    return this.colorpicker.picker.hasClass('colorpicker-hidden') &amp;&amp;
+      !this.colorpicker.picker.hasClass('colorpicker-visible');
+  }
+}
+
+export default PopupHandler;
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

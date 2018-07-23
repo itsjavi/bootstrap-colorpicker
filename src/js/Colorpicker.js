@@ -5,6 +5,7 @@ import Extension from './Extension';
 import defaults from './options';
 import bundledExtensions from 'extensions';
 import $ from 'jquery';
+import SliderHandler from './SliderHandler';
 
 let colorPickerIdCounter = 0;
 
@@ -111,28 +112,13 @@ class Colorpicker {
     this.container = (this.container !== false) ? $(this.container) : false;
 
     /**
-     * @type {*|String}
-     * @private
-     */
-    this.currentSlider = null;
-
-    /**
-     * @type {{left: number, top: number}}
-     * @private
-     */
-    this.mousePointer = {
-      left: 0,
-      top: 0
-    };
-
-    /**
      * Latest external event
      *
      * @type {{name: String, e: *}}
      * @private
      */
     this.lastEvent = {
-      name: null,
+      alias: null,
       e: null
     };
 
@@ -208,9 +194,30 @@ class Colorpicker {
       }
     }, this));
 
+    let onSliderGuideMove = function (slider, top, left) {
+      slider.guideStyle.left = left + 'px';
+      slider.guideStyle.top = top + 'px';
+
+      let color = !this.colorpicker.hasColor() ? this.colorpicker
+        .createColor(this.colorpicker.fallbackColor) : this.colorpicker.color.getCopy();
+
+      if (slider.callLeft) {
+        color[slider.callLeft].call(color, left / slider.maxLeft);
+      }
+
+      if (slider.callTop) {
+        color[slider.callTop].call(color, top / slider.maxTop);
+      }
+
+      this.colorpicker.setValue(color);
+    };
+
     // Bind click/tap events on the sliders
-    $picker.find('.colorpicker-saturation, .colorpicker-hue, .colorpicker-alpha')
-      .on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this._mousedown, this));
+    /**
+     * @type {SliderHandler}
+     */
+    this.slidersHandler = new SliderHandler(window.document, this, onSliderGuideMove);
+    this.slidersHandler.bind();
 
     $picker.appendTo(this.container ? this.container : $('body'));
 
@@ -383,7 +390,7 @@ class Colorpicker {
    * @returns {boolean} Returns false if the widget is inside a container or inline, true otherwise
    */
   _reposition(e) {
-    this.lastEvent.name = 'reposition';
+    this.lastEvent.alias = 'reposition';
     this.lastEvent.e = e;
 
     if (this.options.inline !== false || this.options.container) {
@@ -412,7 +419,7 @@ class Colorpicker {
    * @returns {boolean} True if was hidden and afterwards visible, false if nothing happened.
    */
   show(e) {
-    this.lastEvent.name = 'show';
+    this.lastEvent.alias = 'show';
     this.lastEvent.e = e;
 
     if (this.isVisible() || this.isDisabled()) {
@@ -459,7 +466,7 @@ class Colorpicker {
    * @returns {boolean} True if was visible and afterwards hidden, false if nothing happened.
    */
   hide(e) {
-    this.lastEvent.name = 'hide';
+    this.lastEvent.alias = 'hide';
     this.lastEvent.e = e;
 
     if (this.isHidden()) {
@@ -642,7 +649,7 @@ class Colorpicker {
         (this.options.autoInputFallback !== true) &&
         (
           // this.isInvalidColor() ||  // prevent also on invalid color (on create, leaves invalid colors)
-          (this.lastEvent.name === 'keyup')
+          (this.lastEvent.alias === 'keyup')
         )
       );
 
@@ -915,140 +922,6 @@ class Colorpicker {
   }
 
   /**
-   * Function triggered when clicking in one of the color adjustment bars
-   *
-   * @private
-   * @fires Colorpicker#mousemove
-   * @param {Event} e
-   * @returns {boolean}
-   */
-  _mousedown(e) {
-    this.lastEvent.name = 'mousedown';
-    this.lastEvent.e = e;
-
-    if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
-      e.pageX = e.originalEvent.touches[0].pageX;
-      e.pageY = e.originalEvent.touches[0].pageY;
-    }
-    e.stopPropagation();
-    e.preventDefault();
-
-    let target = $(e.target);
-
-    // detect the slider and set the limits and callbacks
-    let zone = target.closest('div');
-    let sliders = this.options.horizontal ? this.options.slidersHorz : this.options.sliders;
-
-    if (zone.is('.colorpicker')) {
-      return false;
-    }
-    if (zone.is('.colorpicker-saturation')) {
-      this.currentSlider = $.extend({}, sliders.saturation);
-    } else if (zone.is('.colorpicker-hue')) {
-      this.currentSlider = $.extend({}, sliders.hue);
-    } else if (zone.is('.colorpicker-alpha')) {
-      this.currentSlider = $.extend({}, sliders.alpha);
-    } else if (zone.is('.colorpicker-alpha-color')) {
-      this.currentSlider = $.extend({}, sliders.alpha);
-      zone = zone.parent();
-    } else {
-      return false;
-    }
-    let offset = zone.offset();
-    // reference to guide's style
-
-    this.currentSlider.guide = zone.find('.colorpicker-guide')[0].style;
-    this.currentSlider.left = e.pageX - offset.left;
-    this.currentSlider.top = e.pageY - offset.top;
-    this.mousePointer = {
-      left: e.pageX,
-      top: e.pageY
-    };
-
-    /**
-     * (window.document) Triggered on mousedown for the document object,
-     * so the color adjustment guide is moved to the clicked position.
-     *
-     * @event Colorpicker#mousemove
-     */
-    $(window.document).on({
-      'mousemove.colorpicker': $.proxy(this._mousemove, this),
-      'touchmove.colorpicker': $.proxy(this._mousemove, this),
-      'mouseup.colorpicker': $.proxy(this._mouseup, this),
-      'touchend.colorpicker': $.proxy(this._mouseup, this)
-    }).trigger('mousemove');
-  }
-
-  /**
-   * Function triggered when dragging a guide inside one of the color adjustment bars.
-   *
-   * @private
-   * @param {Event} e
-   * @returns {boolean}
-   */
-  _mousemove(e) {
-    this.lastEvent.name = 'mousemove';
-    this.lastEvent.e = e;
-
-    let color = !this.hasColor() ? this.createColor(this.fallbackColor) : this.color.getCopy();
-
-    if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
-      e.pageX = e.originalEvent.touches[0].pageX;
-      e.pageY = e.originalEvent.touches[0].pageY;
-    }
-    e.stopPropagation();
-    e.preventDefault();
-    let left = Math.max(
-      0,
-      Math.min(
-        this.currentSlider.maxLeft,
-        this.currentSlider.left + ((e.pageX || this.mousePointer.left) - this.mousePointer.left)
-      )
-    );
-    let top = Math.max(
-      0,
-      Math.min(
-        this.currentSlider.maxTop,
-        this.currentSlider.top + ((e.pageY || this.mousePointer.top) - this.mousePointer.top)
-      )
-    );
-
-    this.currentSlider.guide.left = left + 'px';
-    this.currentSlider.guide.top = top + 'px';
-    if (this.currentSlider.callLeft) {
-      color[this.currentSlider.callLeft].call(color, left / this.currentSlider.maxLeft);
-    }
-    if (this.currentSlider.callTop) {
-      color[this.currentSlider.callTop].call(color, top / this.currentSlider.maxTop);
-    }
-
-    this.setValue(color);
-    return false;
-  }
-
-  /**
-   * Function triggered when releasing the click in one of the color adjustment bars.
-   *
-   * @private
-   * @param {Event} e
-   * @returns {boolean}
-   */
-  _mouseup(e) {
-    this.lastEvent.name = 'mouseup';
-    this.lastEvent.e = e;
-
-    e.stopPropagation();
-    e.preventDefault();
-    $(window.document).off({
-      'mousemove.colorpicker': this._mousemove,
-      'touchmove.colorpicker': this._mousemove,
-      'mouseup.colorpicker': this._mouseup,
-      'touchend.colorpicker': this._mouseup
-    });
-    return false;
-  }
-
-  /**
    * Function triggered when the input has changed, so the colorpicker gets updated.
    *
    * @private
@@ -1056,7 +929,7 @@ class Colorpicker {
    * @returns {boolean}
    */
   _change(e) {
-    this.lastEvent.name = 'change';
+    this.lastEvent.alias = 'change';
     this.lastEvent.e = e;
 
     let val = this.input.val();
@@ -1074,7 +947,7 @@ class Colorpicker {
    * @returns {boolean}
    */
   _keyup(e) {
-    this.lastEvent.name = 'keyup';
+    this.lastEvent.alias = 'keyup';
     this.lastEvent.e = e;
 
     let val = this.input.val();

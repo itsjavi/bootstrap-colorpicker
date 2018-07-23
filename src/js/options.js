@@ -128,18 +128,22 @@ export default {
    */
   sliders: {
     saturation: {
+      selector: '.colorpicker-saturation',
       maxLeft: 115,
       maxTop: 115,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
+      selector: '.colorpicker-hue',
       maxLeft: 0,
       maxTop: 115,
       callLeft: false,
       callTop: 'setHueRatio'
     },
     alpha: {
+      selector: '.colorpicker-alpha',
+      childSelector: '.colorpicker-alpha-color',
       maxLeft: 0,
       maxTop: 115,
       callLeft: false,
@@ -152,18 +156,22 @@ export default {
    */
   slidersHorz: {
     saturation: {
+      selector: '.colorpicker-saturation',
       maxLeft: 115,
       maxTop: 115,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
+      selector: '.colorpicker-hue',
       maxLeft: 115,
       maxTop: 0,
       callLeft: 'setHueRatio',
       callTop: false
     },
     alpha: {
+      selector: '.colorpicker-alpha',
+      childSelector: '.colorpicker-alpha-color',
       maxLeft: 115,
       maxTop: 0,
       callLeft: 'setAlphaRatio',

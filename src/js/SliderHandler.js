@@ -7,29 +7,19 @@ import $ from 'jquery';
  */
 class SliderHandler {
   /**
-   * @param {Document} document
+   * @param {Window} root
    * @param {Colorpicker} colorpicker
    * @param {Function|null} onMove
    */
-  constructor(document, colorpicker, onMove = null) {
+  constructor(root, colorpicker, onMove = null) {
     /**
-     * @type {Document}
+     * @type {Window}
      */
-    this.document = document;
+    this.root = root;
     /**
      * @type {Colorpicker}
      */
     this.colorpicker = colorpicker;
-    /**
-     * Latest external event
-     *
-     * @type {{name: String, e: *}}
-     * @private
-     */
-    this.lastEvent = {
-      alias: null,
-      e: null
-    };
     /**
      * @type {*|String}
      * @private
@@ -79,8 +69,8 @@ class SliderHandler {
    * @param {Event} e
    */
   pressed(e) {
-    this.lastEvent.alias = 'pressed';
-    this.lastEvent.e = e;
+    this.colorpicker.lastEvent.alias = 'pressed';
+    this.colorpicker.lastEvent.e = e;
 
     if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
       e.pageX = e.originalEvent.touches[0].pageX;
@@ -142,7 +132,7 @@ class SliderHandler {
      *
      * @event Colorpicker#mousemove
      */
-    $(this.document).on({
+    $(this.root.document).on({
       'mousemove.colorpicker': $.proxy(this.moved, this),
       'touchmove.colorpicker': $.proxy(this.moved, this),
       'mouseup.colorpicker': $.proxy(this.released, this),
@@ -157,8 +147,8 @@ class SliderHandler {
    * @param {Event} e
    */
   moved(e) {
-    this.lastEvent.alias = 'moved';
-    this.lastEvent.e = e;
+    this.colorpicker.lastEvent.alias = 'moved';
+    this.colorpicker.lastEvent.e = e;
 
     if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
       e.pageX = e.originalEvent.touches[0].pageX;
@@ -194,13 +184,13 @@ class SliderHandler {
    * @param {Event} e
    */
   released(e) {
-    this.lastEvent.alias = 'released';
-    this.lastEvent.e = e;
+    this.colorpicker.lastEvent.alias = 'released';
+    this.colorpicker.lastEvent.e = e;
 
     e.stopPropagation();
     e.preventDefault();
 
-    $(this.document).off({
+    $(this.root.document).off({
       'mousemove.colorpicker': this.moved,
       'touchmove.colorpicker': this.moved,
       'mouseup.colorpicker': this.released,

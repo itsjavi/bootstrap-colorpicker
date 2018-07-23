@@ -6,9 +6,27 @@ import defaults from './options';
 import bundledExtensions from 'extensions';
 import $ from 'jquery';
 import SliderHandler from './SliderHandler';
+import PopupHandler from './PopupHandler';
 
 let colorPickerIdCounter = 0;
 let root = (typeof self !== 'undefined' ? self : this); // window
+let onSliderGuideMove = function (slider, top, left) {
+  slider.guideStyle.left = left + 'px';
+  slider.guideStyle.top = top + 'px';
+
+  let color = !this.colorpicker.hasColor() ? this.colorpicker
+    .createColor(this.colorpicker.fallbackColor) : this.colorpicker.color.getCopy();
+
+  if (slider.callLeft) {
+    color[slider.callLeft].call(color, left / slider.maxLeft);
+  }
+
+  if (slider.callTop) {
+    color[slider.callTop].call(color, top / slider.maxTop);
+  }
+
+  this.colorpicker.setValue(color);
+};
 
 /**
  * Colorpicker widget class
@@ -40,7 +58,7 @@ class Colorpicker {
    * @static
    * @type {{Extension}}
    */
-  static get Extensions() {
+  static get bundledExtensions() {
     return bundledExtensions;
   }
 
@@ -78,6 +96,16 @@ class Colorpicker {
     this.id = colorPickerIdCounter;
 
     /**
+     * Latest external event
+     *
+     * @type {{name: String, e: *}}
+     */
+    this.lastEvent = {
+      alias: null,
+      e: null
+    };
+
+    /**
      * @type {*|jQuery}
      */
     this.element = $(element).addClass('colorpicker-element');
@@ -100,9 +128,9 @@ class Colorpicker {
     /**
      * @type {*|jQuery}
      */
-    this.component = this.options.component;
-    this.component = (this.component !== false) ? this.element.find(this.component) : false;
+    this.component = (this.options.component !== false) ? this.element.find(this.options.component) : false;
     if (this.component && (this.component.length === 0)) {
+      // not found
       this.component = false;
     }
 
@@ -111,17 +139,6 @@ class Colorpicker {
      */
     this.container = (this.options.container === true) ? this.element : this.options.container;
     this.container = (this.container !== false) ? $(this.container) : false;
-
-    /**
-     * Latest external event
-     *
-     * @type {{name: String, e: *}}
-     * @private
-     */
-    this.lastEvent = {
-      alias: null,
-      e: null
-    };
 
     // Is the element an input? Should we search inside for any input?
     /**
@@ -164,11 +181,7 @@ class Colorpicker {
     if (this.options.customClass) {
       $picker.addClass(this.options.customClass);
     }
-    if (this.options.inline) {
-      $picker.addClass('colorpicker-inline colorpicker-visible');
-    } else {
-      $picker.addClass('colorpicker-hidden');
-    }
+
     if (this.options.horizontal) {
       $picker.addClass('colorpicker-horizontal');
     }
@@ -181,47 +194,21 @@ class Colorpicker {
       $picker.addClass('colorpicker-with-alpha');
     }
 
-    if (this.options.align === 'right') {
-      $picker.addClass('colorpicker-right');
-    }
-    if (this.options.inline === true) {
-      $picker.addClass('colorpicker-no-arrow');
-    }
-
-    // Prevent closing the colorpicker when clicking on itself
-    $picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(function (e) {
-      if (e.target === e.currentTarget) {
-        e.preventDefault();
-      }
-    }, this));
-
-    let onSliderGuideMove = function (slider, top, left) {
-      slider.guideStyle.left = left + 'px';
-      slider.guideStyle.top = top + 'px';
-
-      let color = !this.colorpicker.hasColor() ? this.colorpicker
-        .createColor(this.colorpicker.fallbackColor) : this.colorpicker.color.getCopy();
-
-      if (slider.callLeft) {
-        color[slider.callLeft].call(color, left / slider.maxLeft);
-      }
-
-      if (slider.callTop) {
-        color[slider.callTop].call(color, top / slider.maxTop);
-      }
-
-      this.colorpicker.setValue(color);
-    };
-
-    // Bind click/tap events on the sliders
     /**
      * @type {SliderHandler}
      */
-    this.slidersHandler = new SliderHandler(root.document, this, onSliderGuideMove);
+    this.slidersHandler = new SliderHandler(root, this, onSliderGuideMove);
     this.slidersHandler.bind();
+
+    /**
+     * @type {PopupHandler}
+     */
+    this.popupHandler = new PopupHandler(root, this);
+    this.popupHandler.bind();
 
     $picker.appendTo(this.container ? this.container : $('body'));
 
+    // TODO: refactor the following to InputHandler (and) AddOnHandler classes
     // Bind other events
     if (this.hasInput()) {
       this.input.on({
@@ -229,36 +216,6 @@ class Colorpicker {
       });
       this.input.on({
         'change.colorpicker': $.proxy(this._change, this)
-      });
-      if (this.component === false) {
-        this.element.on({
-          'focus.colorpicker': $.proxy(this.show, this)
-        });
-      }
-      if (this.options.inline === false) {
-        this.element.on({
-          'focusout.colorpicker': $.proxy(this.hide, this)
-        });
-      }
-    }
-
-    if (this.component !== false) {
-      this.component.on({
-        'click.colorpicker': $.proxy(this.show, this)
-      });
-    }
-
-    if ((this.hasInput() === false) && (this.component === false) && !this.element.has('.colorpicker')) {
-      this.element.on({
-        'click.colorpicker': $.proxy(this.show, this)
-      });
-    }
-
-    // for HTML5 input[type='color']
-    if (this.hasInput() && (this.component !== false) && (this.input.attr('type') === 'color')) {
-      this.input.on({
-        'click.colorpicker': $.proxy(this.show, this),
-        'focus.colorpicker': $.proxy(this.show, this)
       });
     }
 
@@ -384,34 +341,6 @@ class Colorpicker {
   }
 
   /**
-   * If the widget is not inside a container or inline, rearranges its position relative to its element offset.
-   *
-   * @param {Event} [e]
-   * @private
-   * @returns {boolean} Returns false if the widget is inside a container or inline, true otherwise
-   */
-  _reposition(e) {
-    this.lastEvent.alias = 'reposition';
-    this.lastEvent.e = e;
-
-    if (this.options.inline !== false || this.options.container) {
-      return false;
-    }
-    let type = this.container && this.container[0] !== root.document.body ? 'position' : 'offset';
-    let element = this.component || this.element;
-    let offset = element[type]();
-
-    if (this.options.align === 'right') {
-      offset.left -= this.picker.outerWidth() - element.outerWidth();
-    }
-    this.picker.css({
-      top: offset.top + element.outerHeight(),
-      left: offset.left
-    });
-    return true;
-  }
-
-  /**
    * Shows the colorpicker widget if hidden.
    * If the input is disabled this call will be ignored.
    *
@@ -420,42 +349,7 @@ class Colorpicker {
    * @returns {boolean} True if was hidden and afterwards visible, false if nothing happened.
    */
   show(e) {
-    this.lastEvent.alias = 'show';
-    this.lastEvent.e = e;
-
-    if (this.isVisible() || this.isDisabled()) {
-      // Don't show the widget if it's already visible or it is disabled
-      return false;
-    }
-    this.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
-
-    this._reposition(e);
-    $(root).on('resize.colorpicker', $.proxy(this._reposition, this));
-
-    if (e && (!this.hasInput() || this.input.attr('type') === 'color')) {
-      if (e.stopPropagation && e.preventDefault) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-    }
-    if ((this.component || !this.input) && (this.options.inline === false)) {
-      $(root.document).on({
-        'mousedown.colorpicker': $.proxy(this.hide, this)
-      });
-    }
-
-    /**
-     * (Colorpicker) When show() is called and the widget can be shown.
-     *
-     * @event Colorpicker#colorpickerShow
-     */
-    this.element.trigger({
-      type: 'colorpickerShow',
-      colorpicker: this,
-      color: this.color
-    });
-
-    return true;
+    return this.popupHandler.show(e);
   }
 
   /**
@@ -467,39 +361,7 @@ class Colorpicker {
    * @returns {boolean} True if was visible and afterwards hidden, false if nothing happened.
    */
   hide(e) {
-    this.lastEvent.alias = 'hide';
-    this.lastEvent.e = e;
-
-    if (this.isHidden()) {
-      // Do not trigger if already hidden
-      return false;
-    }
-    if ((typeof e !== 'undefined') && e.target) {
-      // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
-      if (
-        $(e.currentTarget).parents('.colorpicker').length > 0 ||
-        $(e.target).parents('.colorpicker').length > 0
-      ) {
-        return false;
-      }
-    }
-    this.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
-    $(root).off('resize.colorpicker', this._reposition);
-    $(root.document).off({
-      'mousedown.colorpicker': this.hide
-    });
-
-    /**
-     * (Colorpicker) When hide() is called and the widget can be hidden.
-     *
-     * @event Colorpicker#colorpickerHide
-     */
-    this.element.trigger({
-      type: 'colorpickerHide',
-      colorpicker: this,
-      color: this.color
-    });
-    return true;
+    return this.popupHandler.hide(e);
   }
 
   /**
@@ -509,7 +371,7 @@ class Colorpicker {
    * @returns {boolean}
    */
   isVisible() {
-    return this.picker.hasClass('colorpicker-visible') && !this.picker.hasClass('colorpicker-hidden');
+    return this.popupHandler.isVisible();
   }
 
   /**
@@ -519,7 +381,7 @@ class Colorpicker {
    * @returns {boolean}
    */
   isHidden() {
-    return this.picker.hasClass('colorpicker-hidden') && !this.picker.hasClass('colorpicker-visible');
+    return this.popupHandler.isHidden();
   }
 
   /**

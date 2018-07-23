@@ -19,3 +19,4 @@ Gruntfile.js
 *.psd
 *.ai
 composer.json
+serve.js

@@ -21,14 +21,14 @@ export default {
    */
   color: false,
   /**
-   * Forces an specific color format. If false, it will be automatically detected the first time only,
+   * Forces an specific color format. If 'auto', it will be automatically detected the first time only,
    * but if null it will be always recalculated.
    *
    * Note that the ending 'a' of the format meaning "alpha" has currently no effect, meaning that rgb is the same as
    * rgba excepting if the alpha channel is disabled (see useAlpha).
    *
    * @type {('rgb'|'rgba'|'prgb'|'prgba'|'hex'|'hex3'|'hex6'|'hex8'|'hsl'|'hsla'|'hsv'|'hsva'|'name'|boolean)}
-   * @default false
+   * @default null
    */
   format: null,
   /**
@@ -179,14 +179,6 @@ export default {
     }
   },
   /**
-   * Colorpicker popup alignment.
-   * For now only right is supported.
-   *
-   * @type {('right')}
-   * @default 'right'
-   */ // TODO: add 'left' and 'auto' support.
-  align: 'right',
-  /**
    * Custom class to be added to the colorpicker element
    *
    * @type {String}
@@ -236,7 +228,9 @@ export default {
   extensions: [
     {
       name: 'preview',
-      showText: false
+      options: {
+        showText: false
+      }
     }
   ]
 };

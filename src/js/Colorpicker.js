@@ -152,19 +152,19 @@ class Colorpicker {
     }
 
     if (this.options.debug) {
-      this.options.extensions.push({name: 'Debugger'});
+      this.options.extensions.push({name: 'debugger'});
     }
 
     // Register extensions
     this.options.extensions.forEach((ext) => {
-      this.addExtension(ext.name, bundledExtensions[ext.name.toLowerCase()], ext);
+      this.addExtension(ext.name, bundledExtensions[ext.name.toLowerCase()], ext.options || {});
     });
 
     let colorValue = this.options.color !== false ? this.options.color : this.getValue();
 
     this.color = colorValue ? this.createColor(colorValue) : false;
 
-    if (this.options.format === false) {
+    if (this.options.format === 'auto') {
       // If format is false, use the first parsed one from now on
       this.options.format = this.color.format;
     }
@@ -514,36 +514,37 @@ class Colorpicker {
    * @param {boolean} [force]
    */
   update(force = false) {
-    if (this._shouldUpdate() || (force === true)) {
-      // Update only if the current value (from input or data) is not empty
-      this._updateComponent();
-
-      // Do not update input when autoInputFallback is disabled and last event is keyup.
-      let preventInputUpdate = (
-        (this.options.autoInputFallback !== true) &&
-        (
-          // this.isInvalidColor() ||  // prevent also on invalid color (on create, leaves invalid colors)
-          (this.lastEvent.alias === 'keyup')
-        )
-      );
-
-      if (!preventInputUpdate) {
-        this._updateInput();
-      }
-
-      this._updatePicker();
-
-      /**
-       * (Colorpicker) Fired when the widget is updated.
-       *
-       * @event Colorpicker#colorpickerUpdate
-       */
-      this.element.trigger({
-        type: 'colorpickerUpdate',
-        colorpicker: this,
-        color: this.color
-      });
+    if (!(this._shouldUpdate() || (force === true))) {
+      return;
     }
+    // Update only if the current value (from input or data) is not empty
+    this._updateComponent();
+
+    // Do not update input when autoInputFallback is disabled and last event is keyup.
+    let preventInputUpdate = (
+      (this.options.autoInputFallback !== true) &&
+      (
+        // this.isInvalidColor() ||  // prevent also on invalid color (on create, leaves invalid colors)
+        (this.lastEvent.alias === 'keyup')
+      )
+    );
+
+    if (!preventInputUpdate) {
+      this._updateInput();
+    }
+
+    this._updatePicker();
+
+    /**
+     * (Colorpicker) Fired when the widget is updated.
+     *
+     * @event Colorpicker#colorpickerUpdate
+     */
+    this.element.trigger({
+      type: 'colorpickerUpdate',
+      colorpicker: this,
+      color: this.color
+    });
   }
 
   /**

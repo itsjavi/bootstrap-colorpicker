@@ -29,10 +29,6 @@ class PopupHandler {
     let cp = this.colorpicker;
     let addon = cp.component;
 
-    if (cp.options.align === 'right') {
-      cp.picker.addClass('colorpicker-right');
-    }
-
     if (cp.options.inline) {
       cp.picker.addClass('colorpicker-inline colorpicker-visible');
       return; // no need to bind show/hide events for inline elements
@@ -145,9 +141,9 @@ class PopupHandler {
     let element = cp.component || cp.element;
     let offset = element[type]();
 
-    if (cp.options.align === 'right') {
-      offset.left -= cp.picker.outerWidth() - element.outerWidth();
-    }
+    // align to the right
+    offset.left -= cp.picker.outerWidth() - element.outerWidth();
+
     cp.picker.css({
       top: offset.top + element.outerHeight(),
       left: offset.left

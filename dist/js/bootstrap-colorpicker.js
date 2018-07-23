@@ -560,11 +560,16 @@ var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _SliderHandler = __webpack_require__(12);
+
+var _SliderHandler2 = _interopRequireDefault(_SliderHandler);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var colorPickerIdCounter = 0;
+var root = typeof self !== 'undefined' ? self : undefined; // window
 
 /**
  * Colorpicker widget class
@@ -690,28 +695,13 @@ var Colorpicker = function () {
     this.container = this.container !== false ? (0, _jquery2.default)(this.container) : false;
 
     /**
-     * @type {*|String}
-     * @private
-     */
-    this.currentSlider = null;
-
-    /**
-     * @type {{left: number, top: number}}
-     * @private
-     */
-    this.mousePointer = {
-      left: 0,
-      top: 0
-    };
-
-    /**
      * Latest external event
      *
      * @type {{name: String, e: *}}
      * @private
      */
     this.lastEvent = {
-      name: null,
+      alias: null,
       e: null
     };
 
@@ -783,8 +773,29 @@ var Colorpicker = function () {
       }
     }, this));
 
+    var onSliderGuideMove = function onSliderGuideMove(slider, top, left) {
+      slider.guideStyle.left = left + 'px';
+      slider.guideStyle.top = top + 'px';
+
+      var color = !this.colorpicker.hasColor() ? this.colorpicker.createColor(this.colorpicker.fallbackColor) : this.colorpicker.color.getCopy();
+
+      if (slider.callLeft) {
+        color[slider.callLeft].call(color, left / slider.maxLeft);
+      }
+
+      if (slider.callTop) {
+        color[slider.callTop].call(color, top / slider.maxTop);
+      }
+
+      this.colorpicker.setValue(color);
+    };
+
     // Bind click/tap events on the sliders
-    $picker.find('.colorpicker-saturation, .colorpicker-hue, .colorpicker-alpha').on('mousedown.colorpicker touchstart.colorpicker', _jquery2.default.proxy(this._mousedown, this));
+    /**
+     * @type {SliderHandler}
+     */
+    this.slidersHandler = new _SliderHandler2.default(root.document, this, onSliderGuideMove);
+    this.slidersHandler.bind();
 
     $picker.appendTo(this.container ? this.container : (0, _jquery2.default)('body'));
 
@@ -960,13 +971,13 @@ var Colorpicker = function () {
   }, {
     key: '_reposition',
     value: function _reposition(e) {
-      this.lastEvent.name = 'reposition';
+      this.lastEvent.alias = 'reposition';
       this.lastEvent.e = e;
 
       if (this.options.inline !== false || this.options.container) {
         return false;
       }
-      var type = this.container && this.container[0] !== window.document.body ? 'position' : 'offset';
+      var type = this.container && this.container[0] !== root.document.body ? 'position' : 'offset';
       var element = this.component || this.element;
       var offset = element[type]();
 
@@ -992,7 +1003,7 @@ var Colorpicker = function () {
   }, {
     key: 'show',
     value: function show(e) {
-      this.lastEvent.name = 'show';
+      this.lastEvent.alias = 'show';
       this.lastEvent.e = e;
 
       if (this.isVisible() || this.isDisabled()) {
@@ -1002,7 +1013,7 @@ var Colorpicker = function () {
       this.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
 
       this._reposition(e);
-      (0, _jquery2.default)(window).on('resize.colorpicker', _jquery2.default.proxy(this._reposition, this));
+      (0, _jquery2.default)(root).on('resize.colorpicker', _jquery2.default.proxy(this._reposition, this));
 
       if (e && (!this.hasInput() || this.input.attr('type') === 'color')) {
         if (e.stopPropagation && e.preventDefault) {
@@ -1011,7 +1022,7 @@ var Colorpicker = function () {
         }
       }
       if ((this.component || !this.input) && this.options.inline === false) {
-        (0, _jquery2.default)(window.document).on({
+        (0, _jquery2.default)(root.document).on({
           'mousedown.colorpicker': _jquery2.default.proxy(this.hide, this)
         });
       }
@@ -1042,7 +1053,7 @@ var Colorpicker = function () {
   }, {
     key: 'hide',
     value: function hide(e) {
-      this.lastEvent.name = 'hide';
+      this.lastEvent.alias = 'hide';
       this.lastEvent.e = e;
 
       if (this.isHidden()) {
@@ -1056,8 +1067,8 @@ var Colorpicker = function () {
         }
       }
       this.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
-      (0, _jquery2.default)(window).off('resize.colorpicker', this._reposition);
-      (0, _jquery2.default)(window.document).off({
+      (0, _jquery2.default)(root).off('resize.colorpicker', this._reposition);
+      (0, _jquery2.default)(root.document).off({
         'mousedown.colorpicker': this.hide
       });
 
@@ -1242,7 +1253,7 @@ var Colorpicker = function () {
         // Do not update input when autoInputFallback is disabled and last event is keyup.
         var preventInputUpdate = this.options.autoInputFallback !== true &&
         // this.isInvalidColor() ||  // prevent also on invalid color (on create, leaves invalid colors)
-        this.lastEvent.name === 'keyup';
+        this.lastEvent.alias === 'keyup';
 
         if (!preventInputUpdate) {
           this._updateInput();
@@ -1544,137 +1555,6 @@ var Colorpicker = function () {
     }
 
     /**
-     * Function triggered when clicking in one of the color adjustment bars
-     *
-     * @private
-     * @fires Colorpicker#mousemove
-     * @param {Event} e
-     * @returns {boolean}
-     */
-
-  }, {
-    key: '_mousedown',
-    value: function _mousedown(e) {
-      this.lastEvent.name = 'mousedown';
-      this.lastEvent.e = e;
-
-      if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
-        e.pageX = e.originalEvent.touches[0].pageX;
-        e.pageY = e.originalEvent.touches[0].pageY;
-      }
-      e.stopPropagation();
-      e.preventDefault();
-
-      var target = (0, _jquery2.default)(e.target);
-
-      // detect the slider and set the limits and callbacks
-      var zone = target.closest('div');
-      var sliders = this.options.horizontal ? this.options.slidersHorz : this.options.sliders;
-
-      if (zone.is('.colorpicker')) {
-        return false;
-      }
-      if (zone.is('.colorpicker-saturation')) {
-        this.currentSlider = _jquery2.default.extend({}, sliders.saturation);
-      } else if (zone.is('.colorpicker-hue')) {
-        this.currentSlider = _jquery2.default.extend({}, sliders.hue);
-      } else if (zone.is('.colorpicker-alpha')) {
-        this.currentSlider = _jquery2.default.extend({}, sliders.alpha);
-      } else if (zone.is('.colorpicker-alpha-color')) {
-        this.currentSlider = _jquery2.default.extend({}, sliders.alpha);
-        zone = zone.parent();
-      } else {
-        return false;
-      }
-      var offset = zone.offset();
-      // reference to guide's style
-
-      this.currentSlider.guide = zone.find('.colorpicker-guide')[0].style;
-      this.currentSlider.left = e.pageX - offset.left;
-      this.currentSlider.top = e.pageY - offset.top;
-      this.mousePointer = {
-        left: e.pageX,
-        top: e.pageY
-      };
-
-      /**
-       * (window.document) Triggered on mousedown for the document object,
-       * so the color adjustment guide is moved to the clicked position.
-       *
-       * @event Colorpicker#mousemove
-       */
-      (0, _jquery2.default)(window.document).on({
-        'mousemove.colorpicker': _jquery2.default.proxy(this._mousemove, this),
-        'touchmove.colorpicker': _jquery2.default.proxy(this._mousemove, this),
-        'mouseup.colorpicker': _jquery2.default.proxy(this._mouseup, this),
-        'touchend.colorpicker': _jquery2.default.proxy(this._mouseup, this)
-      }).trigger('mousemove');
-    }
-
-    /**
-     * Function triggered when dragging a guide inside one of the color adjustment bars.
-     *
-     * @private
-     * @param {Event} e
-     * @returns {boolean}
-     */
-
-  }, {
-    key: '_mousemove',
-    value: function _mousemove(e) {
-      this.lastEvent.name = 'mousemove';
-      this.lastEvent.e = e;
-
-      var color = !this.hasColor() ? this.createColor(this.fallbackColor) : this.color.getCopy();
-
-      if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
-        e.pageX = e.originalEvent.touches[0].pageX;
-        e.pageY = e.originalEvent.touches[0].pageY;
-      }
-      e.stopPropagation();
-      e.preventDefault();
-      var left = Math.max(0, Math.min(this.currentSlider.maxLeft, this.currentSlider.left + ((e.pageX || this.mousePointer.left) - this.mousePointer.left)));
-      var top = Math.max(0, Math.min(this.currentSlider.maxTop, this.currentSlider.top + ((e.pageY || this.mousePointer.top) - this.mousePointer.top)));
-
-      this.currentSlider.guide.left = left + 'px';
-      this.currentSlider.guide.top = top + 'px';
-      if (this.currentSlider.callLeft) {
-        color[this.currentSlider.callLeft].call(color, left / this.currentSlider.maxLeft);
-      }
-      if (this.currentSlider.callTop) {
-        color[this.currentSlider.callTop].call(color, top / this.currentSlider.maxTop);
-      }
-
-      this.setValue(color);
-      return false;
-    }
-
-    /**
-     * Function triggered when releasing the click in one of the color adjustment bars.
-     *
-     * @private
-     * @param {Event} e
-     * @returns {boolean}
-     */
-
-  }, {
-    key: '_mouseup',
-    value: function _mouseup(e) {
-      this.lastEvent.name = 'mouseup';
-      this.lastEvent.e = e;
-
-      e.stopPropagation();
-      e.preventDefault();
-      (0, _jquery2.default)(window.document).off({
-        'mousemove.colorpicker': this._mousemove,
-        'touchmove.colorpicker': this._mousemove,
-        'mouseup.colorpicker': this._mouseup,
-        'touchend.colorpicker': this._mouseup
-      });
-      return false;
-    }
-
-    /**
      * Function triggered when the input has changed, so the colorpicker gets updated.
      *
      * @private
@@ -1685,7 +1565,7 @@ var Colorpicker = function () {
   }, {
     key: '_change',
     value: function _change(e) {
-      this.lastEvent.name = 'change';
+      this.lastEvent.alias = 'change';
       this.lastEvent.e = e;
 
       var val = this.input.val();
@@ -1706,7 +1586,7 @@ var Colorpicker = function () {
   }, {
     key: '_keyup',
     value: function _keyup(e) {
-      this.lastEvent.name = 'keyup';
+      this.lastEvent.alias = 'keyup';
       this.lastEvent.e = e;
 
       var val = this.input.val();
@@ -3480,18 +3360,22 @@ exports.default = {
    */
   sliders: {
     saturation: {
+      selector: '.colorpicker-saturation',
       maxLeft: 115,
       maxTop: 115,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
+      selector: '.colorpicker-hue',
       maxLeft: 0,
       maxTop: 115,
       callLeft: false,
       callTop: 'setHueRatio'
     },
     alpha: {
+      selector: '.colorpicker-alpha',
+      childSelector: '.colorpicker-alpha-color',
       maxLeft: 0,
       maxTop: 115,
       callLeft: false,
@@ -3504,18 +3388,22 @@ exports.default = {
    */
   slidersHorz: {
     saturation: {
+      selector: '.colorpicker-saturation',
       maxLeft: 115,
       maxTop: 115,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
+      selector: '.colorpicker-hue',
       maxLeft: 115,
       maxTop: 0,
       callLeft: 'setHueRatio',
       callTop: false
     },
     alpha: {
+      selector: '.colorpicker-alpha',
+      childSelector: '.colorpicker-alpha-color',
       maxLeft: 115,
       maxTop: 0,
       callLeft: 'setAlphaRatio',
@@ -3964,6 +3852,240 @@ var Swatches = function (_Palette) {
 }(_Palette3.default);
 
 exports.default = Swatches;
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Class that handles all configured sliders on mouse or touch events.
+ */
+var SliderHandler = function () {
+  /**
+   * @param {Document} document
+   * @param {Colorpicker} colorpicker
+   * @param {Function|null} onMove
+   */
+  function SliderHandler(document, colorpicker) {
+    var onMove = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+    _classCallCheck(this, SliderHandler);
+
+    /**
+     * @type {Document}
+     */
+    this.document = document;
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+    /**
+     * Latest external event
+     *
+     * @type {{name: String, e: *}}
+     * @private
+     */
+    this.lastEvent = {
+      alias: null,
+      e: null
+    };
+    /**
+     * @type {*|String}
+     * @private
+     */
+    this.currentSlider = null;
+    /**
+     * @type {{left: number, top: number}}
+     * @private
+     */
+    this.mousePointer = {
+      left: 0,
+      top: 0
+    };
+
+    /**
+     * @type {Function}
+     */
+    this.onMove = onMove || function () {};
+  }
+
+  /**
+   * Binds the colorpicker sliders to the mouse/touch events
+   */
+
+
+  _createClass(SliderHandler, [{
+    key: 'bind',
+    value: function bind() {
+      var sliders = this.colorpicker.options.horizontal ? this.colorpicker.options.slidersHorz : this.colorpicker.options.sliders;
+      var sliderClasses = [];
+
+      for (var sliderName in sliders) {
+        if (!sliders.hasOwnProperty(sliderName)) {
+          continue;
+        }
+
+        sliderClasses.push(sliders[sliderName].selector);
+      }
+
+      this.colorpicker.picker.find(sliderClasses.join(', ')).on('mousedown.colorpicker touchstart.colorpicker', _jquery2.default.proxy(this.pressed, this));
+    }
+
+    /**
+     * Function triggered when clicking in one of the color adjustment bars
+     *
+     * @private
+     * @fires Colorpicker#mousemove
+     * @param {Event} e
+     */
+
+  }, {
+    key: 'pressed',
+    value: function pressed(e) {
+      this.lastEvent.alias = 'pressed';
+      this.lastEvent.e = e;
+
+      if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
+        e.pageX = e.originalEvent.touches[0].pageX;
+        e.pageY = e.originalEvent.touches[0].pageY;
+      }
+      e.stopPropagation();
+      e.preventDefault();
+
+      var target = (0, _jquery2.default)(e.target);
+
+      // detect the slider and set the limits and callbacks
+      var zone = target.closest('div');
+      var sliders = this.colorpicker.options.horizontal ? this.colorpicker.options.slidersHorz : this.colorpicker.options.sliders;
+
+      if (zone.is('.colorpicker')) {
+        return;
+      }
+
+      this.currentSlider = null;
+
+      for (var sliderName in sliders) {
+        if (!sliders.hasOwnProperty(sliderName)) {
+          continue;
+        }
+
+        var slider = sliders[sliderName];
+
+        if (zone.is(slider.selector)) {
+          this.currentSlider = _jquery2.default.extend({}, slider);
+          break;
+        } else if (slider.childSelector !== undefined && zone.is(slider.childSelector)) {
+          this.currentSlider = _jquery2.default.extend({}, slider);
+          zone = zone.parent(); // zone.parents(slider.selector).first() ?
+          break;
+        }
+      }
+
+      var guide = zone.find('.colorpicker-guide').get(0);
+
+      if (this.currentSlider === null || guide === null) {
+        return;
+      }
+
+      var offset = zone.offset();
+
+      // reference to guide's style
+      this.currentSlider.guideStyle = guide.style;
+      this.currentSlider.left = e.pageX - offset.left;
+      this.currentSlider.top = e.pageY - offset.top;
+      this.mousePointer = {
+        left: e.pageX,
+        top: e.pageY
+      };
+
+      /**
+       * (window.document) Triggered on mousedown for the document object,
+       * so the color adjustment guide is moved to the clicked position.
+       *
+       * @event Colorpicker#mousemove
+       */
+      (0, _jquery2.default)(this.document).on({
+        'mousemove.colorpicker': _jquery2.default.proxy(this.moved, this),
+        'touchmove.colorpicker': _jquery2.default.proxy(this.moved, this),
+        'mouseup.colorpicker': _jquery2.default.proxy(this.released, this),
+        'touchend.colorpicker': _jquery2.default.proxy(this.released, this)
+      }).trigger('mousemove');
+    }
+
+    /**
+     * Function triggered when dragging a guide inside one of the color adjustment bars.
+     *
+     * @private
+     * @param {Event} e
+     */
+
+  }, {
+    key: 'moved',
+    value: function moved(e) {
+      this.lastEvent.alias = 'moved';
+      this.lastEvent.e = e;
+
+      if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
+        e.pageX = e.originalEvent.touches[0].pageX;
+        e.pageY = e.originalEvent.touches[0].pageY;
+      }
+
+      e.stopPropagation();
+      e.preventDefault();
+
+      var left = Math.max(0, Math.min(this.currentSlider.maxLeft, this.currentSlider.left + ((e.pageX || this.mousePointer.left) - this.mousePointer.left)));
+
+      var top = Math.max(0, Math.min(this.currentSlider.maxTop, this.currentSlider.top + ((e.pageY || this.mousePointer.top) - this.mousePointer.top)));
+
+      this.onMove(this.currentSlider, top, left);
+    }
+
+    /**
+     * Function triggered when releasing the click in one of the color adjustment bars.
+     *
+     * @private
+     * @param {Event} e
+     */
+
+  }, {
+    key: 'released',
+    value: function released(e) {
+      this.lastEvent.alias = 'released';
+      this.lastEvent.e = e;
+
+      e.stopPropagation();
+      e.preventDefault();
+
+      (0, _jquery2.default)(this.document).off({
+        'mousemove.colorpicker': this.moved,
+        'touchmove.colorpicker': this.moved,
+        'mouseup.colorpicker': this.released,
+        'touchend.colorpicker': this.released
+      });
+    }
+  }]);
+
+  return SliderHandler;
+}();
+
+exports.default = SliderHandler;
 
 /***/ })
 /******/ ]);

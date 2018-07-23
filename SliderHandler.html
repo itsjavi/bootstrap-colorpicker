@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   
-  <title>Bootstrap Colorpicker | extensions/Palette.js - Documentation</title>
+  <title>Bootstrap Colorpicker | SliderHandler - Documentation</title>
   
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85082661-5"></script>
@@ -50,163 +50,557 @@
     <div class="main-content col-md-9 col-lg-10">
       <div id="main" class="main-content-wrapper">
         
-        <h1 class="page-title">extensions/Palette.js</h1>
+        <h1 class="page-title">SliderHandler</h1>
         
 
         
 
 
+
+
+<section>
+
+<header>
+    
+        <h2>
+        SliderHandler
+        </h2>
+        
+            <div class="class-description"><p>Class that handles all configured sliders on mouse or touch events.</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+<div class="section-method">
 
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>'use strict';
+    <h2>Constructor</h2>
+    
 
-import Extension from 'Extension';
-import $ from 'jquery';
+    <h4 class="name" id="SliderHandler"><span class="type-signature"></span>new SliderHandler<span class="signature">(document, colorpicker, onMove)</span><span class="type-signature"></span></h4>
 
-let defaults = {
-  /**
-   * Key-value pairs defining a color alias and its CSS color representation.
-   *
-   * They can also be just an array of values. In that case, no special names are used, only the real colors.
-   *
-   * @type {Object|Array}
-   * @default null
-   * @example
-   *  {
-   *   'black': '#000000',
-   *   'white': '#ffffff',
-   *   'red': '#FF0000',
-   *   'default': '#777777',
-   *   'primary': '#337ab7',
-   *   'success': '#5cb85c',
-   *   'info': '#5bc0de',
-   *   'warning': '#f0ad4e',
-   *   'danger': '#d9534f'
-   *  }
-   *
-   * @example ['#f0ad4e', '#337ab7', '#5cb85c']
-   */
-  colors: null,
-  /**
-   * If true, the when a color swatch is selected the name (alias) will be used as input value,
-   * otherwise the swatch real color value will be used.
-   *
-   * @type {boolean}
-   * @default true
-   */
-  namesAsValues: true
-};
+    
 
-class Palette extends Extension {
 
-  /**
-   * @returns {Object|Array}
-   */
-  get colors() {
-    return this.options.colors;
-  }
 
-  constructor(colorpicker, options = {}) {
-    super(colorpicker, $.extend(true, {}, defaults, options));
 
-    if ((!Array.isArray(this.options.colors)) &amp;&amp; (typeof this.options.colors !== 'object')) {
-      this.options.colors = null;
-    }
-  }
 
-  /**
-   * @returns {int}
-   */
-  getLength() {
-    if (!this.options.colors) {
-      return 0;
-    }
 
-    if (Array.isArray(this.options.colors)) {
-      return this.options.colors.length;
-    }
 
-    if (typeof this.options.colors === 'object') {
-      return Object.keys(this.options.colors).length;
-    }
+<dl class="details">
 
-    return 0;
-  }
+    
 
-  resolveColor(color) {
-    if (this.getLength() &lt;= 0) {
-      return false;
-    }
+    
 
-    if (Array.isArray(this.options.colors)) {
-      if (this.options.colors.indexOf(color) >= 0) {
-        return color;
-      }
-      if (this.options.colors.indexOf(color.toUpperCase()) >= 0) {
-        return color.toUpperCase();
-      }
-      if (this.options.colors.indexOf(color.toLowerCase()) >= 0) {
-        return color.toLowerCase();
-      }
-      return false;
-    }
+    
 
-    if (typeof this.options.colors !== 'object') {
-      return false;
-    }
+    
 
-    if (!this.options.namesAsValues) {
-      return this.getValue(color, false);
-    }
-    return this.getName(color, this.getName('#' + color, this.getValue(color, false)));
-  }
+    
 
-  /**
-   * Given a color value, returns the corresponding color name or defaultValue.
-   *
-   * @param {String} value
-   * @param {*} defaultValue
-   * @returns {*}
-   */
-  getName(value, defaultValue = false) {
-    if (!(typeof value === 'string') || !this.options.colors) {
-      return defaultValue;
-    }
-    for (let name in this.options.colors) {
-      if (!this.options.colors.hasOwnProperty(name)) {
-        continue;
-      }
-      if (this.options.colors[name].toLowerCase() === value.toLowerCase()) {
-        return name;
-      }
-    }
-    return defaultValue;
-  }
+    
 
-  /**
-   * Given a color name, returns the corresponding color value or defaultValue.
-   *
-   * @param {String} name
-   * @param {*} defaultValue
-   * @returns {*}
-   */
-  getValue(name, defaultValue = false) {
-    if (!(typeof name === 'string') || !this.options.colors) {
-      return defaultValue;
-    }
-    if (this.options.colors.hasOwnProperty(name)) {
-      return this.options.colors[name];
-    }
-    return defaultValue;
-  }
-}
+    
 
-export default Palette;
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="SliderHandler.js.html">SliderHandler.js</a>, <a href="SliderHandler.js.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>document</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Document</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>colorpicker</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code><a href="Colorpicker.html">Colorpicker</a></code></span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onMove</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>function</code></span>
+|
+
+<span class="param-type"><code>null</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="colorpicker"><span class="type-signature"></span>colorpicker<span class="type-signature"> :<a href="Colorpicker.html">Colorpicker</a></span></h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="SliderHandler.js.html">SliderHandler.js</a>, <a href="SliderHandler.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code><a href="Colorpicker.html">Colorpicker</a></code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="document"><span class="type-signature"></span>document<span class="type-signature"> :Document</span></h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="SliderHandler.js.html">SliderHandler.js</a>, <a href="SliderHandler.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>Document</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="onMove"><span class="type-signature"></span>onMove<span class="type-signature"> :function</span></h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="SliderHandler.js.html">SliderHandler.js</a>, <a href="SliderHandler.js.html#line50">line 50</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>function</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="bind"><span class="type-signature"></span>bind<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Binds the colorpicker sliders to the mouse/touch events</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="SliderHandler.js.html">SliderHandler.js</a>, <a href="SliderHandler.js.html#line57">line 57</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

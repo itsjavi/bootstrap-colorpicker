@@ -186,7 +186,7 @@ class SliderHandler {
       )
     );
 
-    this.onMove(this.currentSlider, top, left);
+    this.onMove(this, top, left);
   }
 
   /**

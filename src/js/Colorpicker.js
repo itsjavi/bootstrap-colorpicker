@@ -10,22 +10,34 @@ import PopupHandler from './PopupHandler';
 
 let colorPickerIdCounter = 0;
 let root = (typeof self !== 'undefined' ? self : this); // window
-let onSliderGuideMove = function (slider, top, left) {
+
+// This function is called every time a slider guide is moved
+// The scope of "this" is the SliderHandler object
+let onSliderGuideMove = function (handler, top, left) {
+  if (!handler.currentSlider) {
+    return;
+  }
+
+  let slider = handler.currentSlider, cp = handler.colorpicker;
+
+  // Create a color object
+  let color = !cp.hasColor() ? cp
+    .createColor(cp.fallbackColor) : cp.color.getCopy();
+
+  // Adjust the guide position
   slider.guideStyle.left = left + 'px';
   slider.guideStyle.top = top + 'px';
 
-  let color = !this.colorpicker.hasColor() ? this.colorpicker
-    .createColor(this.colorpicker.fallbackColor) : this.colorpicker.color.getCopy();
-
+  // Adjust the color
   if (slider.callLeft) {
     color[slider.callLeft].call(color, left / slider.maxLeft);
   }
-
   if (slider.callTop) {
     color[slider.callTop].call(color, top / slider.maxTop);
   }
 
-  this.colorpicker.setValue(color);
+  // Set the new color
+  cp.setValue(color);
 };
 
 /**

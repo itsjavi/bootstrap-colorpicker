@@ -21,33 +21,35 @@
         <script>
           $(function () {
             $('#cp1')
-              .colorpicker({
-                inline: true,
-                container: true,
-                useAlpha: false,
-                extensions: [
-                  {
-                    name: 'swatches',
-                    colors: {
-                      'tetrad1': '#000',
-                      'tetrad2': '#000',
-                      'tetrad3': '#000',
-                      'tetrad4': '#000'
-                    },
-                    namesAsValues: false
-                  }
-                ]
-              })
-              .on('colorpickerChange colorpickerCreate', function (e) {
-                e.color.tetrad().forEach(function (color, i) {
-                  var colorStr = color.toString(e.color.format);
+                .colorpicker({
+                  inline: true,
+                  container: true,
+                  useAlpha: false,
+                  extensions: [
+                    {
+                      name: 'swatches',
+                      options: {
+                        colors: {
+                          'tetrad1': '#000',
+                          'tetrad2': '#000',
+                          'tetrad3': '#000',
+                          'tetrad4': '#000'
+                        },
+                        namesAsValues: false
+                      }
+                    }
+                  ]
+                })
+                .on('colorpickerChange colorpickerCreate', function (e) {
+                  e.color.tetrad().forEach(function (color, i) {
+                    var colorStr = color.toString(e.color.format);
 
-                  e.colorpicker.picker.find('.colorpicker-swatch[data-name="tetrad' + (i + 1) + '"]')
-                    .css('background-color', colorStr)
-                    .attr('data-value', colorStr)
-                    .attr('title', colorStr);
+                    e.colorpicker.picker.find('.colorpicker-swatch[data-name="tetrad' + (i + 1) + '"]')
+                        .css('background-color', colorStr)
+                        .attr('data-value', colorStr)
+                        .attr('title', colorStr);
+                  });
                 });
-              });
           });
         </script>
       {{/content}}

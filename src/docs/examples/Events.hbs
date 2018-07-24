@@ -21,17 +21,17 @@
         <script>
           $(function () {
             $('#cp1')
-              .colorpicker({
-                inline: true,
-                container: true
-              })
-              .on('colorpickerChange colorpickerCreate', function (e) {
-                e.colorpicker.picker.parents('.card').find('.card-header')
-                  .css('background-color', e.color.toRgbString());
+                .colorpicker({
+                  inline: true,
+                  container: true
+                })
+                .on('colorpickerChange colorpickerCreate', function (e) {
+                  e.colorpicker.picker.parents('.card').find('.card-header')
+                      .css('background-color', e.color.toRgbString());
 
-                e.colorpicker.picker.parents('.card-body')
-                  .css('background-color', e.color.complement().toRgbString());
-              });
+                  e.colorpicker.picker.parents('.card-body')
+                      .css('background-color', e.color.complement().toRgbString());
+                });
           });
         </script>
       {{/content}}

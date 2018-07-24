@@ -348,7 +348,7 @@ function buildNav(members) {
   nav.push(buildNavLink('home', '<a href="index.html">Home</a>'))
 
   // add searchBox
-  if(env.conf.templates.default.searchBox && (env.conf.templates.default.searchBox.enabled !== false)) {
+  if (env.conf.templates.default.searchBox && (env.conf.templates.default.searchBox.enabled !== false)) {
     nav.push(`<li class="search-box"><input placeholder="Search" class="form-control" type="search" /></li>`)
   }
 

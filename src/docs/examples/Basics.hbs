@@ -47,13 +47,13 @@
       {{#content "code"}}
 
         <div id="cp2" class="input-group colorpicker-component" title="Using input value">
-          <input type="text" class="form-control input-lg" value="#DD0F20"/>
+          <input type="text" class="form-control input-lg" value="#DD0F20FF"/>
           <span class="input-group-append">
             <span class="input-group-text colorpicker-input-addon"><em><i></i></em></span>
           </span>
         </div>
 
-        <div id="cp3a" class="input-group colorpicker-component" data-color="#F18A31"
+        <div id="cp3a" class="input-group colorpicker-component" data-color="rgb(241, 138, 49)"
              title="Using data-color attribute in the colorpicker element">
           <input type="text" class="form-control input-lg"/>
           <span class="input-group-append">
@@ -62,7 +62,7 @@
         </div>
 
         <div id="cp3b" class="input-group colorpicker-component" title="Using data-color attribute in the input">
-          <input type="text" class="form-control input-lg" data-color="#F8EB48"/>
+          <input type="text" class="form-control input-lg" data-color="hsl(56, 93%, 63%)"/>
           <span class="input-group-append">
             <span class="input-group-text colorpicker-input-addon"><em><i></i></em></span>
           </span>
@@ -89,13 +89,20 @@
       {{#content "title"}} Automatic format detection {{/content}}
       {{#content "description"}}
         <p>
-          Whenever the <code>format</code> option is <var>false</var> (default), the first parsed color format will be
-          detected and used as default, but when the option equals <var>null</var> or empty string,
-          the format is recalculated every time.
+          Whenever the <code>format</code> option is <var>'auto'</var>, the first parsed color format will be
+          detected and used as default, but when the option equals <var>null</var> (default),
+          the format is recalculated every time. You can see the differences here, when trying to adjust the alpha
+          channel:
         </p>
       {{/content}}
       {{#content "code"}}
-        <div id="cp5" class="input-group colorpicker-component" title="Using format option">
+        <div id="cp5a" class="input-group colorpicker-component" title="Using format option">
+          <input type="text" class="form-control input-lg" value="#305AA2"/>
+          <span class="input-group-append">
+            <span class="input-group-text colorpicker-input-addon"><em><i></i></em></span>
+          </span>
+        </div>
+        <div id="cp5b" class="input-group colorpicker-component" title="Using format option">
           <input type="text" class="form-control input-lg" value="#305AA2"/>
           <span class="input-group-append">
             <span class="input-group-text colorpicker-input-addon"><em><i></i></em></span>
@@ -103,7 +110,10 @@
         </div>
         <script>
           $(function () {
-            $('#cp5').colorpicker({
+            $('#cp5a').colorpicker({
+              format: 'auto'
+            });
+            $('#cp5b').colorpicker({
               format: null
             });
           });
@@ -118,7 +128,7 @@
         <p>If defined, the format option forces an specific format, ignoring the original one.</p>
       {{/content}}
       {{#content "code"}}
-        <div id="cp5b" class="input-group colorpicker-component" title="Using format option">
+        <div id="cp5c" class="input-group colorpicker-component" title="Using format option">
           <input type="text" class="form-control input-lg" value="#305AA2"/>
           <span class="input-group-append">
             <span class="input-group-text colorpicker-input-addon"><em><i></i></em></span>
@@ -126,7 +136,7 @@
         </div>
         <script>
           $(function () {
-            $('#cp5b').colorpicker({
+            $('#cp5c').colorpicker({
               format: "rgba"
             });
           });

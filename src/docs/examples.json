@@ -2,6 +2,9 @@
   "Basics": {
     "title": "Getting started"
   },
+  "Bootstrap": {
+    "title": "Bootstrap integration"
+  },
   "ColorApi": {
     "title": "Color manipulation"
   },
@@ -24,9 +27,9 @@
     "title": "Extensions"
   },
   "legacy_docs": {
-    "title": "Legacy documentation"
+    "title": "Older versions"
   },
   "project_donations": {
-    "title": "Donate"
+    "title": "Support this project"
   }
 }

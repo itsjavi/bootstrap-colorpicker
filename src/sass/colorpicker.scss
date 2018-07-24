@@ -227,6 +227,10 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
   float: left;
 }
 
+.colorpicker-input-addon {
+  position: relative;
+}
+
 .colorpicker-input-addon i {
   display: inline-block;
   cursor: pointer;
@@ -236,25 +240,14 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
   position: relative;
 }
 
-.colorpicker-input-addon em {
-  display: inline-block;
-  cursor: pointer;
-  vertical-align: text-top;
-  height: 16px;
-  width: 16px;
-  position: relative;
-  background: linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 0),
-  linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 0),
-  rgb(255, 255, 255);
-
-  background-size: 16px 16px;
-  background-position: 0 0, 8px 8px;
-}
-
-.colorpicker-input-addon em i {
+.colorpicker-input-addon:before {
+  content: "";
   position: absolute;
-  left: 0;
-  top: 0;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: text-top;
+  @include bgCheckerBox();
 }
 
 .colorpicker.colorpicker-inline {

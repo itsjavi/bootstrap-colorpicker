@@ -31,12 +31,43 @@ class PopupHandler {
   }
 
   /**
+   * @private
+   * @returns {jQuery|false}
+   */
+  get input() {
+    return this.colorpicker.inputHandler.input;
+  }
+
+  /**
+   * @private
+   * @returns {boolean}
+   */
+  get hasInput() {
+    return this.colorpicker.inputHandler.hasInput();
+  }
+
+  /**
+   * @private
+   * @returns {jQuery|false}
+   */
+  get addon() {
+    return this.colorpicker.component;
+  }
+
+  /**
+   * @private
+   * @returns {boolean}
+   */
+  get hasAddon() {
+    return !!this.colorpicker.component;
+  }
+
+  /**
    * Binds the different colorpicker elements to the focus/mouse/touch events so it reacts in order to show or
    * hide the colorpicker popup accordingly. It also adds the proper classes.
    */
   bind() {
     let cp = this.colorpicker;
-    let addon = cp.component;
 
     if (cp.options.inline) {
       cp.picker.addClass('colorpicker-inline colorpicker-visible');
@@ -46,7 +77,7 @@ class PopupHandler {
     cp.picker.addClass('colorpicker-popup colorpicker-hidden');
 
     // there is no input or addon
-    if (!cp.hasInput() && !addon) {
+    if (!this.hasInput && !this.hasAddon) {
       return;
     }
 
@@ -60,30 +91,30 @@ class PopupHandler {
     }
 
     // bind addon show/hide events
-    if (addon) {
+    if (this.hasAddon) {
       // enable focus on addons
-      if (!addon.attr('tabindex')) {
-        addon.attr('tabindex', 0);
+      if (!this.addon.attr('tabindex')) {
+        this.addon.attr('tabindex', 0);
       }
 
-      addon.on({
+      this.addon.on({
         'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.toggle, this)
       });
-      addon.on({
+      this.addon.on({
         'focus.colorpicker': $.proxy(this.show, this)
       });
-      addon.on({
+      this.addon.on({
         'focusout.colorpicker': $.proxy(this.hide, this)
       });
     }
 
     // bind input show/hide events
-    if (cp.hasInput() && !addon) {
-      cp.input.on({
+    if (this.hasInput && !this.hasAddon) {
+      this.input.on({
         'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.show, this),
         'focus.colorpicker': $.proxy(this.show, this)
       });
-      cp.input.on({
+      this.input.on({
         'focusout.colorpicker': $.proxy(this.hide, this)
       });
     }
@@ -96,27 +127,24 @@ class PopupHandler {
    * Unbinds any event bound by this handler
    */
   unbind() {
-    let cp = this.colorpicker;
-    let addon = cp.component;
-
-    if (cp.hasInput()) {
-      cp.input.off({
+    if (this.hasInput) {
+      this.input.off({
         'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.show, this),
         'focus.colorpicker': $.proxy(this.show, this)
       });
-      cp.input.off({
+      this.input.off({
         'focusout.colorpicker': $.proxy(this.hide, this)
       });
     }
 
-    if (addon) {
-      addon.off({
+    if (this.hasAddon) {
+      this.addon.off({
         'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.toggle, this)
       });
-      addon.off({
+      this.addon.off({
         'focus.colorpicker': $.proxy(this.show, this)
       });
-      addon.off({
+      this.addon.off({
         'focusout.colorpicker': $.proxy(this.hide, this)
       });
     }
@@ -149,7 +177,7 @@ class PopupHandler {
   createPopover() {
     let cp = this.colorpicker;
 
-    this.popoverTarget = cp.component ? cp.component : cp.input;
+    this.popoverTarget = this.hasAddon ? this.addon : this.input;
 
     cp.picker.addClass('colorpicker-bs-popover-content');
 
@@ -246,7 +274,7 @@ class PopupHandler {
 
     // Prevent showing browser native HTML5 colorpicker
     if (
-      (e && (!cp.hasInput() || cp.input.attr('type') === 'color')) &&
+      (e && (!this.hasInput || this.input.attr('type') === 'color')) &&
       (e.stopPropagation && e.preventDefault)
     ) {
       e.stopPropagation();

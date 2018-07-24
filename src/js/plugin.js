@@ -7,39 +7,44 @@ let plugin = 'colorpicker';
 
 $[plugin] = Colorpicker;
 
+// Colorpicker jQuery Plugin API
 $.fn[plugin] = function (option) {
-  let apiArgs = Array.prototype.slice.call(arguments, 1),
+  let fnArgs = Array.prototype.slice.call(arguments, 1),
     isSingleElement = (this.length === 1),
     returnValue = null;
 
-  let $jq = this.each(function () {
+  let $elements = this.each(function () {
     let $this = $(this),
       inst = $this.data(plugin),
       options = ((typeof option === 'object') ? option : {});
 
+    // Create instance if does not exist
     if (!inst) {
       inst = new Colorpicker(this, options);
       $this.data(plugin, inst);
     }
 
+    if (!isSingleElement) {
+      return;
+    }
+
+    returnValue = $this;
+
     if (typeof option === 'string') {
       if (option === 'colorpicker') {
+        // Return colorpicker instance: e.g. .colorpicker('colorpicker')
         returnValue = inst;
       } else if ($.isFunction(inst[option])) {
-        returnValue = inst[option].apply(inst, apiArgs);
-      } else { // its a property ?
-        if (apiArgs.length) {
-          // set property
-          inst[option] = apiArgs[0];
-        }
+        // Return method call return value: e.g. .colorpicker('isEnabled')
+        returnValue = inst[option].apply(inst, fnArgs);
+      } else {
+        // Return property value: e.g. .colorpicker('element')
         returnValue = inst[option];
       }
-    } else {
-      returnValue = $this;
     }
   });
 
-  return isSingleElement ? returnValue : $jq;
+  return isSingleElement ? returnValue : $elements;
 };
 
 $.fn[plugin].constructor = Colorpicker;

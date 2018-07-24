@@ -4,8 +4,8 @@ const webpack = require('webpack');
 const libraryName = 'bootstrap-colorpicker';
 let entries = {};
 
-entries[libraryName] = './src/js/jquery-plugin.js';
-entries[libraryName + '.min'] = './src/js/jquery-plugin.js';
+entries[libraryName] = './src/js/plugin.js';
+entries[libraryName + '.min'] = './src/js/plugin.js';
 
 module.exports = {
   entry: entries,

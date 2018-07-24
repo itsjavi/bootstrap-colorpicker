@@ -13,7 +13,7 @@ component for jQuery, which is also compatible with Twitter Bootstrap.
 [![Donate](https://img.shields.io/badge/%E2%9D%A4-Donate%20to%20this%20project-e0a61d.svg?longCache=true&style=flat-square)](https://github.com/itsjavi/itsjavi.github.io/blob/master/BACKERS.md#sponsors--backers)
 [![Supporters](https://img.shields.io/badge/%F0%9F%92%AA-Supporters-333333.svg?longCache=true&style=flat-square)](https://github.com/itsjavi/itsjavi.github.io/blob/master/BACKERS.md#sponsors)
 
-> NOTE that this documentation refers to the next major version of the project, living in the master branch.<br>
+> NOTE that this documentation refers to the **latest stable version** of the project.<br>
 > Previous documentation can be found here: [v2.x](https://farbelous.github.io/bootstrap-colorpicker/v2/).
 
 ## Install
@@ -48,7 +48,7 @@ Example:
   <script src="dist/js/bootstrap-colorpicker.js"></script>
   <script>
     $(function () {
-      $('#mycp').colorpicker();
+      $('#mycp').colorpicker({popover:false});
     });
   </script>
 </body>
@@ -57,9 +57,13 @@ Example:
 ## Requirements
 Note that this library depends on `jQuery >= 2.1.0`.
 
-The `Twitter Bootstrap` dependency is totally optional, since this library does not depend directly
-on it in order to work, except when Bootstrap-related classes like `form-control` and `input-group-addon` are used 
+The `Twitter Bootstrap` dependency is recommended but optional, since this library does not depend directly
+on it in order to work, except when Bootstrap-related classes like `form-control` and `input-group-append` are used 
 like in the examples. In that case you will need at least the Bootstrap CSS for everything to be displayed correctly.
+
+The Bootstrap JS bundle is required in case you want to use the Bootstrap Popover instead of the built-in one.
+By default all instances are created using the Bootstrap Popover. In order to make the plugin work without Bootstrap,
+you need to set the `popover` option to `false`.
 
 ## Documentation
 

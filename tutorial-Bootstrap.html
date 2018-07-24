@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   
-  <title>Bootstrap Colorpicker | Color manipulation - Documentation</title>
+  <title>Bootstrap Colorpicker | Bootstrap integration - Documentation</title>
   
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85082661-5"></script>
@@ -47,7 +47,7 @@
     <div class="main-content col-md-9 col-lg-10">
       <div id="main" class="main-content-wrapper">
         
-        <h1 class="page-title">Color manipulation</h1>
+        <h1 class="page-title">Bootstrap integration</h1>
         
 
         <section>
@@ -60,60 +60,42 @@
     <div class="example-group">
     <div class="example-group-description">
           <p>
-      The colorpicker Color class extends <a href="https://github.com/bgrins/TinyColor">tinycolor</a>,
-      a great color parsing library with a friendly API that allows you to adjust the color and find
-      complementary ones, triads, etc.
-      <br>
-      So basically all you can do with tinycolor you can also do it with the color objects.
+      Note that for using any of these features you will also require the Bootstrap JS loaded in your
+      project, following the Bootstrap requirements of each component, for example, the <a
+        href="https://getbootstrap.com/docs/4.0/components/popovers/" target="_blank">Popover component</a>
+      needs Popper.js or bootstrap.bundle.js to be loaded.
     </p>
 
     </div>
 
   <div class="example-group-body">
-    <div class="example">
+    
+<div class="example">
   <div class="card card-default">
-      <div class="card-header example-title"><h2> Tetrad color swatches </h2></div>
+      <div class="card-header example-title"><h2> Custom popover options</h2></div>
     <div class="card-body">
         <div class="example-description">
-                  <p>In this example we use the Color API to add color swatches based on a tetrad of the selected color.</p>
+                  <p>
+          You can use any Bootstrap Popover options (except: trigger, content and html) using the "popover"
+          property in the colorpicker options.
+        </p>
 
         </div>
       <div class="example-demo">
-                <div id="cp1" data-color="#6D2781">
-          <input type="text" class="form-control" style="width:auto"/> <br>
+                <div id="cp1" class="input-group colorpicker-component">
+          <input type="text" class="form-control input-lg" value="hsl(103, 70%, 64%)"/>
+          <span class="input-group-append">
+            <span class="input-group-text colorpicker-input-addon"><em><i></i></em></span>
+          </span>
         </div>
         <script>
           $(function () {
-            $('#cp1')
-                .colorpicker({
-                  inline: true,
-                  container: true,
-                  useAlpha: false,
-                  extensions: [
-                    {
-                      name: 'swatches',
-                      options: {
-                        colors: {
-                          'tetrad1': '#000',
-                          'tetrad2': '#000',
-                          'tetrad3': '#000',
-                          'tetrad4': '#000'
-                        },
-                        namesAsValues: false
-                      }
-                    }
-                  ]
-                })
-                .on('colorpickerChange colorpickerCreate', function (e) {
-                  e.color.tetrad().forEach(function (color, i) {
-                    var colorStr = color.toString(e.color.format);
-
-                    e.colorpicker.picker.find('.colorpicker-swatch[data-name="tetrad' + (i + 1) + '"]')
-                        .css('background-color', colorStr)
-                        .attr('data-value', colorStr)
-                        .attr('title', colorStr);
-                  });
-                });
+            $('#cp1').colorpicker({
+              popover: {
+                title: 'Adjust the color',
+                placement: 'top'
+              }
+            });
           });
         </script>
 
@@ -121,46 +103,158 @@
     </div>
     <div class="card-footer">
       <div class="card-footer--legend">Code</div>
-      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp1&quot; data-color=&quot;#6D2781&quot;&gt;
-  &lt;input type=&quot;text&quot; class=&quot;form-control&quot; style=&quot;width:auto&quot;&#x2F;&gt; &lt;br&gt;
+      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp1&quot; class=&quot;input-group colorpicker-component&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;hsl(103, 70%, 64%)&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-append&quot;&gt;
+    &lt;span class=&quot;input-group-text colorpicker-input-addon&quot;&gt;&lt;em&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;em&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;span&gt;
 &lt;&#x2F;div&gt;
 &lt;script&gt;
   $(function () {
-    $(&#39;#cp1&#39;)
-        .colorpicker({
-          inline: true,
-          container: true,
-          useAlpha: false,
-          extensions: [
-            {
-              name: &#39;swatches&#39;,
-              options: {
-                colors: {
-                  &#39;tetrad1&#39;: &#39;#000&#39;,
-                  &#39;tetrad2&#39;: &#39;#000&#39;,
-                  &#39;tetrad3&#39;: &#39;#000&#39;,
-                  &#39;tetrad4&#39;: &#39;#000&#39;
-                },
-                namesAsValues: false
-              }
-            }
-          ]
-        })
-        .on(&#39;colorpickerChange colorpickerCreate&#39;, function (e) {
-          e.color.tetrad().forEach(function (color, i) {
-            var colorStr = color.toString(e.color.format);
-
-            e.colorpicker.picker.find(&#39;.colorpicker-swatch[data-name=&quot;tetrad&#39; + (i + 1) + &#39;&quot;]&#39;)
-                .css(&#39;background-color&#39;, colorStr)
-                .attr(&#39;data-value&#39;, colorStr)
-                .attr(&#39;title&#39;, colorStr);
-          });
-        });
+    $(&#39;#cp1&#39;).colorpicker({
+      popover: {
+        title: &#39;Adjust the color&#39;,
+        placement: &#39;top&#39;
+      }
+    });
   });
 &lt;&#x2F;script&gt;</pre>
     </div>
   </div>
 </div>
+
+<div class="example">
+  <div class="card card-default">
+      <div class="card-header example-title"><h2> Use built-in simple popup</h2></div>
+    <div class="card-body">
+        <div class="example-description">
+                  <p>
+          If you want to use the built-in (non Bootstrap) popup solution, you only need to set the
+          popover option to false.<br>
+          This popup solution is very limited and it only supports the bottom left placement. <br>
+        </p>
+        <div class="alert alert-info">
+          This option is recommended in order to make Colorpicker working standalone without the need
+          of including any Bootstrap JS files in your project.
+        </div>
+
+        </div>
+      <div class="example-demo">
+                <div id="cp1b" class="input-group colorpicker-component">
+          <input type="text" class="form-control input-lg" value="rgba(30, 112, 76, 0.9)"/>
+          <span class="input-group-append">
+            <span class="input-group-text colorpicker-input-addon"><em><i></i></em></span>
+          </span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp1b').colorpicker({
+              popover: false
+            });
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="card-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp1b&quot; class=&quot;input-group colorpicker-component&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;rgba(30, 112, 76, 0.9)&quot;&#x2F;&gt;
+  &lt;span class=&quot;input-group-append&quot;&gt;
+    &lt;span class=&quot;input-group-text colorpicker-input-addon&quot;&gt;&lt;em&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;em&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;span&gt;
+&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp1b&#39;).colorpicker({
+      popover: false
+    });
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
+
+
+<div class="example">
+  <div class="card card-default">
+      <div class="card-header example-title"><h2> Inside a modal </h2></div>
+    <div class="card-body">
+        <div class="example-description">
+          
+        </div>
+      <div class="example-demo">
+                <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          Launch demo modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <input id="cp2" type="text" class="form-control input-lg" value="rgb(130, 44, 29)"/>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          $(function () {
+            $('#cp2').colorpicker();
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="card-footer--legend">Code</div>
+      <pre class="example-code prettyprint lang-html">&lt;!-- Button trigger modal --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#exampleModal&quot;&gt;
+  Launch demo modal
+&lt;&#x2F;button&gt;
+
+&lt;!-- Modal --&gt;
+&lt;div class=&quot;modal fade&quot; id=&quot;exampleModal&quot; tabindex=&quot;-1&quot; role=&quot;dialog&quot;
+     aria-labelledby=&quot;exampleModalLabel&quot; aria-hidden=&quot;true&quot;&gt;
+  &lt;div class=&quot;modal-dialog&quot; role=&quot;document&quot;&gt;
+    &lt;div class=&quot;modal-content&quot;&gt;
+      &lt;div class=&quot;modal-header&quot;&gt;
+        &lt;h5 class=&quot;modal-title&quot; id=&quot;exampleModalLabel&quot;&gt;Modal title&lt;&#x2F;h5&gt;
+        &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; aria-label=&quot;Close&quot;&gt;
+          &lt;span aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;&#x2F;span&gt;
+        &lt;&#x2F;button&gt;
+      &lt;&#x2F;div&gt;
+      &lt;div class=&quot;modal-body&quot;&gt;
+        &lt;input id=&quot;cp2&quot; type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;rgb(130, 44, 29)&quot;&#x2F;&gt;
+      &lt;&#x2F;div&gt;
+      &lt;div class=&quot;modal-footer&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-secondary&quot; data-dismiss=&quot;modal&quot;&gt;Close&lt;&#x2F;button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Save changes&lt;&#x2F;button&gt;
+      &lt;&#x2F;div&gt;
+    &lt;&#x2F;div&gt;
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp2&#39;).colorpicker();
+  });
+&lt;&#x2F;script&gt;</pre>
+    </div>
+  </div>
+</div>
+
 
 
   </div>

@@ -1,12 +1,9 @@
-@mixin bgImg($imgBase64) {
-  background-image: url("#{$imgBase64}");
-}
-
-@mixin borderRadius($size) {
-  -webkit-border-radius: $size;
-  -moz-border-radius: $size;
-  border-radius: $size;
-}
+$outline-color: rgba(0, 0, 0, 0.2);
+$box-shadow-outline: 0 0 0 1px $outline-color;
+$bar-size-short: 16px;
+$base-margin: 6px;
+$columns: 6; // this affects the number of swatches per row and the width of the color picker, saturation, etc.
+$bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
 
 @mixin bgCheckerBox($size: 10px) {
   background: linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 0),
@@ -50,110 +47,52 @@
   background: linear-gradient(to top, rgba(255, 0, 0, 1) 0%, rgba(255, 128, 0, 1) 8%, rgba(255, 255, 0, 1) 17%, rgba(128, 255, 0, 1) 25%, rgba(0, 255, 0, 1) 33%, rgba(0, 255, 128, 1) 42%, rgba(0, 255, 255, 1) 50%, rgba(0, 128, 255, 1) 58%, rgba(0, 0, 255, 1) 67%, rgba(128, 0, 255, 1) 75%, rgba(255, 0, 255, 1) 83%, rgba(255, 0, 128, 1) 92%, rgba(255, 0, 0, 1) 100%); /* W3C */
 }
 
-@mixin outline() {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
-}
-
-.colorpicker-saturation {
-  position: relative;
-  width: 115px;
-  height: 115px;
-  @include bgSaturation();
-  cursor: crosshair;
-  float: left;
-  @include outline();
-  margin-bottom: 5px;
-  .colorpicker-guide {
-    display: block;
-    height: 6px;
-    width: 6px;
-    border: 1px solid #000;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
-    @include borderRadius(5px);
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: -3px 0 0 -3px;
-  }
-}
-
-.colorpicker-hue,
-.colorpicker-alpha {
-  position: relative;
-  width: 15px;
-  height: 115px;
-  float: left;
-  cursor: row-resize;
-  margin-left: 5px;
-  margin-bottom: 5px;
-}
-
-.colorpicker-alpha-color {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.colorpicker-hue,
-.colorpicker-alpha-color {
-  @include outline();
-}
-
-.colorpicker-hue .colorpicker-guide,
-.colorpicker-alpha .colorpicker-guide {
-  display: block;
-  height: 1px;
-  background: rgba(0, 0, 0, 0.85);
-  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.85);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  margin-top: -1px;
-  z-index: 1;
-}
-
-.colorpicker-hue {
-  @include bgHueVertical();
-}
-
-.colorpicker-alpha {
-  @include bgCheckerBox();
-  display: none;
-}
-
 .colorpicker {
-  position: absolute;
-  top: 100%;
-  left: 0;
+  position: relative;
   display: none;
-  float: left;
   font-size: inherit;
   color: inherit;
   text-align: left;
   list-style: none;
   background-color: #ffffff;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  padding: 5px;
-  width: 147px;
+  border: 1px solid $outline-color;
+  //box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  padding: .75rem .75rem;
+  width: ($bar-size-large + $base-margin + $bar-size-short);
+  border-radius: 4px;
+  box-sizing: content-box;
+}
+
+.colorpicker-popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  float: left;
   margin-top: 1px;
-  @include borderRadius(4px);
-  z-index: 1055;
+  z-index: 1060;
+}
+
+.colorpicker-popup.colorpicker-bs-popover {
+  position: relative;
+  top: auto;
+  left: auto;
+  float: none;
+  margin: 0;
+  z-index: initial;
+  border: none;
+  padding: 0.25rem 0; // popover padding correction
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
 }
 
 .colorpicker:before,
 .colorpicker:after {
-  display: table;
   content: "";
-  line-height: 0;
-}
-
-.colorpicker:after {
+  display: table;
   clear: both;
+  line-height: 0;
 }
 
 .colorpicker:before {
@@ -162,7 +101,7 @@
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
   border-bottom: 7px solid #ccc;
-  border-bottom-color: rgba(0, 0, 0, 0.2);
+  border-bottom-color: $outline-color;
   position: absolute;
   top: -7px;
   left: auto;
@@ -188,30 +127,106 @@
 }
 
 .colorpicker.colorpicker-with-alpha {
-  width: 167px;
+  width: ($bar-size-large + (($base-margin + $bar-size-short) * 2));
 }
 
 .colorpicker.colorpicker-with-alpha .colorpicker-alpha {
   display: block;
 }
 
+.colorpicker-saturation {
+  position: relative;
+  width: $bar-size-large;
+  height: $bar-size-large;
+  @include bgSaturation();
+  cursor: crosshair;
+  float: left;
+  box-shadow: $box-shadow-outline;
+  margin-bottom: $base-margin;
+  .colorpicker-guide {
+    display: block;
+    height: 6px;
+    width: 6px;
+    border-radius: 6px;
+    border: 1px solid #000;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: -3px 0 0 -3px;
+  }
+}
+
+.colorpicker-hue,
+.colorpicker-alpha {
+  position: relative;
+  width: $bar-size-short;
+  height: $bar-size-large;
+  float: left;
+  cursor: row-resize;
+  margin-left: $base-margin;
+  margin-bottom: $base-margin;
+}
+
+.colorpicker-alpha-color {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.colorpicker-hue,
+.colorpicker-alpha-color {
+  box-shadow: $box-shadow-outline;
+}
+
+.colorpicker-hue .colorpicker-guide,
+.colorpicker-alpha .colorpicker-guide {
+  display: block;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.85);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin-top: -1px;
+  z-index: 1;
+}
+
+.colorpicker-hue {
+  @include bgHueVertical();
+}
+
+.colorpicker-alpha {
+  @include bgCheckerBox();
+  display: none;
+}
+
 .colorpicker-bar {
-  height: 15px;
-  margin: 5px 0 0 0;
+  height: $bar-size-short;
+  margin: $base-margin 0 0 0;
   clear: both;
   text-align: center;
   font-size: 10px;
   line-height: normal;
   max-width: 100%;
-  @include outline();
+  box-shadow: $box-shadow-outline;
+  &:before {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }
 
-.colorpicker-bar-horizontal {
-  height: 15px;
-  margin: 0 0 5px 0;
+.colorpicker-bar.colorpicker-bar-horizontal {
+  height: $bar-size-large;
+  width: $bar-size-short;
+  margin: 0 0 $base-margin 0;
   float: left;
-  width: 115px;
 }
+
 .colorpicker-input-addon i {
   display: inline-block;
   cursor: pointer;
@@ -251,28 +266,34 @@
 }
 
 .colorpicker.colorpicker-horizontal {
-  width: 125px;
+  width: $bar-size-large;
   height: auto;
 }
 
 .colorpicker.colorpicker-horizontal .colorpicker-bar {
-  width: 115px;
+  width: $bar-size-large;
+}
+
+.colorpicker.colorpicker-horizontal .colorpicker-saturation {
+  float: none;
+  margin-bottom: 0;
 }
 
 .colorpicker.colorpicker-horizontal .colorpicker-hue,
 .colorpicker.colorpicker-horizontal .colorpicker-alpha {
-  width: 115px;
-  height: 15px;
-  float: left;
+  float: none;
+  width: $bar-size-large;
+  height: $bar-size-short;
   cursor: col-resize;
   margin-left: 0;
-  margin-bottom: 5px;
+  margin-top: $base-margin;
+  margin-bottom: 0;
 }
 
 .colorpicker.colorpicker-horizontal .colorpicker-hue .colorpicker-guide,
 .colorpicker.colorpicker-horizontal .colorpicker-alpha .colorpicker-guide {
   display: block;
-  height: 15px;
+  height: $bar-size-short;
   background: rgba(0, 0, 0, 0.85);
   box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.85);
   position: absolute;
@@ -292,13 +313,15 @@
 }
 
 .colorpicker-inline:before,
-.colorpicker-no-arrow:before {
+.colorpicker-no-arrow:before,
+.colorpicker-popup.colorpicker-bs-popover:before {
   border-right: 0;
   border-left: 0;
 }
 
 .colorpicker-inline:after,
-.colorpicker-no-arrow:after {
+.colorpicker-no-arrow:after,
+.colorpicker-popup.colorpicker-bs-popover:after {
   border-right: 0;
   border-left: 0;
 }
@@ -346,26 +369,47 @@
 .colorpicker-swatch {
   cursor: pointer;
   float: left;
-  height: 15px;
-  width: 15px;
-  margin-right: 5px;
-  margin-bottom: 5px;
+  height: $bar-size-short;
+  width: $bar-size-short;
+  margin-right: $base-margin;
+  margin-top: $base-margin;
   margin-left: 0;
   display: block;
-  @include outline();
+  box-shadow: $box-shadow-outline;
 }
 
-.colorpicker-swatch:nth-of-type(7n+0) {
+// saturation + hue vertical (clear margin-right on nth column + 1)
+.colorpicker-swatch:nth-of-type(#{$columns + 1}n+0) {
   margin-right: 0;
 }
 
+// saturation + hue + alpha vertical (clear margin-right on nth column + 2)
 .colorpicker-with-alpha {
-  .colorpicker-swatch:nth-of-type(7n+0) {
-    margin-right: 5px;
+  .colorpicker-swatch:nth-of-type(#{$columns + 1}n+0) {
+    margin-right: $base-margin;
   }
-  .colorpicker-swatch:nth-of-type(8n+0) {
+  .colorpicker-swatch:nth-of-type(#{$columns + 2}n+0) {
     margin-right: 0;
   }
+}
+
+// horizontal mode (clear margin-right on nth column)
+.colorpicker-horizontal {
+  .colorpicker-swatch:nth-of-type(#{$columns}n+0) {
+    margin-right: 0;
+  }
+  .colorpicker-swatch:nth-of-type(#{$columns + 1}n+0) {
+    margin-right: $base-margin;
+  }
+  .colorpicker-swatch:nth-of-type(#{$columns + 2}n+0) {
+    margin-right: $base-margin;
+  }
+}
+
+.colorpicker-swatch:last-of-type:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 // RTL writing mode support

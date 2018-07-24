@@ -48,6 +48,18 @@ export default {
    */
   inline: false,
   /**
+   * Bootstrap Popover options. If false, the built-in popover will be used.
+   * The trigger, content and html options are always ignored.
+   *
+   * @type {boolean|false}
+   * @default Object
+   */
+  popover: {
+    animation: true,
+    placement: 'bottom',
+    fallbackPlacement: 'flip'
+  },
+  /**
    * Child input CSS selector
    *
    * @type {String}
@@ -114,14 +126,16 @@ export default {
   /**
    * This only applies when the color format is hexadecimal.
    * If true, the alpha channel will be allowed for hexadecimal formatted colors, making them having 4 or 8 chars
-   * (RGBA or RRGGBBAA). This format is not yet supported in all modern browsers, so it is disabled by default.
+   * (RGBA or RRGGBBAA). This format is not yet supported in IE/Edge browsers, so it is disabled by default.
    * If false, rgba will be used whenever there is an alpha change different than 1 and the color format is
    * automatic.
+   *
+   * @see https://caniuse.com/#feat=css-rrggbbaa
    *
    * @type {boolean}
    * @default true
    */
-  enableHex8: false,
+  enableHexAlpha: false,
   /**
    * Vertical sliders configuration
    * @type {Object}

@@ -206,7 +206,12 @@ class Colorpicker {
     this.popupHandler = new PopupHandler(root, this);
     this.popupHandler.bind();
 
-    $picker.appendTo(this.container ? this.container : $('body'));
+    let pickerParent = this.container ? this.container :
+      (this.options.popover ? null : window.document.body);
+
+    if (pickerParent) {
+      $picker.appendTo(pickerParent);
+    }
 
     // TODO: refactor the following to InputHandler (and) AddOnHandler classes
     // Bind other events
@@ -302,7 +307,7 @@ class Colorpicker {
     }
 
     if (this.hasColor() && this.color.hasTransparency() && this.color.format.match(/^hex/)) {
-      return this.options.enableHex8 ? 'hex8' : (this.isAlphaEnabled() ? 'rgba' : 'hex');
+      return this.options.enableHexAlpha ? 'hex8' : (this.isAlphaEnabled() ? 'rgba' : 'hex');
     }
 
     if (this.hasColor()) {

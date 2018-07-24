@@ -1,6 +1,7 @@
 'use strict';
 
 import $ from 'jquery';
+import _defaults from './options';
 
 /**
  * Handles everything related to the UI of the colorpicker popup: show, hide, position,...
@@ -19,6 +20,14 @@ class PopupHandler {
      * @type {Colorpicker}
      */
     this.colorpicker = colorpicker;
+    /**
+     * @type {jQuery}
+     */
+    this.popoverTarget = null;
+    /**
+     * @type {jQuery}
+     */
+    this.popoverTip = null;
   }
 
   /**
@@ -36,17 +45,18 @@ class PopupHandler {
 
     cp.picker.addClass('colorpicker-popup colorpicker-hidden');
 
-    // prevent closing the colorpicker when clicking on itself or any child element
-    cp.picker.on('mousedown.colorpicker touchstart.colorpicker', $.proxy(function (e) {
-      if (e.target === e.currentTarget) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    }, this));
-
     // there is no input or addon
     if (!cp.hasInput() && !addon) {
       return;
+    }
+
+    // prevent closing the colorpicker when clicking on itself or any child element
+    this.preventHideOnNestedClick(cp.picker);
+
+    // create Bootstrap 4 popover
+    if (cp.options.popover) {
+      this.createPopover();
+      this.preventHideOnNestedClick(this.popoverTip);
     }
 
     // bind addon show/hide events
@@ -111,7 +121,52 @@ class PopupHandler {
       });
     }
 
+    if (this.popoverTarget) {
+      this.popoverTarget.popover('dispose');
+    }
+
     $(this.root).off('resize.colorpicker', $.proxy(this.reposition, this));
+  }
+
+  preventHideOnNestedClick(element) {
+    if (!element) {
+      return;
+    }
+
+    $(element).on('mousedown.colorpicker touchstart.colorpicker', $.proxy(function (e) {
+      if (!e.currentTarget) {
+        return;
+      }
+      if (
+        $(e.currentTarget).is(this.colorpicker.picker) ||
+        $(e.currentTarget).is(this.popoverTip)
+      ) {
+        e.preventDefault();
+      }
+    }, this));
+  }
+
+  createPopover() {
+    let cp = this.colorpicker;
+
+    this.popoverTarget = cp.component ? cp.component : cp.input;
+
+    cp.picker.addClass('colorpicker-bs-popover');
+
+    this.popoverTarget.popover(
+      $.extend(
+        true,
+        {},
+        _defaults.popover,
+        cp.options.popover,
+        {trigger: 'manual', content: cp.picker, html: true}
+      )
+    );
+
+    this.popoverTip = this.popoverTarget.popover('getTipElement').data('bs.popover').tip;
+
+    this.popoverTarget.on('shown.bs.popover', $.proxy(this.fireShow, this));
+    this.popoverTarget.on('hidden.bs.popover', $.proxy(this.fireHide, this));
   }
 
   /**
@@ -119,12 +174,16 @@ class PopupHandler {
    *
    * @param {Event} [e]
    * @private
-   * @returns {boolean} Returns false if the widget is inside a container or inline, true otherwise
    */
   reposition(e) {
-    if (this.isHidden()) {
-      // Don't need to reposition if hidden
-      return false;
+    if (this.popoverTarget && this.isVisible()) {
+      this.popoverTarget.popover('update');
+      return;
+    }
+
+    if (this.isHidden() || this.popoverTarget) {
+      // Don't need to reposition if hidden or the plugin is using the BS4 popover
+      return;
     }
 
     let cp = this.colorpicker;
@@ -133,8 +192,9 @@ class PopupHandler {
     cp.lastEvent.e = e;
 
     if (cp.options.inline !== false || cp.options.container) {
-      return false;
+      return;
     }
+
     let type = cp.container &&
     (cp.container[0] !== this.root.document.body) ? 'position' : 'offset';
 
@@ -148,7 +208,6 @@ class PopupHandler {
       top: offset.top + element.outerHeight(),
       left: offset.left
     });
-    return true;
   }
 
   /**
@@ -184,8 +243,6 @@ class PopupHandler {
     cp.lastEvent.alias = 'show';
     cp.lastEvent.e = e;
 
-    cp.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
-
     // Prevent showing browser native HTML5 colorpicker
     if (
       (e && (!cp.hasInput() || cp.input.attr('type') === 'color')) &&
@@ -195,7 +252,19 @@ class PopupHandler {
       e.preventDefault();
     }
 
-    this.reposition(e);
+    // add visible class before popover is shown
+    cp.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
+
+    if (this.popoverTarget) {
+      this.popoverTarget.popover('show');
+    } else {
+      this.fireShow();
+      this.reposition(e);
+    }
+  }
+
+  fireShow() {
+    let cp = this.colorpicker;
 
     /**
      * (Colorpicker) When show() is called and the widget can be shown.
@@ -238,6 +307,17 @@ class PopupHandler {
       return;
     }
 
+    if (this.popoverTarget) {
+      this.popoverTarget.popover('hide');
+    } else {
+      this.fireHide();
+    }
+  }
+
+  fireHide() {
+    let cp = this.colorpicker;
+
+    // add hidden class after popover is hidden
     cp.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
 
     /**

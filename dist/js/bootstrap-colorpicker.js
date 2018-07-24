@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Simple and customizable colorpicker component for Twitter Bootstrap.
  * @package bootstrap-colorpicker
- * @version v3.0.0-beta.5
+ * @version v3.0.0-beta.6
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -276,13 +276,22 @@ exports.default = Extension;
  * @module
  */
 
-/**
- * Colorpicker default options
- */
+// adjust these values accordingly to the sass vars
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var sassVars = {
+  'bar_size_short': 16,
+  'base_margin': 6,
+  'columns': 6
+};
+
+var sliderSize = sassVars.bar_size_short * sassVars.columns + sassVars.base_margin * (sassVars.columns - 1);
+
+/**
+ * Colorpicker default options
+ */
 exports.default = {
   /**
    * If true, loads the Debugger extension automatically into the current instance
@@ -420,15 +429,15 @@ exports.default = {
   sliders: {
     saturation: {
       selector: '.colorpicker-saturation',
-      maxLeft: 115,
-      maxTop: 115,
+      maxLeft: sliderSize,
+      maxTop: sliderSize,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
       selector: '.colorpicker-hue',
       maxLeft: 0,
-      maxTop: 115,
+      maxTop: sliderSize,
       callLeft: false,
       callTop: 'setHueRatio'
     },
@@ -436,7 +445,7 @@ exports.default = {
       selector: '.colorpicker-alpha',
       childSelector: '.colorpicker-alpha-color',
       maxLeft: 0,
-      maxTop: 115,
+      maxTop: sliderSize,
       callLeft: false,
       callTop: 'setAlphaRatio'
     }
@@ -448,14 +457,14 @@ exports.default = {
   slidersHorz: {
     saturation: {
       selector: '.colorpicker-saturation',
-      maxLeft: 115,
-      maxTop: 115,
+      maxLeft: sliderSize,
+      maxTop: sliderSize,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
       selector: '.colorpicker-hue',
-      maxLeft: 115,
+      maxLeft: sliderSize,
       maxTop: 0,
       callLeft: 'setHueRatio',
       callTop: false
@@ -463,7 +472,7 @@ exports.default = {
     alpha: {
       selector: '.colorpicker-alpha',
       childSelector: '.colorpicker-alpha-color',
-      maxLeft: 115,
+      maxLeft: sliderSize,
       maxTop: 0,
       callLeft: 'setAlphaRatio',
       callTop: false

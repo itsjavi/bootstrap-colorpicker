@@ -3,6 +3,15 @@
  * @module
  */
 
+// adjust these values accordingly to the sass vars
+let sassVars = {
+  'bar_size_short': 16,
+  'base_margin': 6,
+  'columns': 6
+};
+
+let sliderSize = (sassVars.bar_size_short * sassVars.columns) + (sassVars.base_margin * (sassVars.columns - 1));
+
 /**
  * Colorpicker default options
  */
@@ -143,15 +152,15 @@ export default {
   sliders: {
     saturation: {
       selector: '.colorpicker-saturation',
-      maxLeft: 115,
-      maxTop: 115,
+      maxLeft: sliderSize,
+      maxTop: sliderSize,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
       selector: '.colorpicker-hue',
       maxLeft: 0,
-      maxTop: 115,
+      maxTop: sliderSize,
       callLeft: false,
       callTop: 'setHueRatio'
     },
@@ -159,7 +168,7 @@ export default {
       selector: '.colorpicker-alpha',
       childSelector: '.colorpicker-alpha-color',
       maxLeft: 0,
-      maxTop: 115,
+      maxTop: sliderSize,
       callLeft: false,
       callTop: 'setAlphaRatio'
     }
@@ -171,14 +180,14 @@ export default {
   slidersHorz: {
     saturation: {
       selector: '.colorpicker-saturation',
-      maxLeft: 115,
-      maxTop: 115,
+      maxLeft: sliderSize,
+      maxTop: sliderSize,
       callLeft: 'setSaturationRatio',
       callTop: 'setBrightnessRatio'
     },
     hue: {
       selector: '.colorpicker-hue',
-      maxLeft: 115,
+      maxLeft: sliderSize,
       maxTop: 0,
       callLeft: 'setHueRatio',
       callTop: false
@@ -186,7 +195,7 @@ export default {
     alpha: {
       selector: '.colorpicker-alpha',
       childSelector: '.colorpicker-alpha-color',
-      maxLeft: 115,
+      maxLeft: sliderSize,
       maxTop: 0,
       callLeft: 'setAlphaRatio',
       callTop: false

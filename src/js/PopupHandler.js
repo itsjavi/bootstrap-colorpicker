@@ -151,7 +151,7 @@ class PopupHandler {
 
     this.popoverTarget = cp.component ? cp.component : cp.input;
 
-    cp.picker.addClass('colorpicker-bs-popover');
+    cp.picker.addClass('colorpicker-bs-popover-content');
 
     this.popoverTarget.popover(
       $.extend(
@@ -163,7 +163,8 @@ class PopupHandler {
       )
     );
 
-    this.popoverTip = this.popoverTarget.popover('getTipElement').data('bs.popover').tip;
+    this.popoverTip = $(this.popoverTarget.popover('getTipElement').data('bs.popover').tip);
+    this.popoverTip.addClass('colorpicker-bs-popover');
 
     this.popoverTarget.on('shown.bs.popover', $.proxy(this.fireShow, this));
     this.popoverTarget.on('hidden.bs.popover', $.proxy(this.fireHide, this));

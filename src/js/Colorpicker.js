@@ -7,6 +7,7 @@ import bundledExtensions from 'extensions';
 import $ from 'jquery';
 import SliderHandler from './SliderHandler';
 import PopupHandler from './PopupHandler';
+import InputHandler from './InputHandler';
 
 let colorPickerIdCounter = 0;
 let root = (typeof self !== 'undefined' ? self : this); // window
@@ -65,17 +66,7 @@ class Colorpicker {
   }
 
   /**
-   * Colorpicker bundled extension classes
-   *
-   * @static
-   * @type {{Extension}}
-   */
-  static get bundledExtensions() {
-    return bundledExtensions;
-  }
-
-  /**
-   * color getter
+   * Internal color getter
    *
    * @type {Color|null}
    */
@@ -84,7 +75,7 @@ class Colorpicker {
   }
 
   /**
-   * color setter
+   * Internal color setter
    *
    * @ignore
    * @param {Color|null} value
@@ -108,7 +99,7 @@ class Colorpicker {
     this.id = colorPickerIdCounter;
 
     /**
-     * Latest external event
+     * Latest colorpicker event
      *
      * @type {{name: String, e: *}}
      */
@@ -118,10 +109,19 @@ class Colorpicker {
     };
 
     /**
+     * The element that the colorpicker is bound to
+     *
      * @type {*|jQuery}
      */
-    this.element = $(element).addClass('colorpicker-element');
-    this.element.attr('data-colorpicker-id', this.id);
+    this.element = $(element)
+      .addClass('colorpicker-element')
+      .attr('data-colorpicker-id', this.id);
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.disabled = false;
 
     /**
      * @type {defaults}
@@ -129,14 +129,13 @@ class Colorpicker {
     this.options = $.extend(true, {}, defaults, options, this.element.data());
 
     /**
+     * Extensions added to this instance
+     *
      * @type {Extension[]}
      */
     this.extensions = [];
 
-    if (!Array.isArray(this.options.extensions)) {
-      this.options.extensions = [];
-    }
-
+    // TODO: refactor into component handler
     /**
      * @type {*|jQuery}
      */
@@ -147,98 +146,46 @@ class Colorpicker {
     }
 
     /**
+     * The element where the
      * @type {*|jQuery}
      */
     this.container = (this.options.container === true) ? this.element : this.options.container;
     this.container = (this.container !== false) ? $(this.container) : false;
 
-    // Is the element an input? Should we search inside for any input?
     /**
-     * @type {*|jQuery}
+     * @type {InputHandler}
      */
-    this.input = this.element.is('input') ? this.element : (this.options.input ?
-      this.element.find(this.options.input) : false);
-
-    if (this.input && (this.input.length === 0)) {
-      this.input = false;
-    }
-
-    if (this.options.debug) {
-      this.options.extensions.push({name: 'debugger'});
-    }
-
-    // Register extensions
-    this.options.extensions.forEach((ext) => {
-      this.addExtension(ext.name, bundledExtensions[ext.name.toLowerCase()], ext.options || {});
-    });
-
-    let colorValue = this.options.color !== false ? this.options.color : this.getValue();
-
-    this.color = colorValue ? this.createColor(colorValue) : false;
-
-    if (this.options.format === 'auto') {
-      // If format is false, use the first parsed one from now on
-      this.options.format = this.color.format;
-    }
-
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.disabled = false;
-
-    // Setup picker
-    let $picker = this.picker = $(this.options.template);
-
-    if (this.options.customClass) {
-      $picker.addClass(this.options.customClass);
-    }
-
-    if (this.options.horizontal) {
-      $picker.addClass('colorpicker-horizontal');
-    }
-
-    if (
-      (this.options.useAlpha || (this.hasColor() && this.color.hasTransparency())) &&
-      (this.options.useAlpha !== false)
-    ) {
-      this.options.useAlpha = true;
-      $picker.addClass('colorpicker-with-alpha');
-    }
-
+    this.inputHandler = new InputHandler(root, this);
     /**
      * @type {SliderHandler}
      */
-    this.slidersHandler = new SliderHandler(root, this, onSliderGuideMove);
-    this.slidersHandler.bind();
-
+    this.sliderHandler = new SliderHandler(root, this, onSliderGuideMove);
     /**
      * @type {PopupHandler}
      */
     this.popupHandler = new PopupHandler(root, this);
+
+    // Init extensions
+    this._initExtensions();
+
+    // Init color and format
+    this._initColor();
+
+    // Init picker
+    this._initPickerElement();
+
+    // Init handlers
+    this.sliderHandler.bind();
     this.popupHandler.bind();
+    this.inputHandler.bind();
 
-    let pickerParent = this.container ? this.container :
-      (this.options.popover ? null : window.document.body);
+    // Inject into the DOM (this may make it visible)
+    this._injectPickerElement();
 
-    if (pickerParent) {
-      $picker.appendTo(pickerParent);
-    }
-
-    // TODO: refactor the following to InputHandler (and) AddOnHandler classes
-    // Bind other events
-    if (this.hasInput()) {
-      this.input.on({
-        'keyup.colorpicker': $.proxy(this._keyup, this)
-      });
-      this.input.on({
-        'change.colorpicker': $.proxy(this._change, this)
-      });
-    }
-
-    // Update if there is a color option
+    // Update and force if there is a color option
     this.update(this.options.color !== false);
 
+    // Emit colorpickerCreate event
     $($.proxy(function () {
       /**
        * (Colorpicker) When the Colorpicker instance has been created and the DOM is ready.
@@ -253,16 +200,81 @@ class Colorpicker {
     }, this));
   }
 
+  _initExtensions() {
+    if (!Array.isArray(this.options.extensions)) {
+      this.options.extensions = [];
+    }
+
+    if (this.options.debug) {
+      this.options.extensions.push({name: 'debugger'});
+    }
+
+    // Register and instantiate extensions
+    this.options.extensions.forEach((ext) => {
+      this.registerExtension(bundledExtensions[ext.name.toLowerCase()], ext.options || {});
+    });
+  }
+
+  _initColor() {
+    let colorValue = this.options.color !== false ? this.options.color : this.getValue();
+
+    this.color = colorValue ? this.createColor(colorValue) : false;
+
+    if (this.options.format === 'auto') {
+      // If format is false, use the first parsed one from now on
+      this.options.format = this.color.format;
+    }
+  }
+
+  _initPickerElement() {
+    let picker = this.picker = $(this.options.template);
+
+    if (this.options.customClass) {
+      picker.addClass(this.options.customClass);
+    }
+
+    if (this.options.horizontal) {
+      picker.addClass('colorpicker-horizontal');
+    }
+
+    if (
+      (this.options.useAlpha || (this.hasColor() && this.color.hasTransparency())) &&
+      (this.options.useAlpha !== false)
+    ) {
+      this.options.useAlpha = true;
+      picker.addClass('colorpicker-with-alpha');
+    }
+  }
+
+  _injectPickerElement() {
+    // Inject the colorpicker element into the DOM
+    let pickerParent = this.container ? this.container :
+      (this.options.popover ? null : root.document.body);
+
+    if (pickerParent) {
+      this.picker.appendTo(pickerParent);
+    }
+  }
+
+  /**
+   * Colorpicker bundled extension classes
+   *
+   * @static
+   * @type {{Extension}}
+   */
+  static getBundledExtensions() {
+    return bundledExtensions;
+  }
+
   /**
    * Creates and registers the given extension
    *
-   * @param {String|Extension} extensionName
-   * @param {Extension} ExtensionClass
-   * @param {Object} [config]
+   * @param {Extension} ExtensionClass The extension class to instantiate
+   * @param {Object} [config] Extension configuration
    * @returns {Extension}
    */
-  addExtension(extensionName, ExtensionClass, config = {}) {
-    let ext = (extensionName instanceof Extension) ? extensionName : new ExtensionClass(this, config);
+  registerExtension(ExtensionClass, config = {}) {
+    let ext = new ExtensionClass(this, config);
 
     this.extensions.push(ext);
     return ext;
@@ -274,17 +286,15 @@ class Colorpicker {
    * @fires Colorpicker#colorpickerDestroy
    */
   destroy() {
-    this.slidersHandler.unbind();
+    this.sliderHandler.unbind();
+    this.inputHandler.unbind();
     this.popupHandler.unbind();
-    this.picker.remove();
     this.element.removeData('colorpicker', 'color').off('.colorpicker');
-    if (this.hasInput()) {
-      this.input.off('.colorpicker');
-    }
     if (this.component !== false) {
       this.component.off('.colorpicker');
     }
     this.element.removeClass('colorpicker-element');
+    this.picker.remove();
 
     /**
      * (Colorpicker) When the instance is destroyed with all events unbound.
@@ -313,6 +323,9 @@ class Colorpicker {
     return this.options.fallbackColor ? this.options.fallbackColor : (this.hasColor() ? this.color : '#000');
   }
 
+  /**
+   * @returns {String|null}
+   */
   get format() {
     if (this.options.format) {
       return this.options.format;
@@ -330,38 +343,8 @@ class Colorpicker {
   }
 
   /**
-   * Formatted color string, with the formatting options applied
-   * (e.g. useHashPrefix)
-   * @returns {String}
-   */
-  toInputColorString() {
-    let str = this.toCssColorString();
-
-    if (!str) {
-      return str;
-    }
-
-    if (this.options.useHashPrefix === false) {
-      str = str.replace(/^#/g, '');
-    }
-
-    return this._resolveColor(str);
-  }
-
-  /**
-   * Formatted color string, suitable for CSS
-   * @returns {String}
-   */
-  toCssColorString() {
-    if (!this.hasColor()) {
-      return '';
-    }
-    return this.color.toString(this.format);
-  }
-
-  /**
    * Shows the colorpicker widget if hidden.
-   * If the input is disabled this call will be ignored.
+   * If the colorpicker is disabled this call will be ignored.
    *
    * @fires Colorpicker#colorpickerShow
    * @param {Event} [e]
@@ -393,55 +376,103 @@ class Colorpicker {
   }
 
   /**
-   * Returns true if the colorpicker element has the colorpicker-visible class and not the colorpicker-hidden one.
-   * False otherwise.
+   * Returns the color string from the input value or the 'data-color' attribute of the input or element.
+   * If empty, it returns the defaultValue parameter.
    *
-   * @returns {boolean}
+   * @param {String|*} [defaultValue]
+   * @returns {String|*}
    */
-  isVisible() {
-    return this.popupHandler.isVisible();
+  getValue(defaultValue = null) {
+    let candidates = [], val = false;
+
+    if (this.inputHandler.hasInput()) {
+      candidates.push(this.inputHandler.getValue());
+    }
+    candidates.push(this.element.data('color'));
+
+    candidates.map((item) => {
+      if (item && (val === false)) {
+        val = item;
+      }
+    });
+
+    val = ((val === false) ? defaultValue : val);
+
+    if (val instanceof Color) {
+      return val.toString(this.format);
+    }
+
+    return val;
   }
 
   /**
-   * Returns true if the colorpicker element has the colorpicker-hidden class and not the colorpicker-visible one.
-   * False otherwise.
+   * Sets the color manually
    *
-   * @returns {boolean}
+   * @fires Colorpicker#colorpickerChange
+   * @param {String|Color} val
    */
-  isHidden() {
-    return this.popupHandler.isHidden();
-  }
-
-  /**
-   * If the input element is present, it updates the value with the current color object color string.
-   * If value is set, this method fires a "change" event on the input element.
-   *
-   * @fires Colorpicker#change
-   * @private
-   */
-  _updateInput() {
-    if (!this.hasInput()) {
-      return;
-    }
-    let val = this.toInputColorString();
-
-    if (val === this.input.prop('value')) {
-      // No need to set value or trigger any event if nothing changed
+  setValue(val) {
+    if (this.hasColor() && this.color.equals(val)) {
+      // equal color object
       return;
     }
 
-    this.input.prop('value', val ? val : '');
+    let color = val ? this.createColor(val) : null;
+
+    if (!this.hasColor() && !color) {
+      // color was empty and the new one too
+      return;
+    }
+
+    // force update if color is changed to empty
+    let forceUpdate = this.hasColor() && !color;
+
+    this.color = color;
 
     /**
-     * (Input) Triggered on the input element when a new color is selected.
+     * (Colorpicker) When the color is set programmatically with setValue().
      *
-     * @event Colorpicker#change
+     * @event Colorpicker#colorpickerChange
      */
-    this.input.trigger({
-      type: 'change',
+    this.element.trigger({
+      type: 'colorpickerChange',
       colorpicker: this,
       color: this.color,
       value: val
+    });
+
+    // force update if color has changed to empty
+    this.update(forceUpdate);
+  }
+
+  /**
+   * Updates the component color, the input value and the widget if a color is present.
+   *
+   * If force is true, it is updated anyway.
+   *
+   * @fires Colorpicker#colorpickerUpdate
+   * @param {boolean} [force]
+   */
+  update(force = false) {
+    let canUpdate = (this.hasColor() && ((this.getValue(false) !== false)));
+
+    if (!canUpdate && (force !== true)) {
+      return;
+    }
+
+    this.inputHandler.update();
+    this._updateComponent();
+    this._updatePicker();
+
+    /**
+     * (Colorpicker) Fired when the widget is updated.
+     *
+     * @event Colorpicker#colorpickerUpdate
+     */
+    this.element.trigger({
+      type: 'colorpickerUpdate',
+      colorpicker: this,
+      color: this.color
     });
   }
 
@@ -502,7 +533,7 @@ class Colorpicker {
       return;
     }
 
-    let colorStr = this.toCssColorString();
+    let colorStr = this.getSafeColorString();
     let styles = {'background': colorStr};
 
     let icn = this.component.find('i').eq(0);
@@ -515,128 +546,6 @@ class Colorpicker {
   }
 
   /**
-   * @private
-   * @returns {boolean}
-   */
-  _shouldUpdate() {
-    return (this.hasColor() && ((this.getValue(false) !== false)));
-  }
-
-  /**
-   * Updated the component color, the input value and the widget if a color is present.
-   *
-   * If force is true, it is updated anyway.
-   *
-   * @fires Colorpicker#colorpickerUpdate
-   * @param {boolean} [force]
-   */
-  update(force = false) {
-    if (!(this._shouldUpdate() || (force === true))) {
-      return;
-    }
-    // Update only if the current value (from input or data) is not empty
-    this._updateComponent();
-
-    // Do not update input when autoInputFallback is disabled and last event is keyup.
-    let preventInputUpdate = (
-      (this.options.autoInputFallback !== true) &&
-      (
-        // this.isInvalidColor() ||  // prevent also on invalid color (on create, leaves invalid colors)
-        (this.lastEvent.alias === 'keyup')
-      )
-    );
-
-    if (!preventInputUpdate) {
-      this._updateInput();
-    }
-
-    this._updatePicker();
-
-    /**
-     * (Colorpicker) Fired when the widget is updated.
-     *
-     * @event Colorpicker#colorpickerUpdate
-     */
-    this.element.trigger({
-      type: 'colorpickerUpdate',
-      colorpicker: this,
-      color: this.color
-    });
-  }
-
-  /**
-   * Returns the color string from the input value or the 'data-color' attribute of the input or element.
-   * If empty, it returns the defaultValue parameter.
-   *
-   * @param {String|*} [defaultValue]
-   * @returns {String|*}
-   */
-  getValue(defaultValue = null) {
-    defaultValue = (typeof defaultValue === 'undefined') ? this.fallbackColor : defaultValue;
-    let candidates = [], val = false;
-
-    if (this.hasInput()) {
-      candidates.push(this.input.val());
-      candidates.push(this.input.data('color'));
-    }
-    candidates.push(this.element.data('color'));
-
-    candidates.map((item) => {
-      if (item && (val === false)) {
-        val = item;
-      }
-    });
-
-    val = ((val === false) ? defaultValue : val);
-
-    if (val instanceof Color) {
-      return val.toString(this.format);
-    }
-
-    return val;
-  }
-
-  /**
-   * Sets the color manually
-   *
-   * @fires Colorpicker#colorpickerChange
-   * @param {String|Color} val
-   */
-  setValue(val) {
-    if (this.hasColor() && this.color.equals(val)) {
-      // equal color object
-      return;
-    }
-
-    let color = val ? this.createColor(val) : false;
-
-    if (!this.hasColor() && !color) {
-      // color was empty and the new one too
-      return;
-    }
-
-    // force update if color is changed to empty
-    let shouldForceUpdate = this.hasColor() && !color;
-
-    this.color = color;
-
-    /**
-     * (Colorpicker) When the color is set programmatically with setValue().
-     *
-     * @event Colorpicker#colorpickerChange
-     */
-    this.element.trigger({
-      type: 'colorpickerChange',
-      colorpicker: this,
-      color: this.color,
-      value: val
-    });
-
-    // force update if color has changed to empty
-    this.update(shouldForceUpdate);
-  }
-
-  /**
    * Creates a new color using the widget instance options (fallbackColor, format).
    *
    * @fires Colorpicker#colorpickerInvalid
@@ -645,14 +554,14 @@ class Colorpicker {
    * @returns {Color}
    */
   createColor(val, useFallback = true) {
-    let color = new Color(this._resolveColor(val), {format: this.format});
+    let color = new Color(this.resolveColor(val), {format: this.format});
 
     if (!color.isValid()) {
       let invalidColor = color, fallback;
 
       if (useFallback) {
         fallback = ((this.fallbackColor instanceof Color) && this.fallbackColor.isValid()) ?
-          this.fallbackColor : this._resolveColor(this.fallbackColor);
+          this.fallbackColor : this.resolveColor(this.fallbackColor);
 
         color = new Color(fallback, {format: this.format});
 
@@ -723,13 +632,26 @@ class Colorpicker {
   }
 
   /**
-   * Resolves a color, in case is not in a standard format (e.g. a custom color alias)
+   * Returns the internal color formatted as string.
+   * If there is no color, an empty string is returned.
    *
-   * @private
+   * @returns {String}
+   */
+  getSafeColorString() {
+    if (!this.hasColor()) {
+      return '';
+    }
+    return this.color.toString(this.format);
+  }
+
+  /**
+   * Resolves a color to its real representation, in case is not in a standard format (e.g. a custom color alias).
+   * It also loops through all the extensions to delegate the conversion.
+   *
    * @param {String|*} color
    * @returns {String|*|null}
    */
-  _resolveColor(color) {
+  resolveColor(color) {
     let extResolvedColor = false;
 
     $.each(this.extensions, function (name, ext) {
@@ -740,52 +662,7 @@ class Colorpicker {
       extResolvedColor = ext.resolveColor(color);
     });
 
-    if (extResolvedColor !== false) {
-      color = extResolvedColor;
-    }
-
-    return color;
-  }
-
-  /**
-   * Returns true if the widget has an associated input element, false otherwise
-   * @returns {boolean}
-   */
-  hasInput() {
-    return (this.input !== false);
-  }
-
-  /**
-   * Returns true if this instance is disabled
-   * @returns {boolean}
-   */
-  isDisabled() {
-    return this.disabled === true;
-  }
-
-  /**
-   * Disables the widget and the input if any
-   *
-   * @fires Colorpicker#colorpickerDisable
-   * @returns {boolean}
-   */
-  disable() {
-    if (this.hasInput()) {
-      this.input.prop('disabled', true);
-    }
-    this.disabled = true;
-
-    /**
-     * (Colorpicker) When the widget has been disabled.
-     *
-     * @event Colorpicker#colorpickerDisable
-     */
-    this.element.trigger({
-      type: 'colorpickerDisable',
-      colorpicker: this,
-      color: this.color
-    });
-    return true;
+    return extResolvedColor ? extResolvedColor : color;
   }
 
   /**
@@ -795,9 +672,7 @@ class Colorpicker {
    * @returns {boolean}
    */
   enable() {
-    if (this.hasInput()) {
-      this.input.prop('disabled', false);
-    }
+    this.inputHandler.enable();
     this.disabled = false;
 
     /**
@@ -814,39 +689,34 @@ class Colorpicker {
   }
 
   /**
-   * Function triggered when the input has changed, so the colorpicker gets updated.
+   * Disables the widget and the input if any
    *
-   * @private
-   * @param {Event} e
+   * @fires Colorpicker#colorpickerDisable
    * @returns {boolean}
    */
-  _change(e) {
-    this.lastEvent.alias = 'change';
-    this.lastEvent.e = e;
+  disable() {
+    this.inputHandler.disable();
+    this.disabled = true;
 
-    let val = this.input.val();
-
-    if (val !== this.toInputColorString()) {
-      this.setValue(val);
-    }
+    /**
+     * (Colorpicker) When the widget has been disabled.
+     *
+     * @event Colorpicker#colorpickerDisable
+     */
+    this.element.trigger({
+      type: 'colorpickerDisable',
+      colorpicker: this,
+      color: this.color
+    });
+    return true;
   }
 
   /**
-   * Function triggered after a keyboard key has been released.
-   *
-   * @private
-   * @param {Event} e
+   * Returns true if this instance is disabled
    * @returns {boolean}
    */
-  _keyup(e) {
-    this.lastEvent.alias = 'keyup';
-    this.lastEvent.e = e;
-
-    let val = this.input.val();
-
-    if (val !== this.toInputColorString()) {
-      this.setValue(val);
-    }
+  isDisabled() {
+    return this.disabled === true;
   }
 }
 

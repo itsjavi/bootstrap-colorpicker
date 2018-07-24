@@ -15,8 +15,8 @@ class Debugger extends Extension {
      * @type {number}
      */
     this.eventCounter = 0;
-    if (this.colorpicker.hasInput()) {
-      this.colorpicker.input.on('change.colorpicker-ext', $.proxy(this.onChangeInput, this));
+    if (this.colorpicker.inputHandler.hasInput()) {
+      this.colorpicker.inputHandler.input.on('change.colorpicker-ext', $.proxy(this.onChangeInput, this));
     }
   }
 
@@ -69,8 +69,8 @@ class Debugger extends Extension {
     this.log('colorpickerDestroy');
     this.eventCounter = 0;
 
-    if (this.colorpicker.hasInput()) {
-      this.colorpicker.input.off('.colorpicker-ext');
+    if (this.colorpicker.inputHandler.hasInput()) {
+      this.colorpicker.inputHandler.input.off('.colorpicker-ext');
     }
 
     return super.onDestroy(event);

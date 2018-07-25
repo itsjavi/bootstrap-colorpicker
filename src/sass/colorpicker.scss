@@ -366,11 +366,12 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
 }
 
 .colorpicker-swatches--inner {
-  clear:both;
+  clear: both;
   margin-top: -$base-margin;
 }
 
 .colorpicker-swatch {
+  position: relative;
   cursor: pointer;
   float: left;
   height: $bar-size-short;
@@ -380,6 +381,15 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
   margin-left: 0;
   display: block;
   box-shadow: $box-shadow-outline;
+  @include bgCheckerBox();
+}
+
+.colorpicker-swatch--inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 // saturation + hue vertical (clear margin-right on nth column + 1)

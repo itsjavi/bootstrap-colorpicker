@@ -7,12 +7,13 @@ let defaults = {
   barTemplate: `<div class="colorpicker-bar colorpicker-swatches">
                     <div class="colorpicker-swatches--inner"></div>
                 </div>`,
-  swatchTemplate: '<i class="colorpicker-swatch"></i>'
+  swatchTemplate: '<i class="colorpicker-swatch"><i class="colorpicker-swatch--inner"></i></i>'
 };
 
 class Swatches extends Palette {
   constructor(colorpicker, options = {}) {
     super(colorpicker, $.extend(true, {}, defaults, options));
+    this.element = null;
   }
 
   isEnabled() {
@@ -26,30 +27,40 @@ class Swatches extends Palette {
       return;
     }
 
+    this.element = $(this.options.barTemplate);
+    this.load();
+    this.colorpicker.picker.append(this.element);
+  }
+
+  load() {
     let colorpicker = this.colorpicker,
-      swatchBar = $(this.options.barTemplate),
-      swatchContainer = swatchBar.find('.colorpicker-swatches--inner'),
+      swatchContainer = this.element.find('.colorpicker-swatches--inner'),
       isAliased = (this.options.namesAsValues === true) && !Array.isArray(this.colors);
+
+    swatchContainer.empty();
 
     $.each(this.colors, (name, value) => {
       let $swatch = $(this.options.swatchTemplate)
-        .css('background-color', value)
         .attr('data-name', name)
         .attr('data-value', value)
-        .attr('title', `${name}: ${value}`);
+        .attr('title', isAliased ? `${name}: ${value}` : value)
+        .on('mousedown.colorpicker touchstart.colorpicker',
+          function (e) {
+            let $sw = $(this);
 
-      $swatch.on('mousedown.colorpicker touchstart.colorpicker',
-        function (e) {
-          e.preventDefault();
-          colorpicker.setValue(isAliased ? $(this).data('name') : $(this).data('value'));
-        }
-      );
+            e.preventDefault();
+
+            colorpicker.setValue(isAliased ? $sw.attr('data-name') : $sw.attr('data-value'));
+          }
+        );
+
+      $swatch.find('.colorpicker-swatch--inner')
+        .css('background-color', value);
+
       swatchContainer.append($swatch);
     });
 
     swatchContainer.append($('<i class="colorpicker-clear"></i>'));
-
-    colorpicker.picker.append(swatchBar);
   }
 }
 

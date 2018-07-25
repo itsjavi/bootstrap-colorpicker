@@ -58,7 +58,7 @@ class PickerHandler {
   attach() {
     // Inject the colorpicker element into the DOM
     let pickerParent = this.colorpicker.container ? this.colorpicker.container :
-      (this.options.popover ? null : this.root.document.body);
+      ((this.options.popover && !this.options.inline) ? null : this.root.document.body);
 
     if (pickerParent) {
       this.picker.appendTo(pickerParent);

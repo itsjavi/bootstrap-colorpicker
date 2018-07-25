@@ -120,7 +120,11 @@ class Colorpicker {
      * The element where the
      * @type {*|jQuery}
      */
-    this.container = (this.options.container === true) ? this.element : this.options.container;
+    this.container = (
+      this.options.container === true ||
+      (this.options.container !== true && this.options.inline === true)
+    ) ? this.element : this.options.container;
+
     this.container = (this.container !== false) ? $(this.container) : false;
 
     /**

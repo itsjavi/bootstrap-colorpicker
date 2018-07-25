@@ -417,9 +417,9 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
 }
 
 // RTL writing mode support
-*[dir='rtl'] .colorpicker-component input,
-.colorpicker-component[dir='rtl'] input,
-.colorpicker-component input[dir='rtl'] {
+*[dir='rtl'] .colorpicker-element input,
+.colorpicker-element[dir='rtl'] input,
+.colorpicker-element input[dir='rtl'] {
   direction: ltr;
   text-align: right;
 }

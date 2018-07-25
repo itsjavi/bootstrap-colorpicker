@@ -34,7 +34,7 @@ class ColorHandler {
     }
 
     if (this.hasColor() && this.color.hasTransparency() && this.color.format.match(/^hex/)) {
-      return this.isAlphaEnabled() ? (this.colorpicker.options.enableHexAlpha ? 'hex8' : 'rgba') : 'hex';
+      return this.isAlphaEnabled() ? 'rgba' : 'hex';
     }
 
     if (this.hasColor()) {

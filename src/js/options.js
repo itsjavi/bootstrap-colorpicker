@@ -145,19 +145,6 @@ export default {
    */
   useAlpha: true,
   /**
-   * This only applies when the color format is hexadecimal.
-   * If true, the alpha channel will be allowed for hexadecimal formatted colors, making them having 4 or 8 chars
-   * (RGBA or RRGGBBAA). This format is not yet supported in IE/Edge browsers, so it is disabled by default.
-   * If false, rgba will be used whenever there is an alpha change different than 1 and the color format is
-   * automatic.
-   *
-   * @see https://caniuse.com/#feat=css-rrggbbaa
-   *
-   * @type {boolean}
-   * @default false
-   */
-  enableHexAlpha: false,
-  /**
    * Colorpicker widget template
    * @type {String}
    * @example

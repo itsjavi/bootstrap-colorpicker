@@ -1,7 +1,7 @@
 'use strict';
 
 import $ from 'jquery';
-import Color from './Color';
+import ColorItem from './ColorItem';
 
 /**
  * Handles everything related to the colorpicker input
@@ -70,8 +70,8 @@ class InputHandler {
       }
     });
 
-    if (val instanceof Color) {
-      val = this.getFormattedColor(val.toString(this.colorpicker.format));
+    if (val instanceof ColorItem) {
+      val = this.getFormattedColor(val.string(this.colorpicker.format));
     } else if (!(typeof val === 'string' || val instanceof String)) {
       val = '';
     }
@@ -145,7 +145,7 @@ class InputHandler {
       return '';
     }
 
-    val = this.colorpicker.colorHandler.resolveColorDelegate(val);
+    val = this.colorpicker.colorHandler.resolveColorDelegate(val, false);
 
     if (this.colorpicker.options.useHashPrefix === false) {
       val = val.replace(/^#/g, '');
@@ -228,7 +228,7 @@ class InputHandler {
 
     let val = this.getValue();
 
-    if (val !== this.getFormattedColor()) {
+    if (val !== e.value) {
       this.colorpicker.setValue(val);
     }
   }
@@ -246,7 +246,7 @@ class InputHandler {
 
     let val = this.getValue();
 
-    if (val !== this.getFormattedColor()) {
+    if (val !== e.value) {
       this.colorpicker.setValue(val);
     }
   }

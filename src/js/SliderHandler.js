@@ -55,7 +55,7 @@ class SliderHandler {
     let slider = this.currentSlider, cp = this.colorpicker, ch = cp.colorHandler;
 
     // Create a color object
-    let color = !ch.hasColor() ? ch.getFallbackColor() : ch.color.getCopy();
+    let color = !ch.hasColor() ? ch.getFallbackColor() : ch.color.getClone();
 
     // Adjust the guide position
     slider.guideStyle.left = left + 'px';
@@ -144,10 +144,10 @@ class SliderHandler {
       let slider = sliders[sliderName];
 
       if (zone.is(slider.selector)) {
-        this.currentSlider = $.extend({}, slider);
+        this.currentSlider = $.extend({}, slider, {name: sliderName});
         break;
       } else if (slider.childSelector !== undefined && zone.is(slider.childSelector)) {
-        this.currentSlider = $.extend({}, slider);
+        this.currentSlider = $.extend({}, slider, {name: sliderName});
         zone = zone.parent(); // zone.parents(slider.selector).first() ?
         break;
       }

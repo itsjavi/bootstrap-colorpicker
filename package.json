@@ -18,8 +18,8 @@
   "author": "Javi Aguilar",
   "license": "MIT",
   "dependencies": {
-    "jquery": ">=2.1.0",
-    "tinycolor2": "^1.4.1"
+    "color": "^3.0.0",
+    "jquery": ">=2.1.0"
   },
   "scripts": {
     "test": "npm run lint && ava --color --verbose",

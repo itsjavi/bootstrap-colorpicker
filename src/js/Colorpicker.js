@@ -1,6 +1,5 @@
 'use strict';
 
-import Color from './Color';
 import Extension from './Extension';
 import defaults from './options';
 import bundledExtensions from 'extensions';
@@ -11,6 +10,7 @@ import InputHandler from './InputHandler';
 import ColorHandler from './ColorHandler';
 import PickerHandler from './PickerHandler';
 import AddonHandler from './AddonHandler';
+import ColorItem from './ColorItem';
 
 let colorPickerIdCounter = 0;
 let root = (typeof self !== 'undefined' ? self : this); // window
@@ -26,7 +26,7 @@ class Colorpicker {
    * @type {Color}
    */
   static get Color() {
-    return Color;
+    return ColorItem;
   }
 
   /**
@@ -301,10 +301,10 @@ class Colorpicker {
   getValue(defaultValue = null) {
     let val = this.colorHandler.color;
 
-    val = (val instanceof Color) ? val : defaultValue;
+    val = (val instanceof ColorItem) ? val : defaultValue;
 
-    if (val instanceof Color) {
-      return val.toString(this.format);
+    if (val instanceof ColorItem) {
+      return val.string(this.format);
     }
 
     return val;
@@ -327,7 +327,7 @@ class Colorpicker {
       return;
     }
 
-    let color = val ? ch.createColor(val) : null;
+    let color = val ? ch.createColor(val, this.options.autoInputFallback) : null;
 
     // force update if color is changed to empty
     let forceUpdate = ch.hasColor() && !color;

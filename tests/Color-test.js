@@ -1,6 +1,6 @@
 //'use strict';
 
-import Color from '../src/js/Color';
+import TColor from '../src/js/Color';
 import test from 'ava';
 
 let tests = {
@@ -33,19 +33,19 @@ let runColorTest = function (title, data, fn, fnArgs = [], ctorArgs = []) {
       let expectedColorOutput = data[colorInput];
 
       // Lower case input
-      let color = new Color(colorInput, ...ctorArgs);
+      let color = new TColor(colorInput, ...ctorArgs);
       t.is(color[fn].call(color, ...fnArgs), expectedColorOutput);
 
       // Upper case input
-      color = new Color(colorInput.toUpperCase(), ...ctorArgs);
+      color = new TColor(colorInput.toUpperCase(), ...ctorArgs);
       t.is(color[fn].call(color, ...fnArgs), expectedColorOutput);
 
       // Input without hash
-      color = new Color(colorInput.replace(/^#/g, ''), ...ctorArgs);
+      color = new TColor(colorInput.replace(/^#/g, ''), ...ctorArgs);
       t.is(color[fn].call(color, ...fnArgs), expectedColorOutput);
 
       // Input without hash, uppercase
-      color = new Color(colorInput.replace(/^#/g, '').toUpperCase(), ...ctorArgs);
+      color = new TColor(colorInput.replace(/^#/g, '').toUpperCase(), ...ctorArgs);
       t.is(color[fn].call(color, ...fnArgs), expectedColorOutput);
     }
   });

@@ -26,7 +26,7 @@ export default {
   /**
    * Sets a initial color, ignoring the one from the element/input value or the data-color attribute.
    *
-   * @type {(String|Color|boolean)}
+   * @type {(String|ColorItem|boolean)}
    * @default false
    */
   color: false,
@@ -34,7 +34,7 @@ export default {
    * Fallback color to use when the given color is invalid.
    * If false, the latest valid color will be used as a fallback.
    *
-   * @type {String|Color|boolean}
+   * @type {String|ColorItem|boolean}
    * @default false
    */
   fallbackColor: false,
@@ -45,7 +45,7 @@ export default {
    * Note that the ending 'a' of the format meaning "alpha" has currently no effect, meaning that rgb is the same as
    * rgba excepting if the alpha channel is disabled (see useAlpha).
    *
-   * @type {('rgb'|'rgba'|'prgb'|'prgba'|'hex'|'hex3'|'hex6'|'hex8'|'hsl'|'hsla'|'hsv'|'hsva'|'name'|'auto'|null)}
+   * @type {('rgb'|'hex'|'hsl'|'auto'|null)}
    * @default null
    */
   format: null,

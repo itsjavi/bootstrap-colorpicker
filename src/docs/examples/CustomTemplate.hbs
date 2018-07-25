@@ -26,10 +26,10 @@
                 .on('colorpickerChange colorpickerCreate', function (e) {
                   var output = e.colorpicker.element
                       .find('.hsv-output');
-                  var color = e.color.getOpaqueCopy();
+                  var color = e.color.getCloneOpaque();
 
                   output
-                      .html(e.color.toHsvString())
+                      .html(e.color.toHslString())
                       .css('background-color', color.toHexString());
 
                   if (color.isDark()) {

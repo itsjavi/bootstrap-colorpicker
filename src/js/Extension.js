@@ -40,10 +40,11 @@ class Extension {
    * Return false to skip this resolver and continue with other extensions' ones
    * or return anything else to consider the color resolved.
    *
-   * @param {Color|String|*} color
-   * @return {Color|String|*}
+   * @param {ColorItem|String|*} color
+   * @param {boolean} realColor if true, the color should resolve into a real (not named) color code
+   * @return {ColorItem|String|*}
    */
-  resolveColor(color) {
+  resolveColor(color, realColor = true) {
     return false;
   }
 

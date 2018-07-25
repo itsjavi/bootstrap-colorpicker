@@ -38,7 +38,7 @@ class Debugger extends Extension {
      * @event DebuggerExtension#colorpickerDebug
      * @type {object} The event object
      * @property {Colorpicker} colorpicker The Colorpicker instance
-     * @property {Color} color The color instance
+     * @property {ColorItem} color The color instance
      * @property {{debugger: DebuggerExtension, eventName: String, logArgs: Array, logMessage: String}} debug
      *  The debug info
      */
@@ -56,8 +56,8 @@ class Debugger extends Extension {
     });
   }
 
-  resolveColor(color) {
-    this.log('resolveColor()', color);
+  resolveColor(color, realColor = true) {
+    this.log('resolveColor()', color, realColor);
     return false;
   }
 

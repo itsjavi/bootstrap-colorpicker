@@ -73,11 +73,12 @@ class Palette extends Extension {
     return 0;
   }
 
-  resolveColor(color) {
+  resolveColor(color, realColor = true) {
     if (this.getLength() <= 0) {
       return false;
     }
 
+    // Array of colors
     if (Array.isArray(this.options.colors)) {
       if (this.options.colors.indexOf(color) >= 0) {
         return color;
@@ -95,10 +96,11 @@ class Palette extends Extension {
       return false;
     }
 
-    if (!this.options.namesAsValues) {
+    // Map of objects
+    if (!this.options.namesAsValues || realColor) {
       return this.getValue(color, false);
     }
-    return this.getName(color, this.getName('#' + color, this.getValue(color, false)));
+    return this.getName(color, this.getName('#' + color));
   }
 
   /**

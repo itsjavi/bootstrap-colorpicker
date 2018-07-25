@@ -1,7 +1,7 @@
 {{#extend "example-group"}}
   {{#content "description"}}
     <p>
-      The colorpicker Color class extends <a href="https://github.com/bgrins/TinyColor">tinycolor</a>,
+      The colorpicker TColor class extends <a href="https://github.com/bgrins/TinyColor">tinycolor</a>,
       a great color parsing library with a friendly API that allows you to adjust the color and find
       complementary ones, triads, etc.
       <br>
@@ -12,7 +12,7 @@
     {{#extend "example"}}
       {{#content "title"}} Tetrad color swatches {{/content}}
       {{#content "description"}}
-        <p>In this example we use the Color API to add color swatches based on a tetrad of the selected color.</p>
+        <p>In this example we use the TColor API to add color swatches based on a tetrad of the selected color.</p>
       {{/content}}
       {{#content "code"}}
         <div id="cp1" data-color="#6D2781">
@@ -24,7 +24,6 @@
                 .colorpicker({
                   inline: true,
                   container: true,
-                  useAlpha: false,
                   extensions: [
                     {
                       name: 'swatches',
@@ -41,13 +40,17 @@
                   ]
                 })
                 .on('colorpickerChange colorpickerCreate', function (e) {
-                  e.color.tetrad().forEach(function (color, i) {
-                    var colorStr = color.toString(e.color.format);
+                  let colors = e.color.getScheme('tetrad');
 
-                    e.colorpicker.picker.find('.colorpicker-swatch[data-name="tetrad' + (i + 1) + '"]')
-                        .css('background-color', colorStr)
+                  colors.forEach(function (color, i) {
+                    var colorStr = color.string(),
+                        swatch = e.colorpicker.picker.find('.colorpicker-swatch[data-name="tetrad' + (i + 1) + '"]');
+
+                    swatch
                         .attr('data-value', colorStr)
-                        .attr('title', colorStr);
+                        .attr('title', colorStr)
+                        .find('> i')
+                        .css('background-color', colorStr);
                   });
                 });
           });

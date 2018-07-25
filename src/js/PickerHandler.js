@@ -92,7 +92,7 @@ class PickerHandler {
       hueGuide = this.picker.find('.colorpicker-hue .colorpicker-guide'),
       alphaGuide = this.picker.find('.colorpicker-alpha .colorpicker-guide');
 
-    let hsva = this.color.hsvaRatio;
+    let hsva = this.color.toHsvaRatio();
 
     // Set guides position
     if (hueGuide.length) {
@@ -110,16 +110,16 @@ class PickerHandler {
 
     // Set saturation hue background
     this.picker.find('.colorpicker-saturation')
-      .css('backgroundColor', this.color.getHueOnlyCopy().toHexString()); // we only need hue
+      .css('backgroundColor', this.color.getCloneHueOnly().toHexString()); // we only need hue
 
     // Set alpha color gradient
-    let hex6Color = this.color.toString('hex6');
+    let hexColor = this.color.toHexString();
     let alphaBg = '';
 
     if (this.options.horizontal) {
-      alphaBg = `linear-gradient(to right, ${hex6Color} 0%, transparent 100%)`;
+      alphaBg = `linear-gradient(to right, ${hexColor} 0%, transparent 100%)`;
     } else {
-      alphaBg = `linear-gradient(to bottom, ${hex6Color} 0%, transparent 100%)`;
+      alphaBg = `linear-gradient(to bottom, ${hexColor} 0%, transparent 100%)`;
     }
 
     this.picker.find('.colorpicker-alpha-color').css('background', alphaBg);

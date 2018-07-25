@@ -1,14 +1,14 @@
 {{#extend "example-group"}}
   {{#content "body"}}
     {{#extend "example"}}
-      {{#content "title"}} Playing with events and the Color object {{/content}}
+      {{#content "title"}} Playing with events and the TColor object {{/content}}
 
       {{#content "description"}}
         <p>
           This example listens to the colorpickerChange and colorpickerCreate events and changes the background color
           of the parent element using the complementary color of the selected one.
           <br>
-          This also shows how to use the Color object, which extends
+          This also shows how to use the TColor object, which extends
           <a href="https://github.com/bgrins/TinyColor">tinycolor</a>.
           <br>
           In all events the <code>e</code> event variable contains the <code>colorpicker</code> and <code>color</code>
@@ -30,7 +30,7 @@
                       .css('background-color', e.color.toRgbString());
 
                   e.colorpicker.picker.parents('.card-body')
-                      .css('background-color', e.color.complement().toRgbString());
+                      .css('background-color', e.color.getScheme('complementary')[0].string('rgb'));
                 });
           });
         </script>

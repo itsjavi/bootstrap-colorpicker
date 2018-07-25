@@ -1,18 +1,28 @@
 'use strict';
 
-import Color from './Color';
 import $ from 'jquery';
+import ColorItem from './ColorItem';
 
 /**
  * Handles everything related to the colorpicker color
  */
 class ColorHandler {
   /**
-   * @returns {*|String|Color}
+   * @param {Colorpicker} colorpicker
+   */
+  constructor(colorpicker) {
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+  }
+
+  /**
+   * @returns {*|String|ColorItem}
    */
   get fallback() {
     return this.colorpicker.options.fallbackColor ?
-      this.colorpicker.options.fallbackColor : (this.hasColor() ? this.color : '#000');
+      this.colorpicker.options.fallbackColor : (this.hasColor() ? this.color : null);
   }
 
   /**
@@ -37,7 +47,7 @@ class ColorHandler {
   /**
    * Internal color getter
    *
-   * @type {Color|null}
+   * @type {ColorItem|null}
    */
   get color() {
     return this.colorpicker.element.data('color');
@@ -47,25 +57,15 @@ class ColorHandler {
    * Internal color setter
    *
    * @ignore
-   * @param {Color|null} value
+   * @param {ColorItem|null} value
    */
   set color(value) {
     this.colorpicker.element.data('color', value);
 
-    if ((value instanceof Color) && (this.colorpicker.options.format === 'auto')) {
+    if ((value instanceof ColorItem) && (this.colorpicker.options.format === 'auto')) {
       // If format is 'auto', use the first parsed one from now on
       this.colorpicker.options.format = this.color.format;
     }
-  }
-
-  /**
-   * @param {Colorpicker} colorpicker
-   */
-  constructor(colorpicker) {
-    /**
-     * @type {Colorpicker}
-     */
-    this.colorpicker = colorpicker;
   }
 
   bind() {
@@ -77,7 +77,9 @@ class ColorHandler {
 
     // if element[color] is empty and the input has a value
     if (!this.color && !!this.colorpicker.inputHandler.getValue()) {
-      this.color = this.createColor(this.colorpicker.inputHandler.getValue());
+      this.color = this.createColor(
+        this.colorpicker.inputHandler.getValue(), this.colorpicker.options.autoInputFallback
+      );
     }
   }
 
@@ -96,13 +98,13 @@ class ColorHandler {
       return '';
     }
 
-    return this.color.toString(this.format);
+    return this.color.string(this.format);
   }
 
   /**
    * Sets the color value
    *
-   * @param {String|Color} val
+   * @param {String|ColorItem} val
    */
   setColorString(val) {
     let color = val ? this.createColor(val) : null;
@@ -116,17 +118,14 @@ class ColorHandler {
    * @fires Colorpicker#colorpickerInvalid
    * @param {*} val
    * @param {boolean} fallbackOnInvalid
-   * @returns {Color}
+   * @returns {ColorItem}
    */
   createColor(val, fallbackOnInvalid = true) {
-    let color = new Color(this.resolveColorDelegate(val), {format: this.format});
+    let color = new ColorItem(this.resolveColorDelegate(val), this.format);
 
     if (!color.isValid()) {
       if (fallbackOnInvalid) {
-        let invalidColor = color;
-
         color = this.getFallbackColor();
-        color.previous = invalidColor;
       }
 
       /**
@@ -139,37 +138,7 @@ class ColorHandler {
 
     if (!this.isAlphaEnabled()) {
       // Alpha is disabled
-      color.setAlpha(1);
-    }
-
-    return color;
-  }
-
-  /**
-   * Preserves the hue of the given color if the previous one
-   * was identical, but without saturation.
-   *
-   * @param {Color} color
-   * @param {Color} prevColor
-   * @returns {Color}
-   */
-  preserveHue(color, prevColor) {
-    if (!this.hasColor()) {
-      // No previous color, so no need to compare
-      return color;
-    }
-
-    let hsva = color.hsvaRatio;
-    let prevHsva = prevColor.hsvaRatio;
-
-    // Hue was set to 0 because saturation was 0,
-    // use previous hue to preserve it
-    if (
-      hsva.s === 0 &&
-      hsva.h === 0 &&
-      prevHsva.h !== 0
-    ) {
-      color.setHueRatio(prevHsva.h);
+      color.alpha = 1;
     }
 
     return color;
@@ -181,7 +150,7 @@ class ColorHandler {
     }
 
     let fallback = this.resolveColorDelegate(this.fallback);
-    let color = new Color(fallback, {format: this.format});
+    let color = new ColorItem(fallback, this.format);
 
     if (!color.isValid()) {
       throw new Error('The fallback color is invalid.');
@@ -194,9 +163,10 @@ class ColorHandler {
    * Delegates the color resolution to the colorpicker extensions.
    *
    * @param {String|*} color
-   * @returns {Color|String|*|null}
+   * @param {boolean} realColor if true, the color should resolve into a real (not named) color code
+   * @returns {ColorItem|String|*|null}
    */
-  resolveColorDelegate(color) {
+  resolveColorDelegate(color, realColor = true) {
     let extResolvedColor = false;
 
     $.each(this.colorpicker.extensions, function (name, ext) {
@@ -204,7 +174,7 @@ class ColorHandler {
         // skip if resolved
         return;
       }
-      extResolvedColor = ext.resolveColor(color);
+      extResolvedColor = ext.resolveColor(color, realColor);
     });
 
     return extResolvedColor ? extResolvedColor : color;
@@ -215,7 +185,7 @@ class ColorHandler {
    * @returns {boolean}
    */
   isInvalidColor() {
-    return !this.hasColor() || !this.color.isValid() || !!this.color.previous;
+    return !this.hasColor() || !this.color.isValid();
   }
 
   /**
@@ -231,7 +201,7 @@ class ColorHandler {
    * @returns {boolean}
    */
   hasColor() {
-    return this.color instanceof Color;
+    return this.color instanceof ColorItem;
   }
 }
 

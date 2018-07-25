@@ -293,18 +293,12 @@ class PopupHandler {
   }
 
   fireShow() {
-    let cp = this.colorpicker;
-
     /**
      * (Colorpicker) When show() is called and the widget can be shown.
      *
      * @event Colorpicker#colorpickerShow
      */
-    cp.element.trigger({
-      type: 'colorpickerShow',
-      colorpicker: cp,
-      color: cp.color
-    });
+    this.colorpicker.trigger('colorpickerShow');
   }
 
   /**
@@ -354,11 +348,7 @@ class PopupHandler {
      *
      * @event Colorpicker#colorpickerHide
      */
-    cp.element.trigger({
-      type: 'colorpickerHide',
-      colorpicker: cp,
-      color: cp.color
-    });
+    cp.trigger('colorpickerHide');
   }
 
   /**

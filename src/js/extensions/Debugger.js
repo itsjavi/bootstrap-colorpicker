@@ -46,6 +46,7 @@ class Debugger extends Extension {
       type: 'colorpickerDebug',
       colorpicker: this.colorpicker,
       color: this.color,
+      value: null,
       debug: {
         debugger: this,
         eventName: eventName,

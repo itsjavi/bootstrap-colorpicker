@@ -134,12 +134,7 @@ class ColorHandler {
        *
        * @event Colorpicker#colorpickerInvalid
        */
-      this.colorpicker.element.trigger({
-        type: 'colorpickerInvalid',
-        colorpicker: this.colorpicker,
-        color: color,
-        value: val
-      });
+      this.colorpicker.trigger('colorpickerInvalid', color, val);
     }
 
     if (!this.isAlphaEnabled()) {

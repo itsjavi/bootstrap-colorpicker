@@ -37,8 +37,40 @@ class SliderHandler {
     /**
      * @type {Function}
      */
-    this.onMove = onMove || function () {
-    };
+    this.onMove = $.proxy(onMove || this.defaultOnMove, this);
+  }
+
+  /**
+   * This function is called every time a slider guide is moved
+   * The scope of "this" is the SliderHandler object.
+   *
+   * @param {int} top
+   * @param {int} left
+   */
+  defaultOnMove(top, left) {
+    if (!this.currentSlider) {
+      return;
+    }
+
+    let slider = this.currentSlider, cp = this.colorpicker, ch = cp.colorHandler;
+
+    // Create a color object
+    let color = !ch.hasColor() ? ch.getFallbackColor() : ch.color.getCopy();
+
+    // Adjust the guide position
+    slider.guideStyle.left = left + 'px';
+    slider.guideStyle.top = top + 'px';
+
+    // Adjust the color
+    if (slider.callLeft) {
+      color[slider.callLeft].call(color, left / slider.maxLeft);
+    }
+    if (slider.callTop) {
+      color[slider.callTop].call(color, top / slider.maxTop);
+    }
+
+    // Set the new color
+    cp.setValue(color);
   }
 
   /**
@@ -186,7 +218,7 @@ class SliderHandler {
       )
     );
 
-    this.onMove(this, top, left);
+    this.onMove(top, left);
   }
 
   /**

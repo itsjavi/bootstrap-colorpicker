@@ -4,7 +4,9 @@ import Palette from './Palette';
 import $ from 'jquery';
 
 let defaults = {
-  barTemplate: '<div class="colorpicker-bar colorpicker-swatches"></div>',
+  barTemplate: `<div class="colorpicker-bar colorpicker-swatches">
+                    <div class="colorpicker-swatches--inner"></div>
+                </div>`,
   swatchTemplate: '<i class="colorpicker-swatch"></i>'
 };
 
@@ -25,7 +27,8 @@ class Swatches extends Palette {
     }
 
     let colorpicker = this.colorpicker,
-      swatchContainer = $(this.options.barTemplate),
+      swatchBar = $(this.options.barTemplate),
+      swatchContainer = swatchBar.find('.colorpicker-swatches--inner'),
       isAliased = (this.options.namesAsValues === true) && !Array.isArray(this.colors);
 
     $.each(this.colors, (name, value) => {
@@ -44,7 +47,9 @@ class Swatches extends Palette {
       swatchContainer.append($swatch);
     });
 
-    colorpicker.picker.append(swatchContainer);
+    swatchContainer.append($('<i class="colorpicker-clear"></i>'));
+
+    colorpicker.picker.append(swatchBar);
   }
 }
 

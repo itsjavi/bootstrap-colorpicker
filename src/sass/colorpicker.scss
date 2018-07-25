@@ -95,6 +95,11 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
   line-height: 0;
 }
 
+.colorpicker-clear {
+  clear: both;
+  display: block;
+}
+
 .colorpicker:before {
   content: '';
   display: inline-block;
@@ -357,6 +362,12 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
 
 .colorpicker-bar.colorpicker-swatches {
   box-shadow: none;
+  height: auto;
+}
+
+.colorpicker-swatches--inner {
+  clear:both;
+  margin-top: -$base-margin;
 }
 
 .colorpicker-swatch {

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   
-  <title>Bootstrap Colorpicker | Custom size - Documentation</title>
+  <title>Bootstrap Colorpicker | ColorItem - Documentation</title>
   
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85082661-5"></script>
@@ -27,7 +27,7 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet"
   integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 
-  <link href="dist/css/bootstrap-colorpicker.css?v=1532554811312" rel="stylesheet" />
+  <link href="dist/css/bootstrap-colorpicker.css?v=1532554811233" rel="stylesheet" />
 
   <style>
     html {font-size: 14px;}
@@ -39,7 +39,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.bundle.min.js"
   integrity="sha384-CS0nxkpPy+xUkNGhObAISrkg/xjb3USVCwy+0/NMzd5VxgY4CMCyTkItmy5n0voC" crossorigin="anonymous"></script>
 
-  <script src="dist/js/bootstrap-colorpicker.js?v=1532554811312"></script>
+  <script src="dist/js/bootstrap-colorpicker.js?v=1532554811233"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -51,159 +51,1685 @@
     <div class="main-content col-md-9 col-lg-10">
       <div id="main" class="main-content-wrapper">
         
-        <h1 class="page-title">Custom size</h1>
+        <h1 class="page-title">ColorItem</h1>
         
 
-        <section>
+        
+
+
+
+
+<section>
 
 <header>
+    
+        <h2>
+        ColorItem
+        </h2>
+        
+            <div class="class-description"><p>HSVA color manipulation</p></div>
+        
     
 </header>
 
 <article>
-    <div class="example-group">
+    <div class="container-overview">
+    
+        
+<div class="section-method">
 
-  <div class="example-group-body">
-    <div class="example">
-  <div class="card card-default">
-      <div class="card-header example-title"><h2> Enlarge the Colorpicker size </h2></div>
-    <div class="card-body">
-        <div class="example-description">
-                  <p>This example shows how to tweak the Colorpicker styles and settings to make it look bigger.</p>
+    
+    <h2>Constructor</h2>
+    
 
-        </div>
-      <div class="example-demo">
-                <div id="cp1" data-color="#6D2781"></div>
-        <style>
-          .colorpicker-2x.colorpicker-with-alpha {
-            width: 272px;
-          }
+    <h4 class="name" id="ColorItem"><span class="type-signature"></span>new ColorItem<span class="signature">(color, format)</span><span class="type-signature"></span></h4>
 
-          .colorpicker-2x .colorpicker-saturation {
-            width: 200px;
-            height: 200px;
-          }
+    
 
-          .colorpicker-2x .colorpicker-hue,
-          .colorpicker-2x .colorpicker-alpha {
-            width: 30px;
-            height: 200px;
-          }
 
-          .colorpicker-2x .colorpicker-alpha,
-          .colorpicker-2x .colorpicker-preview {
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-          }
 
-          .colorpicker-2x .colorpicker-preview,
-          .colorpicker-2x .colorpicker-preview div {
-            height: 30px;
-            font-size: 16px;
-            line-height: 160%;
-          }
 
-          .colorpicker-saturation .colorpicker-guide {
-            height: 10px;
-            width: 10px;
-            border-radius: 10px;
-            margin: -5px 0 0 -5px;
-          }
-        </style>
-        <script>
-          $(function () {
-            $('#cp1').colorpicker({
-              inline: true,
-              container: true,
-              customClass: 'colorpicker-2x',
-              sliders: {
-                saturation: {
-                  maxLeft: 200,
-                  maxTop: 200
-                },
-                hue: {
-                  maxTop: 200
-                },
-                alpha: {
-                  maxTop: 200
-                }
-              }
-            });
-          });
-        </script>
 
-      </div>
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code><a href="ColorItem.html">ColorItem</a></code></span>
+|
+
+<span class="param-type"><code>HSVAColor</code></span>
+|
+
+<span class="param-type"><code>QixColor</code></span>
+|
+
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code>*</code></span>
+|
+
+<span class="param-type"><code>null</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">
+                <p>Color data</p>
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>format</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code>null</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">
+                <p>Color model to convert to by default</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    
     </div>
-    <div class="card-footer">
-      <div class="card-footer--legend">Code</div>
-      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp1&quot; data-color=&quot;#6D2781&quot;&gt;&lt;&#x2F;div&gt;
-&lt;style&gt;
-  .colorpicker-2x.colorpicker-with-alpha {
-    width: 272px;
-  }
 
-  .colorpicker-2x .colorpicker-saturation {
-    width: 200px;
-    height: 200px;
-  }
+    
 
-  .colorpicker-2x .colorpicker-hue,
-  .colorpicker-2x .colorpicker-alpha {
-    width: 30px;
-    height: 200px;
-  }
+    
 
-  .colorpicker-2x .colorpicker-alpha,
-  .colorpicker-2x .colorpicker-preview {
-    background-size: 20px 20px;
-    background-position: 0 0, 10px 10px;
-  }
+    
 
-  .colorpicker-2x .colorpicker-preview,
-  .colorpicker-2x .colorpicker-preview div {
-    height: 30px;
-    font-size: 16px;
-    line-height: 160%;
-  }
+     
 
-  .colorpicker-saturation .colorpicker-guide {
-    height: 10px;
-    width: 10px;
-    border-radius: 10px;
-    margin: -5px 0 0 -5px;
-  }
-&lt;&#x2F;style&gt;
-&lt;script&gt;
-  $(function () {
-    $(&#39;#cp1&#39;).colorpicker({
-      inline: true,
-      container: true,
-      customClass: &#39;colorpicker-2x&#39;,
-      sliders: {
-        saturation: {
-          maxLeft: 200,
-          maxTop: 200
-        },
-        hue: {
-          maxTop: 200
-        },
-        alpha: {
-          maxTop: 200
-        }
-      }
-    });
-  });
-&lt;&#x2F;script&gt;</pre>
-    </div>
-  </div>
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".HSVAColor"><span class="type-signature">(static) </span>HSVAColor<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Returns the HSVAColor class</p>
 </div>
 
-  </div>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
 </div>
 
+        
+            
+<div class="section-members">
+<h4 class="name" id="hue"><span class="type-signature"></span>hue<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line193">line 193</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="original"><span class="type-signature"></span>original<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Returns the original constructor data</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line51">line 51</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".parse"><span class="type-signature">(static) </span>parse<span class="signature">(color)</span><span class="type-signature"> &rarr; {QixColor}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Parses the color returning a Qix Color object or null if cannot be
+parsed.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line108">line 108</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code><a href="ColorItem.html">ColorItem</a></code></span>
+|
+
+<span class="param-type"><code>HSVAColor</code></span>
+|
+
+<span class="param-type"><code>QixColor</code></span>
+|
+
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code>*</code></span>
+|
+
+<span class="param-type"><code>null</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>Color data</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>QixColor</code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="api"><span class="type-signature"></span>api<span class="signature">(fn, &hellip;args)</span><span class="type-signature"> &rarr; {<a href="ColorItem.html">ColorItem</a>|*}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Applies a method of the QixColor API and returns a new Color object.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line36">line 36</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>String</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <p>QixColor function name</p>
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code><a href="ColorItem.html">ColorItem</a></code></span>
+|
+
+<span class="param-type"><code>*</code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="getScheme"><span class="type-signature"></span>getScheme<span class="signature">(scheme)</span><span class="type-signature"> &rarr; {Array.&lt;<a href="ColorItem.html">ColorItem</a>>}</span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line368">line 368</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>scheme</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>String</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    complementary
+                
+                </td>
+            
+
+            <td class="description last">
+                <p>One of: 'complementary', 'triad', 'tetrad', 'splitcomplement'</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>Array.&lt;<a href="ColorItem.html">ColorItem</a>></code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="replace"><span class="type-signature"></span>replace<span class="signature">(color, format)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line67">line 67</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code><a href="ColorItem.html">ColorItem</a></code></span>
+|
+
+<span class="param-type"><code>HSVAColor</code></span>
+|
+
+<span class="param-type"><code>QixColor</code></span>
+|
+
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code>*</code></span>
+|
+
+<span class="param-type"><code>null</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+                <p>Color data</p>
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>format</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code>null</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">
+                <p>Color model to convert to by default</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="setAlphaRatio"><span class="type-signature"></span>setAlphaRatio<span class="signature">(a)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line260">line 260</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>a</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>number</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>Ratio from 0.0 to 1.0</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="setBrightnessRatio"><span class="type-signature"></span>setBrightnessRatio<span class="signature">(v)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line253">line 253</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>v</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>number</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>Ratio from 0.0 to 1.0</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="setHueRatio"><span class="type-signature"></span>setHueRatio<span class="signature">(h)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line239">line 239</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>h</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>number</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>Ratio from 0.0 to 1.0</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="setSaturationRatio"><span class="type-signature"></span>setSaturationRatio<span class="signature">(s)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColorItem.js.html">ColorItem.js</a>, <a href="ColorItem.js.html#line246">line 246</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>s</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>number</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>Ratio from 0.0 to 1.0</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+    
+
+    
+
+    
 </article>
 
 </section>
+
+
+
 
       </div>
     </div>

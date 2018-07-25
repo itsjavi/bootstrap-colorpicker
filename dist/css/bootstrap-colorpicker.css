@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Simple and customizable colorpicker component for Twitter Bootstrap.
  * @package bootstrap-colorpicker
- * @version v3.0.0-beta.7
+ * @version v3.0.0
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -319,6 +319,7 @@
   margin-top: -6px; }
 
 .colorpicker-swatch {
+  position: relative;
   cursor: pointer;
   float: left;
   height: 16px;
@@ -328,7 +329,17 @@
   margin-left: 0;
   display: block;
   -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2); }
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 0), linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 0), white;
+  background-size: 10px 10px;
+  background-position: 0 0, 5px 5px; }
+
+.colorpicker-swatch--inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
 
 .colorpicker-swatch:nth-of-type(7n+0) {
   margin-right: 0; }
@@ -353,9 +364,9 @@
   display: table;
   clear: both; }
 
-*[dir='rtl'] .colorpicker-component input,
-.colorpicker-component[dir='rtl'] input,
-.colorpicker-component input[dir='rtl'] {
+*[dir='rtl'] .colorpicker-element input,
+.colorpicker-element[dir='rtl'] input,
+.colorpicker-element input[dir='rtl'] {
   direction: ltr;
   text-align: right; }
 

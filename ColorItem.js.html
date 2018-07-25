@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   
-  <title>Bootstrap Colorpicker | Custom size - Documentation</title>
+  <title>Bootstrap Colorpicker | ColorItem.js - Documentation</title>
   
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85082661-5"></script>
@@ -27,7 +27,7 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet"
   integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 
-  <link href="dist/css/bootstrap-colorpicker.css?v=1532554811312" rel="stylesheet" />
+  <link href="dist/css/bootstrap-colorpicker.css?v=1532554811195" rel="stylesheet" />
 
   <style>
     html {font-size: 14px;}
@@ -39,7 +39,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.bundle.min.js"
   integrity="sha384-CS0nxkpPy+xUkNGhObAISrkg/xjb3USVCwy+0/NMzd5VxgY4CMCyTkItmy5n0voC" crossorigin="anonymous"></script>
 
-  <script src="dist/js/bootstrap-colorpicker.js?v=1532554811312"></script>
+  <script src="dist/js/bootstrap-colorpicker.js?v=1532554811195"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -51,159 +51,421 @@
     <div class="main-content col-md-9 col-lg-10">
       <div id="main" class="main-content-wrapper">
         
-        <h1 class="page-title">Custom size</h1>
+        <h1 class="page-title">ColorItem.js</h1>
         
 
-        <section>
+        
 
-<header>
+
+
     
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Color manipulation class, specific for Bootstrap Colorpicker
+ */
+import QixColor from 'color';
 
-<article>
-    <div class="example-group">
+class HSVAColor {
+  constructor(h, s, v, a) {
+    this.h = h;
+    this.s = s;
+    this.v = v;
+    this.a = a;
+  }
+}
 
-  <div class="example-group-body">
-    <div class="example">
-  <div class="card card-default">
-      <div class="card-header example-title"><h2> Enlarge the Colorpicker size </h2></div>
-    <div class="card-body">
-        <div class="example-description">
-                  <p>This example shows how to tweak the Colorpicker styles and settings to make it look bigger.</p>
+/**
+ * HSVA color manipulation
+ */
+class ColorItem {
 
-        </div>
-      <div class="example-demo">
-                <div id="cp1" data-color="#6D2781"></div>
-        <style>
-          .colorpicker-2x.colorpicker-with-alpha {
-            width: 272px;
-          }
-
-          .colorpicker-2x .colorpicker-saturation {
-            width: 200px;
-            height: 200px;
-          }
-
-          .colorpicker-2x .colorpicker-hue,
-          .colorpicker-2x .colorpicker-alpha {
-            width: 30px;
-            height: 200px;
-          }
-
-          .colorpicker-2x .colorpicker-alpha,
-          .colorpicker-2x .colorpicker-preview {
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-          }
-
-          .colorpicker-2x .colorpicker-preview,
-          .colorpicker-2x .colorpicker-preview div {
-            height: 30px;
-            font-size: 16px;
-            line-height: 160%;
-          }
-
-          .colorpicker-saturation .colorpicker-guide {
-            height: 10px;
-            width: 10px;
-            border-radius: 10px;
-            margin: -5px 0 0 -5px;
-          }
-        </style>
-        <script>
-          $(function () {
-            $('#cp1').colorpicker({
-              inline: true,
-              container: true,
-              customClass: 'colorpicker-2x',
-              sliders: {
-                saturation: {
-                  maxLeft: 200,
-                  maxTop: 200
-                },
-                hue: {
-                  maxTop: 200
-                },
-                alpha: {
-                  maxTop: 200
-                }
-              }
-            });
-          });
-        </script>
-
-      </div>
-    </div>
-    <div class="card-footer">
-      <div class="card-footer--legend">Code</div>
-      <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp1&quot; data-color=&quot;#6D2781&quot;&gt;&lt;&#x2F;div&gt;
-&lt;style&gt;
-  .colorpicker-2x.colorpicker-with-alpha {
-    width: 272px;
+  /**
+   * Returns the HSVAColor class
+   *
+   * @returns {HSVAColor}
+   */
+  static get HSVAColor() {
+    return HSVAColor;
   }
 
-  .colorpicker-2x .colorpicker-saturation {
-    width: 200px;
-    height: 200px;
+  /**
+   * Applies a method of the QixColor API and returns a new Color object.
+   *
+   * @param {String} fn QixColor function name
+   * @param args
+   * @returns {ColorItem|*}
+   */
+  api(fn, ...args) {
+    let newColor = this._color[fn].apply(this._color, args);
+
+    if (!(newColor instanceof QixColor)) {
+      return newColor;
+    }
+
+    return new ColorItem(newColor, this.format);
   }
 
-  .colorpicker-2x .colorpicker-hue,
-  .colorpicker-2x .colorpicker-alpha {
-    width: 30px;
-    height: 200px;
+  /**
+   * Returns the original constructor data
+   *
+   * @returns {{color: *, format: String}}
+   */
+  get original() {
+    return this._original;
   }
 
-  .colorpicker-2x .colorpicker-alpha,
-  .colorpicker-2x .colorpicker-preview {
-    background-size: 20px 20px;
-    background-position: 0 0, 10px 10px;
+  /**
+   * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
+   * @param {String|null} format Color model to convert to by default
+   */
+  constructor(color = null, format = null) {
+    this.replace(color, format);
   }
 
-  .colorpicker-2x .colorpicker-preview,
-  .colorpicker-2x .colorpicker-preview div {
-    height: 30px;
-    font-size: 16px;
-    line-height: 160%;
+  /**
+   * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
+   * @param {String|null} format Color model to convert to by default
+   */
+  replace(color, format = null) {
+    let fallback = null;
+
+    format = ColorItem.sanitizeFormat(format);
+
+    /**
+     * @type {{color: *, format: String}}
+     * @private
+     */
+    this._original = {
+      color: color,
+      format: format,
+      valid: true
+    };
+    /**
+     * @type {QixColor}
+     * @private
+     */
+    this._color = ColorItem.parse(color);
+
+    if (this._color === null) {
+      this._color = QixColor(fallback);
+      this._original.valid = false;
+      return;
+    }
+
+    /**
+     * @type {*|string}
+     * @private
+     */
+    this._format = format ? format :
+      (ColorItem.isHex(color) ? 'hex' : this._color.model);
   }
 
-  .colorpicker-saturation .colorpicker-guide {
-    height: 10px;
-    width: 10px;
-    border-radius: 10px;
-    margin: -5px 0 0 -5px;
+  /**
+   * Parses the color returning a Qix Color object or null if cannot be
+   * parsed.
+   *
+   * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
+   * @returns {QixColor}
+   */
+  static parse(color) {
+    if (color instanceof QixColor) {
+      return color;
+    }
+
+    if (color instanceof ColorItem) {
+      return color._color;
+    }
+
+    let format = null;
+
+    if (color instanceof HSVAColor) {
+      color = [color.h, color.s, color.v, isNaN(color.a) ? 1 : color.a];
+    } else {
+      color = ColorItem.sanitizeString(color);
+    }
+
+    if (Array.isArray(color)) {
+      format = 'hsv';
+    }
+
+    try {
+      return QixColor(color, format);
+    } catch (e) {
+      return null;
+    }
   }
-&lt;&#x2F;style&gt;
-&lt;script&gt;
-  $(function () {
-    $(&#39;#cp1&#39;).colorpicker({
-      inline: true,
-      container: true,
-      customClass: &#39;colorpicker-2x&#39;,
-      sliders: {
-        saturation: {
-          maxLeft: 200,
-          maxTop: 200
-        },
-        hue: {
-          maxTop: 200
-        },
-        alpha: {
-          maxTop: 200
-        }
-      }
+
+  static sanitizeString(str) {
+    if (!(typeof str === 'string' || str instanceof String)) {
+      return str;
+    }
+
+    if (str.match(/^[0-9a-f]{2,}$/i)) {
+      return `#${str}`;
+    }
+
+    if (str.toLowerCase() === 'transparent') {
+      return '#FFFFFF00';
+    }
+
+    return str;
+  }
+
+  static isHex(str) {
+    if (!(typeof str === 'string' || str instanceof String)) {
+      return false;
+    }
+
+    return !!str.match(/^#?[0-9a-f]{2,}$/i);
+  }
+
+  static sanitizeFormat(format) {
+    // return formats only supported by web browsers
+    switch (format) {
+      case 'hex':
+      case 'hex3':
+      case 'hex4':
+      case 'hex6':
+      case 'hex8':
+        return 'hex';
+      case 'rgb':
+      case 'rgba':
+      case 'keyword':
+      case 'name':
+        return 'rgb';
+      case 'hsl':
+      case 'hsla':
+      case 'hsv':
+      case 'hsva':
+      case 'hwb':
+      case 'hwba':
+        return 'hsl';
+      default :
+        return '';
+    }
+  }
+
+  isValid() {
+    return this._original.valid === true;
+  }
+
+  /**
+   * @returns int
+   */
+  get hue() {
+    return this._color.hue();
+  }
+
+  get saturation() {
+    return this._color.saturationv();
+  }
+
+  get value() {
+    return this._color.value();
+  }
+
+  get alpha() {
+    let a = this._color.alpha();
+
+    return isNaN(a) ? 1 : a;
+  }
+
+  get format() {
+    return this._format ? this._format : this._color.model;
+  }
+
+  set hue(value) {
+    this._color = this._color.hue(value);
+  }
+
+  set saturation(value) {
+    this._color = this._color.saturationv(value);
+  }
+
+  set value(value) {
+    this._color = this._color.value(value);
+  }
+
+  set alpha(value) {
+    // 2 decimals max
+    this._color = this._color.alpha(Math.round(value * 100) / 100);
+  }
+
+  set format(value) {
+    this._format = ColorItem.sanitizeFormat(value);
+  }
+
+  /**
+   * @param {number} h Ratio from 0.0 to 1.0
+   */
+  setHueRatio(h) {
+    this.hue = ((1 - h) * 360);
+  }
+
+  /**
+   * @param {number} s Ratio from 0.0 to 1.0
+   */
+  setSaturationRatio(s) {
+    this.saturation = (s * 100);
+  }
+
+  /**
+   * @param {number} v Ratio from 0.0 to 1.0
+   */
+  setBrightnessRatio(l) {
+    this.value = (1 - l) * 100;
+  }
+
+  /**
+   * @param {number} a Ratio from 0.0 to 1.0
+   */
+  setAlphaRatio(a) {
+    this.alpha = 1 - a;
+  }
+
+  isDesaturated() {
+    return this.saturation === 0;
+  }
+
+  isTransparent() {
+    return this.alpha === 0;
+  }
+
+  hasTransparency() {
+    return this.hasAlpha() &amp;&amp; (this.alpha &lt; 1);
+  }
+
+  hasAlpha() {
+    return (this.alpha !== false);
+  }
+
+  toObject() {
+    return new HSVAColor(this.hue, this.saturation, this.value, this.alpha);
+  }
+
+  toHsva() {
+    return this.toObject();
+  }
+
+  toHsvaRatio() {
+    return new HSVAColor(
+      this.hue / 360,
+      this.saturation / 100,
+      this.value / 100,
+      this.alpha
+    );
+  }
+
+  toString() {
+    return this.string();
+  }
+
+  string(format = null) {
+    format = ColorItem.sanitizeFormat(format ? format : this.format);
+
+    if (!format) {
+      return this._color.round().string();
+    }
+
+    if (this._color[format] === undefined) {
+      throw new Error(`Unsupported color format: '${format}'`);
+    }
+
+    let str = this._color[format]();
+
+    return str.round ? str.round().string() : str;
+  }
+
+  equals(color) {
+    color = (color instanceof ColorItem) ? color : new ColorItem(color);
+
+    if (!color.isValid() || !this.isValid()) {
+      return false;
+    }
+
+    return (
+      this.hue === color.hue &amp;&amp;
+      this.saturation === color.saturation &amp;&amp;
+      this.value === color.value &amp;&amp;
+      this.alpha === color.alpha
+    );
+  }
+
+  getClone() {
+    return new ColorItem(this._color, this.format);
+  }
+
+  getCloneHueOnly() {
+    return new ColorItem([this.hue, 100, 100, 1], this.format);
+  }
+
+  getCloneOpaque() {
+    return new ColorItem(this._color.alpha(1), this.format);
+  }
+
+  toRgbString() {
+    return this.string('rgb');
+  }
+
+  toHexString() {
+    return this.string('hex');
+  }
+
+  toHslString() {
+    return this.string('hsl');
+  }
+
+  isDark() {
+    return this._color.isDark();
+  }
+
+  isLight() {
+    return this._color.isLight();
+  }
+
+  /**
+   * @param {String} scheme One of: 'complementary', 'triad', 'tetrad', 'splitcomplement'
+   * @returns {ColorItem[]}
+   */
+  getScheme(scheme = 'complementary') {
+    let hues = ColorItem.colorSchemes[scheme];
+
+    if (!hues) {
+      throw new Error(`No scheme found named ${scheme}`);
+    }
+
+    let colors = [], mainColor = this._color, format = this.format;
+
+    hues.forEach(function (hue) {
+      let levels = [
+        hue ? ((mainColor.hue() + hue) % 360) : mainColor.hue(),
+        mainColor.saturationv(),
+        mainColor.value(),
+        mainColor.alpha()
+      ];
+
+      colors.push(new ColorItem(levels, format));
     });
-  });
-&lt;&#x2F;script&gt;</pre>
-    </div>
-  </div>
-</div>
 
-  </div>
-</div>
+    return colors;
+  }
+}
 
-</article>
+ColorItem.colorSchemes = {
+  complementary: [180],
+  triad: [0, 120, 240],
+  tetrad: [0, 90, 180, 270],
+  splitcomplement: [0, 72, 216]
+};
 
-</section>
+export default ColorItem;
+</code></pre>
+        </article>
+    </section>
+
+
+
 
       </div>
     </div>

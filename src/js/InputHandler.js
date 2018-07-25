@@ -139,13 +139,13 @@ class InputHandler {
    * @returns {String}
    */
   getFormattedColor(val = null) {
-    val = val ? val : this.colorpicker.getSafeColorString();
+    val = val ? val : this.colorpicker.colorHandler.getColorString();
 
     if (!val) {
       return '';
     }
 
-    val = this.colorpicker.resolveColor(val);
+    val = this.colorpicker.colorHandler.resolveColorDelegate(val);
 
     if (this.colorpicker.options.useHashPrefix === false) {
       val = val.replace(/^#/g, '');
@@ -208,7 +208,7 @@ class InputHandler {
     let preventsUpdate = (
       (this.colorpicker.options.autoInputFallback !== true) &&
       (
-        this.colorpicker.isInvalidColor() ||
+        this.colorpicker.colorHandler.isInvalidColor() ||
         (this.colorpicker.lastEvent.alias === 'input.keyup')
       )
     );

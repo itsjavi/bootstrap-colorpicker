@@ -99,6 +99,17 @@ class Color extends tinycolor {
     if (options.format) {
       options.format = getCompatibleFormat(options.format);
     }
+
+    // add support for CSS 'transparent' value
+    if ((color instanceof String || typeof color === 'string') && (color.toLowerCase() === 'transparent')) {
+      color = {
+        r: 0,
+        g: 0,
+        b: 0,
+        a: 0
+      };
+    }
+
     super(unwrapColor(color), options);
 
     /**
@@ -277,11 +288,13 @@ class Color extends tinycolor {
 
     let colorStr = super.toString(format);
 
-    if (colorStr && colorStr.match(/^#[0-9a-f]{3,8}$/i)) {
-      // Support transparent for hex formats
-      if (this.isTransparent() && (this._r === 0) && (this._g === 0) && (this._b === 0)) {
-        return 'transparent';
-      }
+    if (
+      colorStr &&
+      format.match(/^hex([36])?$/i) &&
+      this.isTransparent()
+    ) {
+      // Support transparent for hex format
+      return 'transparent';
     }
 
     return colorStr;

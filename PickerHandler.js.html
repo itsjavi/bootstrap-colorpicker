@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   
-  <title>Bootstrap Colorpicker | extensions/Palette.js - Documentation</title>
+  <title>Bootstrap Colorpicker | PickerHandler.js - Documentation</title>
   
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85082661-5"></script>
@@ -17,7 +17,7 @@
 
   <link type="image/png" rel="shortcut icon" href="https://farbelous.io/bootstrap-colorpicker/logo.png"/>
 
-  <link href="dist/css/bootstrap-colorpicker.css?v=1532494545536" rel="stylesheet">
+  <link href="dist/css/bootstrap-colorpicker.css?v=1532494545537" rel="stylesheet">
 
   
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"/>
@@ -35,7 +35,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.bundle.min.js"
   integrity="sha384-CS0nxkpPy+xUkNGhObAISrkg/xjb3USVCwy+0/NMzd5VxgY4CMCyTkItmy5n0voC" crossorigin="anonymous"></script>
 
-  <script src="dist/js/bootstrap-colorpicker.js?v=1532494545536"></script>
+  <script src="dist/js/bootstrap-colorpicker.js?v=1532494545537"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -47,7 +47,7 @@
     <div class="main-content col-md-9 col-lg-10">
       <div id="main" class="main-content-wrapper">
         
-        <h1 class="page-title">extensions/Palette.js</h1>
+        <h1 class="page-title">PickerHandler.js</h1>
         
 
         
@@ -59,148 +59,133 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
-import Extension from 'Extension';
 import $ from 'jquery';
 
-let defaults = {
+/**
+ * Handles everything related to the colorpicker UI
+ */
+class PickerHandler {
   /**
-   * Key-value pairs defining a color alias and its CSS color representation.
-   *
-   * They can also be just an array of values. In that case, no special names are used, only the real colors.
-   *
-   * @type {Object|Array}
-   * @default null
-   * @example
-   *  {
-   *   'black': '#000000',
-   *   'white': '#ffffff',
-   *   'red': '#FF0000',
-   *   'default': '#777777',
-   *   'primary': '#337ab7',
-   *   'success': '#5cb85c',
-   *   'info': '#5bc0de',
-   *   'warning': '#f0ad4e',
-   *   'danger': '#d9534f'
-   *  }
-   *
-   * @example ['#f0ad4e', '#337ab7', '#5cb85c']
+   * @param {Colorpicker} colorpicker
+   * @param {Window} root
    */
-  colors: null,
-  /**
-   * If true, when a color swatch is selected the name (alias) will be used as input value,
-   * otherwise the swatch real color value will be used.
-   *
-   * @type {boolean}
-   * @default true
-   */
-  namesAsValues: true
-};
-
-class Palette extends Extension {
-
-  /**
-   * @returns {Object|Array}
-   */
-  get colors() {
-    return this.options.colors;
+  constructor(colorpicker, root) {
+    /**
+     * @type {Window}
+     */
+    this.root = root;
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+    /**
+     * @type {jQuery}
+     */
+    this.picker = null;
   }
 
-  constructor(colorpicker, options = {}) {
-    super(colorpicker, $.extend(true, {}, defaults, options));
+  get options() {
+    return this.colorpicker.options;
+  }
 
-    if ((!Array.isArray(this.options.colors)) &amp;&amp; (typeof this.options.colors !== 'object')) {
-      this.options.colors = null;
+  get color() {
+    return this.colorpicker.colorHandler.color;
+  }
+
+  bind() {
+    /**
+     * @type {jQuery|HTMLElement}
+     */
+    let picker = this.picker = $(this.options.template);
+
+    if (this.options.customClass) {
+      picker.addClass(this.options.customClass);
+    }
+
+    if (this.options.horizontal) {
+      picker.addClass('colorpicker-horizontal');
+    }
+
+    if (this._supportsAlphaBar()) {
+      this.options.useAlpha = true;
+      picker.addClass('colorpicker-with-alpha');
+    } else {
+      this.options.useAlpha = false;
     }
   }
 
-  /**
-   * @returns {int}
-   */
-  getLength() {
-    if (!this.options.colors) {
-      return 0;
-    }
+  attach() {
+    // Inject the colorpicker element into the DOM
+    let pickerParent = this.colorpicker.container ? this.colorpicker.container :
+      (this.options.popover ? null : this.root.document.body);
 
-    if (Array.isArray(this.options.colors)) {
-      return this.options.colors.length;
+    if (pickerParent) {
+      this.picker.appendTo(pickerParent);
     }
-
-    if (typeof this.options.colors === 'object') {
-      return Object.keys(this.options.colors).length;
-    }
-
-    return 0;
   }
 
-  resolveColor(color) {
-    if (this.getLength() &lt;= 0) {
-      return false;
-    }
+  unbind() {
+    this.picker.remove();
+  }
 
-    if (Array.isArray(this.options.colors)) {
-      if (this.options.colors.indexOf(color) >= 0) {
-        return color;
-      }
-      if (this.options.colors.indexOf(color.toUpperCase()) >= 0) {
-        return color.toUpperCase();
-      }
-      if (this.options.colors.indexOf(color.toLowerCase()) >= 0) {
-        return color.toLowerCase();
-      }
-      return false;
-    }
-
-    if (typeof this.options.colors !== 'object') {
-      return false;
-    }
-
-    if (!this.options.namesAsValues) {
-      return this.getValue(color, false);
-    }
-    return this.getName(color, this.getName('#' + color, this.getValue(color, false)));
+  _supportsAlphaBar() {
+    return (
+      (this.options.useAlpha || (this.colorpicker.colorHandler.hasColor() &amp;&amp; this.color.hasTransparency())) &amp;&amp;
+      (this.options.useAlpha !== false) &amp;&amp;
+      (!this.options.format || (this.options.format &amp;&amp; !this.options.format.match(/^hex([36])?$/i)))
+    );
   }
 
   /**
-   * Given a color value, returns the corresponding color name or defaultValue.
-   *
-   * @param {String} value
-   * @param {*} defaultValue
-   * @returns {*}
+   * Changes the color adjustment bars using the current color object information.
    */
-  getName(value, defaultValue = false) {
-    if (!(typeof value === 'string') || !this.options.colors) {
-      return defaultValue;
+  update() {
+    if (!this.colorpicker.colorHandler.hasColor()) {
+      return;
     }
-    for (let name in this.options.colors) {
-      if (!this.options.colors.hasOwnProperty(name)) {
-        continue;
-      }
-      if (this.options.colors[name].toLowerCase() === value.toLowerCase()) {
-        return name;
-      }
-    }
-    return defaultValue;
-  }
 
-  /**
-   * Given a color name, returns the corresponding color value or defaultValue.
-   *
-   * @param {String} name
-   * @param {*} defaultValue
-   * @returns {*}
-   */
-  getValue(name, defaultValue = false) {
-    if (!(typeof name === 'string') || !this.options.colors) {
-      return defaultValue;
+    let vertical = (this.options.horizontal !== true),
+      slider = vertical ? this.options.sliders : this.options.slidersHorz;
+
+    let saturationGuide = this.picker.find('.colorpicker-saturation .colorpicker-guide'),
+      hueGuide = this.picker.find('.colorpicker-hue .colorpicker-guide'),
+      alphaGuide = this.picker.find('.colorpicker-alpha .colorpicker-guide');
+
+    let hsva = this.color.hsvaRatio;
+
+    // Set guides position
+    if (hueGuide.length) {
+      hueGuide.css(vertical ? 'top' : 'left', (vertical ? slider.hue.maxTop : slider.hue.maxLeft) * (1 - hsva.h));
     }
-    if (this.options.colors.hasOwnProperty(name)) {
-      return this.options.colors[name];
+    if (alphaGuide.length) {
+      alphaGuide.css(vertical ? 'top' : 'left', (vertical ? slider.alpha.maxTop : slider.alpha.maxLeft) * (1 - hsva.a));
     }
-    return defaultValue;
+    if (saturationGuide.length) {
+      saturationGuide.css({
+        'top': slider.saturation.maxTop - hsva.v * slider.saturation.maxTop,
+        'left': hsva.s * slider.saturation.maxLeft
+      });
+    }
+
+    // Set saturation hue background
+    this.picker.find('.colorpicker-saturation')
+      .css('backgroundColor', this.color.getHueOnlyCopy().toHexString()); // we only need hue
+
+    // Set alpha color gradient
+    let hex6Color = this.color.toString('hex6');
+    let alphaBg = '';
+
+    if (this.options.horizontal) {
+      alphaBg = `linear-gradient(to right, ${hex6Color} 0%, transparent 100%)`;
+    } else {
+      alphaBg = `linear-gradient(to bottom, ${hex6Color} 0%, transparent 100%)`;
+    }
+
+    this.picker.find('.colorpicker-alpha-color').css('background', alphaBg);
   }
 }
 
-export default Palette;
+export default PickerHandler;
 </code></pre>
         </article>
     </section>

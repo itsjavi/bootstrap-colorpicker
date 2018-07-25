@@ -594,9 +594,9 @@ h4.name {
 }
 
 input.form-control + input.form-control,
-.colorpicker-component + .colorpicker-component,
-input.form-control + .colorpicker-component,
-.colorpicker-component + input.form-control {
+.input-group + .input-group,
+input.form-control + .input-group,
+.input-group + input.form-control {
   margin-top: 20px;
 }
 

@@ -19,8 +19,6 @@
 
   <link type="image/png" rel="shortcut icon" href="https://farbelous.io/bootstrap-colorpicker/logo.png"/>
 
-  <link href="dist/css/bootstrap-colorpicker.css?v=<?js= Date.now() ?>" rel="stylesheet">
-
   <?js if(
       env.conf.templates && env.conf.templates.default && env.conf.templates.default.searchBox &&
       env.conf.templates.default.searchBox.enabled !== false
@@ -33,6 +31,8 @@
 
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet"
   integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+  <link href="dist/css/bootstrap-colorpicker.css?v=<?js= Date.now() ?>" rel="stylesheet" />
 
   <!-- This needs to be loaded before the examples scripts: -->
   <script src="//code.jquery.com/jquery-3.3.1.js"></script>

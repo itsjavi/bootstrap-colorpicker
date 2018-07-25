@@ -119,9 +119,9 @@ export default {
    *   while the internal color object will still resolve into a valid one.
    *
    * @type {boolean}
-   * @default false
+   * @default true
    */
-  autoInputFallback: false,
+  autoInputFallback: true,
   /**
    * If true a hash will be prepended to hexadecimal colors.
    * If false, the hash will be removed.

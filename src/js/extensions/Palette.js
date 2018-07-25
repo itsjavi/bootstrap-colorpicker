@@ -28,7 +28,7 @@ let defaults = {
    */
   colors: null,
   /**
-   * If true, the when a color swatch is selected the name (alias) will be used as input value,
+   * If true, when a color swatch is selected the name (alias) will be used as input value,
    * otherwise the swatch real color value will be used.
    *
    * @type {boolean}

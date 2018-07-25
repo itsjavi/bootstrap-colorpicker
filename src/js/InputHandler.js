@@ -204,16 +204,11 @@ class InputHandler {
       return;
     }
 
-    // Do not update input when autoInputFallback is disabled and last event is keyup.
-    let preventsUpdate = (
-      (this.colorpicker.options.autoInputFallback !== true) &&
-      (
-        this.colorpicker.colorHandler.isInvalidColor() ||
-        (this.colorpicker.lastEvent.alias === 'input.keyup')
-      )
-    );
-
-    if (preventsUpdate) {
+    if (
+      (this.colorpicker.options.autoInputFallback === false) &&
+      this.colorpicker.colorHandler.isInvalidColor()
+    ) {
+      // prevent update if color is invalid, autoInputFallback is disabled and the last event is keyup.
       return;
     }
 

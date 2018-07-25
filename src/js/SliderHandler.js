@@ -7,11 +7,11 @@ import $ from 'jquery';
  */
 class SliderHandler {
   /**
-   * @param {Window} root
    * @param {Colorpicker} colorpicker
+   * @param {Window} root
    * @param {Function|null} onMove
    */
-  constructor(root, colorpicker, onMove = null) {
+  constructor(colorpicker, root, onMove = null) {
     /**
      * @type {Window}
      */

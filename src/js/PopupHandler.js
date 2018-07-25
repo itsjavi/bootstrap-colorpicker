@@ -8,10 +8,10 @@ import _defaults from './options';
  */
 class PopupHandler {
   /**
-   * @param {Window} root
    * @param {Colorpicker} colorpicker
+   * @param {Window} root
    */
-  constructor(root, colorpicker) {
+  constructor(colorpicker, root) {
     /**
      * @type {Window}
      */

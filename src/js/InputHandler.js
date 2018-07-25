@@ -8,10 +8,10 @@ import Color from './Color';
  */
 class InputHandler {
   /**
-   * @param {Window} root
    * @param {Colorpicker} colorpicker
+   * @param {Window} root
    */
-  constructor(root, colorpicker) {
+  constructor(colorpicker, root) {
     /**
      * @type {Window}
      */

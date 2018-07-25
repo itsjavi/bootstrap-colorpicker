@@ -155,15 +155,15 @@ class Colorpicker {
     /**
      * @type {InputHandler}
      */
-    this.inputHandler = new InputHandler(root, this);
+    this.inputHandler = new InputHandler(this, root);
     /**
      * @type {SliderHandler}
      */
-    this.sliderHandler = new SliderHandler(root, this, onSliderGuideMove);
+    this.sliderHandler = new SliderHandler(this, root, onSliderGuideMove);
     /**
      * @type {PopupHandler}
      */
-    this.popupHandler = new PopupHandler(root, this);
+    this.popupHandler = new PopupHandler(this, root);
 
     // Init extensions
     this._initExtensions();

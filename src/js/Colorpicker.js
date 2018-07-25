@@ -10,6 +10,7 @@ import PopupHandler from './PopupHandler';
 import InputHandler from './InputHandler';
 import ColorHandler from './ColorHandler';
 import PickerHandler from './PickerHandler';
+import AddonHandler from './AddonHandler';
 
 let colorPickerIdCounter = 0;
 let root = (typeof self !== 'undefined' ? self : this); // window
@@ -54,6 +55,14 @@ class Colorpicker {
    */
   get format() {
     return this.colorHandler.format;
+  }
+
+  /**
+   *
+   * @returns {jQuery|HTMLElement}
+   */
+  get picker() {
+    return this.pickerHandler.picker;
   }
 
   /**
@@ -107,16 +116,6 @@ class Colorpicker {
      */
     this.extensions = [];
 
-    // TODO: refactor into TriggerHandler
-    /**
-     * @type {*|jQuery}
-     */
-    this.component = (this.options.component !== false) ? this.element.find(this.options.component) : false;
-    if (this.component && (this.component.length === 0)) {
-      // not found
-      this.component = false;
-    }
-
     /**
      * The element where the
      * @type {*|jQuery}
@@ -144,6 +143,10 @@ class Colorpicker {
      * @type {PickerHandler}
      */
     this.pickerHandler = new PickerHandler(this, root);
+    /**
+     * @type {AddonHandler}
+     */
+    this.addonHandler = new AddonHandler(this);
 
     this.init();
 
@@ -169,6 +172,9 @@ class Colorpicker {
   }
 
   init() {
+    // Init addon
+    this.addonHandler.bind();
+
     // Init input
     this.inputHandler.bind();
 
@@ -233,11 +239,7 @@ class Colorpicker {
     this.inputHandler.unbind();
     this.popupHandler.unbind();
     this.colorHandler.unbind();
-
-    if (this.component !== false) {
-      this.component.off('.colorpicker');
-    }
-
+    this.addonHandler.unbind();
     this.pickerHandler.unbind();
 
     this.element
@@ -340,7 +342,7 @@ class Colorpicker {
   }
 
   /**
-   * Updates the component color, the input value and the widget if a color is present.
+   * Updates the UI and the input color according to the internal color.
    *
    * If force is true, it is updated anyway.
    *
@@ -354,7 +356,7 @@ class Colorpicker {
     }
 
     this.inputHandler.update();
-    this._updateComponent();
+    this.addonHandler.update();
     this.pickerHandler.update();
 
     /**
@@ -362,28 +364,7 @@ class Colorpicker {
      *
      * @event Colorpicker#colorpickerUpdate
      */
-    this.trigger('colorpickerUpdate', this.color);
-  }
-
-  /**
-   * If the component element is present, its background color is updated
-   * @private
-   */
-  _updateComponent() {
-    if (!this.colorHandler.hasColor() || (this.component === false)) {
-      return;
-    }
-
-    let colorStr = this.colorHandler.getColorString();
-    let styles = {'background': colorStr};
-
-    let icn = this.component.find('i').eq(0);
-
-    if (icn.length > 0) {
-      icn.css(styles);
-    } else {
-      this.component.css(styles);
-    }
+    this.trigger('colorpickerUpdate');
   }
 
   /**

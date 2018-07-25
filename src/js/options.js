@@ -99,20 +99,20 @@ export default {
    */
   debug: false,
   /**
-   * Child input CSS selector
+   * Child CSS selector for the colorpicker input.
    *
    * @type {String}
    * @default 'input'
    */
   input: 'input',
   /**
-   * Child color component CSS selector.
+   * Child CSS selector for the colorpicker addon.
    * If it exists, the child <i> element background will be changed on color change.
    *
-   * @type {String|boolean}
-   * @default '.colorpicker-input-addon'
+   * @type {String}
+   * @default '.colorpicker-trigger, .colorpicker-input-addon'
    */
-  component: '.colorpicker-input-addon',
+  addon: '.colorpicker-input-addon',
   /**
    * If true, the input content will be replaced always with a valid color,
    * if false, the invalid color will be left in the input,

@@ -51,7 +51,7 @@ class PopupHandler {
    * @returns {jQuery|false}
    */
   get addon() {
-    return this.colorpicker.component;
+    return this.colorpicker.addonHandler.addon;
   }
 
   /**
@@ -59,7 +59,7 @@ class PopupHandler {
    * @returns {boolean}
    */
   get hasAddon() {
-    return !!this.colorpicker.component;
+    return this.colorpicker.addonHandler.hasAddon();
   }
 
   /**
@@ -227,7 +227,7 @@ class PopupHandler {
     let type = cp.container &&
     (cp.container[0] !== this.root.document.body) ? 'position' : 'offset';
 
-    let element = cp.component || cp.element;
+    let element = this.addon || cp.element;
     let offset = element[type]();
 
     // align to the right

@@ -28,6 +28,12 @@ class PopupHandler {
      * @type {jQuery}
      */
     this.popoverTip = null;
+
+    /**
+     * If true, the latest click was inside the popover
+     * @type {boolean}
+     */
+    this.clicking = false;
   }
 
   /**
@@ -63,6 +69,14 @@ class PopupHandler {
   }
 
   /**
+   * @private
+   * @returns {boolean}
+   */
+  get isPopover() {
+    return !!this.popoverTip;
+  }
+
+  /**
    * Binds the different colorpicker elements to the focus/mouse/touch events so it reacts in order to show or
    * hide the colorpicker popup accordingly. It also adds the proper classes.
    */
@@ -81,13 +95,9 @@ class PopupHandler {
       return;
     }
 
-    // prevent closing the colorpicker when clicking on itself or any child element
-    this.preventHideOnNestedClick(cp.picker);
-
     // create Bootstrap 4 popover
     if (cp.options.popover) {
       this.createPopover();
-      this.preventHideOnNestedClick(this.popoverTip);
     }
 
     // bind addon show/hide events
@@ -103,6 +113,7 @@ class PopupHandler {
       this.addon.on({
         'focus.colorpicker': $.proxy(this.show, this)
       });
+
       this.addon.on({
         'focusout.colorpicker': $.proxy(this.hide, this)
       });
@@ -114,6 +125,7 @@ class PopupHandler {
         'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.show, this),
         'focus.colorpicker': $.proxy(this.show, this)
       });
+
       this.input.on({
         'focusout.colorpicker': $.proxy(this.hide, this)
       });
@@ -127,6 +139,10 @@ class PopupHandler {
    * Unbinds any event bound by this handler
    */
   unbind() {
+    this.colorpicker.element.off({
+      'focusout.colorpicker': $.proxy(this.hide, this)
+    });
+
     if (this.hasInput) {
       this.input.off({
         'mousedown.colorpicker touchstart.colorpicker': $.proxy(this.show, this),
@@ -154,24 +170,41 @@ class PopupHandler {
     }
 
     $(this.root).off('resize.colorpicker', $.proxy(this.reposition, this));
+    $(this.root.document).off('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.hide, this));
+    $(this.root.document).off('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.onClickingInside, this));
   }
 
-  preventHideOnNestedClick(element) {
-    if (!element) {
-      return;
+  isClickingInside(e) {
+    if (!e) {
+      return false;
     }
 
-    $(element).on('mousedown.colorpicker touchstart.colorpicker', $.proxy(function (e) {
-      if (!e.currentTarget) {
-        return;
-      }
-      if (
-        $(e.currentTarget).is(this.colorpicker.picker) ||
-        $(e.currentTarget).is(this.popoverTip)
-      ) {
-        e.preventDefault();
-      }
-    }, this));
+    return (
+      this.isOrIsInside(this.popoverTip, e.currentTarget) ||
+      this.isOrIsInside(this.popoverTip, e.target) ||
+      this.isOrIsInside(this.colorpicker.picker, e.currentTarget) ||
+      this.isOrIsInside(this.colorpicker.picker, e.target)
+    );
+  }
+
+  isOrIsInside(container, element) {
+    if (!container || !element) {
+      return false;
+    }
+
+    element = $(element);
+
+    return (
+      element.is(container) ||
+      container.find(element).length > 0
+    );
+  }
+
+  onClickingInside(e) {
+    this.clicking = this.isClickingInside(e);
+    if (!this.clicking) {
+      this.hide(e);
+    }
   }
 
   createPopover() {
@@ -207,36 +240,7 @@ class PopupHandler {
   reposition(e) {
     if (this.popoverTarget && this.isVisible()) {
       this.popoverTarget.popover('update');
-      return;
     }
-
-    if (this.isHidden() || this.popoverTarget) {
-      // Don't need to reposition if hidden or the plugin is using the BS4 popover
-      return;
-    }
-
-    let cp = this.colorpicker;
-
-    cp.lastEvent.alias = 'reposition';
-    cp.lastEvent.e = e;
-
-    if (cp.options.inline !== false || cp.options.container) {
-      return;
-    }
-
-    let type = cp.container &&
-    (cp.container[0] !== this.root.document.body) ? 'position' : 'offset';
-
-    let element = this.addon || cp.element;
-    let offset = element[type]();
-
-    // align to the right
-    offset.left -= cp.picker.outerWidth() - element.outerWidth();
-
-    cp.picker.css({
-      top: offset.top + element.outerHeight(),
-      left: offset.left
-    });
   }
 
   /**
@@ -281,6 +285,13 @@ class PopupHandler {
       e.preventDefault();
     }
 
+    this.clicking = false;
+
+    // If it's a popover, add event to the document to hide the picker when clicking outside of it
+    if (this.isPopover) {
+      $(this.root).on('resize.colorpicker', $.proxy(this.reposition, this));
+    }
+
     // add visible class before popover is shown
     cp.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
 
@@ -288,11 +299,16 @@ class PopupHandler {
       this.popoverTarget.popover('show');
     } else {
       this.fireShow();
-      this.reposition(e);
     }
   }
 
   fireShow() {
+    if (this.isPopover) {
+      // Add event to hide on outside click
+      $(this.root.document).on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.hide, this));
+      $(this.root.document).on('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.onClickingInside, this));
+    }
+
     /**
      * (Colorpicker) When show() is called and the widget can be shown.
      *
@@ -314,19 +330,22 @@ class PopupHandler {
       return;
     }
 
-    let cp = this.colorpicker;
+    let cp = this.colorpicker, clicking = this.clicking;
+
+    this.clicking = false;
 
     cp.lastEvent.alias = 'hide';
     cp.lastEvent.e = e;
 
     // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
-    if (
-      ((typeof e !== 'undefined') && e.target) &&
-      (
-        $(e.currentTarget).parents('.colorpicker').length > 0 ||
-        $(e.target).parents('.colorpicker').length > 0
-      )
-    ) {
+    if (clicking || this.isClickingInside(e)) {
+
+      if (e.type !== 'focus') {
+        // this.focus();
+        //        ⌃-- prevents lose focus of the input/addon,
+        //            but cancels inputs and text selection inside the popover.
+        return;
+      }
       return;
     }
 
@@ -343,12 +362,27 @@ class PopupHandler {
     // add hidden class after popover is hidden
     cp.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
 
+    // Unbind window and document events, since there is no need to keep them while the popup is hidden
+    $(this.root).off('resize.colorpicker', $.proxy(this.reposition, this));
+    $(this.root.document).off('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.hide, this));
+    $(this.root.document).off('mousedown.colorpicker touchstart.colorpicker', $.proxy(this.onClickingInside, this));
+
     /**
      * (Colorpicker) When hide() is called and the widget can be hidden.
      *
      * @event Colorpicker#colorpickerHide
      */
     cp.trigger('colorpickerHide');
+  }
+
+  focus() {
+    if (this.hasAddon) {
+      return this.addon.focus();
+    }
+    if (this.hasInput) {
+      return this.input.focus();
+    }
+    return false;
   }
 
   /**

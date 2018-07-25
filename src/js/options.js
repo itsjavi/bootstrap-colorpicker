@@ -79,12 +79,12 @@ export default {
    * @type {String|boolean}
    * @default false
    */
-  container: false, // container selector
+  container: false,
   /**
-   * Bootstrap Popover options. If false, the built-in popover will be used.
+   * Bootstrap Popover options.
    * The trigger, content and html options are always ignored.
    *
-   * @type {boolean|false}
+   * @type {boolean}
    * @default Object
    */
   popover: {

@@ -38,37 +38,6 @@
     {{/extend}}
 
     {{#extend "example"}}
-      {{#content "title"}} Use built-in simple popup{{/content}}
-      {{#content "description"}}
-        <p>
-          If you want to use the built-in (non Bootstrap) popup solution, you only need to set the
-          popover option to false.<br>
-          This popup solution is very limited and it only supports the bottom left placement. <br>
-        </p>
-        <div class="alert alert-info">
-          This option is recommended in order to make Colorpicker working standalone without the need
-          of including any Bootstrap JS files in your project.
-        </div>
-      {{/content}}
-      {{#content "code"}}
-        <div id="cp1b" class="input-group">
-          <input type="text" class="form-control input-lg" value="rgba(30, 112, 76, 0.9)"/>
-          <span class="input-group-append">
-            <span class="input-group-text colorpicker-input-addon"><i></i></span>
-          </span>
-        </div>
-        <script>
-          $(function () {
-            $('#cp1b').colorpicker({
-              popover: false
-            });
-          });
-        </script>
-      {{/content}}
-    {{/extend}}
-
-
-    {{#extend "example"}}
       {{#content "title"}} Inside a modal {{/content}}
       {{#content "description"}}{{/content}}
       {{#content "code"}}

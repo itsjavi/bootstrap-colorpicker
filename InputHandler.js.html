@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   
-  <title>Bootstrap Colorpicker, a color picker component for jQuery, compatible with Twitter Bootstrap.</title>
+  <title>Bootstrap Colorpicker | InputHandler.js - Documentation</title>
   
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85082661-5"></script>
@@ -17,7 +17,7 @@
 
   <link type="image/png" rel="shortcut icon" href="https://farbelous.io/bootstrap-colorpicker/logo.png"/>
 
-  <link href="dist/css/bootstrap-colorpicker.css?v=1532490357715" rel="stylesheet">
+  <link href="dist/css/bootstrap-colorpicker.css?v=1532490357711" rel="stylesheet">
 
   
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"/>
@@ -35,7 +35,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.bundle.min.js"
   integrity="sha384-CS0nxkpPy+xUkNGhObAISrkg/xjb3USVCwy+0/NMzd5VxgY4CMCyTkItmy5n0voC" crossorigin="anonymous"></script>
 
-  <script src="dist/js/bootstrap-colorpicker.js?v=1532490357715"></script>
+  <script src="dist/js/bootstrap-colorpicker.js?v=1532490357711"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -47,101 +47,274 @@
     <div class="main-content col-md-9 col-lg-10">
       <div id="main" class="main-content-wrapper">
         
+        <h1 class="page-title">InputHandler.js</h1>
+        
 
         
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+import $ from 'jquery';
+import Color from './Color';
 
+/**
+ * Handles everything related to the colorpicker input
+ */
+class InputHandler {
+  /**
+   * @param {Colorpicker} colorpicker
+   * @param {Window} root
+   */
+  constructor(colorpicker, root) {
+    /**
+     * @type {Window}
+     */
+    this.root = root;
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+    /**
+     * @type {jQuery|false}
+     */
+    this.input = this.colorpicker.element.is('input') ? this.colorpicker.element : (this.colorpicker.options.input ?
+      this.colorpicker.element.find(this.colorpicker.options.input) : false);
 
+    if (this.input &amp;&amp; (this.input.length === 0)) {
+      this.input = false;
+    }
 
+    this._initValue();
+  }
 
-
-
-
-
-    
-
-
-    <section class="readme">
-        <article><p><a href="https://farbelous.io/bootstrap-colorpicker">
-    <img alt="Logo by @reallinfo" src="logo.png" width="190px" />
-</a></p>
-<h1>Bootstrap Colorpicker</h1><p><a href="https://github.com/farbelous/bootstrap-colorpicker/">Bootstrap Colorpicker</a> is a simple and customizable colorpicker 
-component for jQuery, which is also compatible with Twitter Bootstrap.</p>
-<p><a href="https://travis-ci.org/farbelous/bootstrap-colorpicker"><img src="https://img.shields.io/travis/farbelous/bootstrap-colorpicker/master.svg?style=flat-square" alt="Build Status"></a>
-<a href="https://www.npmjs.com/package/bootstrap-colorpicker"><img src="https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square" alt="npm"></a>
-<a href="https://www.npmjs.com/package/bootstrap-colorpicker?activeTab=versions"><img src="https://img.shields.io/npm/v/bootstrap-colorpicker/next.svg?style=flat-square" alt="npm@next"></a>
-<a href="https://github.com/itsjavi/itsjavi.github.io/blob/master/BACKERS.md#sponsors--backers"><img src="https://img.shields.io/badge/%E2%9D%A4-Donate%20to%20this%20project-e0a61d.svg?longCache=true&amp;style=flat-square" alt="Donate"></a>
-<a href="https://github.com/itsjavi/itsjavi.github.io/blob/master/BACKERS.md#sponsors"><img src="https://img.shields.io/badge/%F0%9F%92%AA-Supporters-333333.svg?longCache=true&amp;style=flat-square" alt="Supporters"></a></p>
-<blockquote>
-<p>NOTE that this documentation refers to the <strong>latest stable version</strong> of the project.<br>
-Previous documentation can be found here: <a href="https://farbelous.github.io/bootstrap-colorpicker/v2/">v2.x</a>.</p>
-</blockquote>
-<h2>Install</h2><p>You can get the latest version in many different ways:</p>
-<ul>
-<li>Downloading <a href="https://github.com/farbelous/bootstrap-colorpicker/releases">a ZIP file from the releases</a></li>
-<li>Cloning using Git: <code>git clone https://github.com/farbelous/bootstrap-colorpicker.git</code></li>
-<li>Installing via NPM: <code>npm install bootstrap-colorpicker</code></li>
-<li>Installing via Yarn: <code>yarn add bootstrap-colorpicker</code></li>
-<li>Installing via Composer: <code>composer require itsjavi/bootstrap-colorpicker</code></li>
-</ul>
-<p>To start using the component, most of the time you will only need the files under the <code>dist</code> folder.
-The <code>dist</code> folder will be available if you installed this package via npm or yarn. In any other cases
-you will need to run <code>yarn install &amp;&amp; npm run build</code> in order to generate it.</p>
-<p>Example:</p>
-<pre class="prettyprint source lang-html"><code>&lt;!DOCTYPE html>
-&lt;html lang=&quot;en&quot;>
-&lt;head>
-  &lt;meta charset=&quot;utf-8&quot;>
-  &lt;link href=&quot;dist/css/bootstrap-colorpicker.css&quot; rel=&quot;stylesheet&quot;>
-&lt;/head>
-&lt;body>
-  &lt;div class=&quot;container&quot;>
-      &lt;input id=&quot;mycp&quot; type=&quot;text&quot; class=&quot;form-control&quot; />
-  &lt;/div>
-  &lt;script src=&quot;//code.jquery.com/jquery-3.2.1.js&quot;>&lt;/script>
-  &lt;script src=&quot;dist/js/bootstrap-colorpicker.js&quot;>&lt;/script>
-  &lt;script>
-    $(function () {
-      $('#mycp').colorpicker({popover:false});
+  bind() {
+    if (!this.hasInput()) {
+      return;
+    }
+    this.input.on({
+      'keyup.colorpicker': $.proxy(this.onkeyup, this)
     });
-  &lt;/script>
-&lt;/body></code></pre><h2>Requirements</h2><p>Note that this library depends on <code>jQuery &gt;= 2.1.0</code>.</p>
-<p>The <code>Twitter Bootstrap</code> dependency is recommended but optional, since this library does not depend directly
-on it in order to work, except when Bootstrap-related classes like <code>form-control</code> and <code>input-group-append</code> are used 
-like in the examples. In that case you will need at least the Bootstrap CSS for everything to be displayed correctly.</p>
-<p>The Bootstrap JS bundle is required in case you want to use the Bootstrap Popover instead of the built-in one.
-By default all instances are created using the Bootstrap Popover. In order to make the plugin work without Bootstrap,
-you need to set the <code>popover</code> option to <code>false</code>.</p>
-<h2>Documentation</h2><p>The documentation of this project has been created with by Handlebars, JSDoc and the Minami template.</p>
-<ul>
-<li><a href="https://farbelous.github.io/bootstrap-colorpicker/">Documentation (@next)</a></li>
-<li><a href="https://farbelous.github.io/bootstrap-colorpicker/tutorial-Basics.html">Examples</a></li>
-</ul>
-<p>Older versions:</p>
-<ul>
-<li><a href="https://farbelous.github.io/bootstrap-colorpicker/v2/">Documentation (v2.x)</a></li>
-</ul>
-<h2>Contributions</h2><ul>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/issues">Issues</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/pulls">Pull Requests</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/milestones">Milestones</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/projects">Planned Features</a></li>
-</ul>
-<p>This project exists thanks to all the <a href="https://github.com/farbelous/bootstrap-colorpicker/graphs/contributors">people who contribute</a>.</p>
-<p>Please read <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md">CONTRIBUTING</a> 
-before sending a pull request or issue.</p>
-<h2>License</h2><p>The MIT License (MIT).
-Please see the <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/LICENSE">License File</a> for more information.</p>
-<h2>Credits</h2><p>Originally written by Stefan Petre in 2013.</p>
-<p>Rewritten and maintained by <a href="https://itsjavi.com">Javi Aguilar</a> and all other contributors.</p>
-<p><em>With the support of JetBrains.</em></p></article>
+    this.input.on({
+      'change.colorpicker': $.proxy(this.onchange, this)
+    });
+  }
+
+  unbind() {
+    if (!this.hasInput()) {
+      return;
+    }
+    this.input.off('.colorpicker');
+  }
+
+  _initValue() {
+    if (!this.hasInput()) {
+      return;
+    }
+
+    let val = '';
+
+    [
+      // candidates:
+      this.input.val(),
+      this.input.data('color'),
+      this.input.attr('data-color')
+    ].map((item) => {
+      if (item &amp;&amp; (val === '')) {
+        val = item;
+      }
+    });
+
+    if (val instanceof Color) {
+      val = this.getFormattedColor(val.toString(this.colorpicker.format));
+    } else if (!(typeof val === 'string' || val instanceof String)) {
+      val = '';
+    }
+
+    this.input.prop('value', val);
+  }
+
+  /**
+   * Returns the color string from the input value.
+   * If there is no input the return value is false.
+   *
+   * @returns {String|boolean}
+   */
+  getValue() {
+    if (!this.hasInput()) {
+      return false;
+    }
+
+    return this.input.val();
+  }
+
+  /**
+   * If the input element is present, it updates the value with the current color object color string.
+   * If the value is changed, this method fires a "change" event on the input element.
+   *
+   * @param {String} val
+   *
+   * @fires Colorpicker#change
+   */
+  setValue(val) {
+    if (!this.hasInput()) {
+      return;
+    }
+
+    let inputVal = this.input.prop('value');
+
+    val = val ? val : '';
+
+    if (val === (inputVal ? inputVal : '')) {
+      // No need to set value or trigger any event if nothing changed
+      return;
+    }
+
+    this.input.prop('value', val);
+
+    /**
+     * (Input) Triggered on the input element when a new color is selected.
+     *
+     * @event Colorpicker#change
+     */
+    this.input.trigger({
+      type: 'change',
+      colorpicker: this.colorpicker,
+      color: this.colorpicker.color,
+      value: val
+    });
+  }
+
+  /**
+   * Returns the formatted color string, with the formatting options applied
+   * (e.g. useHashPrefix)
+   *
+   * @param {String|null} val
+   *
+   * @returns {String}
+   */
+  getFormattedColor(val = null) {
+    val = val ? val : this.colorpicker.colorHandler.getColorString();
+
+    if (!val) {
+      return '';
+    }
+
+    val = this.colorpicker.colorHandler.resolveColorDelegate(val);
+
+    if (this.colorpicker.options.useHashPrefix === false) {
+      val = val.replace(/^#/g, '');
+    }
+
+    return val;
+  }
+
+  /**
+   * Returns true if the widget has an associated input element, false otherwise
+   * @returns {boolean}
+   */
+  hasInput() {
+    return (this.input !== false);
+  }
+
+  /**
+   * Returns true if the input exists and is disabled
+   * @returns {boolean}
+   */
+  isDisabled() {
+    return this.hasInput() &amp;&amp; (this.input.prop('disabled') === true);
+  }
+
+  /**
+   * Disables the input if any
+   *
+   * @fires Colorpicker#colorpickerDisable
+   * @returns {boolean}
+   */
+  disable() {
+    if (this.hasInput()) {
+      this.input.prop('disabled', true);
+    }
+  }
+
+  /**
+   * Enables the input if any
+   *
+   * @fires Colorpicker#colorpickerEnable
+   * @returns {boolean}
+   */
+  enable() {
+    if (this.hasInput()) {
+      this.input.prop('disabled', false);
+    }
+  }
+
+  /**
+   * Calls setValue with the current internal color value
+   *
+   * @fires Colorpicker#change
+   */
+  update() {
+    if (!this.hasInput()) {
+      return;
+    }
+
+    if (
+      (this.colorpicker.options.autoInputFallback === false) &amp;&amp;
+      this.colorpicker.colorHandler.isInvalidColor()
+    ) {
+      // prevent update if color is invalid, autoInputFallback is disabled and the last event is keyup.
+      return;
+    }
+
+    this.setValue(this.getFormattedColor());
+  }
+
+  /**
+   * Function triggered when the input has changed, so the colorpicker gets updated.
+   *
+   * @private
+   * @param {Event} e
+   * @returns {boolean}
+   */
+  onchange(e) {
+    this.colorpicker.lastEvent.alias = 'input.change';
+    this.colorpicker.lastEvent.e = e;
+
+    let val = this.getValue();
+
+    if (val !== this.getFormattedColor()) {
+      this.colorpicker.setValue(val);
+    }
+  }
+
+  /**
+   * Function triggered after a keyboard key has been released.
+   *
+   * @private
+   * @param {Event} e
+   * @returns {boolean}
+   */
+  onkeyup(e) {
+    this.colorpicker.lastEvent.alias = 'input.keyup';
+    this.colorpicker.lastEvent.e = e;
+
+    let val = this.getValue();
+
+    if (val !== this.getFormattedColor()) {
+      this.colorpicker.setValue(val);
+    }
+  }
+}
+
+export default InputHandler;
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

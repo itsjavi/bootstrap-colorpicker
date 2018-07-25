@@ -78,7 +78,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -272,1508 +272,6 @@ exports.default = Extension;
 
 "use strict";
 
-/**
- * @module
- */
-
-// adjust these values accordingly to the sass vars
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var sassVars = {
-  'bar_size_short': 16,
-  'base_margin': 6,
-  'columns': 6
-};
-
-var sliderSize = sassVars.bar_size_short * sassVars.columns + sassVars.base_margin * (sassVars.columns - 1);
-
-/**
- * Colorpicker default options
- */
-exports.default = {
-  /**
-   * If true, loads the Debugger extension automatically into the current instance
-   * @type {boolean}
-   * @default false
-   */
-  debug: false,
-  /**
-   * Sets a initial color, ignoring the one from the element/input value or the data-color attribute.
-   *
-   * @type {(String|Color|boolean)}
-   * @default false
-   */
-  color: false,
-  /**
-   * Forces an specific color format. If 'auto', it will be automatically detected the first time only,
-   * but if null it will be always recalculated.
-   *
-   * Note that the ending 'a' of the format meaning "alpha" has currently no effect, meaning that rgb is the same as
-   * rgba excepting if the alpha channel is disabled (see useAlpha).
-   *
-   * @type {('rgb'|'rgba'|'prgb'|'prgba'|'hex'|'hex3'|'hex6'|'hex8'|'hsl'|'hsla'|'hsv'|'hsva'|'name'|boolean)}
-   * @default null
-   */
-  format: null,
-  /**
-   * Horizontal mode layout.
-   *
-   * If true, the hue and alpha channel bars will be rendered horizontally, above the saturation selector.
-   *
-   * @type {boolean}
-   * @default false
-   */
-  horizontal: false,
-  /**
-   * Forces to show the colorpicker as an inline element
-   *
-   * @type {boolean}
-   * @default false
-   */
-  inline: false,
-  /**
-   * Bootstrap Popover options. If false, the built-in popover will be used.
-   * The trigger, content and html options are always ignored.
-   *
-   * @type {boolean|false}
-   * @default Object
-   */
-  popover: {
-    animation: true,
-    placement: 'bottom',
-    fallbackPlacement: 'flip'
-  },
-  /**
-   * Child input CSS selector
-   *
-   * @type {String}
-   * @default 'input'
-   */
-  input: 'input',
-  /**
-   * Colorpicker container CSS selector.
-   * If is a string (CSS selector), the colorpicker will be placed inside this container.
-   * If true, the `.colorpicker-element` element itself will be used as the container.
-   * If false or null, the document body is used as the container.
-   *
-   * @type {String|boolean}
-   * @default false
-   */
-  container: false, // container selector
-  /**
-   * Child color component CSS selector.
-   * If it exists, the child <i> element background will be changed on color change.
-   *
-   * @type {String|boolean}
-   * @default '.colorpicker-input-addon'
-   */
-  component: '.colorpicker-input-addon',
-  /**
-   * Fallback color to use when the given color is invalid.
-   * If false, the latest valid color will be used as a fallback.
-   *
-   * @type {String|Color|boolean}
-   * @default false
-   */
-  fallbackColor: false,
-  /**
-   * If true, the input content will be replaced always with a valid color,
-   * if false, the invalid color will be left in the input,
-   *   while the internal color object will still resolve into a valid one.
-   *
-   * @type {boolean}
-   * @default false
-   */
-  autoInputFallback: false,
-  /**
-   * If true a hash will be prepended to hexadecimal colors.
-   * If false, the hash will be removed.
-   * This only affects the input values in hexadecimal format.
-   *
-   * @type {boolean}
-   * @default false
-   */
-  useHashPrefix: true,
-  /**
-   * If true, the alpha channel bar will be displayed no matter what.
-   *
-   * If false, it will be always hidden and alpha channel will be disabled also programmatically, meaning that
-   * the selected or typed color will be always opaque.
-   *
-   * If null, the alpha channel will be automatically disabled/enabled depending if the initial color format supports
-   * alpha or not.
-   *
-   * @type {boolean}
-   * @default true
-   */
-  useAlpha: true,
-  /**
-   * This only applies when the color format is hexadecimal.
-   * If true, the alpha channel will be allowed for hexadecimal formatted colors, making them having 4 or 8 chars
-   * (RGBA or RRGGBBAA). This format is not yet supported in IE/Edge browsers, so it is disabled by default.
-   * If false, rgba will be used whenever there is an alpha change different than 1 and the color format is
-   * automatic.
-   *
-   * @see https://caniuse.com/#feat=css-rrggbbaa
-   *
-   * @type {boolean}
-   * @default true
-   */
-  enableHexAlpha: false,
-  /**
-   * Vertical sliders configuration
-   * @type {Object}
-   */
-  sliders: {
-    saturation: {
-      selector: '.colorpicker-saturation',
-      maxLeft: sliderSize,
-      maxTop: sliderSize,
-      callLeft: 'setSaturationRatio',
-      callTop: 'setBrightnessRatio'
-    },
-    hue: {
-      selector: '.colorpicker-hue',
-      maxLeft: 0,
-      maxTop: sliderSize,
-      callLeft: false,
-      callTop: 'setHueRatio'
-    },
-    alpha: {
-      selector: '.colorpicker-alpha',
-      childSelector: '.colorpicker-alpha-color',
-      maxLeft: 0,
-      maxTop: sliderSize,
-      callLeft: false,
-      callTop: 'setAlphaRatio'
-    }
-  },
-  /**
-   * Horizontal sliders configuration
-   * @type {Object}
-   */
-  slidersHorz: {
-    saturation: {
-      selector: '.colorpicker-saturation',
-      maxLeft: sliderSize,
-      maxTop: sliderSize,
-      callLeft: 'setSaturationRatio',
-      callTop: 'setBrightnessRatio'
-    },
-    hue: {
-      selector: '.colorpicker-hue',
-      maxLeft: sliderSize,
-      maxTop: 0,
-      callLeft: 'setHueRatio',
-      callTop: false
-    },
-    alpha: {
-      selector: '.colorpicker-alpha',
-      childSelector: '.colorpicker-alpha-color',
-      maxLeft: sliderSize,
-      maxTop: 0,
-      callLeft: 'setAlphaRatio',
-      callTop: false
-    }
-  },
-  /**
-   * Custom class to be added to the colorpicker element
-   *
-   * @type {String}
-   */
-  customClass: null,
-  /**
-   * Colorpicker widget template
-   * @type {String}
-   * @example
-   * <!-- This is the default template: -->
-   * <div class="colorpicker">
-   *   <div class="colorpicker-saturation"><i class="colorpicker-guide"><i></i></i></div>
-   *   <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
-   *   <div class="colorpicker-alpha"><i class="colorpicker-guide"></i></div>
-   *   <div class="colorpicker-color"><div /></div>
-   * </div>
-   */
-  template: '<div class="colorpicker">\n      <div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>\n      <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>\n      <div class="colorpicker-alpha">\n          <div class="colorpicker-alpha-color"></div>\n          <i class="colorpicker-guide"></i>\n      </div>\n    </div>',
-  /**
-   *
-   * Associative object with the extension class name and its config.
-   * Colorpicker comes with many bundled extensions: debugger, palette, preview and swatches (a superset of Palette).
-   *
-   * @type {Object}
-   * @example
-   *   extensions: [
-   *     {
-   *       name: 'swatches'
-   *       colors: {
-   *         'primary': '#337ab7',
-   *         'success': '#5cb85c',
-   *         'info': '#5bc0de',
-   *         'warning': '#f0ad4e',
-   *         'danger': '#d9534f'
-   *       },
-   *       namesAsValues: true
-   *     }
-   *   ]
-   */
-  extensions: [{
-    name: 'preview',
-    options: {
-      showText: false
-    }
-  }]
-};
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Extension2 = __webpack_require__(1);
-
-var _Extension3 = _interopRequireDefault(_Extension2);
-
-var _jquery = __webpack_require__(0);
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var defaults = {
-  /**
-   * Key-value pairs defining a color alias and its CSS color representation.
-   *
-   * They can also be just an array of values. In that case, no special names are used, only the real colors.
-   *
-   * @type {Object|Array}
-   * @default null
-   * @example
-   *  {
-   *   'black': '#000000',
-   *   'white': '#ffffff',
-   *   'red': '#FF0000',
-   *   'default': '#777777',
-   *   'primary': '#337ab7',
-   *   'success': '#5cb85c',
-   *   'info': '#5bc0de',
-   *   'warning': '#f0ad4e',
-   *   'danger': '#d9534f'
-   *  }
-   *
-   * @example ['#f0ad4e', '#337ab7', '#5cb85c']
-   */
-  colors: null,
-  /**
-   * If true, the when a color swatch is selected the name (alias) will be used as input value,
-   * otherwise the swatch real color value will be used.
-   *
-   * @type {boolean}
-   * @default true
-   */
-  namesAsValues: true
-};
-
-var Palette = function (_Extension) {
-  _inherits(Palette, _Extension);
-
-  _createClass(Palette, [{
-    key: 'colors',
-
-
-    /**
-     * @returns {Object|Array}
-     */
-    get: function get() {
-      return this.options.colors;
-    }
-  }]);
-
-  function Palette(colorpicker) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    _classCallCheck(this, Palette);
-
-    var _this = _possibleConstructorReturn(this, (Palette.__proto__ || Object.getPrototypeOf(Palette)).call(this, colorpicker, _jquery2.default.extend(true, {}, defaults, options)));
-
-    if (!Array.isArray(_this.options.colors) && _typeof(_this.options.colors) !== 'object') {
-      _this.options.colors = null;
-    }
-    return _this;
-  }
-
-  /**
-   * @returns {int}
-   */
-
-
-  _createClass(Palette, [{
-    key: 'getLength',
-    value: function getLength() {
-      if (!this.options.colors) {
-        return 0;
-      }
-
-      if (Array.isArray(this.options.colors)) {
-        return this.options.colors.length;
-      }
-
-      if (_typeof(this.options.colors) === 'object') {
-        return Object.keys(this.options.colors).length;
-      }
-
-      return 0;
-    }
-  }, {
-    key: 'resolveColor',
-    value: function resolveColor(color) {
-      if (this.getLength() <= 0) {
-        return false;
-      }
-
-      if (Array.isArray(this.options.colors)) {
-        if (this.options.colors.indexOf(color) >= 0) {
-          return color;
-        }
-        if (this.options.colors.indexOf(color.toUpperCase()) >= 0) {
-          return color.toUpperCase();
-        }
-        if (this.options.colors.indexOf(color.toLowerCase()) >= 0) {
-          return color.toLowerCase();
-        }
-        return false;
-      }
-
-      if (_typeof(this.options.colors) !== 'object') {
-        return false;
-      }
-
-      if (!this.options.namesAsValues) {
-        return this.getValue(color, false);
-      }
-      return this.getName(color, this.getName('#' + color, this.getValue(color, false)));
-    }
-
-    /**
-     * Given a color value, returns the corresponding color name or defaultValue.
-     *
-     * @param {String} value
-     * @param {*} defaultValue
-     * @returns {*}
-     */
-
-  }, {
-    key: 'getName',
-    value: function getName(value) {
-      var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-      if (!(typeof value === 'string') || !this.options.colors) {
-        return defaultValue;
-      }
-      for (var name in this.options.colors) {
-        if (!this.options.colors.hasOwnProperty(name)) {
-          continue;
-        }
-        if (this.options.colors[name].toLowerCase() === value.toLowerCase()) {
-          return name;
-        }
-      }
-      return defaultValue;
-    }
-
-    /**
-     * Given a color name, returns the corresponding color value or defaultValue.
-     *
-     * @param {String} name
-     * @param {*} defaultValue
-     * @returns {*}
-     */
-
-  }, {
-    key: 'getValue',
-    value: function getValue(name) {
-      var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-      if (!(typeof name === 'string') || !this.options.colors) {
-        return defaultValue;
-      }
-      if (this.options.colors.hasOwnProperty(name)) {
-        return this.options.colors[name];
-      }
-      return defaultValue;
-    }
-  }]);
-
-  return Palette;
-}(_Extension3.default);
-
-exports.default = Palette;
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _Colorpicker = __webpack_require__(5);
-
-var _Colorpicker2 = _interopRequireDefault(_Colorpicker);
-
-var _jquery = __webpack_require__(0);
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var plugin = 'colorpicker';
-
-_jquery2.default[plugin] = _Colorpicker2.default;
-
-_jquery2.default.fn[plugin] = function (option) {
-  var apiArgs = Array.prototype.slice.call(arguments, 1),
-      isSingleElement = this.length === 1,
-      returnValue = null;
-
-  var $jq = this.each(function () {
-    var $this = (0, _jquery2.default)(this),
-        inst = $this.data(plugin),
-        options = (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? option : {};
-
-    if (!inst) {
-      inst = new _Colorpicker2.default(this, options);
-      $this.data(plugin, inst);
-    }
-
-    if (typeof option === 'string') {
-      if (option === 'colorpicker') {
-        returnValue = inst;
-      } else if (_jquery2.default.isFunction(inst[option])) {
-        returnValue = inst[option].apply(inst, apiArgs);
-      } else {
-        // its a property ?
-        if (apiArgs.length) {
-          // set property
-          inst[option] = apiArgs[0];
-        }
-        returnValue = inst[option];
-      }
-    } else {
-      returnValue = $this;
-    }
-  });
-
-  return isSingleElement ? returnValue : $jq;
-};
-
-_jquery2.default.fn[plugin].constructor = _Colorpicker2.default;
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Color = __webpack_require__(6);
-
-var _Color2 = _interopRequireDefault(_Color);
-
-var _Extension = __webpack_require__(1);
-
-var _Extension2 = _interopRequireDefault(_Extension);
-
-var _options = __webpack_require__(2);
-
-var _options2 = _interopRequireDefault(_options);
-
-var _extensions = __webpack_require__(8);
-
-var _extensions2 = _interopRequireDefault(_extensions);
-
-var _jquery = __webpack_require__(0);
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _SliderHandler = __webpack_require__(12);
-
-var _SliderHandler2 = _interopRequireDefault(_SliderHandler);
-
-var _PopupHandler = __webpack_require__(13);
-
-var _PopupHandler2 = _interopRequireDefault(_PopupHandler);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var colorPickerIdCounter = 0;
-var root = typeof self !== 'undefined' ? self : undefined; // window
-var onSliderGuideMove = function onSliderGuideMove(slider, top, left) {
-  slider.guideStyle.left = left + 'px';
-  slider.guideStyle.top = top + 'px';
-
-  var color = !this.colorpicker.hasColor() ? this.colorpicker.createColor(this.colorpicker.fallbackColor) : this.colorpicker.color.getCopy();
-
-  if (slider.callLeft) {
-    color[slider.callLeft].call(color, left / slider.maxLeft);
-  }
-
-  if (slider.callTop) {
-    color[slider.callTop].call(color, top / slider.maxTop);
-  }
-
-  this.colorpicker.setValue(color);
-};
-
-/**
- * Colorpicker widget class
- */
-
-var Colorpicker = function () {
-  _createClass(Colorpicker, [{
-    key: 'color',
-
-
-    /**
-     * color getter
-     *
-     * @type {Color|null}
-     */
-    get: function get() {
-      return this.element.data('color');
-    }
-
-    /**
-     * color setter
-     *
-     * @ignore
-     * @param {Color|null} value
-     */
-    ,
-    set: function set(value) {
-      this.element.data('color', value);
-    }
-
-    /**
-     * @fires Colorpicker#colorpickerCreate
-     * @param {Object|String} element
-     * @param {Object} options
-     * @constructor
-     */
-
-  }], [{
-    key: 'Color',
-
-    /**
-     * Color class
-     *
-     * @static
-     * @type {Color}
-     */
-    get: function get() {
-      return _Color2.default;
-    }
-
-    /**
-     * Extension class
-     *
-     * @static
-     * @type {Extension}
-     */
-
-  }, {
-    key: 'Extension',
-    get: function get() {
-      return _Extension2.default;
-    }
-
-    /**
-     * Colorpicker bundled extension classes
-     *
-     * @static
-     * @type {{Extension}}
-     */
-
-  }, {
-    key: 'bundledExtensions',
-    get: function get() {
-      return _extensions2.default;
-    }
-  }]);
-
-  function Colorpicker(element, options) {
-    var _this = this;
-
-    _classCallCheck(this, Colorpicker);
-
-    colorPickerIdCounter += 1;
-    /**
-     * The colorpicker instance number
-     * @type {number}
-     */
-    this.id = colorPickerIdCounter;
-
-    /**
-     * Latest external event
-     *
-     * @type {{name: String, e: *}}
-     */
-    this.lastEvent = {
-      alias: null,
-      e: null
-    };
-
-    /**
-     * @type {*|jQuery}
-     */
-    this.element = (0, _jquery2.default)(element).addClass('colorpicker-element');
-    this.element.attr('data-colorpicker-id', this.id);
-
-    /**
-     * @type {defaults}
-     */
-    this.options = _jquery2.default.extend(true, {}, _options2.default, options, this.element.data());
-
-    /**
-     * @type {Extension[]}
-     */
-    this.extensions = [];
-
-    if (!Array.isArray(this.options.extensions)) {
-      this.options.extensions = [];
-    }
-
-    /**
-     * @type {*|jQuery}
-     */
-    this.component = this.options.component !== false ? this.element.find(this.options.component) : false;
-    if (this.component && this.component.length === 0) {
-      // not found
-      this.component = false;
-    }
-
-    /**
-     * @type {*|jQuery}
-     */
-    this.container = this.options.container === true ? this.element : this.options.container;
-    this.container = this.container !== false ? (0, _jquery2.default)(this.container) : false;
-
-    // Is the element an input? Should we search inside for any input?
-    /**
-     * @type {*|jQuery}
-     */
-    this.input = this.element.is('input') ? this.element : this.options.input ? this.element.find(this.options.input) : false;
-
-    if (this.input && this.input.length === 0) {
-      this.input = false;
-    }
-
-    if (this.options.debug) {
-      this.options.extensions.push({ name: 'debugger' });
-    }
-
-    // Register extensions
-    this.options.extensions.forEach(function (ext) {
-      _this.addExtension(ext.name, _extensions2.default[ext.name.toLowerCase()], ext.options || {});
-    });
-
-    var colorValue = this.options.color !== false ? this.options.color : this.getValue();
-
-    this.color = colorValue ? this.createColor(colorValue) : false;
-
-    if (this.options.format === 'auto') {
-      // If format is false, use the first parsed one from now on
-      this.options.format = this.color.format;
-    }
-
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.disabled = false;
-
-    // Setup picker
-    var $picker = this.picker = (0, _jquery2.default)(this.options.template);
-
-    if (this.options.customClass) {
-      $picker.addClass(this.options.customClass);
-    }
-
-    if (this.options.horizontal) {
-      $picker.addClass('colorpicker-horizontal');
-    }
-
-    if ((this.options.useAlpha || this.hasColor() && this.color.hasTransparency()) && this.options.useAlpha !== false) {
-      this.options.useAlpha = true;
-      $picker.addClass('colorpicker-with-alpha');
-    }
-
-    /**
-     * @type {SliderHandler}
-     */
-    this.slidersHandler = new _SliderHandler2.default(root, this, onSliderGuideMove);
-    this.slidersHandler.bind();
-
-    /**
-     * @type {PopupHandler}
-     */
-    this.popupHandler = new _PopupHandler2.default(root, this);
-    this.popupHandler.bind();
-
-    var pickerParent = this.container ? this.container : this.options.popover ? null : window.document.body;
-
-    if (pickerParent) {
-      $picker.appendTo(pickerParent);
-    }
-
-    // TODO: refactor the following to InputHandler (and) AddOnHandler classes
-    // Bind other events
-    if (this.hasInput()) {
-      this.input.on({
-        'keyup.colorpicker': _jquery2.default.proxy(this._keyup, this)
-      });
-      this.input.on({
-        'change.colorpicker': _jquery2.default.proxy(this._change, this)
-      });
-    }
-
-    // Update if there is a color option
-    this.update(this.options.color !== false);
-
-    (0, _jquery2.default)(_jquery2.default.proxy(function () {
-      /**
-       * (Colorpicker) When the Colorpicker instance has been created and the DOM is ready.
-       *
-       * @event Colorpicker#colorpickerCreate
-       */
-      this.element.trigger({
-        type: 'colorpickerCreate',
-        colorpicker: this,
-        color: this.color
-      });
-    }, this));
-  }
-
-  /**
-   * Creates and registers the given extension
-   *
-   * @param {String|Extension} extensionName
-   * @param {Extension} ExtensionClass
-   * @param {Object} [config]
-   * @returns {Extension}
-   */
-
-
-  _createClass(Colorpicker, [{
-    key: 'addExtension',
-    value: function addExtension(extensionName, ExtensionClass) {
-      var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-      var ext = extensionName instanceof _Extension2.default ? extensionName : new ExtensionClass(this, config);
-
-      this.extensions.push(ext);
-      return ext;
-    }
-
-    /**
-     * Destroys the current instance
-     *
-     * @fires Colorpicker#colorpickerDestroy
-     */
-
-  }, {
-    key: 'destroy',
-    value: function destroy() {
-      this.slidersHandler.unbind();
-      this.popupHandler.unbind();
-      this.picker.remove();
-      this.element.removeData('colorpicker', 'color').off('.colorpicker');
-      if (this.hasInput()) {
-        this.input.off('.colorpicker');
-      }
-      if (this.component !== false) {
-        this.component.off('.colorpicker');
-      }
-      this.element.removeClass('colorpicker-element');
-
-      /**
-       * (Colorpicker) When the instance is destroyed with all events unbound.
-       *
-       * @event Colorpicker#colorpickerDestroy
-       */
-      this.element.trigger({
-        type: 'colorpickerDestroy',
-        colorpicker: this,
-        color: this.color
-      });
-    }
-
-    /**
-     * Returns true if the current color object is an instance of Color, false otherwise.
-     * @returns {boolean}
-     */
-
-  }, {
-    key: 'hasColor',
-    value: function hasColor() {
-      return this.color instanceof _Color2.default;
-    }
-
-    /**
-     * @returns {*|String|Color}
-     */
-
-  }, {
-    key: 'toInputColorString',
-
-
-    /**
-     * Formatted color string, with the formatting options applied
-     * (e.g. useHashPrefix)
-     * @returns {String}
-     */
-    value: function toInputColorString() {
-      var str = this.toCssColorString();
-
-      if (!str) {
-        return str;
-      }
-
-      if (this.options.useHashPrefix === false) {
-        str = str.replace(/^#/g, '');
-      }
-
-      return this._resolveColor(str);
-    }
-
-    /**
-     * Formatted color string, suitable for CSS
-     * @returns {String}
-     */
-
-  }, {
-    key: 'toCssColorString',
-    value: function toCssColorString() {
-      if (!this.hasColor()) {
-        return '';
-      }
-      return this.color.toString(this.format);
-    }
-
-    /**
-     * Shows the colorpicker widget if hidden.
-     * If the input is disabled this call will be ignored.
-     *
-     * @fires Colorpicker#colorpickerShow
-     * @param {Event} [e]
-     */
-
-  }, {
-    key: 'show',
-    value: function show(e) {
-      this.popupHandler.show(e);
-    }
-
-    /**
-     * Hides the colorpicker widget.
-     * Hide is prevented when it is triggered by an event whose target element has been clicked/touched.
-     *
-     * @fires Colorpicker#colorpickerHide
-     * @param {Event} [e]
-     */
-
-  }, {
-    key: 'hide',
-    value: function hide(e) {
-      this.popupHandler.hide(e);
-    }
-
-    /**
-     * Toggles the colorpicker between visible or hidden
-     *
-     * @fires Colorpicker#colorpickerShow
-     * @fires Colorpicker#colorpickerHide
-     * @param {Event} [e]
-     */
-
-  }, {
-    key: 'toggle',
-    value: function toggle(e) {
-      this.popupHandler.toggle(e);
-    }
-
-    /**
-     * Returns true if the colorpicker element has the colorpicker-visible class and not the colorpicker-hidden one.
-     * False otherwise.
-     *
-     * @returns {boolean}
-     */
-
-  }, {
-    key: 'isVisible',
-    value: function isVisible() {
-      return this.popupHandler.isVisible();
-    }
-
-    /**
-     * Returns true if the colorpicker element has the colorpicker-hidden class and not the colorpicker-visible one.
-     * False otherwise.
-     *
-     * @returns {boolean}
-     */
-
-  }, {
-    key: 'isHidden',
-    value: function isHidden() {
-      return this.popupHandler.isHidden();
-    }
-
-    /**
-     * If the input element is present, it updates the value with the current color object color string.
-     * If value is set, this method fires a "change" event on the input element.
-     *
-     * @fires Colorpicker#change
-     * @private
-     */
-
-  }, {
-    key: '_updateInput',
-    value: function _updateInput() {
-      if (!this.hasInput()) {
-        return;
-      }
-      var val = this.toInputColorString();
-
-      if (val === this.input.prop('value')) {
-        // No need to set value or trigger any event if nothing changed
-        return;
-      }
-
-      this.input.prop('value', val ? val : '');
-
-      /**
-       * (Input) Triggered on the input element when a new color is selected.
-       *
-       * @event Colorpicker#change
-       */
-      this.input.trigger({
-        type: 'change',
-        colorpicker: this,
-        color: this.color,
-        value: val
-      });
-    }
-
-    /**
-     * Changes the color adjustment bars using the current color object information.
-     * @private
-     */
-
-  }, {
-    key: '_updatePicker',
-    value: function _updatePicker() {
-      if (!this.hasColor()) {
-        return;
-      }
-
-      var vertical = this.options.horizontal === false,
-          sl = vertical ? this.options.sliders : this.options.slidersHorz;
-
-      var saturationGuide = this.picker.find('.colorpicker-saturation .colorpicker-guide'),
-          hueGuide = this.picker.find('.colorpicker-hue .colorpicker-guide'),
-          alphaGuide = this.picker.find('.colorpicker-alpha .colorpicker-guide');
-
-      var hsva = this.color.hsvaRatio;
-
-      if (hueGuide.length) {
-        hueGuide.css(vertical ? 'top' : 'left', (vertical ? sl.hue.maxTop : sl.hue.maxLeft) * (1 - hsva.h));
-      }
-
-      if (alphaGuide.length) {
-        alphaGuide.css(vertical ? 'top' : 'left', (vertical ? sl.alpha.maxTop : sl.alpha.maxLeft) * (1 - hsva.a));
-      }
-
-      if (saturationGuide.length) {
-        saturationGuide.css({
-          'top': sl.saturation.maxTop - hsva.v * sl.saturation.maxTop,
-          'left': hsva.s * sl.saturation.maxLeft
-        });
-      }
-
-      this.picker.find('.colorpicker-saturation').css('backgroundColor', this.color.getHueOnlyCopy().toHexString()); // we only need hue
-
-      var hex6Color = this.color.toString('hex6');
-      var alphaBg = '';
-
-      if (this.options.horizontal) {
-        alphaBg = 'linear-gradient(to right, ' + hex6Color + ' 0%, transparent 100%)';
-      } else {
-        alphaBg = 'linear-gradient(to bottom, ' + hex6Color + ' 0%, transparent 100%)';
-      }
-
-      this.picker.find('.colorpicker-alpha-color').css('background', alphaBg);
-    }
-
-    /**
-     * If the component element is present, its background color is updated
-     * @private
-     */
-
-  }, {
-    key: '_updateComponent',
-    value: function _updateComponent() {
-      if (!this.hasColor() || this.component === false) {
-        return;
-      }
-
-      var colorStr = this.toCssColorString();
-      var styles = { 'background': colorStr };
-
-      var icn = this.component.find('i').eq(0);
-
-      if (icn.length > 0) {
-        icn.css(styles);
-      } else {
-        this.component.css(styles);
-      }
-    }
-
-    /**
-     * @private
-     * @returns {boolean}
-     */
-
-  }, {
-    key: '_shouldUpdate',
-    value: function _shouldUpdate() {
-      return this.hasColor() && this.getValue(false) !== false;
-    }
-
-    /**
-     * Updated the component color, the input value and the widget if a color is present.
-     *
-     * If force is true, it is updated anyway.
-     *
-     * @fires Colorpicker#colorpickerUpdate
-     * @param {boolean} [force]
-     */
-
-  }, {
-    key: 'update',
-    value: function update() {
-      var force = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-      if (!(this._shouldUpdate() || force === true)) {
-        return;
-      }
-      // Update only if the current value (from input or data) is not empty
-      this._updateComponent();
-
-      // Do not update input when autoInputFallback is disabled and last event is keyup.
-      var preventInputUpdate = this.options.autoInputFallback !== true &&
-      // this.isInvalidColor() ||  // prevent also on invalid color (on create, leaves invalid colors)
-      this.lastEvent.alias === 'keyup';
-
-      if (!preventInputUpdate) {
-        this._updateInput();
-      }
-
-      this._updatePicker();
-
-      /**
-       * (Colorpicker) Fired when the widget is updated.
-       *
-       * @event Colorpicker#colorpickerUpdate
-       */
-      this.element.trigger({
-        type: 'colorpickerUpdate',
-        colorpicker: this,
-        color: this.color
-      });
-    }
-
-    /**
-     * Returns the color string from the input value or the 'data-color' attribute of the input or element.
-     * If empty, it returns the defaultValue parameter.
-     *
-     * @param {String|*} [defaultValue]
-     * @returns {String|*}
-     */
-
-  }, {
-    key: 'getValue',
-    value: function getValue() {
-      var defaultValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-      defaultValue = typeof defaultValue === 'undefined' ? this.fallbackColor : defaultValue;
-      var candidates = [],
-          val = false;
-
-      if (this.hasInput()) {
-        candidates.push(this.input.val());
-        candidates.push(this.input.data('color'));
-      }
-      candidates.push(this.element.data('color'));
-
-      candidates.map(function (item) {
-        if (item && val === false) {
-          val = item;
-        }
-      });
-
-      val = val === false ? defaultValue : val;
-
-      if (val instanceof _Color2.default) {
-        return val.toString(this.format);
-      }
-
-      return val;
-    }
-
-    /**
-     * Sets the color manually
-     *
-     * @fires Colorpicker#colorpickerChange
-     * @param {String|Color} val
-     */
-
-  }, {
-    key: 'setValue',
-    value: function setValue(val) {
-      if (this.hasColor() && this.color.equals(val)) {
-        // equal color object
-        return;
-      }
-
-      var color = val ? this.createColor(val) : false;
-
-      if (!this.hasColor() && !color) {
-        // color was empty and the new one too
-        return;
-      }
-
-      // force update if color is changed to empty
-      var shouldForceUpdate = this.hasColor() && !color;
-
-      this.color = color;
-
-      /**
-       * (Colorpicker) When the color is set programmatically with setValue().
-       *
-       * @event Colorpicker#colorpickerChange
-       */
-      this.element.trigger({
-        type: 'colorpickerChange',
-        colorpicker: this,
-        color: this.color,
-        value: val
-      });
-
-      // force update if color has changed to empty
-      this.update(shouldForceUpdate);
-    }
-
-    /**
-     * Creates a new color using the widget instance options (fallbackColor, format).
-     *
-     * @fires Colorpicker#colorpickerInvalid
-     * @param {*} val
-     * @param {boolean} useFallback
-     * @returns {Color}
-     */
-
-  }, {
-    key: 'createColor',
-    value: function createColor(val) {
-      var useFallback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-      var color = new _Color2.default(this._resolveColor(val), { format: this.format });
-
-      if (!color.isValid()) {
-        var invalidColor = color,
-            fallback = void 0;
-
-        if (useFallback) {
-          fallback = this.fallbackColor instanceof _Color2.default && this.fallbackColor.isValid() ? this.fallbackColor : this._resolveColor(this.fallbackColor);
-
-          color = new _Color2.default(fallback, { format: this.format });
-
-          if (!color.isValid() && useFallback) {
-            throw new Error('The fallback color is invalid.');
-          }
-        }
-
-        color.previous = invalidColor;
-
-        /**
-         * (Colorpicker) Fired when the color is invalid and the fallback color is going to be used.
-         *
-         * @event Colorpicker#colorpickerInvalid
-         */
-        this.element.trigger({
-          type: 'colorpickerInvalid',
-          colorpicker: this,
-          color: color,
-          value: val
-        });
-      }
-
-      if (!this.isAlphaEnabled() && color.hasTransparency()) {
-        // Alpha is disabled
-        color.setAlpha(1);
-      }
-
-      if (!this.hasColor()) {
-        // No previous color, so no need to compare
-        return color;
-      }
-
-      var hsva = color.hsvaRatio;
-      var prevHsva = this.color.hsvaRatio;
-
-      if (hsva.s === 0 && hsva.h === 0 && prevHsva.h !== 0) {
-        // Hue was set to 0 because saturation was 0, use previous hue, since it was not meant to change...
-        color.setHueRatio(prevHsva.h);
-      }
-
-      if (!this.isAlphaEnabled() && color.hasTransparency()) {
-        // Alpha is disabled
-        color.setAlpha(1);
-      }
-
-      return color;
-    }
-
-    /**
-     * Checks if there is a color object, that it is valid and it is not a fallback
-     * @returns {boolean}
-     */
-
-  }, {
-    key: 'isInvalidColor',
-    value: function isInvalidColor() {
-      return !this.hasColor() || !this.color.isValid() || !!this.color.previous;
-    }
-
-    /**
-     * Returns true if the useAlpha option is exactly true, false otherwise
-     * @returns {boolean}
-     */
-
-  }, {
-    key: 'isAlphaEnabled',
-    value: function isAlphaEnabled() {
-      return this.options.useAlpha === true;
-    }
-
-    /**
-     * Resolves a color, in case is not in a standard format (e.g. a custom color alias)
-     *
-     * @private
-     * @param {String|*} color
-     * @returns {String|*|null}
-     */
-
-  }, {
-    key: '_resolveColor',
-    value: function _resolveColor(color) {
-      var extResolvedColor = false;
-
-      _jquery2.default.each(this.extensions, function (name, ext) {
-        if (extResolvedColor !== false) {
-          // skip if resolved
-          return;
-        }
-        extResolvedColor = ext.resolveColor(color);
-      });
-
-      if (extResolvedColor !== false) {
-        color = extResolvedColor;
-      }
-
-      return color;
-    }
-
-    /**
-     * Returns true if the widget has an associated input element, false otherwise
-     * @returns {boolean}
-     */
-
-  }, {
-    key: 'hasInput',
-    value: function hasInput() {
-      return this.input !== false;
-    }
-
-    /**
-     * Returns true if this instance is disabled
-     * @returns {boolean}
-     */
-
-  }, {
-    key: 'isDisabled',
-    value: function isDisabled() {
-      return this.disabled === true;
-    }
-
-    /**
-     * Disables the widget and the input if any
-     *
-     * @fires Colorpicker#colorpickerDisable
-     * @returns {boolean}
-     */
-
-  }, {
-    key: 'disable',
-    value: function disable() {
-      if (this.hasInput()) {
-        this.input.prop('disabled', true);
-      }
-      this.disabled = true;
-
-      /**
-       * (Colorpicker) When the widget has been disabled.
-       *
-       * @event Colorpicker#colorpickerDisable
-       */
-      this.element.trigger({
-        type: 'colorpickerDisable',
-        colorpicker: this,
-        color: this.color
-      });
-      return true;
-    }
-
-    /**
-     * Enables the widget and the input if any
-     *
-     * @fires Colorpicker#colorpickerEnable
-     * @returns {boolean}
-     */
-
-  }, {
-    key: 'enable',
-    value: function enable() {
-      if (this.hasInput()) {
-        this.input.prop('disabled', false);
-      }
-      this.disabled = false;
-
-      /**
-       * (Colorpicker) When the widget has been enabled.
-       *
-       * @event Colorpicker#colorpickerEnable
-       */
-      this.element.trigger({
-        type: 'colorpickerEnable',
-        colorpicker: this,
-        color: this.color
-      });
-      return true;
-    }
-
-    /**
-     * Function triggered when the input has changed, so the colorpicker gets updated.
-     *
-     * @private
-     * @param {Event} e
-     * @returns {boolean}
-     */
-
-  }, {
-    key: '_change',
-    value: function _change(e) {
-      this.lastEvent.alias = 'change';
-      this.lastEvent.e = e;
-
-      var val = this.input.val();
-
-      if (val !== this.toInputColorString()) {
-        this.setValue(val);
-      }
-    }
-
-    /**
-     * Function triggered after a keyboard key has been released.
-     *
-     * @private
-     * @param {Event} e
-     * @returns {boolean}
-     */
-
-  }, {
-    key: '_keyup',
-    value: function _keyup(e) {
-      this.lastEvent.alias = 'keyup';
-      this.lastEvent.e = e;
-
-      var val = this.input.val();
-
-      if (val !== this.toInputColorString()) {
-        this.setValue(val);
-      }
-    }
-  }, {
-    key: 'fallbackColor',
-    get: function get() {
-      return this.options.fallbackColor ? this.options.fallbackColor : this.hasColor() ? this.color : '#000';
-    }
-  }, {
-    key: 'format',
-    get: function get() {
-      if (this.options.format) {
-        return this.options.format;
-      }
-
-      if (this.hasColor() && this.color.hasTransparency() && this.color.format.match(/^hex/)) {
-        return this.options.enableHexAlpha ? 'hex8' : this.isAlphaEnabled() ? 'rgba' : 'hex';
-      }
-
-      if (this.hasColor()) {
-        return this.color.format;
-      }
-
-      return null;
-    }
-  }]);
-
-  return Colorpicker;
-}();
-
-exports.default = Colorpicker;
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1919,6 +417,16 @@ var Color = function (_tinycolor) {
 
     if (options.format) {
       options.format = getCompatibleFormat(options.format);
+    }
+
+    // add support for CSS 'transparent' value
+    if ((color instanceof String || typeof color === 'string') && color.toLowerCase() === 'transparent') {
+      color = {
+        r: 0,
+        g: 0,
+        b: 0,
+        a: 0
+      };
     }
 
     /**
@@ -2147,11 +655,9 @@ var Color = function (_tinycolor) {
 
       var colorStr = _get(Color.prototype.__proto__ || Object.getPrototypeOf(Color.prototype), 'toString', this).call(this, format);
 
-      if (colorStr && colorStr.match(/^#[0-9a-f]{3,8}$/i)) {
-        // Support transparent for hex formats
-        if (this.isTransparent() && this._r === 0 && this._g === 0 && this._b === 0) {
-          return 'transparent';
-        }
+      if (colorStr && format.match(/^hex([36])?$/i) && this.isTransparent()) {
+        // Support transparent for hex format
+        return 'transparent';
       }
 
       return colorStr;
@@ -2162,6 +668,1244 @@ var Color = function (_tinycolor) {
 }(_tinycolor3.default);
 
 exports.default = Color;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * @module
+ */
+
+// adjust these values accordingly to the sass vars
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var sassVars = {
+  'bar_size_short': 16,
+  'base_margin': 6,
+  'columns': 6
+};
+
+var sliderSize = sassVars.bar_size_short * sassVars.columns + sassVars.base_margin * (sassVars.columns - 1);
+
+/**
+ * Colorpicker default options
+ */
+exports.default = {
+  /**
+   * Custom class to be added to the `.colorpicker-element` element
+   *
+   * @type {String|null}
+   * @default null
+   */
+  customClass: null,
+  /**
+   * Sets a initial color, ignoring the one from the element/input value or the data-color attribute.
+   *
+   * @type {(String|Color|boolean)}
+   * @default false
+   */
+  color: false,
+  /**
+   * Fallback color to use when the given color is invalid.
+   * If false, the latest valid color will be used as a fallback.
+   *
+   * @type {String|Color|boolean}
+   * @default false
+   */
+  fallbackColor: false,
+  /**
+   * Forces an specific color format. If 'auto', it will be automatically detected the first time only,
+   * but if null it will be always recalculated.
+   *
+   * Note that the ending 'a' of the format meaning "alpha" has currently no effect, meaning that rgb is the same as
+   * rgba excepting if the alpha channel is disabled (see useAlpha).
+   *
+   * @type {('rgb'|'rgba'|'prgb'|'prgba'|'hex'|'hex3'|'hex6'|'hex8'|'hsl'|'hsla'|'hsv'|'hsva'|'name'|'auto'|null)}
+   * @default null
+   */
+  format: null,
+  /**
+   * Horizontal mode layout.
+   *
+   * If true, the hue and alpha channel bars will be rendered horizontally, above the saturation selector.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  horizontal: false,
+  /**
+   * Forces to show the colorpicker as an inline element.
+   *
+   * Note that if there is no container specified, the inline element
+   * will be added to the body, so you may want to set the container option.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  inline: false,
+  /**
+   * Container where the colorpicker is appended to in the DOM.
+   *
+   * If is a string (CSS selector), the colorpicker will be placed inside this container.
+   * If true, the `.colorpicker-element` element itself will be used as the container.
+   * If false, the document body is used as the container, unless it is a popover (in this case it is appended to the
+   * popover body instead).
+   *
+   * @type {String|boolean}
+   * @default false
+   */
+  container: false, // container selector
+  /**
+   * Bootstrap Popover options. If false, the built-in popover will be used.
+   * The trigger, content and html options are always ignored.
+   *
+   * @type {boolean|false}
+   * @default Object
+   */
+  popover: {
+    animation: true,
+    placement: 'bottom',
+    fallbackPlacement: 'flip'
+  },
+  /**
+   * If true, loads the 'debugger' extension automatically, which logs the events in the console
+   * @type {boolean}
+   * @default false
+   */
+  debug: false,
+  /**
+   * Child input CSS selector
+   *
+   * @type {String}
+   * @default 'input'
+   */
+  input: 'input',
+  /**
+   * Child color component CSS selector.
+   * If it exists, the child <i> element background will be changed on color change.
+   *
+   * @type {String|boolean}
+   * @default '.colorpicker-input-addon'
+   */
+  component: '.colorpicker-input-addon',
+  /**
+   * If true, the input content will be replaced always with a valid color,
+   * if false, the invalid color will be left in the input,
+   *   while the internal color object will still resolve into a valid one.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  autoInputFallback: true,
+  /**
+   * If true a hash will be prepended to hexadecimal colors.
+   * If false, the hash will be removed.
+   * This only affects the input values in hexadecimal format.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  useHashPrefix: true,
+  /**
+   * If true, the alpha channel bar will be displayed no matter what.
+   *
+   * If false, it will be always hidden and alpha channel will be disabled also programmatically, meaning that
+   * the selected or typed color will be always opaque.
+   *
+   * If null, the alpha channel will be automatically disabled/enabled depending if the initial color format supports
+   * alpha or not.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  useAlpha: true,
+  /**
+   * This only applies when the color format is hexadecimal.
+   * If true, the alpha channel will be allowed for hexadecimal formatted colors, making them having 4 or 8 chars
+   * (RGBA or RRGGBBAA). This format is not yet supported in IE/Edge browsers, so it is disabled by default.
+   * If false, rgba will be used whenever there is an alpha change different than 1 and the color format is
+   * automatic.
+   *
+   * @see https://caniuse.com/#feat=css-rrggbbaa
+   *
+   * @type {boolean}
+   * @default false
+   */
+  enableHexAlpha: false,
+  /**
+   * Colorpicker widget template
+   * @type {String}
+   * @example
+   * <!-- This is the default template: -->
+   * <div class="colorpicker">
+   *   <div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>
+   *   <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
+   *   <div class="colorpicker-alpha">
+   *     <div class="colorpicker-alpha-color"></div>
+   *     <i class="colorpicker-guide"></i>
+   *   </div>
+   * </div>
+   */
+  template: '<div class="colorpicker">\n      <div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>\n      <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>\n      <div class="colorpicker-alpha">\n        <div class="colorpicker-alpha-color"></div>\n        <i class="colorpicker-guide"></i>\n      </div>\n    </div>',
+  /**
+   *
+   * Associative object with the extension class name and its config.
+   * Colorpicker comes with many bundled extensions: debugger, palette, preview and swatches (a superset of palette).
+   *
+   * @type {Object[]}
+   * @example
+   *   extensions: [
+   *     {
+   *       name: 'swatches'
+   *       options: {
+   *         colors: {
+   *           'primary': '#337ab7',
+   *           'success': '#5cb85c',
+   *           'info': '#5bc0de',
+   *           'warning': '#f0ad4e',
+   *           'danger': '#d9534f'
+   *         },
+   *         namesAsValues: true
+   *       }
+   *     }
+   *   ]
+   */
+  extensions: [{
+    name: 'preview',
+    options: {
+      showText: false
+    }
+  }],
+  /**
+   * Vertical sliders configuration
+   * @type {Object}
+   */
+  sliders: {
+    saturation: {
+      selector: '.colorpicker-saturation',
+      maxLeft: sliderSize,
+      maxTop: sliderSize,
+      callLeft: 'setSaturationRatio',
+      callTop: 'setBrightnessRatio'
+    },
+    hue: {
+      selector: '.colorpicker-hue',
+      maxLeft: 0,
+      maxTop: sliderSize,
+      callLeft: false,
+      callTop: 'setHueRatio'
+    },
+    alpha: {
+      selector: '.colorpicker-alpha',
+      childSelector: '.colorpicker-alpha-color',
+      maxLeft: 0,
+      maxTop: sliderSize,
+      callLeft: false,
+      callTop: 'setAlphaRatio'
+    }
+  },
+  /**
+   * Horizontal sliders configuration
+   * @type {Object}
+   */
+  slidersHorz: {
+    saturation: {
+      selector: '.colorpicker-saturation',
+      maxLeft: sliderSize,
+      maxTop: sliderSize,
+      callLeft: 'setSaturationRatio',
+      callTop: 'setBrightnessRatio'
+    },
+    hue: {
+      selector: '.colorpicker-hue',
+      maxLeft: sliderSize,
+      maxTop: 0,
+      callLeft: 'setHueRatio',
+      callTop: false
+    },
+    alpha: {
+      selector: '.colorpicker-alpha',
+      childSelector: '.colorpicker-alpha-color',
+      maxLeft: sliderSize,
+      maxTop: 0,
+      callLeft: 'setAlphaRatio',
+      callTop: false
+    }
+  }
+};
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Extension2 = __webpack_require__(1);
+
+var _Extension3 = _interopRequireDefault(_Extension2);
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var defaults = {
+  /**
+   * Key-value pairs defining a color alias and its CSS color representation.
+   *
+   * They can also be just an array of values. In that case, no special names are used, only the real colors.
+   *
+   * @type {Object|Array}
+   * @default null
+   * @example
+   *  {
+   *   'black': '#000000',
+   *   'white': '#ffffff',
+   *   'red': '#FF0000',
+   *   'default': '#777777',
+   *   'primary': '#337ab7',
+   *   'success': '#5cb85c',
+   *   'info': '#5bc0de',
+   *   'warning': '#f0ad4e',
+   *   'danger': '#d9534f'
+   *  }
+   *
+   * @example ['#f0ad4e', '#337ab7', '#5cb85c']
+   */
+  colors: null,
+  /**
+   * If true, when a color swatch is selected the name (alias) will be used as input value,
+   * otherwise the swatch real color value will be used.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  namesAsValues: true
+};
+
+var Palette = function (_Extension) {
+  _inherits(Palette, _Extension);
+
+  _createClass(Palette, [{
+    key: 'colors',
+
+
+    /**
+     * @returns {Object|Array}
+     */
+    get: function get() {
+      return this.options.colors;
+    }
+  }]);
+
+  function Palette(colorpicker) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, Palette);
+
+    var _this = _possibleConstructorReturn(this, (Palette.__proto__ || Object.getPrototypeOf(Palette)).call(this, colorpicker, _jquery2.default.extend(true, {}, defaults, options)));
+
+    if (!Array.isArray(_this.options.colors) && _typeof(_this.options.colors) !== 'object') {
+      _this.options.colors = null;
+    }
+    return _this;
+  }
+
+  /**
+   * @returns {int}
+   */
+
+
+  _createClass(Palette, [{
+    key: 'getLength',
+    value: function getLength() {
+      if (!this.options.colors) {
+        return 0;
+      }
+
+      if (Array.isArray(this.options.colors)) {
+        return this.options.colors.length;
+      }
+
+      if (_typeof(this.options.colors) === 'object') {
+        return Object.keys(this.options.colors).length;
+      }
+
+      return 0;
+    }
+  }, {
+    key: 'resolveColor',
+    value: function resolveColor(color) {
+      if (this.getLength() <= 0) {
+        return false;
+      }
+
+      if (Array.isArray(this.options.colors)) {
+        if (this.options.colors.indexOf(color) >= 0) {
+          return color;
+        }
+        if (this.options.colors.indexOf(color.toUpperCase()) >= 0) {
+          return color.toUpperCase();
+        }
+        if (this.options.colors.indexOf(color.toLowerCase()) >= 0) {
+          return color.toLowerCase();
+        }
+        return false;
+      }
+
+      if (_typeof(this.options.colors) !== 'object') {
+        return false;
+      }
+
+      if (!this.options.namesAsValues) {
+        return this.getValue(color, false);
+      }
+      return this.getName(color, this.getName('#' + color, this.getValue(color, false)));
+    }
+
+    /**
+     * Given a color value, returns the corresponding color name or defaultValue.
+     *
+     * @param {String} value
+     * @param {*} defaultValue
+     * @returns {*}
+     */
+
+  }, {
+    key: 'getName',
+    value: function getName(value) {
+      var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      if (!(typeof value === 'string') || !this.options.colors) {
+        return defaultValue;
+      }
+      for (var name in this.options.colors) {
+        if (!this.options.colors.hasOwnProperty(name)) {
+          continue;
+        }
+        if (this.options.colors[name].toLowerCase() === value.toLowerCase()) {
+          return name;
+        }
+      }
+      return defaultValue;
+    }
+
+    /**
+     * Given a color name, returns the corresponding color value or defaultValue.
+     *
+     * @param {String} name
+     * @param {*} defaultValue
+     * @returns {*}
+     */
+
+  }, {
+    key: 'getValue',
+    value: function getValue(name) {
+      var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      if (!(typeof name === 'string') || !this.options.colors) {
+        return defaultValue;
+      }
+      if (this.options.colors.hasOwnProperty(name)) {
+        return this.options.colors[name];
+      }
+      return defaultValue;
+    }
+  }]);
+
+  return Palette;
+}(_Extension3.default);
+
+exports.default = Palette;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _Colorpicker = __webpack_require__(6);
+
+var _Colorpicker2 = _interopRequireDefault(_Colorpicker);
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var plugin = 'colorpicker';
+
+_jquery2.default[plugin] = _Colorpicker2.default;
+
+// Colorpicker jQuery Plugin API
+_jquery2.default.fn[plugin] = function (option) {
+  var fnArgs = Array.prototype.slice.call(arguments, 1),
+      isSingleElement = this.length === 1,
+      returnValue = null;
+
+  var $elements = this.each(function () {
+    var $this = (0, _jquery2.default)(this),
+        inst = $this.data(plugin),
+        options = (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? option : {};
+
+    // Create instance if does not exist
+    if (!inst) {
+      inst = new _Colorpicker2.default(this, options);
+      $this.data(plugin, inst);
+    }
+
+    if (!isSingleElement) {
+      return;
+    }
+
+    returnValue = $this;
+
+    if (typeof option === 'string') {
+      if (option === 'colorpicker') {
+        // Return colorpicker instance: e.g. .colorpicker('colorpicker')
+        returnValue = inst;
+      } else if (_jquery2.default.isFunction(inst[option])) {
+        // Return method call return value: e.g. .colorpicker('isEnabled')
+        returnValue = inst[option].apply(inst, fnArgs);
+      } else {
+        // Return property value: e.g. .colorpicker('element')
+        returnValue = inst[option];
+      }
+    }
+  });
+
+  return isSingleElement ? returnValue : $elements;
+};
+
+_jquery2.default.fn[plugin].constructor = _Colorpicker2.default;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Color = __webpack_require__(2);
+
+var _Color2 = _interopRequireDefault(_Color);
+
+var _Extension = __webpack_require__(1);
+
+var _Extension2 = _interopRequireDefault(_Extension);
+
+var _options = __webpack_require__(3);
+
+var _options2 = _interopRequireDefault(_options);
+
+var _extensions = __webpack_require__(8);
+
+var _extensions2 = _interopRequireDefault(_extensions);
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _SliderHandler = __webpack_require__(12);
+
+var _SliderHandler2 = _interopRequireDefault(_SliderHandler);
+
+var _PopupHandler = __webpack_require__(13);
+
+var _PopupHandler2 = _interopRequireDefault(_PopupHandler);
+
+var _InputHandler = __webpack_require__(14);
+
+var _InputHandler2 = _interopRequireDefault(_InputHandler);
+
+var _ColorHandler = __webpack_require__(15);
+
+var _ColorHandler2 = _interopRequireDefault(_ColorHandler);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var colorPickerIdCounter = 0;
+var root = typeof self !== 'undefined' ? self : undefined; // window
+
+// This function is called every time a slider guide is moved
+// The scope of "this" is the SliderHandler object
+var onSliderGuideMove = function onSliderGuideMove(handler, top, left) {
+  if (!handler.currentSlider) {
+    return;
+  }
+
+  var slider = handler.currentSlider,
+      cp = handler.colorpicker,
+      ch = cp.colorHandler;
+
+  // Create a color object
+  var color = !ch.hasColor() ? ch.getFallbackColor() : ch.color.getCopy();
+
+  // Adjust the guide position
+  slider.guideStyle.left = left + 'px';
+  slider.guideStyle.top = top + 'px';
+
+  // Adjust the color
+  if (slider.callLeft) {
+    color[slider.callLeft].call(color, left / slider.maxLeft);
+  }
+  if (slider.callTop) {
+    color[slider.callTop].call(color, top / slider.maxTop);
+  }
+
+  // Set the new color
+  cp.setValue(color);
+};
+
+/**
+ * Colorpicker widget class
+ */
+
+var Colorpicker = function () {
+  _createClass(Colorpicker, [{
+    key: 'color',
+
+
+    /**
+     * Internal color object
+     *
+     * @type {Color|null}
+     */
+    get: function get() {
+      return this.colorHandler.color;
+    }
+
+    /**
+     * Color format
+     *
+     * @type {String|null}
+     */
+
+  }, {
+    key: 'format',
+    get: function get() {
+      return this.colorHandler.format;
+    }
+
+    /**
+     * @fires Colorpicker#colorpickerCreate
+     * @param {Object|String} element
+     * @param {Object} options
+     * @constructor
+     */
+
+  }], [{
+    key: 'Color',
+
+    /**
+     * Color class
+     *
+     * @static
+     * @type {Color}
+     */
+    get: function get() {
+      return _Color2.default;
+    }
+
+    /**
+     * Extension class
+     *
+     * @static
+     * @type {Extension}
+     */
+
+  }, {
+    key: 'Extension',
+    get: function get() {
+      return _Extension2.default;
+    }
+  }]);
+
+  function Colorpicker(element, options) {
+    _classCallCheck(this, Colorpicker);
+
+    colorPickerIdCounter += 1;
+    /**
+     * The colorpicker instance number
+     * @type {number}
+     */
+    this.id = colorPickerIdCounter;
+
+    /**
+     * Latest colorpicker event
+     *
+     * @type {{name: String, e: *}}
+     */
+    this.lastEvent = {
+      alias: null,
+      e: null
+    };
+
+    /**
+     * The element that the colorpicker is bound to
+     *
+     * @type {*|jQuery}
+     */
+    this.element = (0, _jquery2.default)(element).addClass('colorpicker-element').attr('data-colorpicker-id', this.id);
+
+    /**
+     * @type {defaults}
+     */
+    this.options = _jquery2.default.extend(true, {}, _options2.default, options, this.element.data());
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.disabled = false;
+
+    /**
+     * Extensions added to this instance
+     *
+     * @type {Extension[]}
+     */
+    this.extensions = [];
+
+    // TODO: refactor into TriggerHandler
+    /**
+     * @type {*|jQuery}
+     */
+    this.component = this.options.component !== false ? this.element.find(this.options.component) : false;
+    if (this.component && this.component.length === 0) {
+      // not found
+      this.component = false;
+    }
+
+    /**
+     * The element where the
+     * @type {*|jQuery}
+     */
+    this.container = this.options.container === true ? this.element : this.options.container;
+    this.container = this.container !== false ? (0, _jquery2.default)(this.container) : false;
+
+    /**
+     * @type {InputHandler}
+     */
+    this.inputHandler = new _InputHandler2.default(this, root);
+    /**
+     * @type {ColorHandler}
+     */
+    this.colorHandler = new _ColorHandler2.default(this);
+    /**
+     * @type {SliderHandler}
+     */
+    this.sliderHandler = new _SliderHandler2.default(this, root, onSliderGuideMove);
+    /**
+     * @type {PopupHandler}
+     */
+    this.popupHandler = new _PopupHandler2.default(this, root);
+
+    this.init();
+
+    // Emit a create event
+    (0, _jquery2.default)(_jquery2.default.proxy(function () {
+      /**
+       * (Colorpicker) When the Colorpicker instance has been created and the DOM is ready.
+       *
+       * @event Colorpicker#colorpickerCreate
+       */
+      this.element.trigger({
+        type: 'colorpickerCreate',
+        colorpicker: this,
+        color: this.color
+      });
+    }, this));
+  }
+
+  _createClass(Colorpicker, [{
+    key: 'init',
+    value: function init() {
+      // Init input
+      this.inputHandler.bind();
+
+      // Init extensions (before initializing the color)
+      this._initExtensions();
+
+      // Init color
+      this.colorHandler.bind();
+
+      // Init picker
+      this._initPickerElement(); // TODO: refactor into PickerHandler
+
+      // Init sliders and popup
+      this.sliderHandler.bind();
+      this.popupHandler.bind();
+
+      // Inject into the DOM (this may make it visible)
+      this._injectPickerElement();
+
+      // Update widget, force if color is set manually in the options
+      this.update(this.options.color !== false);
+    }
+  }, {
+    key: '_initExtensions',
+    value: function _initExtensions() {
+      var _this = this;
+
+      if (!Array.isArray(this.options.extensions)) {
+        this.options.extensions = [];
+      }
+
+      if (this.options.debug) {
+        this.options.extensions.push({ name: 'debugger' });
+      }
+
+      // Register and instantiate extensions
+      this.options.extensions.forEach(function (ext) {
+        _this.registerExtension(_extensions2.default[ext.name.toLowerCase()], ext.options || {});
+      });
+    }
+  }, {
+    key: '_initPickerElement',
+    value: function _initPickerElement() {
+      /**
+       * @type {jQuery|HTMLElement}
+       */
+      var picker = this.picker = (0, _jquery2.default)(this.options.template);
+
+      if (this.options.customClass) {
+        picker.addClass(this.options.customClass);
+      }
+
+      if (this.options.horizontal) {
+        picker.addClass('colorpicker-horizontal');
+      }
+
+      if (this._supportsAlphaBar()) {
+        this.options.useAlpha = true;
+        picker.addClass('colorpicker-with-alpha');
+      } else {
+        this.options.useAlpha = false;
+      }
+    }
+  }, {
+    key: '_supportsAlphaBar',
+    value: function _supportsAlphaBar() {
+      return (this.options.useAlpha || this.colorHandler.hasColor() && this.color.hasTransparency()) && this.options.useAlpha !== false && (!this.options.format || this.options.format && !this.options.format.match(/^hex([36])?$/i));
+    }
+  }, {
+    key: '_injectPickerElement',
+    value: function _injectPickerElement() {
+      // Inject the colorpicker element into the DOM
+      var pickerParent = this.container ? this.container : this.options.popover ? null : root.document.body;
+
+      if (pickerParent) {
+        this.picker.appendTo(pickerParent);
+      }
+    }
+
+    /**
+     * Colorpicker bundled extension classes
+     *
+     * @static
+     * @type {{Extension}}
+     */
+
+  }, {
+    key: 'registerExtension',
+
+
+    /**
+     * Creates and registers the given extension
+     *
+     * @param {Extension} ExtensionClass The extension class to instantiate
+     * @param {Object} [config] Extension configuration
+     * @returns {Extension}
+     */
+    value: function registerExtension(ExtensionClass) {
+      var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      var ext = new ExtensionClass(this, config);
+
+      this.extensions.push(ext);
+      return ext;
+    }
+
+    /**
+     * Destroys the current instance
+     *
+     * @fires Colorpicker#colorpickerDestroy
+     */
+
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      var color = this.color;
+
+      this.sliderHandler.unbind();
+      this.inputHandler.unbind();
+      this.popupHandler.unbind();
+      this.colorHandler.unbind();
+
+      this.element.removeClass('colorpicker-element').removeData('colorpicker', 'color').off('.colorpicker');
+
+      if (this.component !== false) {
+        this.component.off('.colorpicker');
+      }
+
+      this.picker.remove();
+
+      /**
+       * (Colorpicker) When the instance is destroyed with all events unbound.
+       *
+       * @event Colorpicker#colorpickerDestroy
+       */
+      this.element.trigger({
+        type: 'colorpickerDestroy',
+        colorpicker: this,
+        color: color
+      });
+    }
+
+    /**
+     * Shows the colorpicker widget if hidden.
+     * If the colorpicker is disabled this call will be ignored.
+     *
+     * @fires Colorpicker#colorpickerShow
+     * @param {Event} [e]
+     */
+
+  }, {
+    key: 'show',
+    value: function show(e) {
+      this.popupHandler.show(e);
+    }
+
+    /**
+     * Hides the colorpicker widget.
+     * Hide is prevented when it is triggered by an event whose target element has been clicked/touched.
+     *
+     * @fires Colorpicker#colorpickerHide
+     * @param {Event} [e]
+     */
+
+  }, {
+    key: 'hide',
+    value: function hide(e) {
+      this.popupHandler.hide(e);
+    }
+
+    /**
+     * Toggles the colorpicker between visible or hidden
+     *
+     * @fires Colorpicker#colorpickerShow
+     * @fires Colorpicker#colorpickerHide
+     * @param {Event} [e]
+     */
+
+  }, {
+    key: 'toggle',
+    value: function toggle(e) {
+      this.popupHandler.toggle(e);
+    }
+
+    /**
+     * Returns the current color value as string
+     *
+     * @param {String|*} [defaultValue]
+     * @returns {String|*}
+     */
+
+  }, {
+    key: 'getValue',
+    value: function getValue() {
+      var defaultValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      var val = this.colorHandler.color;
+
+      val = val instanceof _Color2.default ? val : defaultValue;
+
+      if (val instanceof _Color2.default) {
+        return val.toString(this.format);
+      }
+
+      return val;
+    }
+
+    /**
+     * Sets the color manually
+     *
+     * @fires Colorpicker#colorpickerChange
+     * @param {String|Color} val
+     */
+
+  }, {
+    key: 'setValue',
+    value: function setValue(val) {
+      var ch = this.colorHandler;
+
+      if (ch.hasColor() && ch.color.equals(val) || !ch.hasColor() && !val) {
+        // same color or still empty
+        return;
+      }
+
+      var color = val ? ch.createColor(val) : null;
+
+      // force update if color is changed to empty
+      var forceUpdate = ch.hasColor() && !color;
+
+      ch.color = color;
+
+      /**
+       * (Colorpicker) When the color is set programmatically with setValue().
+       *
+       * @event Colorpicker#colorpickerChange
+       */
+      this.element.trigger({
+        type: 'colorpickerChange',
+        colorpicker: this,
+        color: ch.color,
+        value: val
+      });
+
+      // force update if color has changed to empty
+      this.update(forceUpdate);
+    }
+
+    /**
+     * Updates the component color, the input value and the widget if a color is present.
+     *
+     * If force is true, it is updated anyway.
+     *
+     * @fires Colorpicker#colorpickerUpdate
+     * @param {boolean} [force]
+     */
+
+  }, {
+    key: 'update',
+    value: function update() {
+      var force = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+      if (!(this.colorHandler.hasColor() || force === true)) {
+        // no need to update
+        return;
+      }
+
+      this.inputHandler.update();
+      this._updateComponent();
+      this._updatePicker();
+
+      /**
+       * (Colorpicker) Fired when the widget is updated.
+       *
+       * @event Colorpicker#colorpickerUpdate
+       */
+      this.element.trigger({
+        type: 'colorpickerUpdate',
+        colorpicker: this,
+        color: this.color
+      });
+    }
+
+    /**
+     * Changes the color adjustment bars using the current color object information.
+     * @private
+     */
+
+  }, {
+    key: '_updatePicker',
+    value: function _updatePicker() {
+      if (!this.colorHandler.hasColor()) {
+        return;
+      }
+
+      var vertical = this.options.horizontal === false,
+          sl = vertical ? this.options.sliders : this.options.slidersHorz;
+
+      var saturationGuide = this.picker.find('.colorpicker-saturation .colorpicker-guide'),
+          hueGuide = this.picker.find('.colorpicker-hue .colorpicker-guide'),
+          alphaGuide = this.picker.find('.colorpicker-alpha .colorpicker-guide');
+
+      var hsva = this.color.hsvaRatio;
+
+      if (hueGuide.length) {
+        hueGuide.css(vertical ? 'top' : 'left', (vertical ? sl.hue.maxTop : sl.hue.maxLeft) * (1 - hsva.h));
+      }
+
+      if (alphaGuide.length) {
+        alphaGuide.css(vertical ? 'top' : 'left', (vertical ? sl.alpha.maxTop : sl.alpha.maxLeft) * (1 - hsva.a));
+      }
+
+      if (saturationGuide.length) {
+        saturationGuide.css({
+          'top': sl.saturation.maxTop - hsva.v * sl.saturation.maxTop,
+          'left': hsva.s * sl.saturation.maxLeft
+        });
+      }
+
+      this.picker.find('.colorpicker-saturation').css('backgroundColor', this.color.getHueOnlyCopy().toHexString()); // we only need hue
+
+      var hex6Color = this.color.toString('hex6');
+      var alphaBg = '';
+
+      if (this.options.horizontal) {
+        alphaBg = 'linear-gradient(to right, ' + hex6Color + ' 0%, transparent 100%)';
+      } else {
+        alphaBg = 'linear-gradient(to bottom, ' + hex6Color + ' 0%, transparent 100%)';
+      }
+
+      this.picker.find('.colorpicker-alpha-color').css('background', alphaBg);
+    }
+
+    /**
+     * If the component element is present, its background color is updated
+     * @private
+     */
+
+  }, {
+    key: '_updateComponent',
+    value: function _updateComponent() {
+      if (!this.colorHandler.hasColor() || this.component === false) {
+        return;
+      }
+
+      var colorStr = this.colorHandler.getColorString();
+      var styles = { 'background': colorStr };
+
+      var icn = this.component.find('i').eq(0);
+
+      if (icn.length > 0) {
+        icn.css(styles);
+      } else {
+        this.component.css(styles);
+      }
+    }
+
+    /**
+     * Resolves a color to its real representation, in case is not in a standard format (e.g. a custom color alias).
+     * It also loops through all the extensions to delegate the conversion.
+     *
+     * @param {String|*} color
+     * @returns {String|*|null}
+     */
+
+  }, {
+    key: 'resolveColor',
+    value: function resolveColor(color) {
+      var extResolvedColor = false;
+
+      _jquery2.default.each(this.extensions, function (name, ext) {
+        if (extResolvedColor !== false) {
+          // skip if resolved
+          return;
+        }
+        extResolvedColor = ext.resolveColor(color);
+      });
+
+      return extResolvedColor ? extResolvedColor : color;
+    }
+
+    /**
+     * Enables the widget and the input if any
+     *
+     * @fires Colorpicker#colorpickerEnable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'enable',
+    value: function enable() {
+      this.inputHandler.enable();
+      this.disabled = false;
+
+      /**
+       * (Colorpicker) When the widget has been enabled.
+       *
+       * @event Colorpicker#colorpickerEnable
+       */
+      this.element.trigger({
+        type: 'colorpickerEnable',
+        colorpicker: this,
+        color: this.color
+      });
+      return true;
+    }
+
+    /**
+     * Disables the widget and the input if any
+     *
+     * @fires Colorpicker#colorpickerDisable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'disable',
+    value: function disable() {
+      this.inputHandler.disable();
+      this.disabled = true;
+
+      /**
+       * (Colorpicker) When the widget has been disabled.
+       *
+       * @event Colorpicker#colorpickerDisable
+       */
+      this.element.trigger({
+        type: 'colorpickerDisable',
+        colorpicker: this,
+        color: this.color
+      });
+      return true;
+    }
+
+    /**
+     * Returns true if this instance is disabled
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isDisabled',
+    value: function isDisabled() {
+      return this.disabled === true;
+    }
+  }], [{
+    key: 'getBundledExtensions',
+    value: function getBundledExtensions() {
+      return _extensions2.default;
+    }
+  }]);
+
+  return Colorpicker;
+}();
+
+exports.default = Colorpicker;
 
 /***/ }),
 /* 7 */
@@ -3389,7 +3133,7 @@ var _Swatches = __webpack_require__(11);
 
 var _Swatches2 = _interopRequireDefault(_Swatches);
 
-var _Palette = __webpack_require__(3);
+var _Palette = __webpack_require__(4);
 
 var _Palette2 = _interopRequireDefault(_Palette);
 
@@ -3455,8 +3199,8 @@ var Debugger = function (_Extension) {
     var _this = _possibleConstructorReturn(this, (Debugger.__proto__ || Object.getPrototypeOf(Debugger)).call(this, colorpicker, options));
 
     _this.eventCounter = 0;
-    if (_this.colorpicker.hasInput()) {
-      _this.colorpicker.input.on('change.colorpicker-ext', _jquery2.default.proxy(_this.onChangeInput, _this));
+    if (_this.colorpicker.inputHandler.hasInput()) {
+      _this.colorpicker.inputHandler.input.on('change.colorpicker-ext', _jquery2.default.proxy(_this.onChangeInput, _this));
     }
     return _this;
   }
@@ -3523,8 +3267,8 @@ var Debugger = function (_Extension) {
       this.log('colorpickerDestroy');
       this.eventCounter = 0;
 
-      if (this.colorpicker.hasInput()) {
-        this.colorpicker.input.off('.colorpicker-ext');
+      if (this.colorpicker.inputHandler.hasInput()) {
+        this.colorpicker.inputHandler.input.off('.colorpicker-ext');
       }
 
       return _get(Debugger.prototype.__proto__ || Object.getPrototypeOf(Debugger.prototype), 'onDestroy', this).call(this, event);
@@ -3683,7 +3427,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
-var _Palette2 = __webpack_require__(3);
+var _Palette2 = __webpack_require__(4);
 
 var _Palette3 = _interopRequireDefault(_Palette2);
 
@@ -3700,7 +3444,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var defaults = {
-  barTemplate: '<div class="colorpicker-bar colorpicker-swatches"></div>',
+  barTemplate: '<div class="colorpicker-bar colorpicker-swatches">\n                    <div class="colorpicker-swatches--inner"></div>\n                </div>',
   swatchTemplate: '<i class="colorpicker-swatch"></i>'
 };
 
@@ -3732,7 +3476,8 @@ var Swatches = function (_Palette) {
       }
 
       var colorpicker = this.colorpicker,
-          swatchContainer = (0, _jquery2.default)(this.options.barTemplate),
+          swatchBar = (0, _jquery2.default)(this.options.barTemplate),
+          swatchContainer = swatchBar.find('.colorpicker-swatches--inner'),
           isAliased = this.options.namesAsValues === true && !Array.isArray(this.colors);
 
       _jquery2.default.each(this.colors, function (name, value) {
@@ -3745,7 +3490,9 @@ var Swatches = function (_Palette) {
         swatchContainer.append($swatch);
       });
 
-      colorpicker.picker.append(swatchContainer);
+      swatchContainer.append((0, _jquery2.default)('<i class="colorpicker-clear"></i>'));
+
+      colorpicker.picker.append(swatchBar);
     }
   }]);
 
@@ -3780,11 +3527,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var SliderHandler = function () {
   /**
-   * @param {Window} root
    * @param {Colorpicker} colorpicker
+   * @param {Window} root
    * @param {Function|null} onMove
    */
-  function SliderHandler(root, colorpicker) {
+  function SliderHandler(colorpicker, root) {
     var onMove = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
     _classCallCheck(this, SliderHandler);
@@ -3960,7 +3707,7 @@ var SliderHandler = function () {
 
       var top = Math.max(0, Math.min(this.currentSlider.maxTop, this.currentSlider.top + ((e.pageY || this.mousePointer.top) - this.mousePointer.top)));
 
-      this.onMove(this.currentSlider, top, left);
+      this.onMove(this, top, left);
     }
 
     /**
@@ -4010,7 +3757,7 @@ var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _options = __webpack_require__(2);
+var _options = __webpack_require__(3);
 
 var _options2 = _interopRequireDefault(_options);
 
@@ -4023,10 +3770,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var PopupHandler = function () {
   /**
-   * @param {Window} root
    * @param {Colorpicker} colorpicker
+   * @param {Window} root
    */
-  function PopupHandler(root, colorpicker) {
+  function PopupHandler(colorpicker, root) {
     _classCallCheck(this, PopupHandler);
 
     /**
@@ -4048,16 +3795,21 @@ var PopupHandler = function () {
   }
 
   /**
-   * Binds the different colorpicker elements to the focus/mouse/touch events so it reacts in order to show or
-   * hide the colorpicker popup accordingly. It also adds the proper classes.
+   * @private
+   * @returns {jQuery|false}
    */
 
 
   _createClass(PopupHandler, [{
     key: 'bind',
+
+
+    /**
+     * Binds the different colorpicker elements to the focus/mouse/touch events so it reacts in order to show or
+     * hide the colorpicker popup accordingly. It also adds the proper classes.
+     */
     value: function bind() {
       var cp = this.colorpicker;
-      var addon = cp.component;
 
       if (cp.options.inline) {
         cp.picker.addClass('colorpicker-inline colorpicker-visible');
@@ -4067,7 +3819,7 @@ var PopupHandler = function () {
       cp.picker.addClass('colorpicker-popup colorpicker-hidden');
 
       // there is no input or addon
-      if (!cp.hasInput() && !addon) {
+      if (!this.hasInput && !this.hasAddon) {
         return;
       }
 
@@ -4081,30 +3833,30 @@ var PopupHandler = function () {
       }
 
       // bind addon show/hide events
-      if (addon) {
+      if (this.hasAddon) {
         // enable focus on addons
-        if (!addon.attr('tabindex')) {
-          addon.attr('tabindex', 0);
+        if (!this.addon.attr('tabindex')) {
+          this.addon.attr('tabindex', 0);
         }
 
-        addon.on({
+        this.addon.on({
           'mousedown.colorpicker touchstart.colorpicker': _jquery2.default.proxy(this.toggle, this)
         });
-        addon.on({
+        this.addon.on({
           'focus.colorpicker': _jquery2.default.proxy(this.show, this)
         });
-        addon.on({
+        this.addon.on({
           'focusout.colorpicker': _jquery2.default.proxy(this.hide, this)
         });
       }
 
       // bind input show/hide events
-      if (cp.hasInput() && !addon) {
-        cp.input.on({
+      if (this.hasInput && !this.hasAddon) {
+        this.input.on({
           'mousedown.colorpicker touchstart.colorpicker': _jquery2.default.proxy(this.show, this),
           'focus.colorpicker': _jquery2.default.proxy(this.show, this)
         });
-        cp.input.on({
+        this.input.on({
           'focusout.colorpicker': _jquery2.default.proxy(this.hide, this)
         });
       }
@@ -4120,27 +3872,24 @@ var PopupHandler = function () {
   }, {
     key: 'unbind',
     value: function unbind() {
-      var cp = this.colorpicker;
-      var addon = cp.component;
-
-      if (cp.hasInput()) {
-        cp.input.off({
+      if (this.hasInput) {
+        this.input.off({
           'mousedown.colorpicker touchstart.colorpicker': _jquery2.default.proxy(this.show, this),
           'focus.colorpicker': _jquery2.default.proxy(this.show, this)
         });
-        cp.input.off({
+        this.input.off({
           'focusout.colorpicker': _jquery2.default.proxy(this.hide, this)
         });
       }
 
-      if (addon) {
-        addon.off({
+      if (this.hasAddon) {
+        this.addon.off({
           'mousedown.colorpicker touchstart.colorpicker': _jquery2.default.proxy(this.toggle, this)
         });
-        addon.off({
+        this.addon.off({
           'focus.colorpicker': _jquery2.default.proxy(this.show, this)
         });
-        addon.off({
+        this.addon.off({
           'focusout.colorpicker': _jquery2.default.proxy(this.hide, this)
         });
       }
@@ -4172,13 +3921,14 @@ var PopupHandler = function () {
     value: function createPopover() {
       var cp = this.colorpicker;
 
-      this.popoverTarget = cp.component ? cp.component : cp.input;
+      this.popoverTarget = this.hasAddon ? this.addon : this.input;
 
-      cp.picker.addClass('colorpicker-bs-popover');
+      cp.picker.addClass('colorpicker-bs-popover-content');
 
       this.popoverTarget.popover(_jquery2.default.extend(true, {}, _options2.default.popover, cp.options.popover, { trigger: 'manual', content: cp.picker, html: true }));
 
-      this.popoverTip = this.popoverTarget.popover('getTipElement').data('bs.popover').tip;
+      this.popoverTip = (0, _jquery2.default)(this.popoverTarget.popover('getTipElement').data('bs.popover').tip);
+      this.popoverTip.addClass('colorpicker-bs-popover');
 
       this.popoverTarget.on('shown.bs.popover', _jquery2.default.proxy(this.fireShow, this));
       this.popoverTarget.on('hidden.bs.popover', _jquery2.default.proxy(this.fireHide, this));
@@ -4267,7 +4017,7 @@ var PopupHandler = function () {
       cp.lastEvent.e = e;
 
       // Prevent showing browser native HTML5 colorpicker
-      if (e && (!cp.hasInput() || cp.input.attr('type') === 'color') && e.stopPropagation && e.preventDefault) {
+      if (e && (!this.hasInput || this.input.attr('type') === 'color') && e.stopPropagation && e.preventDefault) {
         e.stopPropagation();
         e.preventDefault();
       }
@@ -4376,12 +4126,667 @@ var PopupHandler = function () {
     value: function isHidden() {
       return this.colorpicker.picker.hasClass('colorpicker-hidden') && !this.colorpicker.picker.hasClass('colorpicker-visible');
     }
+  }, {
+    key: 'input',
+    get: function get() {
+      return this.colorpicker.inputHandler.input;
+    }
+
+    /**
+     * @private
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'hasInput',
+    get: function get() {
+      return this.colorpicker.inputHandler.hasInput();
+    }
+
+    /**
+     * @private
+     * @returns {jQuery|false}
+     */
+
+  }, {
+    key: 'addon',
+    get: function get() {
+      return this.colorpicker.component;
+    }
+
+    /**
+     * @private
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'hasAddon',
+    get: function get() {
+      return !!this.colorpicker.component;
+    }
   }]);
 
   return PopupHandler;
 }();
 
 exports.default = PopupHandler;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _Color = __webpack_require__(2);
+
+var _Color2 = _interopRequireDefault(_Color);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Handles everything related to the colorpicker input
+ */
+var InputHandler = function () {
+  /**
+   * @param {Colorpicker} colorpicker
+   * @param {Window} root
+   */
+  function InputHandler(colorpicker, root) {
+    _classCallCheck(this, InputHandler);
+
+    /**
+     * @type {Window}
+     */
+    this.root = root;
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+    /**
+     * @type {jQuery|false}
+     */
+    this.input = this.colorpicker.element.is('input') ? this.colorpicker.element : this.colorpicker.options.input ? this.colorpicker.element.find(this.colorpicker.options.input) : false;
+
+    if (this.input && this.input.length === 0) {
+      this.input = false;
+    }
+
+    this._initValue();
+  }
+
+  _createClass(InputHandler, [{
+    key: 'bind',
+    value: function bind() {
+      if (!this.hasInput()) {
+        return;
+      }
+      this.input.on({
+        'keyup.colorpicker': _jquery2.default.proxy(this.onkeyup, this)
+      });
+      this.input.on({
+        'change.colorpicker': _jquery2.default.proxy(this.onchange, this)
+      });
+    }
+  }, {
+    key: 'unbind',
+    value: function unbind() {
+      if (!this.hasInput()) {
+        return;
+      }
+      this.input.off('.colorpicker');
+    }
+  }, {
+    key: '_initValue',
+    value: function _initValue() {
+      if (!this.hasInput()) {
+        return;
+      }
+
+      var val = '';
+
+      [
+      // candidates:
+      this.input.val(), this.input.data('color'), this.input.attr('data-color')].map(function (item) {
+        if (item && val === '') {
+          val = item;
+        }
+      });
+
+      if (val instanceof _Color2.default) {
+        val = this.getFormattedColor(val.toString(this.colorpicker.format));
+      } else if (!(typeof val === 'string' || val instanceof String)) {
+        val = '';
+      }
+
+      this.input.prop('value', val);
+    }
+
+    /**
+     * Returns the color string from the input value.
+     * If there is no input the return value is false.
+     *
+     * @returns {String|boolean}
+     */
+
+  }, {
+    key: 'getValue',
+    value: function getValue() {
+      if (!this.hasInput()) {
+        return false;
+      }
+
+      return this.input.val();
+    }
+
+    /**
+     * If the input element is present, it updates the value with the current color object color string.
+     * If the value is changed, this method fires a "change" event on the input element.
+     *
+     * @param {String} val
+     *
+     * @fires Colorpicker#change
+     */
+
+  }, {
+    key: 'setValue',
+    value: function setValue(val) {
+      if (!this.hasInput()) {
+        return;
+      }
+
+      var inputVal = this.input.prop('value');
+
+      val = val ? val : '';
+
+      if (val === (inputVal ? inputVal : '')) {
+        // No need to set value or trigger any event if nothing changed
+        return;
+      }
+
+      this.input.prop('value', val);
+
+      /**
+       * (Input) Triggered on the input element when a new color is selected.
+       *
+       * @event Colorpicker#change
+       */
+      this.input.trigger({
+        type: 'change',
+        colorpicker: this.colorpicker,
+        color: this.colorpicker.color,
+        value: val
+      });
+    }
+
+    /**
+     * Returns the formatted color string, with the formatting options applied
+     * (e.g. useHashPrefix)
+     *
+     * @param {String|null} val
+     *
+     * @returns {String}
+     */
+
+  }, {
+    key: 'getFormattedColor',
+    value: function getFormattedColor() {
+      var val = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      val = val ? val : this.colorpicker.colorHandler.getColorString();
+
+      if (!val) {
+        return '';
+      }
+
+      val = this.colorpicker.colorHandler.resolveColorDelegate(val);
+
+      if (this.colorpicker.options.useHashPrefix === false) {
+        val = val.replace(/^#/g, '');
+      }
+
+      return val;
+    }
+
+    /**
+     * Returns true if the widget has an associated input element, false otherwise
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'hasInput',
+    value: function hasInput() {
+      return this.input !== false;
+    }
+
+    /**
+     * Returns true if the input exists and is disabled
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isDisabled',
+    value: function isDisabled() {
+      return this.hasInput() && this.input.prop('disabled') === true;
+    }
+
+    /**
+     * Disables the input if any
+     *
+     * @fires Colorpicker#colorpickerDisable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'disable',
+    value: function disable() {
+      if (this.hasInput()) {
+        this.input.prop('disabled', true);
+      }
+    }
+
+    /**
+     * Enables the input if any
+     *
+     * @fires Colorpicker#colorpickerEnable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'enable',
+    value: function enable() {
+      if (this.hasInput()) {
+        this.input.prop('disabled', false);
+      }
+    }
+
+    /**
+     * Calls setValue with the current internal color value
+     *
+     * @fires Colorpicker#change
+     */
+
+  }, {
+    key: 'update',
+    value: function update() {
+      if (!this.hasInput()) {
+        return;
+      }
+
+      if (this.colorpicker.options.autoInputFallback === false && this.colorpicker.colorHandler.isInvalidColor()) {
+        // prevent update if color is invalid, autoInputFallback is disabled and the last event is keyup.
+        return;
+      }
+
+      this.setValue(this.getFormattedColor());
+    }
+
+    /**
+     * Function triggered when the input has changed, so the colorpicker gets updated.
+     *
+     * @private
+     * @param {Event} e
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'onchange',
+    value: function onchange(e) {
+      this.colorpicker.lastEvent.alias = 'input.change';
+      this.colorpicker.lastEvent.e = e;
+
+      var val = this.getValue();
+
+      if (val !== this.getFormattedColor()) {
+        this.colorpicker.setValue(val);
+      }
+    }
+
+    /**
+     * Function triggered after a keyboard key has been released.
+     *
+     * @private
+     * @param {Event} e
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'onkeyup',
+    value: function onkeyup(e) {
+      this.colorpicker.lastEvent.alias = 'input.keyup';
+      this.colorpicker.lastEvent.e = e;
+
+      var val = this.getValue();
+
+      if (val !== this.getFormattedColor()) {
+        this.colorpicker.setValue(val);
+      }
+    }
+  }]);
+
+  return InputHandler;
+}();
+
+exports.default = InputHandler;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Color = __webpack_require__(2);
+
+var _Color2 = _interopRequireDefault(_Color);
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Handles everything related to the colorpicker color
+ */
+var ColorHandler = function () {
+  _createClass(ColorHandler, [{
+    key: 'fallback',
+
+    /**
+     * @returns {*|String|Color}
+     */
+    get: function get() {
+      return this.colorpicker.options.fallbackColor ? this.colorpicker.options.fallbackColor : this.hasColor() ? this.color : '#000';
+    }
+
+    /**
+     * @returns {String|null}
+     */
+
+  }, {
+    key: 'format',
+    get: function get() {
+      if (this.colorpicker.options.format) {
+        return this.colorpicker.options.format;
+      }
+
+      if (this.hasColor() && this.color.hasTransparency() && this.color.format.match(/^hex/)) {
+        return this.isAlphaEnabled() ? this.colorpicker.options.enableHexAlpha ? 'hex8' : 'rgba' : 'hex';
+      }
+
+      if (this.hasColor()) {
+        return this.color.format;
+      }
+
+      return null;
+    }
+
+    /**
+     * Internal color getter
+     *
+     * @type {Color|null}
+     */
+
+  }, {
+    key: 'color',
+    get: function get() {
+      return this.colorpicker.element.data('color');
+    }
+
+    /**
+     * Internal color setter
+     *
+     * @ignore
+     * @param {Color|null} value
+     */
+    ,
+    set: function set(value) {
+      this.colorpicker.element.data('color', value);
+
+      if (value instanceof _Color2.default && this.colorpicker.options.format === 'auto') {
+        // If format is 'auto', use the first parsed one from now on
+        this.colorpicker.options.format = this.color.format;
+      }
+    }
+
+    /**
+     * @param {Colorpicker} colorpicker
+     */
+
+  }]);
+
+  function ColorHandler(colorpicker) {
+    _classCallCheck(this, ColorHandler);
+
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+  }
+
+  _createClass(ColorHandler, [{
+    key: 'bind',
+    value: function bind() {
+      // if the color option is set
+      if (this.colorpicker.options.color) {
+        this.color = this.createColor(this.colorpicker.options.color);
+        return;
+      }
+
+      // if element[color] is empty and the input has a value
+      if (!this.color && !!this.colorpicker.inputHandler.getValue()) {
+        this.color = this.createColor(this.colorpicker.inputHandler.getValue());
+      }
+    }
+  }, {
+    key: 'unbind',
+    value: function unbind() {
+      this.colorpicker.element.removeData('color');
+    }
+
+    /**
+     * Returns the color string from the input value or the 'data-color' attribute of the input or element.
+     * If empty, it returns the defaultValue parameter.
+     *
+     * @returns {String|*}
+     */
+
+  }, {
+    key: 'getColorString',
+    value: function getColorString() {
+      if (!this.hasColor()) {
+        return '';
+      }
+
+      return this.color.toString(this.format);
+    }
+
+    /**
+     * Sets the color value
+     *
+     * @param {String|Color} val
+     */
+
+  }, {
+    key: 'setColorString',
+    value: function setColorString(val) {
+      var color = val ? this.createColor(val) : null;
+
+      this.color = color ? color : null;
+    }
+
+    /**
+     * Creates a new color using the widget instance options (fallbackColor, format).
+     *
+     * @fires Colorpicker#colorpickerInvalid
+     * @param {*} val
+     * @param {boolean} fallbackOnInvalid
+     * @returns {Color}
+     */
+
+  }, {
+    key: 'createColor',
+    value: function createColor(val) {
+      var fallbackOnInvalid = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      var color = new _Color2.default(this.resolveColorDelegate(val), { format: this.format });
+
+      if (!color.isValid()) {
+        if (fallbackOnInvalid) {
+          var invalidColor = color;
+
+          color = this.getFallbackColor();
+          color.previous = invalidColor;
+        }
+
+        /**
+         * (Colorpicker) Fired when the color is invalid and the fallback color is going to be used.
+         *
+         * @event Colorpicker#colorpickerInvalid
+         */
+        this.colorpicker.element.trigger({
+          type: 'colorpickerInvalid',
+          colorpicker: this.colorpicker,
+          color: color,
+          value: val
+        });
+      }
+
+      if (!this.isAlphaEnabled()) {
+        // Alpha is disabled
+        color.setAlpha(1);
+      }
+
+      return color;
+    }
+
+    /**
+     * Preserves the hue of the given color if the previous one
+     * was identical, but without saturation.
+     *
+     * @param {Color} color
+     * @param {Color} prevColor
+     * @returns {Color}
+     */
+
+  }, {
+    key: 'preserveHue',
+    value: function preserveHue(color, prevColor) {
+      if (!this.hasColor()) {
+        // No previous color, so no need to compare
+        return color;
+      }
+
+      var hsva = color.hsvaRatio;
+      var prevHsva = prevColor.hsvaRatio;
+
+      // Hue was set to 0 because saturation was 0,
+      // use previous hue to preserve it
+      if (hsva.s === 0 && hsva.h === 0 && prevHsva.h !== 0) {
+        color.setHueRatio(prevHsva.h);
+      }
+
+      return color;
+    }
+  }, {
+    key: 'getFallbackColor',
+    value: function getFallbackColor() {
+      if (this.fallback === this.color) {
+        return this.color;
+      }
+
+      var fallback = this.resolveColorDelegate(this.fallback);
+      var color = new _Color2.default(fallback, { format: this.format });
+
+      if (!color.isValid()) {
+        throw new Error('The fallback color is invalid.');
+      }
+
+      return color;
+    }
+
+    /**
+     * Delegates the color resolution to the colorpicker extensions.
+     *
+     * @param {String|*} color
+     * @returns {Color|String|*|null}
+     */
+
+  }, {
+    key: 'resolveColorDelegate',
+    value: function resolveColorDelegate(color) {
+      var extResolvedColor = false;
+
+      _jquery2.default.each(this.colorpicker.extensions, function (name, ext) {
+        if (extResolvedColor !== false) {
+          // skip if resolved
+          return;
+        }
+        extResolvedColor = ext.resolveColor(color);
+      });
+
+      return extResolvedColor ? extResolvedColor : color;
+    }
+
+    /**
+     * Checks if there is a color object, that it is valid and it is not a fallback
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isInvalidColor',
+    value: function isInvalidColor() {
+      return !this.hasColor() || !this.color.isValid() || !!this.color.previous;
+    }
+
+    /**
+     * Returns true if the useAlpha option is exactly true, false otherwise
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isAlphaEnabled',
+    value: function isAlphaEnabled() {
+      return this.colorpicker.options.useAlpha !== false;
+    }
+
+    /**
+     * Returns true if the current color object is an instance of Color, false otherwise.
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'hasColor',
+    value: function hasColor() {
+      return this.color instanceof _Color2.default;
+    }
+  }]);
+
+  return ColorHandler;
+}();
+
+exports.default = ColorHandler;
 
 /***/ })
 /******/ ]);

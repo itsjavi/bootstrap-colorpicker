@@ -202,9 +202,6 @@ class PopupHandler {
 
   onClickingInside(e) {
     this.clicking = this.isClickingInside(e);
-    if (!this.clicking) {
-      this.hide(e);
-    }
   }
 
   createPopover() {
@@ -342,7 +339,7 @@ class PopupHandler {
 
       if (e.type !== 'focus') {
         // this.focus();
-        //        ⌃-- prevents lose focus of the input/addon,
+        //        ⌃-- calling this prevents lose focus of the input/addon,
         //            but cancels inputs and text selection inside the popover.
         return;
       }

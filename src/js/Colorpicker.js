@@ -362,7 +362,6 @@ class Colorpicker {
     this.inputHandler.update();
     this.addonHandler.update();
     this.pickerHandler.update();
-    this.popupHandler.focus();
 
     /**
      * (Colorpicker) Fired when the widget is updated.

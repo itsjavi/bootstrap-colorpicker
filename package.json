@@ -1,7 +1,7 @@
 {
   "name": "bootstrap-colorpicker",
   "version": "3.0.0",
-  "description": "Simple and customizable colorpicker component for Twitter Bootstrap.",
+  "description": "Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.",
   "main": "./dist/js/bootstrap-colorpicker.js",
   "homepage": "https://farbelous.github.io/bootstrap-colorpicker/",
   "repository": {

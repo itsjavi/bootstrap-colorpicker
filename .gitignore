@@ -13,3 +13,4 @@ Thumbs.db
 gulpfile.js_*
 /build
 /dist
+/*.html

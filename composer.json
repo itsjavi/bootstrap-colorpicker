@@ -1,6 +1,6 @@
 {
   "name": "itsjavi/bootstrap-colorpicker",
-  "description": "Simple and customizable colorpicker component for Twitter Bootstrap.",
+  "description": "Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.",
   "license": "MIT",
   "homepage": "https://itsjavi.com/bootstrap-colorpicker/",
   "keywords": [
@@ -18,6 +18,6 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "components/jquery": ">=1.10"
+    "components/jquery": ">=2.1.0"
   }
 }

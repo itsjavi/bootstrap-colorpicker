@@ -329,47 +329,99 @@ class ColorItem {
     );
   }
 
+  /**
+   * Creates a copy of this instance
+   *
+   * @returns {ColorItem}
+   */
   getClone() {
     return new ColorItem(this._color, this.format);
   }
 
+  /**
+   * Creates a copy of this instance, only copying the hue value,
+   * and setting the others to its max value.
+   *
+   * @returns {ColorItem}
+   */
   getCloneHueOnly() {
     return new ColorItem([this.hue, 100, 100, 1], this.format);
   }
 
+  /**
+   * Creates a copy of this instance setting the alpha to the max.
+   *
+   * @returns {ColorItem}
+   */
   getCloneOpaque() {
     return new ColorItem(this._color.alpha(1), this.format);
   }
 
+  /**
+   * Converts the color to a RGB string
+   *
+   * @returns {String}
+   */
   toRgbString() {
     return this.string('rgb');
   }
 
+  /**
+   * Converts the color to a Hexadecimal string
+   *
+   * @returns {String}
+   */
   toHexString() {
     return this.string('hex');
   }
 
+  /**
+   * Converts the color to a HSL string
+   *
+   * @returns {String}
+   */
   toHslString() {
     return this.string('hsl');
   }
 
+  /**
+   * Returns true if the color is dark, false otherwhise.
+   * This is useful to decide a text color.
+   *
+   * @returns {boolean}
+   */
   isDark() {
     return this._color.isDark();
   }
 
+  /**
+   * Returns true if the color is light, false otherwhise.
+   * This is useful to decide a text color.
+   *
+   * @returns {boolean}
+   */
   isLight() {
     return this._color.isLight();
   }
 
   /**
-   * @param {String} scheme One of: 'complementary', 'triad', 'tetrad', 'splitcomplement'
+   * Generates a list of colors using the given hue-based formula or the given array of hue values.
+   * Hue formulas can be extended using ColorItem.colorFormulas static property.
+   *
+   * @param {String|Number[]} formula Examples: 'complementary', 'triad', 'tetrad', 'splitcomplement', [180, 270]
+   * @example let colors = color.generate('triad');
+   * @example let colors = color.generate([45, 80, 112, 200]);
    * @returns {ColorItem[]}
    */
-  getScheme(scheme = 'complementary') {
-    let hues = ColorItem.colorSchemes[scheme];
+  generate(formula) {
+    let hues = [];
 
-    if (!hues) {
-      throw new Error(`No scheme found named ${scheme}`);
+    if (Array.isArray(formula)) {
+      hues = formula;
+    } else if (!ColorItem.colorFormulas.hasOwnProperty(formula)) {
+      throw new Error(`No color formula found with the name '${formula}'.`);
+    } else {
+      hues = ColorItem.colorFormulas[formula];
     }
 
     let colors = [], mainColor = this._color, format = this.format;
@@ -389,7 +441,13 @@ class ColorItem {
   }
 }
 
-ColorItem.colorSchemes = {
+/**
+ * List of hue-based color formulas used by ColorItem.prototype.generate()
+ *
+ * @static
+ * @type {{complementary: number[], triad: number[], tetrad: number[], splitcomplement: number[]}}
+ */
+ColorItem.colorFormulas = {
   complementary: [180],
   triad: [0, 120, 240],
   tetrad: [0, 90, 180, 270],

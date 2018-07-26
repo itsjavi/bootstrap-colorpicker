@@ -3,12 +3,26 @@
  */
 import QixColor from 'color';
 
+/**
+ * HSVA color data class, containing the hue, saturation, value and alpha
+ * information.
+ */
 class HSVAColor {
+  /**
+   * @param {number|int} h
+   * @param {number|int} s
+   * @param {number|int} v
+   * @param {number|int} a
+   */
   constructor(h, s, v, a) {
-    this.h = h;
-    this.s = s;
-    this.v = v;
-    this.a = a;
+    this.h = isNaN(h) ? 0 : h;
+    this.s = isNaN(s) ? 0 : s;
+    this.v = isNaN(v) ? 0 : v;
+    this.a = isNaN(h) ? 1 : a;
+  }
+
+  toString() {
+    return `${this.h}, ${this.s}%, ${this.v}%, ${this.a}`;
   }
 }
 
@@ -20,6 +34,8 @@ class ColorItem {
   /**
    * Returns the HSVAColor class
    *
+   * @static
+   * @example let colorData = new ColorItem.HSVAColor(360, 100, 100, 1);
    * @returns {HSVAColor}
    */
   static get HSVAColor() {
@@ -455,3 +471,8 @@ ColorItem.colorFormulas = {
 };
 
 export default ColorItem;
+
+export {
+  HSVAColor,
+  ColorItem
+};

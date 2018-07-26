@@ -6,8 +6,7 @@
 
 <!--version-->
 
-[Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) Bootstrap Colorpicker is a modular 
-color picker plugin for Bootstrap 4.
+[Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) is a modular color picker plugin for Bootstrap 4.
 
 [![Build Status](https://img.shields.io/travis/farbelous/bootstrap-colorpicker/master.svg?style=flat-square)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
 [![npm](https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square)](https://www.npmjs.com/package/bootstrap-colorpicker)

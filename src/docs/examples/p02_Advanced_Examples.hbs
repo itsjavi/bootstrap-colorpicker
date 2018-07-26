@@ -40,7 +40,7 @@
                   ]
                 })
                 .on('colorpickerChange colorpickerCreate', function (e) {
-                  let colors = e.color.generate('tetrad');
+                  var colors = e.color.generate('tetrad');
 
                   colors.forEach(function (color, i) {
                     var colorStr = color.string(),

@@ -97,7 +97,7 @@
                     // only list last 10 events
                     dbg.find('li').first().remove();
                   }
-                  dbg.append(`<li>${n}: ${e.debug.eventName}</li>`);
+                  dbg.append('<li>' + n + ': ' + e.debug.eventName + '</li>');
                 });
           });
         </script>

@@ -1,0 +1,149 @@
+/**
+-----------------------------------
+Bootstrap Colorpicker Docs custom CSS
+-----------------------------------
+*/
+
+.main-content-wrapper {
+  padding: 30px 20px;
+}
+
+.main-content-wrapper > section > header > h2 {
+  display: none;
+}
+
+.main-nav {
+  padding: 25px 20px 30px 20px;
+}
+
+.main-nav li a {
+  color: #4a4848;
+}
+
+.readme-logo {
+  display: none;
+}
+
+.readme h2 {
+  margin-top: 40px;
+}
+
+.nav-logo-link {
+  display: block;
+  text-align: center;
+  margin-bottom: 20px !important;
+}
+
+.nav-logo-link a {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.nav-logo-link a:hover {
+  text-underline: none;
+}
+
+.nav-logo-link img {
+  width: 72px;
+  max-width: 100%;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.nav-logo-title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+h2.pkg-version {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #ca5632;
+}
+
+h4.name {
+  color: #ca5632;
+}
+
+.section-members {
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.details + h5 {
+  display: inline-block;
+  font-size: 1em;
+}
+
+.details + h5 + ul {
+  display: inline-block;
+  list-style: none;
+  font-size: 1em;
+  padding: 0 0 0 10px;
+}
+
+.nav-item-name {
+  font-size: 13px;
+}
+
+.card-header h2 {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin: 5px 0;
+}
+
+.popover-header {
+  margin-top: 0;
+}
+
+.example {
+  margin-bottom: 20px;
+}
+
+.example .card-body {
+  padding: 20px 30px 35px 30px;
+}
+
+.example-group-description, .example-description {
+  margin-bottom: 20px;
+}
+
+.card-footer pre.example-code {
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  margin: 0;
+  background: none;
+}
+
+.card-footer--legend {
+  font-size: 80%;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #bbb;
+  margin-bottom: 5px;
+}
+
+input.form-control + input.form-control,
+.input-group + .input-group,
+input.form-control + .input-group,
+.input-group + input.form-control {
+  margin-top: 20px;
+}
+
+var, code {
+  color: #e83e8c;
+  font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+  font-size: 82.5%;
+  background: #f5f2f3;
+  padding: 2px 4px;
+}
+
+@media only screen and (max-width: 767px) {
+  .algolia-autocomplete .ds-dropdown-menu {
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+  }
+}

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   
-  <title>Bootstrap Colorpicker, a color picker component for jQuery, compatible with Twitter Bootstrap.</title>
+  <title>Bootstrap Colorpicker | Advanced examples - Documentation</title>
   
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85082661-5"></script>
@@ -23,7 +23,7 @@
 
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
 
-  <link href="dist/css/bootstrap-colorpicker.css?v=1532640436850" rel="stylesheet" />
+  <link href="dist/css/bootstrap-colorpicker.css?v=1532640436935" rel="stylesheet" />
 
   <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
   <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
@@ -38,7 +38,7 @@
 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 
-  <script src="dist/js/bootstrap-colorpicker.js?v=1532640436850"></script>
+  <script src="dist/js/bootstrap-colorpicker.js?v=1532640436935"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -50,133 +50,364 @@
     <div class="main-content col-md-9 col-lg-10">
       <div id="main" class="main-content-wrapper">
         
-
+        <h1 class="page-title">Advanced examples</h1>
         
 
+        <section>
 
-
+<header>
     
+</header>
 
+<article>
+    <div class="example-group">
 
-
-
-
-
-
-
-
+  <div class="example-group-body">
     
+<div class="example">
+  <div class="card card-default">
+      <div class="card-header example-title"><h2> Add complementary color swatches </h2></div>
+    <div class="card-body">
+        <div class="example-description">
+                  <p>
+          The colorpicker <a href="ColorItem.html">ColorItem</a> class uses and comes bundled with
+          <a href="https://github.com/Qix-/color">Qix Color</a>,
+          a great color parsing library with a friendly API that allows you to manipulate and convert the color.
+          <a href="ColorItem.html">ColorItem</a> is just an abstraction layer on top of the library, which is more
+          convenient for Bootstrap Colorpicker.
+        </p>
 
+        <p>In this example we use the ColorItem API to add color swatches based on a tetrad of the selected color.</p>
 
-    <section class="readme">
-        <article><p><a class="readme-logo" href="https://farbelous.io/bootstrap-colorpicker">
-    <img alt="Logo by @reallinfo" src="logo.png" width="128px" />
-</a></p>
-<h1>Bootstrap Colorpicker</h1><!--googleoff: index--><h2 class="pkg-version">v3.0.1</h2><!--googleon: index-->
-<p><a href="https://github.com/farbelous/bootstrap-colorpicker/">Bootstrap Colorpicker</a> is a modular color picker plugin for Bootstrap 4.</p>
-<p><a href="https://travis-ci.org/farbelous/bootstrap-colorpicker"><img src="https://img.shields.io/travis/farbelous/bootstrap-colorpicker/master.svg?style=flat-square" alt="Build Status"></a>
-<a href="https://www.npmjs.com/package/bootstrap-colorpicker"><img src="https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square" alt="npm"></a>
-<a href="https://github.com/itsjavi/itsjavi.github.io/blob/master/BACKERS.md#sponsors--backers"><img src="https://img.shields.io/badge/%E2%9D%A4-Donate%20to%20this%20project-e0a61d.svg?longCache=true&amp;style=flat-square" alt="Donate"></a>
-<a href="https://github.com/itsjavi/itsjavi.github.io/blob/master/BACKERS.md#sponsors"><img src="https://img.shields.io/badge/%F0%9F%92%AA-Supporters-333333.svg?longCache=true&amp;style=flat-square" alt="Supporters"></a></p>
-<h2>Install</h2><p>You can get the latest version in many different ways:</p>
-<ul>
-<li>Downloading <a href="https://github.com/farbelous/bootstrap-colorpicker/releases">a ZIP file from the releases</a></li>
-<li>Cloning using Git: <code>git clone https://github.com/farbelous/bootstrap-colorpicker.git</code></li>
-<li>Installing via NPM: <code>npm install bootstrap-colorpicker</code></li>
-<li>Installing via Yarn: <code>yarn add bootstrap-colorpicker</code></li>
-<li>Installing via Composer: <code>composer require itsjavi/bootstrap-colorpicker</code></li>
-</ul>
-<p>Note that the <code>dist</code> files are only distributed via the NPM and Yarn installations.</p>
-<p>For the rest methods, you will need to generate the files initializing the project with <code>yarn install</code>
-and then building the code using <code>npm run build</code>.</p>
-<h2>Versions</h2><table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-        <th>Colorpicker version</th>
-        <th>Compatible Bootstrap version</th>
-        <th>Dependencies</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-        <td>
-          <a href="https://github.com/farbelous/bootstrap-colorpicker/tree/v2.x">v2.x</a> <br>
-          <a href="https://farbelous.github.io/bootstrap-colorpicker/v2">Documentation</a>
-        </td>
-        <td>(any)</td>
-        <td>
-          <ul>
-            <li>jQuery &gt;= 1.10</li>
-            <li>Bootstrap CSS (input addon)</li>
-          </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-          <a href="https://github.com/farbelous/bootstrap-colorpicker">v3.x</a> <br>
-          <a href="https://farbelous.github.io/bootstrap-colorpicker">Documentation</a>
-        </td>
-        <td>Bootstrap 4</td>
-        <td>
-          <ul>
-            <li>jQuery &gt;= 2.1.0</li>
-            <li>Bootstrap CSS (input addon, popover)</li>
-            <li>Bootstrap JS Bundle (popover)</li>
-          </ul>
-        </td>
-    </tr>
-  </thead>
-</table>
+        </div>
+      <div class="example-demo">
+                <div id="cp1" data-color="#6D2781">
+          <input type="text" class="form-control" style="width:auto"/> <br>
+        </div>
+        <script>
+          $(function () {
+            $('#cp1')
+                .colorpicker({
+                  inline: true,
+                  container: true,
+                  extensions: [
+                    {
+                      name: 'swatches',
+                      options: {
+                        colors: {
+                          'tetrad1': '#000',
+                          'tetrad2': '#000',
+                          'tetrad3': '#000',
+                          'tetrad4': '#000'
+                        },
+                        namesAsValues: false
+                      }
+                    }
+                  ]
+                })
+                .on('colorpickerChange colorpickerCreate', function (e) {
+                  let colors = e.color.generate('tetrad');
 
+                  colors.forEach(function (color, i) {
+                    var colorStr = color.string(),
+                        swatch = e.colorpicker.picker
+                            .find('.colorpicker-swatch[data-name="tetrad' + (i + 1) + '"]');
 
-<p>Note that the plugin may work without Bootstrap if your code is not using any of the mentioned Bootstrap
-dependencies.</p>
-<h2>Basic example</h2><pre class="prettyprint source lang-html"><code>&lt;!DOCTYPE html>
-&lt;html lang=&quot;en&quot;>
-&lt;head>
-  &lt;meta charset=&quot;utf-8&quot;>
-  &lt;link href=&quot;//cdn.rawgit.com/twbs/bootstrap/v4.1.3/dist/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;>
-  &lt;link href=&quot;dist/css/bootstrap-colorpicker.css&quot; rel=&quot;stylesheet&quot;>
-&lt;/head>
-&lt;body>
-  &lt;div class=&quot;jumbotron&quot;>
-      &lt;h1>Bootstrap Colorpicker Demo&lt;/h1>
-      &lt;input id=&quot;demo&quot; type=&quot;text&quot; class=&quot;form-control&quot; value=&quot;rgb(255, 128, 0)&quot; />
-  &lt;/div>
-  &lt;script src=&quot;//code.jquery.com/jquery-3.3.1.js&quot;>&lt;/script>
-  &lt;script src=&quot;//cdn.rawgit.com/twbs/bootstrap/v4.1.3/dist/js/bootstrap.bundle.min.js&quot;>&lt;/script>
-  &lt;script src=&quot;dist/js/bootstrap-colorpicker.js&quot;>&lt;/script>
-  &lt;script>
-    $(function () {
-      // Basic instantiation:
-      $('#demo').colorpicker();
+                    swatch
+                        .attr('data-value', colorStr)
+                        .attr('title', colorStr)
+                        .find('> i')
+                        .css('background-color', colorStr);
+                  });
+                });
+          });
+        </script>
 
-      // Example using an event, to change the color of the .jumbotron background:
-      $('#demo').on('colorpickerChange', function(event) {
-        $('.jumbotron').css('background-color', event.color.toString());
-      });
+      </div>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-outline-secondary btn-sm example-code-trigger">Show code</button>
+      <div class="example-code-container">
+        <div class="card-footer--legend">Code</div>
+        <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp1&quot; data-color=&quot;#6D2781&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control&quot; style=&quot;width:auto&quot;&#x2F;&gt; &lt;br&gt;
+&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp1&#39;)
+        .colorpicker({
+          inline: true,
+          container: true,
+          extensions: [
+            {
+              name: &#39;swatches&#39;,
+              options: {
+                colors: {
+                  &#39;tetrad1&#39;: &#39;#000&#39;,
+                  &#39;tetrad2&#39;: &#39;#000&#39;,
+                  &#39;tetrad3&#39;: &#39;#000&#39;,
+                  &#39;tetrad4&#39;: &#39;#000&#39;
+                },
+                namesAsValues: false
+              }
+            }
+          ]
+        })
+        .on(&#39;colorpickerChange colorpickerCreate&#39;, function (e) {
+          let colors = e.color.generate(&#39;tetrad&#39;);
+
+          colors.forEach(function (color, i) {
+            var colorStr = color.string(),
+                swatch = e.colorpicker.picker
+                    .find(&#39;.colorpicker-swatch[data-name=&quot;tetrad&#39; + (i + 1) + &#39;&quot;]&#39;);
+
+            swatch
+                .attr(&#39;data-value&#39;, colorStr)
+                .attr(&#39;title&#39;, colorStr)
+                .find(&#39;&gt; i&#39;)
+                .css(&#39;background-color&#39;, colorStr);
+          });
+        });
+  });
+&lt;&#x2F;script&gt;</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="example">
+  <div class="card card-default">
+      <div class="card-header example-title"><h2> Customize the colorpicker size </h2></div>
+    <div class="card-body">
+        <div class="example-description">
+                  <p>This example shows how to tweak the Colorpicker styles and settings to make it look bigger.</p>
+
+        </div>
+      <div class="example-demo">
+                <div id="cp2" data-color="#6D2781"></div>
+        <style>
+          .colorpicker-2x.colorpicker-with-alpha {
+            width: 272px;
+          }
+
+          .colorpicker-2x .colorpicker-saturation {
+            width: 200px;
+            height: 200px;
+          }
+
+          .colorpicker-2x .colorpicker-hue,
+          .colorpicker-2x .colorpicker-alpha {
+            width: 30px;
+            height: 200px;
+          }
+
+          .colorpicker-2x .colorpicker-alpha,
+          .colorpicker-2x .colorpicker-preview {
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+          }
+
+          .colorpicker-2x .colorpicker-preview,
+          .colorpicker-2x .colorpicker-preview div {
+            height: 30px;
+            font-size: 16px;
+            line-height: 160%;
+          }
+
+          .colorpicker-saturation .colorpicker-guide {
+            height: 10px;
+            width: 10px;
+            border-radius: 10px;
+            margin: -5px 0 0 -5px;
+          }
+        </style>
+        <script>
+          $(function () {
+            $('#cp2').colorpicker({
+              inline: true,
+              container: true,
+              customClass: 'colorpicker-2x',
+              sliders: {
+                saturation: {
+                  maxLeft: 200,
+                  maxTop: 200
+                },
+                hue: {
+                  maxTop: 200
+                },
+                alpha: {
+                  maxTop: 200
+                }
+              }
+            });
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-outline-secondary btn-sm example-code-trigger">Show code</button>
+      <div class="example-code-container">
+        <div class="card-footer--legend">Code</div>
+        <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp2&quot; data-color=&quot;#6D2781&quot;&gt;&lt;&#x2F;div&gt;
+&lt;style&gt;
+  .colorpicker-2x.colorpicker-with-alpha {
+    width: 272px;
+  }
+
+  .colorpicker-2x .colorpicker-saturation {
+    width: 200px;
+    height: 200px;
+  }
+
+  .colorpicker-2x .colorpicker-hue,
+  .colorpicker-2x .colorpicker-alpha {
+    width: 30px;
+    height: 200px;
+  }
+
+  .colorpicker-2x .colorpicker-alpha,
+  .colorpicker-2x .colorpicker-preview {
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+  }
+
+  .colorpicker-2x .colorpicker-preview,
+  .colorpicker-2x .colorpicker-preview div {
+    height: 30px;
+    font-size: 16px;
+    line-height: 160%;
+  }
+
+  .colorpicker-saturation .colorpicker-guide {
+    height: 10px;
+    width: 10px;
+    border-radius: 10px;
+    margin: -5px 0 0 -5px;
+  }
+&lt;&#x2F;style&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp2&#39;).colorpicker({
+      inline: true,
+      container: true,
+      customClass: &#39;colorpicker-2x&#39;,
+      sliders: {
+        saturation: {
+          maxLeft: 200,
+          maxTop: 200
+        },
+        hue: {
+          maxTop: 200
+        },
+        alpha: {
+          maxTop: 200
+        }
+      }
     });
-  &lt;/script>
-&lt;/body></code></pre><h2>Contributions</h2><ul>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/issues">Issues</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/pulls">Pull Requests</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/milestones">Milestones</a></li>
-<li><a href="https://github.com/farbelous/bootstrap-colorpicker/projects">Planned Features</a></li>
-</ul>
-<p>This project exists thanks to all the <a href="https://github.com/farbelous/bootstrap-colorpicker/graphs/contributors">people who contribute</a>.</p>
-<p>Please read <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md">CONTRIBUTING</a> 
-before sending a pull request or issue.</p>
-<h2>License</h2><p>The MIT License (MIT).
-Please see the <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/LICENSE">License File</a> for more information.</p>
-<h2>Credits</h2><p>Written and maintained by <a href="https://itsjavi.com">Javi Aguilar</a> and all other contributors.</p>
-<p><em>Based on Stefan Petre's color picker (2013).</em></p>
-<p><em>Thanks to JetBrains for supporting this project.</em></p></article>
-    </section>
+  });
+&lt;&#x2F;script&gt;</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="example">
+  <div class="card card-default">
+      <div class="card-header example-title"><h2> Customize the colorpicker template </h2></div>
+    <div class="card-body">
+        <div class="example-description">
+                  <p>This example shows how to use a custom template to hide some elements and/or add new ones.</p>
+
+        </div>
+      <div class="example-demo">
+                <div id="cp3" data-color="#305AA2"></div>
+        <script>
+          $(function () {
+            $('#cp3').colorpicker({
+                  inline: true,
+                  container: true,
+                  extensions: [],
+                  template: `<div class="colorpicker">
+                <div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>
+                <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
+                <div class="colorpicker-alpha">
+                    <div class="colorpicker-alpha-color"></div>
+                    <i class="colorpicker-guide"></i>
+                </div>
+                <div class="colorpicker-bar hsv-output"></div>
+              </div>`
+                })
+                .on('colorpickerChange colorpickerCreate', function (e) {
+                  var output = e.colorpicker.element
+                      .find('.hsv-output');
+                  var color = e.color.getCloneOpaque();
+
+                  output
+                      .html(e.color.toHslString())
+                      .css('background-color', color.toHexString());
+
+                  if (color.isDark()) {
+                    output.css('color', 'white');
+                  } else {
+                    output.css('color', 'black');
+                  }
+                });
+          });
+        </script>
+
+      </div>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-outline-secondary btn-sm example-code-trigger">Show code</button>
+      <div class="example-code-container">
+        <div class="card-footer--legend">Code</div>
+        <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp3&quot; data-color=&quot;#305AA2&quot;&gt;&lt;&#x2F;div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&#39;#cp3&#39;).colorpicker({
+          inline: true,
+          container: true,
+          extensions: [],
+          template: `&lt;div class=&quot;colorpicker&quot;&gt;
+        &lt;div class=&quot;colorpicker-saturation&quot;&gt;&lt;i class=&quot;colorpicker-guide&quot;&gt;&lt;&#x2F;i&gt;&lt;&#x2F;div&gt;
+        &lt;div class=&quot;colorpicker-hue&quot;&gt;&lt;i class=&quot;colorpicker-guide&quot;&gt;&lt;&#x2F;i&gt;&lt;&#x2F;div&gt;
+        &lt;div class=&quot;colorpicker-alpha&quot;&gt;
+            &lt;div class=&quot;colorpicker-alpha-color&quot;&gt;&lt;&#x2F;div&gt;
+            &lt;i class=&quot;colorpicker-guide&quot;&gt;&lt;&#x2F;i&gt;
+        &lt;&#x2F;div&gt;
+        &lt;div class=&quot;colorpicker-bar hsv-output&quot;&gt;&lt;&#x2F;div&gt;
+      &lt;&#x2F;div&gt;`
+        })
+        .on(&#39;colorpickerChange colorpickerCreate&#39;, function (e) {
+          var output = e.colorpicker.element
+              .find(&#39;.hsv-output&#39;);
+          var color = e.color.getCloneOpaque();
+
+          output
+              .html(e.color.toHslString())
+              .css(&#39;background-color&#39;, color.toHexString());
+
+          if (color.isDark()) {
+            output.css(&#39;color&#39;, &#39;white&#39;);
+          } else {
+            output.css(&#39;color&#39;, &#39;black&#39;);
+          }
+        });
+  });
+&lt;&#x2F;script&gt;</pre>
+      </div>
+    </div>
+  </div>
+</div>
 
 
+  </div>
+</div>
 
+</article>
 
-
+</section>
 
       </div>
     </div>
@@ -191,7 +422,7 @@ Please see the <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/
   </div>
 </div>
 
-<script src="dist/js/bootstrap-colorpicker.js?v=1532640436850"></script>
+<script src="dist/js/bootstrap-colorpicker.js?v=1532640436935"></script>
 
 
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
@@ -209,6 +440,6 @@ Please see the <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/
 
 <script src="scripts/prettify/prettify.js"></script>
 <script src="scripts/prettify/lang-css.js"></script>
-<script src="scripts/jsdoc.js?v=1532640436850"></script>
+<script src="scripts/jsdoc.js?v=1532640436935"></script>
 </body>
 </html>

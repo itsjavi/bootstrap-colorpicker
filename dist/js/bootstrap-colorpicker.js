@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.
  * @package bootstrap-colorpicker
- * @version v3.0.0
+ * @version v3.0.1
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -122,10 +122,13 @@ var Extension = function () {
     _classCallCheck(this, Extension);
 
     /**
+     * The colorpicker instance
      * @type {Colorpicker}
      */
     this.colorpicker = colorpicker;
     /**
+     * Extension options
+     *
      * @type {Object}
      */
     this.options = options;
@@ -165,6 +168,8 @@ var Extension = function () {
     }
 
     /**
+     * Method called after the colorpicker is created
+     *
      * @listens Colorpicker#colorpickerCreate
      * @param {Event} event
      */
@@ -176,6 +181,8 @@ var Extension = function () {
 
 
     /**
+     * Method called after the colorpicker is destroyed
+     *
      * @listens Colorpicker#colorpickerDestroy
      * @param {Event} event
      */
@@ -187,6 +194,8 @@ var Extension = function () {
     }
 
     /**
+     * Method called after the colorpicker is updated
+     *
      * @listens Colorpicker#colorpickerUpdate
      * @param {Event} event
      */
@@ -198,6 +207,8 @@ var Extension = function () {
 
 
     /**
+     * Method called after the colorpicker color is changed
+     *
      * @listens Colorpicker#colorpickerChange
      * @param {Event} event
      */
@@ -209,6 +220,8 @@ var Extension = function () {
 
 
     /**
+     * Method called when the colorpicker color is invalid
+     *
      * @listens Colorpicker#colorpickerInvalid
      * @param {Event} event
      */
@@ -220,6 +233,8 @@ var Extension = function () {
 
 
     /**
+     * Method called after the colorpicker is hidden
+     *
      * @listens Colorpicker#colorpickerHide
      * @param {Event} event
      */
@@ -231,6 +246,8 @@ var Extension = function () {
 
 
     /**
+     * Method called after the colorpicker is shown
+     *
      * @listens Colorpicker#colorpickerShow
      * @param {Event} event
      */
@@ -242,6 +259,8 @@ var Extension = function () {
 
 
     /**
+     * Method called after the colorpicker is disabled
+     *
      * @listens Colorpicker#colorpickerDisable
      * @param {Event} event
      */
@@ -253,6 +272,8 @@ var Extension = function () {
 
 
     /**
+     * Method called after the colorpicker is enabled
+     *
      * @listens Colorpicker#colorpickerEnable
      * @param {Event} event
      */
@@ -279,8 +300,12 @@ exports.default = Extension;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ColorItem = exports.HSVAColor = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Color manipulation class, specific for Bootstrap Colorpicker
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
+
 
 var _color = __webpack_require__(16);
 
@@ -288,19 +313,37 @@ var _color2 = _interopRequireDefault(_color);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /**
-                                                                                                                                                           * Color manipulation class, specific for Bootstrap Colorpicker
-                                                                                                                                                           */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/**
+ * HSVA color data class, containing the hue, saturation, value and alpha
+ * information.
+ */
+var HSVAColor = function () {
+  /**
+   * @param {number|int} h
+   * @param {number|int} s
+   * @param {number|int} v
+   * @param {number|int} a
+   */
+  function HSVAColor(h, s, v, a) {
+    _classCallCheck(this, HSVAColor);
 
-var HSVAColor = function HSVAColor(h, s, v, a) {
-  _classCallCheck(this, HSVAColor);
+    this.h = isNaN(h) ? 0 : h;
+    this.s = isNaN(s) ? 0 : s;
+    this.v = isNaN(v) ? 0 : v;
+    this.a = isNaN(h) ? 1 : a;
+  }
 
-  this.h = h;
-  this.s = s;
-  this.v = v;
-  this.a = a;
-};
+  _createClass(HSVAColor, [{
+    key: 'toString',
+    value: function toString() {
+      return this.h + ', ' + this.s + '%, ' + this.v + '%, ' + this.a;
+    }
+  }]);
+
+  return HSVAColor;
+}();
 
 /**
  * HSVA color manipulation
@@ -313,30 +356,43 @@ var ColorItem = function () {
 
 
     /**
-     * Applies a method of the QixColor API and returns a new Color object.
+     * Applies a method of the QixColor API and returns a new Color object or
+     * the return value of the method call.
+     *
+     * If no argument is provided, the internal QixColor object is returned.
      *
      * @param {String} fn QixColor function name
-     * @param args
-     * @returns {ColorItem|*}
+     * @param args QixColor function arguments
+     * @example let darkerColor = color.api('darken', 0.25);
+     * @example let luminosity = color.api('luminosity');
+     * @example color = color.api('negate');
+     * @example let qColor = color.api().negate();
+     * @returns {ColorItem|QixColor|*}
      */
     value: function api(fn) {
       for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
         args[_key - 1] = arguments[_key];
       }
 
-      var newColor = this._color[fn].apply(this._color, args);
-
-      if (!(newColor instanceof _color2.default)) {
-        return newColor;
+      if (arguments.length === 0) {
+        return this._color;
       }
 
-      return new ColorItem(newColor, this.format);
+      var result = this._color[fn].apply(this._color, args);
+
+      if (!(result instanceof _color2.default)) {
+        // return result of the method call
+        return result;
+      }
+
+      return new ColorItem(result, this.format);
     }
 
     /**
-     * Returns the original constructor data
+     * Returns the original ColorItem constructor data,
+     * plus a 'valid' flag to know if it's valid or not.
      *
-     * @returns {{color: *, format: String}}
+     * @returns {{color: *, format: String, valid: boolean}}
      */
 
   }, {
@@ -347,7 +403,7 @@ var ColorItem = function () {
 
     /**
      * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
-     * @param {String|null} format Color model to convert to by default
+     * @param {String|null} format Color model to convert to by default. Supported: 'rgb', 'hsl', 'hex'.
      */
 
   }], [{
@@ -357,6 +413,8 @@ var ColorItem = function () {
     /**
      * Returns the HSVAColor class
      *
+     * @static
+     * @example let colorData = new ColorItem.HSVAColor(360, 100, 100, 1);
      * @returns {HSVAColor}
      */
     get: function get() {
@@ -374,8 +432,13 @@ var ColorItem = function () {
   }
 
   /**
-   * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
-   * @param {String|null} format Color model to convert to by default
+   * Replaces the internal QixColor object with a new one.
+   * This also replaces the internal original color data.
+   *
+   * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data to be parsed (if needed)
+   * @param {String|null} format Color model to convert to by default. Supported: 'rgb', 'hsl', 'hex'.
+   * @example color.replace('rgb(255,0,0)', 'hsl');
+   * @example color.replace(hsvaColorData);
    */
 
 
@@ -421,17 +484,28 @@ var ColorItem = function () {
      * parsed.
      *
      * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
-     * @returns {QixColor}
+     * @example let qColor = ColorItem.parse('rgb(255,0,0)');
+     * @static
+     * @returns {QixColor|null}
      */
 
   }, {
     key: 'isValid',
+
+
+    /**
+     * Returns true if the color is valid, false if not.
+     *
+     * @returns {boolean}
+     */
     value: function isValid() {
       return this._original.valid === true;
     }
 
     /**
-     * @returns int
+     * Hue value from 0 to 360
+     *
+     * @returns {int}
      */
 
   }, {
@@ -439,81 +513,189 @@ var ColorItem = function () {
 
 
     /**
-     * @param {number} h Ratio from 0.0 to 1.0
+     * Sets the hue ratio, where 1.0 is 0, 0.5 is 180 and 0.0 is 360.
+     *
+     * @ignore
+     * @param {number} h Ratio from 1.0 to 0.0
      */
     value: function setHueRatio(h) {
       this.hue = (1 - h) * 360;
     }
 
     /**
-     * @param {number} s Ratio from 0.0 to 1.0
+     * Sets the saturation value
+     *
+     * @param {int} value Integer from 0 to 100
      */
 
   }, {
     key: 'setSaturationRatio',
+
+
+    /**
+     * Sets the saturation ratio, where 1.0 is 100 and 0.0 is 0.
+     *
+     * @ignore
+     * @param {number} s Ratio from 0.0 to 1.0
+     */
     value: function setSaturationRatio(s) {
       this.saturation = s * 100;
     }
 
     /**
-     * @param {number} v Ratio from 0.0 to 1.0
+     * Sets the 'value' channel value
+     *
+     * @param {int} value Integer from 0 to 100
      */
 
   }, {
-    key: 'setBrightnessRatio',
-    value: function setBrightnessRatio(l) {
-      this.value = (1 - l) * 100;
+    key: 'setValueRatio',
+
+
+    /**
+     * Sets the value ratio, where 1.0 is 0 and 0.0 is 100.
+     *
+     * @ignore
+     * @param {number} v Ratio from 1.0 to 0.0
+     */
+    value: function setValueRatio(v) {
+      this.value = (1 - v) * 100;
     }
 
     /**
-     * @param {number} a Ratio from 0.0 to 1.0
+     * Sets the alpha value. It will be rounded to 2 decimals.
+     *
+     * @param {int} value Float from 0.0 to 1.0
      */
 
   }, {
     key: 'setAlphaRatio',
+
+
+    /**
+     * Sets the alpha ratio, where 1.0 is 0.0 and 0.0 is 1.0.
+     *
+     * @ignore
+     * @param {number} a Ratio from 1.0 to 0.0
+     */
     value: function setAlphaRatio(a) {
       this.alpha = 1 - a;
     }
+
+    /**
+     * Sets the default color format
+     *
+     * @param {String} value Supported: 'rgb', 'hsl', 'hex'
+     */
+
   }, {
     key: 'isDesaturated',
+
+
+    /**
+     * Returns true if the saturation value is zero, false otherwise
+     *
+     * @returns {boolean}
+     */
     value: function isDesaturated() {
       return this.saturation === 0;
     }
+
+    /**
+     * Returns true if the alpha value is zero, false otherwise
+     *
+     * @returns {boolean}
+     */
+
   }, {
     key: 'isTransparent',
     value: function isTransparent() {
       return this.alpha === 0;
     }
+
+    /**
+     * Returns true if the alpha value is numeric and less than 1, false otherwise
+     *
+     * @returns {boolean}
+     */
+
   }, {
     key: 'hasTransparency',
     value: function hasTransparency() {
       return this.hasAlpha() && this.alpha < 1;
     }
+
+    /**
+     * Returns true if the alpha value is numeric, false otherwise
+     *
+     * @returns {boolean}
+     */
+
   }, {
     key: 'hasAlpha',
     value: function hasAlpha() {
-      return this.alpha !== false;
+      return !isNaN(this.alpha);
     }
+
+    /**
+     * Returns a new HSVAColor object, based on the current color
+     *
+     * @returns {HSVAColor}
+     */
+
   }, {
     key: 'toObject',
     value: function toObject() {
       return new HSVAColor(this.hue, this.saturation, this.value, this.alpha);
     }
+
+    /**
+     * Alias of toObject()
+     *
+     * @returns {HSVAColor}
+     */
+
   }, {
     key: 'toHsva',
     value: function toHsva() {
       return this.toObject();
     }
+
+    /**
+     * Returns a new HSVAColor object with the ratio values (from 0.0 to 1.0),
+     * based on the current color.
+     *
+     * @ignore
+     * @returns {HSVAColor}
+     */
+
   }, {
     key: 'toHsvaRatio',
     value: function toHsvaRatio() {
       return new HSVAColor(this.hue / 360, this.saturation / 100, this.value / 100, this.alpha);
     }
+
+    /**
+     * Converts the current color to its string representation,
+     * using the internal format of this instance.
+     *
+     * @returns {String}
+     */
+
   }, {
     key: 'toString',
     value: function toString() {
       return this.string();
     }
+
+    /**
+     * Converts the current color to its string representation,
+     * using the given format.
+     *
+     * @param {String|null} format Format to convert to. If empty or null, the internal format will be used.
+     * @returns {String}
+     */
+
   }, {
     key: 'string',
     value: function string() {
@@ -533,6 +715,17 @@ var ColorItem = function () {
 
       return str.round ? str.round().string() : str;
     }
+
+    /**
+     * Returns true if the given color values equals this one, false otherwise.
+     * The format is not compared.
+     * If any of the colors is invalid, the result will be false.
+     *
+     * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
+     *
+     * @returns {boolean}
+     */
+
   }, {
     key: 'equals',
     value: function equals(color) {
@@ -544,41 +737,100 @@ var ColorItem = function () {
 
       return this.hue === color.hue && this.saturation === color.saturation && this.value === color.value && this.alpha === color.alpha;
     }
+
+    /**
+     * Creates a copy of this instance
+     *
+     * @returns {ColorItem}
+     */
+
   }, {
     key: 'getClone',
     value: function getClone() {
       return new ColorItem(this._color, this.format);
     }
+
+    /**
+     * Creates a copy of this instance, only copying the hue value,
+     * and setting the others to its max value.
+     *
+     * @returns {ColorItem}
+     */
+
   }, {
     key: 'getCloneHueOnly',
     value: function getCloneHueOnly() {
       return new ColorItem([this.hue, 100, 100, 1], this.format);
     }
+
+    /**
+     * Creates a copy of this instance setting the alpha to the max.
+     *
+     * @returns {ColorItem}
+     */
+
   }, {
     key: 'getCloneOpaque',
     value: function getCloneOpaque() {
       return new ColorItem(this._color.alpha(1), this.format);
     }
+
+    /**
+     * Converts the color to a RGB string
+     *
+     * @returns {String}
+     */
+
   }, {
     key: 'toRgbString',
     value: function toRgbString() {
       return this.string('rgb');
     }
+
+    /**
+     * Converts the color to a Hexadecimal string
+     *
+     * @returns {String}
+     */
+
   }, {
     key: 'toHexString',
     value: function toHexString() {
       return this.string('hex');
     }
+
+    /**
+     * Converts the color to a HSL string
+     *
+     * @returns {String}
+     */
+
   }, {
     key: 'toHslString',
     value: function toHslString() {
       return this.string('hsl');
     }
+
+    /**
+     * Returns true if the color is dark, false otherwhise.
+     * This is useful to decide a text color.
+     *
+     * @returns {boolean}
+     */
+
   }, {
     key: 'isDark',
     value: function isDark() {
       return this._color.isDark();
     }
+
+    /**
+     * Returns true if the color is light, false otherwhise.
+     * This is useful to decide a text color.
+     *
+     * @returns {boolean}
+     */
+
   }, {
     key: 'isLight',
     value: function isLight() {
@@ -586,19 +838,26 @@ var ColorItem = function () {
     }
 
     /**
-     * @param {String} scheme One of: 'complementary', 'triad', 'tetrad', 'splitcomplement'
+     * Generates a list of colors using the given hue-based formula or the given array of hue values.
+     * Hue formulas can be extended using ColorItem.colorFormulas static property.
+     *
+     * @param {String|Number[]} formula Examples: 'complementary', 'triad', 'tetrad', 'splitcomplement', [180, 270]
+     * @example let colors = color.generate('triad');
+     * @example let colors = color.generate([45, 80, 112, 200]);
      * @returns {ColorItem[]}
      */
 
   }, {
-    key: 'getScheme',
-    value: function getScheme() {
-      var scheme = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'complementary';
+    key: 'generate',
+    value: function generate(formula) {
+      var hues = [];
 
-      var hues = ColorItem.colorSchemes[scheme];
-
-      if (!hues) {
-        throw new Error('No scheme found named ' + scheme);
+      if (Array.isArray(formula)) {
+        hues = formula;
+      } else if (!ColorItem.colorFormulas.hasOwnProperty(formula)) {
+        throw new Error('No color formula found with the name \'' + formula + '\'.');
+      } else {
+        hues = ColorItem.colorFormulas[formula];
       }
 
       var colors = [],
@@ -617,7 +876,21 @@ var ColorItem = function () {
     key: 'hue',
     get: function get() {
       return this._color.hue();
-    },
+    }
+
+    /**
+     * Saturation value from 0 to 100
+     *
+     * @returns {int}
+     */
+    ,
+
+
+    /**
+     * Sets the hue value
+     *
+     * @param {int} value Integer from 0 to 360
+     */
     set: function set(value) {
       this._color = this._color.hue(value);
     }
@@ -625,7 +898,14 @@ var ColorItem = function () {
     key: 'saturation',
     get: function get() {
       return this._color.saturationv();
-    },
+    }
+
+    /**
+     * Value channel value from 0 to 100
+     *
+     * @returns {int}
+     */
+    ,
     set: function set(value) {
       this._color = this._color.saturationv(value);
     }
@@ -633,7 +913,14 @@ var ColorItem = function () {
     key: 'value',
     get: function get() {
       return this._color.value();
-    },
+    }
+
+    /**
+     * Alpha value from 0.0 to 1.0
+     *
+     * @returns {number}
+     */
+    ,
     set: function set(value) {
       this._color = this._color.value(value);
     }
@@ -643,7 +930,14 @@ var ColorItem = function () {
       var a = this._color.alpha();
 
       return isNaN(a) ? 1 : a;
-    },
+    }
+
+    /**
+     * Default color format to convert to when calling toString() or string()
+     *
+     * @returns {String} 'rgb', 'hsl', 'hex' or ''
+     */
+    ,
     set: function set(value) {
       // 2 decimals max
       this._color = this._color.alpha(Math.round(value * 100) / 100);
@@ -685,6 +979,17 @@ var ColorItem = function () {
         return null;
       }
     }
+
+    /**
+     * Sanitizes a color string, adding missing hash to hexadecimal colors
+     * and converting 'transparent' to a color code.
+     *
+     * @param {String|*} str Color string
+     * @example let colorStr = ColorItem.sanitizeString('ffaa00');
+     * @static
+     * @returns {String|*}
+     */
+
   }, {
     key: 'sanitizeString',
     value: function sanitizeString(str) {
@@ -702,6 +1007,18 @@ var ColorItem = function () {
 
       return str;
     }
+
+    /**
+     * Detects if a value is a string and a color in hexadecimal format (in any variant).
+     *
+     * @param {String} str
+     * @example ColorItem.isHex('rgba(0,0,0)'); // false
+     * @example ColorItem.isHex('ffaa00'); // true
+     * @example ColorItem.isHex('#ffaa00'); // true
+     * @static
+     * @returns {boolean}
+     */
+
   }, {
     key: 'isHex',
     value: function isHex(str) {
@@ -711,10 +1028,22 @@ var ColorItem = function () {
 
       return !!str.match(/^#?[0-9a-f]{2,}$/i);
     }
+
+    /**
+     * Sanitizes a color format to one supported by web browsers.
+     * Returns an empty string of the format can't be recognised.
+     *
+     * @param {String|*} format
+     * @example ColorItem.sanitizeFormat('rgba'); // 'rgb'
+     * @example ColorItem.isHex('hex8'); // 'hex'
+     * @example ColorItem.isHex('invalid'); // ''
+     * @static
+     * @returns {String} 'rgb', 'hsl', 'hex' or ''.
+     */
+
   }, {
     key: 'sanitizeFormat',
     value: function sanitizeFormat(format) {
-      // return formats only supported by web browsers
       switch (format) {
         case 'hex':
         case 'hex3':
@@ -731,7 +1060,7 @@ var ColorItem = function () {
         case 'hsla':
         case 'hsv':
         case 'hsva':
-        case 'hwb':
+        case 'hwb': // HWB this is supported by Qix Color, but not by browsers
         case 'hwba':
           return 'hsl';
         default:
@@ -743,7 +1072,15 @@ var ColorItem = function () {
   return ColorItem;
 }();
 
-ColorItem.colorSchemes = {
+/**
+ * List of hue-based color formulas used by ColorItem.prototype.generate()
+ *
+ * @static
+ * @type {{complementary: number[], triad: number[], tetrad: number[], splitcomplement: number[]}}
+ */
+
+
+ColorItem.colorFormulas = {
   complementary: [180],
   triad: [0, 120, 240],
   tetrad: [0, 90, 180, 270],
@@ -751,6 +1088,8 @@ ColorItem.colorSchemes = {
 };
 
 exports.default = ColorItem;
+exports.HSVAColor = HSVAColor;
+exports.ColorItem = ColorItem;
 
 /***/ }),
 /* 3 */
@@ -961,7 +1300,7 @@ exports.default = {
       maxLeft: sliderSize,
       maxTop: sliderSize,
       callLeft: 'setSaturationRatio',
-      callTop: 'setBrightnessRatio'
+      callTop: 'setValueRatio'
     },
     hue: {
       selector: '.colorpicker-hue',
@@ -989,7 +1328,7 @@ exports.default = {
       maxLeft: sliderSize,
       maxTop: sliderSize,
       callLeft: 'setSaturationRatio',
-      callTop: 'setBrightnessRatio'
+      callTop: 'setValueRatio'
     },
     hue: {
       selector: '.colorpicker-hue',
@@ -1073,6 +1412,11 @@ var defaults = {
    */
   namesAsValues: true
 };
+
+/**
+ * Palette extension
+ * @ignore
+ */
 
 var Palette = function (_Extension) {
   _inherits(Palette, _Extension);
@@ -2390,7 +2734,7 @@ var Colorpicker = function () {
     }
 
     /**
-     * Color format
+     * Internal color format
      *
      * @type {String|null}
      */
@@ -2402,6 +2746,7 @@ var Colorpicker = function () {
     }
 
     /**
+     * Getter of the picker element
      *
      * @returns {jQuery|HTMLElement}
      */
@@ -2538,10 +2883,8 @@ var Colorpicker = function () {
   }
 
   /**
-   * Colorpicker bundled extension classes
-   *
-   * @static
-   * @type {{Extension}}
+   * Initializes the plugin
+   * @private
    */
 
 
@@ -2573,6 +2916,12 @@ var Colorpicker = function () {
       // Update widget, force if color is set manually in the options
       this.update(this.options.color !== false);
     }
+
+    /**
+     * Initializes the plugin extensions
+     * @private
+     */
+
   }, {
     key: 'initExtensions',
     value: function initExtensions() {
@@ -2588,7 +2937,7 @@ var Colorpicker = function () {
 
       // Register and instantiate extensions
       this.options.extensions.forEach(function (ext) {
-        _this.registerExtension(_extensions2.default[ext.name.toLowerCase()], ext.options || {});
+        _this.registerExtension(Colorpicker.extensions[ext.name.toLowerCase()], ext.options || {});
       });
     }
 
@@ -2655,7 +3004,6 @@ var Colorpicker = function () {
 
     /**
      * Hides the colorpicker widget.
-     * Hide is prevented when it is triggered by an event whose target element has been clicked/touched.
      *
      * @fires Colorpicker#colorpickerHide
      * @param {Event} [e]
@@ -2668,7 +3016,7 @@ var Colorpicker = function () {
     }
 
     /**
-     * Toggles the colorpicker between visible or hidden
+     * Toggles the colorpicker between visible and hidden.
      *
      * @fires Colorpicker#colorpickerShow
      * @fires Colorpicker#colorpickerHide
@@ -2843,18 +3191,23 @@ var Colorpicker = function () {
         type: eventName,
         colorpicker: this,
         color: color ? color : this.color,
-        value: value
+        value: value ? value : this.getValue()
       });
-    }
-  }], [{
-    key: 'getBundledExtensions',
-    value: function getBundledExtensions() {
-      return _extensions2.default;
     }
   }]);
 
   return Colorpicker;
 }();
+
+/**
+ * Colorpicker extension classes, indexed by extension name
+ *
+ * @static
+ * @type {Object} a map between the extension name and its class
+ */
+
+
+Colorpicker.extensions = _extensions2.default;
 
 exports.default = Colorpicker;
 
@@ -2933,6 +3286,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /**
  * Debugger extension class
  * @alias DebuggerExtension
+ * @ignore
  */
 var Debugger = function (_Extension) {
   _inherits(Debugger, _Extension);
@@ -3110,6 +3464,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * Color preview extension
+ * @ignore
+ */
 var Preview = function (_Extension) {
   _inherits(Preview, _Extension);
 
@@ -3200,6 +3558,11 @@ var defaults = {
   swatchTemplate: '<i class="colorpicker-swatch"><i class="colorpicker-swatch--inner"></i></i>'
 };
 
+/**
+ * Color swatches extension
+ * @ignore
+ */
+
 var Swatches = function (_Palette) {
   _inherits(Swatches, _Palette);
 
@@ -3289,6 +3652,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * Class that handles all configured sliders on mouse or touch events.
+ * @ignore
  */
 var SliderHandler = function () {
   /**
@@ -3571,6 +3935,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * Handles everything related to the UI of the colorpicker popup: show, hide, position,...
+ * @ignore
  */
 var PopupHandler = function () {
   /**
@@ -4032,6 +4397,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * Handles everything related to the colorpicker input
+ * @ignore
  */
 var InputHandler = function () {
   /**
@@ -5307,6 +5673,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * Handles everything related to the colorpicker color
+ * @ignore
  */
 var ColorHandler = function () {
   /**
@@ -5573,6 +5940,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * Handles everything related to the colorpicker UI
+ * @ignore
  */
 var PickerHandler = function () {
   /**
@@ -5715,6 +6083,7 @@ exports.default = PickerHandler;
 
 /**
  * Handles everything related to the colorpicker addon
+ * @ignore
  */
 
 Object.defineProperty(exports, "__esModule", {

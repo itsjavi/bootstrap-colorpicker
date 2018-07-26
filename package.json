@@ -18,7 +18,7 @@
   "author": "Javi Aguilar",
   "license": "MIT",
   "dependencies": {
-    "color": "^3.0.0",
+    "bootstrap": "^4.0",
     "jquery": ">=2.1.0"
   },
   "scripts": {
@@ -39,6 +39,7 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-env": "^1.6.1",
+    "color": "^3.0.0",
     "del": "^3.0.0",
     "eslint": "^4.11.0",
     "eslint-loader": "^1.9.0",

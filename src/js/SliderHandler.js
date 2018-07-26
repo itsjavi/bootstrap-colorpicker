@@ -9,14 +9,8 @@ import $ from 'jquery';
 class SliderHandler {
   /**
    * @param {Colorpicker} colorpicker
-   * @param {Window} root
-   * @param {Function|null} onMove
    */
-  constructor(colorpicker, root, onMove = null) {
-    /**
-     * @type {Window}
-     */
-    this.root = root;
+  constructor(colorpicker) {
     /**
      * @type {Colorpicker}
      */
@@ -38,7 +32,7 @@ class SliderHandler {
     /**
      * @type {Function}
      */
-    this.onMove = $.proxy(onMove || this.defaultOnMove, this);
+    this.onMove = $.proxy(this.defaultOnMove, this);
   }
 
   /**
@@ -99,7 +93,7 @@ class SliderHandler {
    * Unbinds any event bound by this handler
    */
   unbind() {
-    $(this.root.document).off({
+    $(this.colorpicker.picker).off({
       'mousemove.colorpicker': $.proxy(this.moved, this),
       'touchmove.colorpicker': $.proxy(this.moved, this),
       'mouseup.colorpicker': $.proxy(this.released, this),
@@ -122,8 +116,8 @@ class SliderHandler {
       e.pageX = e.originalEvent.touches[0].pageX;
       e.pageY = e.originalEvent.touches[0].pageY;
     }
-    e.stopPropagation();
-    e.preventDefault();
+    // e.stopPropagation();
+    // e.preventDefault();
 
     let target = $(e.target);
 
@@ -178,7 +172,7 @@ class SliderHandler {
      *
      * @event Colorpicker#mousemove
      */
-    $(this.root.document).on({
+    $(this.colorpicker.picker).on({
       'mousemove.colorpicker': $.proxy(this.moved, this),
       'touchmove.colorpicker': $.proxy(this.moved, this),
       'mouseup.colorpicker': $.proxy(this.released, this),
@@ -201,8 +195,8 @@ class SliderHandler {
       e.pageY = e.originalEvent.touches[0].pageY;
     }
 
-    e.stopPropagation();
-    e.preventDefault();
+    // e.stopPropagation();
+    e.preventDefault(); // prevents scrolling on mobile
 
     let left = Math.max(
       0,
@@ -233,10 +227,10 @@ class SliderHandler {
     this.colorpicker.lastEvent.alias = 'released';
     this.colorpicker.lastEvent.e = e;
 
-    e.stopPropagation();
-    e.preventDefault();
+    // e.stopPropagation();
+    // e.preventDefault();
 
-    $(this.root.document).off({
+    $(this.colorpicker.picker).off({
       'mousemove.colorpicker': this.moved,
       'touchmove.colorpicker': this.moved,
       'mouseup.colorpicker': this.released,

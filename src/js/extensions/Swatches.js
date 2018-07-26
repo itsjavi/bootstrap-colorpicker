@@ -52,7 +52,7 @@ class Swatches extends Palette {
           function (e) {
             let $sw = $(this);
 
-            e.preventDefault();
+            // e.preventDefault();
 
             colorpicker.setValue(isAliased ? $sw.attr('data-name') : $sw.attr('data-value'));
           }

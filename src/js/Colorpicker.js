@@ -139,7 +139,7 @@ class Colorpicker {
     /**
      * @type {SliderHandler}
      */
-    this.sliderHandler = new SliderHandler(this, root);
+    this.sliderHandler = new SliderHandler(this);
     /**
      * @type {PopupHandler}
      */

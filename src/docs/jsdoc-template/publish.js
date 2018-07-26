@@ -345,7 +345,9 @@ function buildNav(members) {
   conf.default = conf.default || {}
   var tutorialsTitle = conf.default.tutorialsTitle || "Tutorials"
 
-  nav.push(buildNavLink('home', '<a href="index.html">Home</a>'))
+  nav.push(buildNavLink('logo', '<a class="nav-logo" href="index.html" title="Bootstrap Colorpicker">' +
+    '<img alt="Home" src="logo.png" /></a>' +
+    '<span class="nav-logo-title">Bootstrap Colorpicker</span>'))
 
   // add searchBox
   if (env.conf.templates.default.searchBox && (env.conf.templates.default.searchBox.enabled !== false)) {

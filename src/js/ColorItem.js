@@ -43,26 +43,39 @@ class ColorItem {
   }
 
   /**
-   * Applies a method of the QixColor API and returns a new Color object.
+   * Applies a method of the QixColor API and returns a new Color object or
+   * the return value of the method call.
+   *
+   * If no argument is provided, the internal QixColor object is returned.
    *
    * @param {String} fn QixColor function name
-   * @param args
-   * @returns {ColorItem|*}
+   * @param args QixColor function arguments
+   * @example let darkerColor = color.api('darken', 0.25);
+   * @example let luminosity = color.api('luminosity');
+   * @example color = color.api('negate');
+   * @example let qColor = color.api().negate();
+   * @returns {ColorItem|QixColor|*}
    */
   api(fn, ...args) {
-    let newColor = this._color[fn].apply(this._color, args);
-
-    if (!(newColor instanceof QixColor)) {
-      return newColor;
+    if (arguments.length === 0) {
+      return this._color;
     }
 
-    return new ColorItem(newColor, this.format);
+    let result = this._color[fn].apply(this._color, args);
+
+    if (!(result instanceof QixColor)) {
+      // return result of the method call
+      return result;
+    }
+
+    return new ColorItem(result, this.format);
   }
 
   /**
-   * Returns the original constructor data
+   * Returns the original ColorItem constructor data,
+   * plus a 'valid' flag to know if it's valid or not.
    *
-   * @returns {{color: *, format: String}}
+   * @returns {{color: *, format: String, valid: boolean}}
    */
   get original() {
     return this._original;
@@ -70,15 +83,20 @@ class ColorItem {
 
   /**
    * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
-   * @param {String|null} format Color model to convert to by default
+   * @param {String|null} format Color model to convert to by default. Supported: 'rgb', 'hsl', 'hex'.
    */
   constructor(color = null, format = null) {
     this.replace(color, format);
   }
 
   /**
-   * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
-   * @param {String|null} format Color model to convert to by default
+   * Replaces the internal QixColor object with a new one.
+   * This also replaces the internal original color data.
+   *
+   * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data to be parsed (if needed)
+   * @param {String|null} format Color model to convert to by default. Supported: 'rgb', 'hsl', 'hex'.
+   * @example color.replace('rgb(255,0,0)', 'hsl');
+   * @example color.replace(hsvaColorData);
    */
   replace(color, format = null) {
     let fallback = null;

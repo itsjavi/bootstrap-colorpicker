@@ -207,7 +207,7 @@ export default {
       maxLeft: sliderSize,
       maxTop: sliderSize,
       callLeft: 'setSaturationRatio',
-      callTop: 'setBrightnessRatio'
+      callTop: 'setValueRatio'
     },
     hue: {
       selector: '.colorpicker-hue',
@@ -235,7 +235,7 @@ export default {
       maxLeft: sliderSize,
       maxTop: sliderSize,
       callLeft: 'setSaturationRatio',
-      callTop: 'setBrightnessRatio'
+      callTop: 'setValueRatio'
     },
     hue: {
       selector: '.colorpicker-hue',

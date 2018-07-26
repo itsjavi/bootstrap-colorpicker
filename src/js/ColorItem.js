@@ -137,7 +137,9 @@ class ColorItem {
    * parsed.
    *
    * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
-   * @returns {QixColor}
+   * @example let qColor = ColorItem.parse('rgb(255,0,0)');
+   * @static
+   * @returns {QixColor|null}
    */
   static parse(color) {
     if (color instanceof QixColor) {
@@ -167,6 +169,15 @@ class ColorItem {
     }
   }
 
+  /**
+   * Sanitizes a color string, adding missing hash to hexadecimal colors
+   * and converting 'transparent' to a color code.
+   *
+   * @param {String|*} str Color string
+   * @example let colorStr = ColorItem.sanitizeString('ffaa00');
+   * @static
+   * @returns {String|*}
+   */
   static sanitizeString(str) {
     if (!(typeof str === 'string' || str instanceof String)) {
       return str;
@@ -183,6 +194,16 @@ class ColorItem {
     return str;
   }
 
+  /**
+   * Detects if a value is a string and a color in hexadecimal format (in any variant).
+   *
+   * @param {String} str
+   * @example ColorItem.isHex('rgba(0,0,0)'); // false
+   * @example ColorItem.isHex('ffaa00'); // true
+   * @example ColorItem.isHex('#ffaa00'); // true
+   * @static
+   * @returns {boolean}
+   */
   static isHex(str) {
     if (!(typeof str === 'string' || str instanceof String)) {
       return false;
@@ -191,8 +212,18 @@ class ColorItem {
     return !!str.match(/^#?[0-9a-f]{2,}$/i);
   }
 
+  /**
+   * Sanitizes a color format to one supported by web browsers.
+   * Returns an empty string of the format can't be recognised.
+   *
+   * @param {String|*} format
+   * @example ColorItem.sanitizeFormat('rgba'); // 'rgb'
+   * @example ColorItem.isHex('hex8'); // 'hex'
+   * @example ColorItem.isHex('invalid'); // ''
+   * @static
+   * @returns {String} 'rgb', 'hsl', 'hex' or ''.
+   */
   static sanitizeFormat(format) {
-    // return formats only supported by web browsers
     switch (format) {
       case 'hex':
       case 'hex3':
@@ -209,7 +240,7 @@ class ColorItem {
       case 'hsla':
       case 'hsv':
       case 'hsva':
-      case 'hwb':
+      case 'hwb': // HWB this is supported by Qix Color, but not by browsers
       case 'hwba':
         return 'hsl';
       default :
@@ -217,64 +248,94 @@ class ColorItem {
     }
   }
 
+  /**
+   * Returns true if the color is valid, false if not.
+   *
+   * @returns {boolean}
+   */
   isValid() {
     return this._original.valid === true;
   }
 
   /**
-   * @returns int
+   * Hue value from 0 to 360
+   *
+   * @returns {int}
    */
   get hue() {
     return this._color.hue();
   }
 
+  /**
+   * Saturation value from 0 to 100
+   *
+   * @returns {int}
+   */
   get saturation() {
     return this._color.saturationv();
   }
 
+  /**
+   * Value channel value from 0 to 100
+   *
+   * @returns {int}
+   */
   get value() {
     return this._color.value();
   }
 
+  /**
+   * Alpha value from 0.0 to 1.0
+   *
+   * @returns {number}
+   */
   get alpha() {
     let a = this._color.alpha();
 
     return isNaN(a) ? 1 : a;
   }
 
+  /**
+   * Default color format to convert to when calling toString() or string()
+   *
+   * @returns {String} 'rgb', 'hsl', 'hex' or ''
+   */
   get format() {
     return this._format ? this._format : this._color.model;
   }
 
+  /**
+   * Sets the hue value
+   *
+   * @param {int} value Integer from 0 to 360
+   */
   set hue(value) {
     this._color = this._color.hue(value);
   }
 
-  set saturation(value) {
-    this._color = this._color.saturationv(value);
-  }
-
-  set value(value) {
-    this._color = this._color.value(value);
-  }
-
-  set alpha(value) {
-    // 2 decimals max
-    this._color = this._color.alpha(Math.round(value * 100) / 100);
-  }
-
-  set format(value) {
-    this._format = ColorItem.sanitizeFormat(value);
-  }
-
   /**
-   * @param {number} h Ratio from 0.0 to 1.0
+   * Sets the hue ratio, where 1.0 is 0, 0.5 is 180 and 0.0 is 360.
+   *
+   * @ignore
+   * @param {number} h Ratio from 1.0 to 0.0
    */
   setHueRatio(h) {
     this.hue = ((1 - h) * 360);
   }
 
   /**
+   * Sets the saturation value
+   *
+   * @param {int} value Integer from 0 to 100
+   */
+  set saturation(value) {
+    this._color = this._color.saturationv(value);
+  }
+
+  /**
+   * Sets the saturation ratio, where 1.0 is 100 and 0.0 is 0.
+   *
+   * @ignore
    * @param {number} s Ratio from 0.0 to 1.0
    */
   setSaturationRatio(s) {
@@ -282,43 +343,114 @@ class ColorItem {
   }
 
   /**
-   * @param {number} v Ratio from 0.0 to 1.0
+   * Sets the 'value' channel value
+   *
+   * @param {int} value Integer from 0 to 100
    */
-  setBrightnessRatio(l) {
-    this.value = (1 - l) * 100;
+  set value(value) {
+    this._color = this._color.value(value);
   }
 
   /**
-   * @param {number} a Ratio from 0.0 to 1.0
+   * Sets the value ratio, where 1.0 is 0 and 0.0 is 100.
+   *
+   * @ignore
+   * @param {number} v Ratio from 1.0 to 0.0
+   */
+  setValueRatio(v) {
+    this.value = ((1 - v) * 100);
+  }
+
+  /**
+   * Sets the alpha value. It will be rounded to 2 decimals.
+   *
+   * @param {int} value Float from 0.0 to 1.0
+   */
+  set alpha(value) {
+    // 2 decimals max
+    this._color = this._color.alpha(Math.round(value * 100) / 100);
+  }
+
+  /**
+   * Sets the alpha ratio, where 1.0 is 0.0 and 0.0 is 1.0.
+   *
+   * @ignore
+   * @param {number} a Ratio from 1.0 to 0.0
    */
   setAlphaRatio(a) {
     this.alpha = 1 - a;
   }
 
+  /**
+   * Sets the default color format
+   *
+   * @param {String} value Supported: 'rgb', 'hsl', 'hex'
+   */
+  set format(value) {
+    this._format = ColorItem.sanitizeFormat(value);
+  }
+
+  /**
+   * Returns true if the saturation value is zero, false otherwise
+   *
+   * @returns {boolean}
+   */
   isDesaturated() {
     return this.saturation === 0;
   }
 
+  /**
+   * Returns true if the alpha value is zero, false otherwise
+   *
+   * @returns {boolean}
+   */
   isTransparent() {
     return this.alpha === 0;
   }
 
+  /**
+   * Returns true if the alpha value is numeric and less than 1, false otherwise
+   *
+   * @returns {boolean}
+   */
   hasTransparency() {
     return this.hasAlpha() && (this.alpha < 1);
   }
 
+  /**
+   * Returns true if the alpha value is numeric, false otherwise
+   *
+   * @returns {boolean}
+   */
   hasAlpha() {
-    return (this.alpha !== false);
+    return !isNaN(this.alpha);
   }
 
+  /**
+   * Returns a new HSVAColor object, based on the current color
+   *
+   * @returns {HSVAColor}
+   */
   toObject() {
     return new HSVAColor(this.hue, this.saturation, this.value, this.alpha);
   }
 
+  /**
+   * Alias of toObject()
+   *
+   * @returns {HSVAColor}
+   */
   toHsva() {
     return this.toObject();
   }
 
+  /**
+   * Returns a new HSVAColor object with the ratio values (from 0.0 to 1.0),
+   * based on the current color.
+   *
+   * @ignore
+   * @returns {HSVAColor}
+   */
   toHsvaRatio() {
     return new HSVAColor(
       this.hue / 360,
@@ -328,10 +460,23 @@ class ColorItem {
     );
   }
 
+  /**
+   * Converts the current color to its string representation,
+   * using the internal format of this instance.
+   *
+   * @returns {String}
+   */
   toString() {
     return this.string();
   }
 
+  /**
+   * Converts the current color to its string representation,
+   * using the given format.
+   *
+   * @param {String|null} format Format to convert to. If empty or null, the internal format will be used.
+   * @returns {String}
+   */
   string(format = null) {
     format = ColorItem.sanitizeFormat(format ? format : this.format);
 
@@ -348,6 +493,15 @@ class ColorItem {
     return str.round ? str.round().string() : str;
   }
 
+  /**
+   * Returns true if the given color values equals this one, false otherwise.
+   * The format is not compared.
+   * If any of the colors is invalid, the result will be false.
+   *
+   * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
+   *
+   * @returns {boolean}
+   */
   equals(color) {
     color = (color instanceof ColorItem) ? color : new ColorItem(color);
 

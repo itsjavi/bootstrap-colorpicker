@@ -1,6 +1,6 @@
 //'use strict';
 
-import TColor from '../src/js/ColorItem';
+import ColorItem from '../src/js/ColorItem';
 import test from 'ava';
 
 let dataset = [
@@ -20,6 +20,6 @@ dataset.forEach(function (data, i) {
   let value = data[0], expectedValue = data[1], format = data[2];
 
   test(`ColorItem.string #${i} expects ${expectedValue}`, t => {
-    t.is((new TColor(value)).string(format), expectedValue);
+    t.is((new ColorItem(value)).string(format), expectedValue);
   });
 });

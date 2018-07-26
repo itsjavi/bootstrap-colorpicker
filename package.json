@@ -52,6 +52,7 @@
     "gulp-sass": "^2.3.2",
     "gulp-shell": "^0.6.3",
     "gulp-sourcemaps": "^2.6.1",
+    "gulp-string-replace": "^1.1.1",
     "handlebars-layouts": "^3.1.4",
     "http-server": "^0.10.0",
     "jsdoc": "^3.5.5",

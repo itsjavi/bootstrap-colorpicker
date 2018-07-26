@@ -14,6 +14,7 @@ const autoprefixer = require('gulp-autoprefixer');
 const cleanCss = require('gulp-clean-css');
 const fs = require('fs');
 const pkg = JSON.parse(fs.readFileSync('./package.json'));
+const replace = require('gulp-string-replace');
 
 handlebars.Handlebars.registerHelper(handlebarsLayouts(handlebars.Handlebars));
 
@@ -138,7 +139,17 @@ gulp.task('docs:clean', function () {
   return del([docsDir + '/*']);
 });
 
-gulp.task('docs:compile', ['examples:compile'], shell.task([
+gulp.task('docs:replace-data', function () {
+  gulp.src(["./README.md"])
+    .pipe(
+      replace(
+        new RegExp('<!--version-->', 'g'),
+        '<!--googleoff: index--><h2 class="pkg-version">v' + pkg.version + '</h2><!--googleon: index-->'
+      ))
+    .pipe(gulp.dest('./build'))
+});
+
+gulp.task('docs:compile', ['examples:compile', 'docs:replace-data'], shell.task([
   'echo "Compiling docs..."',
   'node_modules/.bin/jsdoc --configure .jsdoc.json --verbose'
 ]));

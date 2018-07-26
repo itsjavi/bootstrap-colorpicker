@@ -8,7 +8,7 @@
   "source": {
     "include": [
       "src/js/",
-      "README.md"
+      "build/README.md"
     ],
     "includePattern": ".js$"
   },

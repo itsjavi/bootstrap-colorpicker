@@ -1,8 +1,10 @@
-<a href="https://farbelous.io/bootstrap-colorpicker">
+<a class="readme-logo" href="https://farbelous.io/bootstrap-colorpicker">
     <img alt="Logo by @reallinfo" src="logo.png" width="128px" />
 </a>
 
 # Bootstrap Colorpicker
+
+<!--version-->
 
 [Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) Bootstrap Colorpicker is a modular 
 color picker plugin for Bootstrap 4.
@@ -28,7 +30,7 @@ and then building the code using `npm run build`.
 
 ## Versions
 
-<table class="table">
+<table class="table table-bordered table-striped">
   <thead>
     <tr>
         <th>Colorpicker version</th>
@@ -83,8 +85,8 @@ dependencies.
   <link href="dist/css/bootstrap-colorpicker.css" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-      <h1>Demo</h1>
+  <div class="jumbotron">
+      <h1>Bootstrap Colorpicker Demo</h1>
       <input id="demo" type="text" class="form-control" value="rgb(255, 128, 0)" />
   </div>
   <script src="//code.jquery.com/jquery-3.3.1.js"></script>
@@ -95,9 +97,9 @@ dependencies.
       // Basic instantiation:
       $('#demo').colorpicker();
       
-      // Example using an event, to change the color of the h1 background:
+      // Example using an event, to change the color of the .jumbotron background:
       $('#demo').on('colorpickerChange', function(event) {
-        $('.container > h1').css('background-color', event.color.toString());
+        $('.jumbotron').css('background-color', event.color.toString());
       });
     });
   </script>

@@ -140,13 +140,13 @@ gulp.task('docs:clean', function () {
 });
 
 gulp.task('docs:replace-data', function () {
-  gulp.src(["./README.md"])
+  gulp.src(['./README.md'])
     .pipe(
       replace(
         new RegExp('<!--version-->', 'g'),
         '<!--googleoff: index--><h2 class="pkg-version">v' + pkg.version + '</h2><!--googleon: index-->'
       ))
-    .pipe(gulp.dest('./build'))
+    .pipe(gulp.dest('./build'));
 });
 
 gulp.task('docs:compile', ['examples:compile', 'docs:replace-data'], shell.task([

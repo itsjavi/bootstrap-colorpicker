@@ -2,34 +2,19 @@
   "Basics": {
     "title": "Getting started"
   },
-  "Bootstrap": {
-    "title": "Bootstrap integration"
+  "p02_Advanced_Examples": {
+    "title": "Advanced examples"
   },
-  "ColorApi": {
-    "title": "Color manipulation"
+  "p03_Colorpicker_Events": {
+    "title": "Events"
   },
-  "ColorSwatches": {
-    "title": "Color swatches"
-  },
-  "CustomSize": {
-    "title": "Custom size"
-  },
-  "CustomTemplate": {
-    "title": "Custom template"
-  },
-  "DebugMode": {
-    "title": "Debug mode"
-  },
-  "Events": {
-    "title": "Event handling"
-  },
-  "ExtensionApi": {
+  "p04_Colorpicker_Extensions": {
     "title": "Extensions"
   },
-  "legacy_docs": {
+  "p05_OlderVersions": {
     "title": "Older versions"
   },
-  "project_donations": {
+  "p06_SupportUs": {
     "title": "Support this project"
   }
 }

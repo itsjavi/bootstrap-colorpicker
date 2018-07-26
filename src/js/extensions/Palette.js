@@ -37,6 +37,10 @@ let defaults = {
   namesAsValues: true
 };
 
+/**
+ * Palette extension
+ * @ignore
+ */
 class Palette extends Extension {
 
   /**

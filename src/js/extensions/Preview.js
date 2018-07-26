@@ -3,6 +3,10 @@
 import Extension from 'Extension';
 import $ from 'jquery';
 
+/**
+ * Color preview extension
+ * @ignore
+ */
 class Preview extends Extension {
   constructor(colorpicker, options = {}) {
     super(colorpicker, $.extend(true, {},

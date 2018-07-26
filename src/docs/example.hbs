@@ -14,9 +14,12 @@
       </div>
     </div>
     <div class="card-footer">
-      <div class="card-footer--legend">Code</div>
-      <pre class="example-code prettyprint lang-html">
-        {{~#code}}{{~#block "code"}}{{~/block}}{{~/code}}</pre>
+      <button class="btn btn-outline-secondary btn-sm example-code-trigger">Show code</button>
+      <div class="example-code-container">
+        <div class="card-footer--legend">Code</div>
+        <pre class="example-code prettyprint lang-html">
+          {{~#code}}{{~#block "code"}}{{~/block}}{{~/code}}</pre>
+      </div>
     </div>
   </div>
 </div>

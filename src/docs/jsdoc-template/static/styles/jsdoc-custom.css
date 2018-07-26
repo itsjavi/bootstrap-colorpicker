@@ -147,3 +147,17 @@ var, code {
     width: 100%;
   }
 }
+
+.section-examples {
+  margin-top: 30px;
+}
+
+.example-code-container {
+  display: none;
+  margin-top: 10px;
+}
+
+.example-code-container.collapsing,
+.example-code-container.collapse.show {
+  display: block;
+}

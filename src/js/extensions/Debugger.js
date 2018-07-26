@@ -6,6 +6,7 @@ import $ from 'jquery';
 /**
  * Debugger extension class
  * @alias DebuggerExtension
+ * @ignore
  */
 class Debugger extends Extension {
   constructor(colorpicker, options = {}) {

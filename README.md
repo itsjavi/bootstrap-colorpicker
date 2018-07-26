@@ -43,7 +43,7 @@ and then building the code using `npm run build`.
           <a href="https://github.com/farbelous/bootstrap-colorpicker/tree/v2.x">v2.x</a> <br>
           <a href="https://farbelous.github.io/bootstrap-colorpicker/v2">Documentation</a>
         </td>
-        <td>Bootstrap 3 & 4</td>
+        <td>(any)</td>
         <td>
           <ul>
             <li>jQuery >= 1.10</li>

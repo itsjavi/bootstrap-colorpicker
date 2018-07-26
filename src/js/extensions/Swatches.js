@@ -10,6 +10,10 @@ let defaults = {
   swatchTemplate: '<i class="colorpicker-swatch"><i class="colorpicker-swatch--inner"></i></i>'
 };
 
+/**
+ * Color swatches extension
+ * @ignore
+ */
 class Swatches extends Palette {
   constructor(colorpicker, options = {}) {
     super(colorpicker, $.extend(true, {}, defaults, options));

@@ -1,0 +1,173 @@
+{{#extend "example-group"}}
+  {{#content "body"}}
+
+    {{#extend "example"}}
+      {{#content "title"}} Add complementary color swatches {{/content}}
+      {{#content "description"}}
+        <p>
+          The colorpicker <a href="ColorItem.html">ColorItem</a> class uses and comes bundled with
+          <a href="https://github.com/Qix-/color">Qix Color</a>,
+          a great color parsing library with a friendly API that allows you to manipulate and convert the color.
+          <a href="ColorItem.html">ColorItem</a> is just an abstraction layer on top of the library, which is more
+          convenient for Bootstrap Colorpicker.
+        </p>
+
+        <p>In this example we use the ColorItem API to add color swatches based on a tetrad of the selected color.</p>
+      {{/content}}
+      {{#content "code"}}
+        <div id="cp1" data-color="#6D2781">
+          <input type="text" class="form-control" style="width:auto"/> <br>
+        </div>
+        <script>
+          $(function () {
+            $('#cp1')
+                .colorpicker({
+                  inline: true,
+                  container: true,
+                  extensions: [
+                    {
+                      name: 'swatches',
+                      options: {
+                        colors: {
+                          'tetrad1': '#000',
+                          'tetrad2': '#000',
+                          'tetrad3': '#000',
+                          'tetrad4': '#000'
+                        },
+                        namesAsValues: false
+                      }
+                    }
+                  ]
+                })
+                .on('colorpickerChange colorpickerCreate', function (e) {
+                  let colors = e.color.generate('tetrad');
+
+                  colors.forEach(function (color, i) {
+                    var colorStr = color.string(),
+                        swatch = e.colorpicker.picker
+                            .find('.colorpicker-swatch[data-name="tetrad' + (i + 1) + '"]');
+
+                    swatch
+                        .attr('data-value', colorStr)
+                        .attr('title', colorStr)
+                        .find('> i')
+                        .css('background-color', colorStr);
+                  });
+                });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+
+    {{#extend "example"}}
+      {{#content "title"}} Customize the colorpicker size {{/content}}
+      {{#content "description"}}
+        <p>This example shows how to tweak the Colorpicker styles and settings to make it look bigger.</p>
+      {{/content}}
+      {{#content "code"}}
+        <div id="cp2" data-color="#6D2781"></div>
+        <style>
+          .colorpicker-2x.colorpicker-with-alpha {
+            width: 272px;
+          }
+
+          .colorpicker-2x .colorpicker-saturation {
+            width: 200px;
+            height: 200px;
+          }
+
+          .colorpicker-2x .colorpicker-hue,
+          .colorpicker-2x .colorpicker-alpha {
+            width: 30px;
+            height: 200px;
+          }
+
+          .colorpicker-2x .colorpicker-alpha,
+          .colorpicker-2x .colorpicker-preview {
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+          }
+
+          .colorpicker-2x .colorpicker-preview,
+          .colorpicker-2x .colorpicker-preview div {
+            height: 30px;
+            font-size: 16px;
+            line-height: 160%;
+          }
+
+          .colorpicker-saturation .colorpicker-guide {
+            height: 10px;
+            width: 10px;
+            border-radius: 10px;
+            margin: -5px 0 0 -5px;
+          }
+        </style>
+        <script>
+          $(function () {
+            $('#cp2').colorpicker({
+              inline: true,
+              container: true,
+              customClass: 'colorpicker-2x',
+              sliders: {
+                saturation: {
+                  maxLeft: 200,
+                  maxTop: 200
+                },
+                hue: {
+                  maxTop: 200
+                },
+                alpha: {
+                  maxTop: 200
+                }
+              }
+            });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+
+    {{#extend "example"}}
+      {{#content "title"}} Customize the colorpicker template {{/content}}
+      {{#content "description"}}
+        <p>This example shows how to use a custom template to hide some elements and/or add new ones.</p>
+      {{/content}}
+      {{#content "code"}}
+        <div id="cp3" data-color="#305AA2"></div>
+        <script>
+          $(function () {
+            $('#cp3').colorpicker({
+                  inline: true,
+                  container: true,
+                  extensions: [],
+                  template: `<div class="colorpicker">
+                <div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>
+                <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
+                <div class="colorpicker-alpha">
+                    <div class="colorpicker-alpha-color"></div>
+                    <i class="colorpicker-guide"></i>
+                </div>
+                <div class="colorpicker-bar hsv-output"></div>
+              </div>`
+                })
+                .on('colorpickerChange colorpickerCreate', function (e) {
+                  var output = e.colorpicker.element
+                      .find('.hsv-output');
+                  var color = e.color.getCloneOpaque();
+
+                  output
+                      .html(e.color.toHslString())
+                      .css('background-color', color.toHexString());
+
+                  if (color.isDark()) {
+                    output.css('color', 'white');
+                  } else {
+                    output.css('color', 'black');
+                  }
+                });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+
+  {{/content}}
+{{/extend}}

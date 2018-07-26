@@ -12,10 +12,13 @@ class Extension {
    */
   constructor(colorpicker, options = {}) {
     /**
+     * The colorpicker instance
      * @type {Colorpicker}
      */
     this.colorpicker = colorpicker;
     /**
+     * Extension options
+     *
      * @type {Object}
      */
     this.options = options;
@@ -49,6 +52,8 @@ class Extension {
   }
 
   /**
+   * Method called after the colorpicker is created
+   *
    * @listens Colorpicker#colorpickerCreate
    * @param {Event} event
    */
@@ -57,6 +62,8 @@ class Extension {
   }
 
   /**
+   * Method called after the colorpicker is destroyed
+   *
    * @listens Colorpicker#colorpickerDestroy
    * @param {Event} event
    */
@@ -65,6 +72,8 @@ class Extension {
   }
 
   /**
+   * Method called after the colorpicker is updated
+   *
    * @listens Colorpicker#colorpickerUpdate
    * @param {Event} event
    */
@@ -73,6 +82,8 @@ class Extension {
   }
 
   /**
+   * Method called after the colorpicker color is changed
+   *
    * @listens Colorpicker#colorpickerChange
    * @param {Event} event
    */
@@ -81,6 +92,8 @@ class Extension {
   }
 
   /**
+   * Method called when the colorpicker color is invalid
+   *
    * @listens Colorpicker#colorpickerInvalid
    * @param {Event} event
    */
@@ -89,6 +102,8 @@ class Extension {
   }
 
   /**
+   * Method called after the colorpicker is hidden
+   *
    * @listens Colorpicker#colorpickerHide
    * @param {Event} event
    */
@@ -97,6 +112,8 @@ class Extension {
   }
 
   /**
+   * Method called after the colorpicker is shown
+   *
    * @listens Colorpicker#colorpickerShow
    * @param {Event} event
    */
@@ -105,6 +122,8 @@ class Extension {
   }
 
   /**
+   * Method called after the colorpicker is disabled
+   *
    * @listens Colorpicker#colorpickerDisable
    * @param {Event} event
    */
@@ -113,6 +132,8 @@ class Extension {
   }
 
   /**
+   * Method called after the colorpicker is enabled
+   *
    * @listens Colorpicker#colorpickerEnable
    * @param {Event} event
    */

@@ -5,6 +5,7 @@ import _defaults from './options';
 
 /**
  * Handles everything related to the UI of the colorpicker popup: show, hide, position,...
+ * @ignore
  */
 class PopupHandler {
   /**

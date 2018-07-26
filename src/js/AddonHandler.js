@@ -2,6 +2,7 @@
 
 /**
  * Handles everything related to the colorpicker addon
+ * @ignore
  */
 class AddonHandler {
   /**

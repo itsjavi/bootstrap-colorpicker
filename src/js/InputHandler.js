@@ -5,6 +5,7 @@ import ColorItem from './ColorItem';
 
 /**
  * Handles everything related to the colorpicker input
+ * @ignore
  */
 class InputHandler {
   /**

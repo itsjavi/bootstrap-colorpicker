@@ -2,12 +2,7 @@
   {{#content "description"}}
     <p>
       Get started with these basic examples, showcasing the different plugin options.
-      You can also view the whole list of <a href="options.js.html">default options here.</a>
-      <br>
-      Note that all examples are using Bootstrap 4.1.x.
-      <br>
-      To make them work with Bootstrap 3.x, you basically need to tweak the HTML code by replacing
-      `input-group-append` with `input-group-addon`.
+      You can also view the whole list of <a href="module-options.html">default options here.</a>
     </p>
   {{/content}}
   {{#content "body"}}
@@ -91,8 +86,8 @@
         <p>
           Whenever the <code>format</code> option is <var>'auto'</var>, the first parsed color format will be
           detected and used as default, but when the option equals <var>null</var> (default),
-          the format is recalculated every time. You can see the differences here, when trying to adjust the alpha
-          channel:
+          the format is recalculated every time.
+          You can see the differences here, one of them allowing you to adjust the alpha channel:
         </p>
       {{/content}}
       {{#content "code"}}
@@ -137,7 +132,7 @@
         <script>
           $(function () {
             $('#cp5c').colorpicker({
-              format: "rgba"
+              format: "rgb"
             });
           });
         </script>
@@ -277,7 +272,7 @@
 
 
     {{#extend "example"}}
-      {{#content "title"}} Custom fallback color {{/content}}
+      {{#content "title"}} Use a custom fallback color {{/content}}
       {{#content "description"}}
         <p>
           Use a predefined fallback color with the <code>fallbackColor</code> option,
@@ -303,7 +298,7 @@
 
 
     {{#extend "example"}}
-      {{#content "title"}} Invalid color auto-replacement {{/content}}
+      {{#content "title"}} Disable invalid color auto replacement {{/content}}
       {{#content "description"}}
         <p>
           By default, the <code>autoInputFallback</code> option is enabled, meaning that
@@ -331,6 +326,72 @@
             $('#cp13').colorpicker({
               autoInputFallback: false
             });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+
+    {{#extend "example"}}
+      {{#content "title"}} Adjust the popover options{{/content}}
+      {{#content "description"}}
+        <p>
+          You can use any Bootstrap Popover options (except: trigger, content and html) using the "popover"
+          property in the colorpicker options.
+        </p>
+      {{/content}}
+      {{#content "code"}}
+        <div id="cp14" class="input-group">
+          <input type="text" class="form-control input-lg" value="hsl(103, 70%, 64%)"/>
+          <span class="input-group-append">
+            <span class="input-group-text colorpicker-input-addon"><i></i></span>
+          </span>
+        </div>
+        <script>
+          $(function () {
+            $('#cp14').colorpicker({
+              popover: {
+                title: 'Adjust the color',
+                placement: 'top'
+              }
+            });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+
+    {{#extend "example"}}
+      {{#content "title"}} Use a color picker inside a modal {{/content}}
+      {{#content "description"}}{{/content}}
+      {{#content "code"}}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          Launch demo modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <input id="cp15" type="text" class="form-control input-lg" value="rgb(130, 44, 29)"/>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          $(function () {
+            $('#cp15').colorpicker();
           });
         </script>
       {{/content}}

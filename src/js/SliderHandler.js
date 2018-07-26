@@ -4,6 +4,7 @@ import $ from 'jquery';
 
 /**
  * Class that handles all configured sliders on mouse or touch events.
+ * @ignore
  */
 class SliderHandler {
   /**

@@ -4,6 +4,7 @@ import $ from 'jquery';
 
 /**
  * Handles everything related to the colorpicker UI
+ * @ignore
  */
 class PickerHandler {
   /**

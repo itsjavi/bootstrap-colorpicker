@@ -34,5 +34,9 @@
 
     // Add classes to tables
     $('table.params').addClass('table table-bordered table-striped');
+    $('.example-code-container').collapse({toggle: false});
+    $('.example-code-trigger').on('click', function () {
+      $(this).parent().find('.example-code-container').collapse('toggle');
+    });
   });
 })();

@@ -2,7 +2,7 @@
 
 import Extension from './Extension';
 import defaults from './options';
-import bundledExtensions from 'extensions';
+import coreExtensions from 'extensions';
 import $ from 'jquery';
 import SliderHandler from './SliderHandler';
 import PopupHandler from './PopupHandler';
@@ -49,7 +49,7 @@ class Colorpicker {
   }
 
   /**
-   * Color format
+   * Internal color format
    *
    * @type {String|null}
    */
@@ -58,6 +58,7 @@ class Colorpicker {
   }
 
   /**
+   * Getter of the picker element
    *
    * @returns {jQuery|HTMLElement}
    */
@@ -166,15 +167,9 @@ class Colorpicker {
   }
 
   /**
-   * Colorpicker bundled extension classes
-   *
-   * @static
-   * @type {{Extension}}
+   * Initializes the plugin
+   * @private
    */
-  static getBundledExtensions() {
-    return bundledExtensions;
-  }
-
   init() {
     // Init addon
     this.addonHandler.bind();
@@ -202,6 +197,10 @@ class Colorpicker {
     this.update(this.options.color !== false);
   }
 
+  /**
+   * Initializes the plugin extensions
+   * @private
+   */
   initExtensions() {
     if (!Array.isArray(this.options.extensions)) {
       this.options.extensions = [];
@@ -213,7 +212,7 @@ class Colorpicker {
 
     // Register and instantiate extensions
     this.options.extensions.forEach((ext) => {
-      this.registerExtension(bundledExtensions[ext.name.toLowerCase()], ext.options || {});
+      this.registerExtension(Colorpicker.extensions[ext.name.toLowerCase()], ext.options || {});
     });
   }
 
@@ -272,7 +271,6 @@ class Colorpicker {
 
   /**
    * Hides the colorpicker widget.
-   * Hide is prevented when it is triggered by an event whose target element has been clicked/touched.
    *
    * @fires Colorpicker#colorpickerHide
    * @param {Event} [e]
@@ -282,7 +280,7 @@ class Colorpicker {
   }
 
   /**
-   * Toggles the colorpicker between visible or hidden
+   * Toggles the colorpicker between visible and hidden.
    *
    * @fires Colorpicker#colorpickerShow
    * @fires Colorpicker#colorpickerHide
@@ -429,9 +427,17 @@ class Colorpicker {
       type: eventName,
       colorpicker: this,
       color: color ? color : this.color,
-      value: value
+      value: value ? value : this.getValue()
     });
   }
 }
+
+/**
+ * Colorpicker extension classes, indexed by extension name
+ *
+ * @static
+ * @type {Object} a map between the extension name and its class
+ */
+Colorpicker.extensions = coreExtensions;
 
 export default Colorpicker;

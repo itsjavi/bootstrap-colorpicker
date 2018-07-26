@@ -139,15 +139,15 @@
                   inline: true,
                   container: true,
                   extensions: [],
-                  template: `<div class="colorpicker">
-                <div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>
-                <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
-                <div class="colorpicker-alpha">
-                    <div class="colorpicker-alpha-color"></div>
-                    <i class="colorpicker-guide"></i>
-                </div>
-                <div class="colorpicker-bar hsv-output"></div>
-              </div>`
+                  template: '<div class="colorpicker">' +
+                  '<div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>' +
+                  '<div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>' +
+                  '<div class="colorpicker-alpha">' +
+                  '<div class="colorpicker-alpha-color"></div>' +
+                  '<i class="colorpicker-guide"></i>' +
+                  '</div>' +
+                  '<div class="colorpicker-bar hsv-output"></div>' +
+                  '</div>'
                 })
                 .on('colorpickerChange colorpickerCreate', function (e) {
                   var output = e.colorpicker.element

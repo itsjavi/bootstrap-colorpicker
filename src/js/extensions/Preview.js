@@ -43,9 +43,9 @@ class Preview extends Extension {
 
     if (this.options.showText) {
       this.elementInner
-        .html(event.color.toString(this.options.format || this.colorpicker.format));
+        .html(event.color.string(this.options.format || this.colorpicker.format));
 
-      if (event.color.isDark()) {
+      if (event.color.isDark() && (event.color.alpha > 0.5)) {
         this.elementInner.css('color', 'white');
       } else {
         this.elementInner.css('color', 'black');

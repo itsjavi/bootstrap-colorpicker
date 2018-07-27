@@ -193,7 +193,7 @@ export default {
     {
       name: 'preview',
       options: {
-        showText: false
+        showText: true
       }
     }
   ],

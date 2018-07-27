@@ -213,7 +213,7 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
 }
 
 .colorpicker-bar {
-  height: $bar-size-short;
+  min-height: $bar-size-short;
   margin: $base-margin 0 0 0;
   clear: both;
   text-align: center;
@@ -375,8 +375,10 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
   @include bgCheckerBox();
 }
 
-.colorpicker-preview div {
-  position: relative;
+.colorpicker-preview > div {
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
 }

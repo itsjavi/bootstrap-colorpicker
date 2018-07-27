@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-colorpicker",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.",
   "main": "./dist/js/bootstrap-colorpicker.js",
   "homepage": "https://farbelous.github.io/bootstrap-colorpicker/",

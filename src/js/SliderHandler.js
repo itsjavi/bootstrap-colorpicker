@@ -109,6 +109,9 @@ class SliderHandler {
    * @param {Event} e
    */
   pressed(e) {
+    if (this.colorpicker.isDisabled()) {
+      return;
+    }
     this.colorpicker.lastEvent.alias = 'pressed';
     this.colorpicker.lastEvent.e = e;
 

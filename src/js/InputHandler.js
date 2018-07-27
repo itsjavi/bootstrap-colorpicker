@@ -10,13 +10,8 @@ import ColorItem from './ColorItem';
 class InputHandler {
   /**
    * @param {Colorpicker} colorpicker
-   * @param {Window} root
    */
-  constructor(colorpicker, root) {
-    /**
-     * @type {Window}
-     */
-    this.root = root;
+  constructor(colorpicker) {
     /**
      * @type {Colorpicker}
      */
@@ -161,6 +156,14 @@ class InputHandler {
    */
   hasInput() {
     return (this.input !== false);
+  }
+
+  /**
+   * Returns true if the input exists and is disabled
+   * @returns {boolean}
+   */
+  isEnabled() {
+    return this.hasInput() && !this.isDisabled();
   }
 
   /**

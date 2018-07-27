@@ -9,13 +9,8 @@ import $ from 'jquery';
 class PickerHandler {
   /**
    * @param {Colorpicker} colorpicker
-   * @param {Window} root
    */
-  constructor(colorpicker, root) {
-    /**
-     * @type {Window}
-     */
-    this.root = root;
+  constructor(colorpicker) {
     /**
      * @type {Colorpicker}
      */
@@ -58,8 +53,7 @@ class PickerHandler {
 
   attach() {
     // Inject the colorpicker element into the DOM
-    let pickerParent = this.colorpicker.container ? this.colorpicker.container :
-      ((this.options.popover && !this.options.inline) ? null : this.root.document.body);
+    let pickerParent = this.colorpicker.container ? this.colorpicker.container : null;
 
     if (pickerParent) {
       this.picker.appendTo(pickerParent);

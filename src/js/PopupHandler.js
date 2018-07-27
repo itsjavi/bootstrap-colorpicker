@@ -82,7 +82,7 @@ class PopupHandler {
    * @returns {boolean}
    */
   get isPopover() {
-    return !!this.popoverTip;
+    return !this.colorpicker.options.inline && !!this.popoverTip;
   }
 
   /**
@@ -263,14 +263,12 @@ class PopupHandler {
 
   /**
    * Shows the colorpicker widget if hidden.
-   * If the input is disabled this call will be ignored.
    *
    * @fires Colorpicker#colorpickerShow
    * @param {Event} [e]
    */
   show(e) {
-    if (this.isVisible() || this.colorpicker.isDisabled() || this.showing || this.hidding) {
-      // Don't show the widget if it's already visible or it is disabled
+    if (this.isVisible() || this.showing || this.hidding) {
       return;
     }
 
@@ -334,7 +332,6 @@ class PopupHandler {
    */
   hide(e) {
     if (this.isHidden() || this.showing || this.hidding) {
-      // Do not trigger if already hidden
       return;
     }
 
@@ -346,6 +343,8 @@ class PopupHandler {
 
     cp.lastEvent.alias = 'hide';
     cp.lastEvent.e = e;
+
+    // TODO: fix having to click twice outside when losing focus and last 2 clicks where inside the colorpicker
 
     // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
     if (clicking) {

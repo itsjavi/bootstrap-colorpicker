@@ -131,7 +131,7 @@ class Colorpicker {
     /**
      * @type {InputHandler}
      */
-    this.inputHandler = new InputHandler(this, root);
+    this.inputHandler = new InputHandler(this);
     /**
      * @type {ColorHandler}
      */
@@ -147,7 +147,7 @@ class Colorpicker {
     /**
      * @type {PickerHandler}
      */
-    this.pickerHandler = new PickerHandler(this, root);
+    this.pickerHandler = new PickerHandler(this);
     /**
      * @type {AddonHandler}
      */
@@ -195,6 +195,10 @@ class Colorpicker {
 
     // Update widget, force if color is set manually in the options
     this.update(this.options.color !== false);
+
+    if (this.inputHandler.isDisabled()) {
+      this.disable();
+    }
   }
 
   /**
@@ -315,6 +319,9 @@ class Colorpicker {
    * @param {String|Color} val
    */
   setValue(val) {
+    if (this.isDisabled()) {
+      return;
+    }
     let ch = this.colorHandler;
 
     if (
@@ -352,7 +359,7 @@ class Colorpicker {
    * @param {boolean} [force]
    */
   update(force = false) {
-    if (!(this.colorHandler.hasColor() || (force === true))) {
+    if (!(this.colorHandler.hasColor() || (force === true)) || this.isDisabled()) {
       // no need to update
       return;
     }
@@ -378,6 +385,7 @@ class Colorpicker {
   enable() {
     this.inputHandler.enable();
     this.disabled = false;
+    this.picker.removeClass('colorpicker-disabled');
 
     /**
      * (Colorpicker) When the widget has been enabled.
@@ -397,6 +405,7 @@ class Colorpicker {
   disable() {
     this.inputHandler.disable();
     this.disabled = true;
+    this.picker.addClass('colorpicker-disabled');
 
     /**
      * (Colorpicker) When the widget has been disabled.
@@ -405,6 +414,14 @@ class Colorpicker {
      */
     this.trigger('colorpickerDisable');
     return true;
+  }
+
+  /**
+   * Returns true if this instance is enabled
+   * @returns {boolean}
+   */
+  isEnabled() {
+    return !this.isDisabled();
   }
 
   /**

@@ -141,6 +141,40 @@
 
 
     {{#extend "example"}}
+      {{#content "title"}} Disabled / Enabled states {{/content}}
+      {{#content "description"}}
+        <p>
+          When the input is disabled, the colorpicker also gets disabled.
+        </p>
+      {{/content}}
+      {{#content "code"}}
+        <div id="cp5d" title="Using format option">
+          <div class="input-group">
+            <input type="text" class="form-control input-lg" value="rgb(203, 38, 192)" disabled/>
+          </div>
+        </div>
+        <br>
+        <button id="cp5d_toggle" class="btn btn-primary">Toggle Enable/Disable</button>
+        <script>
+          $(function () {
+            $('#cp5d').colorpicker({
+              inline: true
+            });
+            $('#cp5d_toggle').on('click', function () {
+              var cp = $('#cp5d').colorpicker('colorpicker');
+              if (cp.isEnabled()) {
+                cp.disable();
+              } else {
+                cp.enable();
+              }
+            });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+
+
+    {{#extend "example"}}
       {{#content "title"}} Horizontal mode {{/content}}
       {{#content "description"}}
         <p>In this mode the hue and alpha bars are horizontal instead of vertical.</p>

@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.
  * @package bootstrap-colorpicker
- * @version v3.0.1
+ * @version v3.0.2
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -21,6 +21,13 @@
   border-radius: 4px;
   -webkit-box-sizing: content-box;
           box-sizing: content-box; }
+
+.colorpicker.colorpicker-disabled,
+.colorpicker.colorpicker-disabled * {
+  cursor: default !important; }
+
+.colorpicker div {
+  position: relative; }
 
 .colorpicker-popup {
   position: absolute;
@@ -77,9 +84,6 @@
   top: -6px;
   left: auto;
   right: 7px; }
-
-.colorpicker div {
-  position: relative; }
 
 .colorpicker.colorpicker-with-alpha {
   width: 170px; }
@@ -170,7 +174,7 @@
   display: none; }
 
 .colorpicker-bar {
-  height: 16px;
+  min-height: 16px;
   margin: 6px 0 0 0;
   clear: both;
   text-align: center;
@@ -272,14 +276,14 @@
 .colorpicker-inline:before,
 .colorpicker-no-arrow:before,
 .colorpicker-popup.colorpicker-bs-popover-content:before {
-  border-right: 0;
-  border-left: 0; }
+  content: none;
+  display: none; }
 
 .colorpicker-inline:after,
 .colorpicker-no-arrow:after,
 .colorpicker-popup.colorpicker-bs-popover-content:after {
-  border-right: 0;
-  border-left: 0; }
+  content: none;
+  display: none; }
 
 .colorpicker.colorpicker-visible,
 .colorpicker-alpha.colorpicker-visible,
@@ -298,14 +302,32 @@
 .colorpicker-inline.colorpicker-visible {
   display: inline-block; }
 
+.colorpicker.colorpicker-disabled:after {
+  border: none;
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgba(233, 236, 239, 0.33);
+  top: 0;
+  left: 0;
+  right: auto;
+  z-index: 2;
+  position: absolute; }
+
+.colorpicker.colorpicker-disabled .colorpicker-guide {
+  display: none; }
+
 /** EXTENSIONS **/
 .colorpicker-preview {
   background: linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 0), linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 0), white;
   background-size: 10px 10px;
   background-position: 0 0, 5px 5px; }
 
-.colorpicker-preview div {
-  position: relative;
+.colorpicker-preview > div {
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%; }
 

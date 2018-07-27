@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.
  * @package bootstrap-colorpicker
- * @version v3.0.1
+ * @version v3.0.2
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -1287,7 +1287,7 @@ exports.default = {
   extensions: [{
     name: 'preview',
     options: {
-      showText: false
+      showText: true
     }
   }],
   /**
@@ -2847,7 +2847,7 @@ var Colorpicker = function () {
     /**
      * @type {InputHandler}
      */
-    this.inputHandler = new _InputHandler2.default(this, root);
+    this.inputHandler = new _InputHandler2.default(this);
     /**
      * @type {ColorHandler}
      */
@@ -2855,7 +2855,7 @@ var Colorpicker = function () {
     /**
      * @type {SliderHandler}
      */
-    this.sliderHandler = new _SliderHandler2.default(this, root);
+    this.sliderHandler = new _SliderHandler2.default(this);
     /**
      * @type {PopupHandler}
      */
@@ -2863,7 +2863,7 @@ var Colorpicker = function () {
     /**
      * @type {PickerHandler}
      */
-    this.pickerHandler = new _PickerHandler2.default(this, root);
+    this.pickerHandler = new _PickerHandler2.default(this);
     /**
      * @type {AddonHandler}
      */
@@ -2913,8 +2913,12 @@ var Colorpicker = function () {
       // Inject into the DOM (this may make it visible)
       this.pickerHandler.attach();
 
-      // Update widget, force if color is set manually in the options
-      this.update(this.options.color !== false);
+      // Update all components
+      this.update();
+
+      if (this.inputHandler.isDisabled()) {
+        this.disable();
+      }
     }
 
     /**
@@ -3062,19 +3066,17 @@ var Colorpicker = function () {
   }, {
     key: 'setValue',
     value: function setValue(val) {
+      if (this.isDisabled()) {
+        return;
+      }
       var ch = this.colorHandler;
 
-      if (ch.hasColor() && ch.color.equals(val) || !ch.hasColor() && !val) {
+      if (ch.hasColor() && !!val && ch.color.equals(val) || !ch.hasColor() && !val) {
         // same color or still empty
         return;
       }
 
-      var color = val ? ch.createColor(val, this.options.autoInputFallback) : null;
-
-      // force update if color is changed to empty
-      var forceUpdate = ch.hasColor() && !color;
-
-      ch.color = color;
+      ch.color = val ? ch.createColor(val, this.options.autoInputFallback) : null;
 
       /**
        * (Colorpicker) When the color is set programmatically with setValue().
@@ -3084,29 +3086,24 @@ var Colorpicker = function () {
       this.trigger('colorpickerChange', ch.color, val);
 
       // force update if color has changed to empty
-      this.update(forceUpdate);
+      this.update();
     }
 
     /**
      * Updates the UI and the input color according to the internal color.
      *
-     * If force is true, it is updated anyway.
-     *
      * @fires Colorpicker#colorpickerUpdate
-     * @param {boolean} [force]
      */
 
   }, {
     key: 'update',
     value: function update() {
-      var force = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-      if (!(this.colorHandler.hasColor() || force === true)) {
-        // no need to update
-        return;
+      if (this.colorHandler.hasColor()) {
+        this.inputHandler.update();
+      } else {
+        this.colorHandler.assureColor();
       }
 
-      this.inputHandler.update();
       this.addonHandler.update();
       this.pickerHandler.update();
 
@@ -3130,6 +3127,7 @@ var Colorpicker = function () {
     value: function enable() {
       this.inputHandler.enable();
       this.disabled = false;
+      this.picker.removeClass('colorpicker-disabled');
 
       /**
        * (Colorpicker) When the widget has been enabled.
@@ -3152,6 +3150,7 @@ var Colorpicker = function () {
     value: function disable() {
       this.inputHandler.disable();
       this.disabled = true;
+      this.picker.addClass('colorpicker-disabled');
 
       /**
        * (Colorpicker) When the widget has been disabled.
@@ -3160,6 +3159,17 @@ var Colorpicker = function () {
        */
       this.trigger('colorpickerDisable');
       return true;
+    }
+
+    /**
+     * Returns true if this instance is enabled
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isEnabled',
+    value: function isEnabled() {
+      return !this.isDisabled();
     }
 
     /**
@@ -3506,9 +3516,9 @@ var Preview = function (_Extension) {
       this.elementInner.css('backgroundColor', event.color.toRgbString());
 
       if (this.options.showText) {
-        this.elementInner.html(event.color.toString(this.options.format || this.colorpicker.format));
+        this.elementInner.html(event.color.string(this.options.format || this.colorpicker.format));
 
-        if (event.color.isDark()) {
+        if (event.color.isDark() && event.color.alpha > 0.5) {
           this.elementInner.css('color', 'white');
         } else {
           this.elementInner.css('color', 'black');
@@ -3610,7 +3620,7 @@ var Swatches = function (_Palette) {
         var $swatch = (0, _jquery2.default)(_this2.options.swatchTemplate).attr('data-name', name).attr('data-value', value).attr('title', isAliased ? name + ': ' + value : value).on('mousedown.colorpicker touchstart.colorpicker', function (e) {
           var $sw = (0, _jquery2.default)(this);
 
-          e.preventDefault();
+          // e.preventDefault();
 
           colorpicker.setValue(isAliased ? $sw.attr('data-name') : $sw.attr('data-value'));
         });
@@ -3657,18 +3667,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var SliderHandler = function () {
   /**
    * @param {Colorpicker} colorpicker
-   * @param {Window} root
-   * @param {Function|null} onMove
    */
-  function SliderHandler(colorpicker, root) {
-    var onMove = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
+  function SliderHandler(colorpicker) {
     _classCallCheck(this, SliderHandler);
 
-    /**
-     * @type {Window}
-     */
-    this.root = root;
     /**
      * @type {Colorpicker}
      */
@@ -3690,7 +3692,7 @@ var SliderHandler = function () {
     /**
      * @type {Function}
      */
-    this.onMove = _jquery2.default.proxy(onMove || this.defaultOnMove, this);
+    this.onMove = _jquery2.default.proxy(this.defaultOnMove, this);
   }
 
   /**
@@ -3761,7 +3763,7 @@ var SliderHandler = function () {
   }, {
     key: 'unbind',
     value: function unbind() {
-      (0, _jquery2.default)(this.root.document).off({
+      (0, _jquery2.default)(this.colorpicker.picker).off({
         'mousemove.colorpicker': _jquery2.default.proxy(this.moved, this),
         'touchmove.colorpicker': _jquery2.default.proxy(this.moved, this),
         'mouseup.colorpicker': _jquery2.default.proxy(this.released, this),
@@ -3780,6 +3782,9 @@ var SliderHandler = function () {
   }, {
     key: 'pressed',
     value: function pressed(e) {
+      if (this.colorpicker.isDisabled()) {
+        return;
+      }
       this.colorpicker.lastEvent.alias = 'pressed';
       this.colorpicker.lastEvent.e = e;
 
@@ -3787,8 +3792,8 @@ var SliderHandler = function () {
         e.pageX = e.originalEvent.touches[0].pageX;
         e.pageY = e.originalEvent.touches[0].pageY;
       }
-      e.stopPropagation();
-      e.preventDefault();
+      // e.stopPropagation();
+      // e.preventDefault();
 
       var target = (0, _jquery2.default)(e.target);
 
@@ -3842,7 +3847,7 @@ var SliderHandler = function () {
        *
        * @event Colorpicker#mousemove
        */
-      (0, _jquery2.default)(this.root.document).on({
+      (0, _jquery2.default)(this.colorpicker.picker).on({
         'mousemove.colorpicker': _jquery2.default.proxy(this.moved, this),
         'touchmove.colorpicker': _jquery2.default.proxy(this.moved, this),
         'mouseup.colorpicker': _jquery2.default.proxy(this.released, this),
@@ -3868,8 +3873,8 @@ var SliderHandler = function () {
         e.pageY = e.originalEvent.touches[0].pageY;
       }
 
-      e.stopPropagation();
-      e.preventDefault();
+      // e.stopPropagation();
+      e.preventDefault(); // prevents scrolling on mobile
 
       var left = Math.max(0, Math.min(this.currentSlider.maxLeft, this.currentSlider.left + ((e.pageX || this.mousePointer.left) - this.mousePointer.left)));
 
@@ -3891,10 +3896,10 @@ var SliderHandler = function () {
       this.colorpicker.lastEvent.alias = 'released';
       this.colorpicker.lastEvent.e = e;
 
-      e.stopPropagation();
-      e.preventDefault();
+      // e.stopPropagation();
+      // e.preventDefault();
 
-      (0, _jquery2.default)(this.root.document).off({
+      (0, _jquery2.default)(this.colorpicker.picker).off({
         'mousemove.colorpicker': this.moved,
         'touchmove.colorpicker': this.moved,
         'mouseup.colorpicker': this.released,
@@ -3967,6 +3972,14 @@ var PopupHandler = function () {
      * @type {boolean}
      */
     this.clicking = false;
+    /**
+     * @type {boolean}
+     */
+    this.hidding = false;
+    /**
+     * @type {boolean}
+     */
+    this.showing = false;
   }
 
   /**
@@ -4013,6 +4026,7 @@ var PopupHandler = function () {
         this.addon.on({
           'mousedown.colorpicker touchstart.colorpicker': _jquery2.default.proxy(this.toggle, this)
         });
+
         this.addon.on({
           'focus.colorpicker': _jquery2.default.proxy(this.show, this)
         });
@@ -4045,10 +4059,6 @@ var PopupHandler = function () {
   }, {
     key: 'unbind',
     value: function unbind() {
-      this.colorpicker.element.off({
-        'focusout.colorpicker': _jquery2.default.proxy(this.hide, this)
-      });
-
       if (this.hasInput) {
         this.input.off({
           'mousedown.colorpicker touchstart.colorpicker': _jquery2.default.proxy(this.show, this),
@@ -4157,7 +4167,6 @@ var PopupHandler = function () {
 
     /**
      * Shows the colorpicker widget if hidden.
-     * If the input is disabled this call will be ignored.
      *
      * @fires Colorpicker#colorpickerShow
      * @param {Event} [e]
@@ -4166,10 +4175,13 @@ var PopupHandler = function () {
   }, {
     key: 'show',
     value: function show(e) {
-      if (this.isVisible() || this.colorpicker.isDisabled()) {
-        // Don't show the widget if it's already visible or it is disabled
+      if (this.isVisible() || this.showing || this.hidding) {
         return;
       }
+
+      this.showing = true;
+      this.hidding = false;
+      this.clicking = false;
 
       var cp = this.colorpicker;
 
@@ -4177,12 +4189,10 @@ var PopupHandler = function () {
       cp.lastEvent.e = e;
 
       // Prevent showing browser native HTML5 colorpicker
-      if (e && (!this.hasInput || this.input.attr('type') === 'color') && e.stopPropagation && e.preventDefault) {
+      if (e && (!this.hasInput || this.input.attr('type') === 'color') && e && e.preventDefault) {
         e.stopPropagation();
         e.preventDefault();
       }
-
-      this.clicking = false;
 
       // If it's a popover, add event to the document to hide the picker when clicking outside of it
       if (this.isPopover) {
@@ -4201,6 +4211,9 @@ var PopupHandler = function () {
   }, {
     key: 'fireShow',
     value: function fireShow() {
+      this.hidding = false;
+      this.showing = false;
+
       if (this.isPopover) {
         // Add event to hide on outside click
         (0, _jquery2.default)(this.root.document).on('mousedown.colorpicker touchstart.colorpicker', _jquery2.default.proxy(this.hide, this));
@@ -4226,28 +4239,25 @@ var PopupHandler = function () {
   }, {
     key: 'hide',
     value: function hide(e) {
-      if (this.isHidden()) {
-        // Do not trigger if already hidden
+      if (this.isHidden() || this.showing || this.hidding) {
         return;
       }
 
       var cp = this.colorpicker,
-          clicking = this.clicking;
+          clicking = this.clicking || this.isClickingInside(e);
 
+      this.hidding = true;
+      this.showing = false;
       this.clicking = false;
 
       cp.lastEvent.alias = 'hide';
       cp.lastEvent.e = e;
 
-      // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
-      if (clicking || this.isClickingInside(e)) {
+      // TODO: fix having to click twice outside when losing focus and last 2 clicks where inside the colorpicker
 
-        if (e.type !== 'focus') {
-          // this.focus();
-          //        ⌃-- calling this prevents lose focus of the input/addon,
-          //            but cancels inputs and text selection inside the popover.
-          return;
-        }
+      // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
+      if (clicking) {
+        this.hidding = false;
         return;
       }
 
@@ -4260,6 +4270,9 @@ var PopupHandler = function () {
   }, {
     key: 'fireHide',
     value: function fireHide() {
+      this.hidding = false;
+      this.showing = false;
+
       var cp = this.colorpicker;
 
       // add hidden class after popover is hidden
@@ -4361,7 +4374,7 @@ var PopupHandler = function () {
   }, {
     key: 'isPopover',
     get: function get() {
-      return !!this.popoverTip;
+      return !this.colorpicker.options.inline && !!this.popoverTip;
     }
   }]);
 
@@ -4402,15 +4415,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var InputHandler = function () {
   /**
    * @param {Colorpicker} colorpicker
-   * @param {Window} root
    */
-  function InputHandler(colorpicker, root) {
+  function InputHandler(colorpicker) {
     _classCallCheck(this, InputHandler);
 
-    /**
-     * @type {Window}
-     */
-    this.root = root;
     /**
      * @type {Colorpicker}
      */
@@ -4569,6 +4577,17 @@ var InputHandler = function () {
     key: 'hasInput',
     value: function hasInput() {
       return this.input !== false;
+    }
+
+    /**
+     * Returns true if the input exists and is disabled
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isEnabled',
+    value: function isEnabled() {
+      return this.hasInput() && !this.isDisabled();
     }
 
     /**
@@ -5783,7 +5802,7 @@ var ColorHandler = function () {
   }, {
     key: 'getFallbackColor',
     value: function getFallbackColor() {
-      if (this.fallback === this.color) {
+      if (this.fallback && this.fallback === this.color) {
         return this.color;
       }
 
@@ -5795,6 +5814,20 @@ var ColorHandler = function () {
       }
 
       return color;
+    }
+
+    /**
+     * @returns {ColorItem}
+     */
+
+  }, {
+    key: 'assureColor',
+    value: function assureColor() {
+      if (!this.hasColor()) {
+        this.color = this.getFallbackColor();
+      }
+
+      return this.color;
     }
 
     /**
@@ -5880,7 +5913,7 @@ var ColorHandler = function () {
         return this.color.format;
       }
 
-      return null;
+      return 'rgb';
     }
 
     /**
@@ -5945,15 +5978,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var PickerHandler = function () {
   /**
    * @param {Colorpicker} colorpicker
-   * @param {Window} root
    */
-  function PickerHandler(colorpicker, root) {
+  function PickerHandler(colorpicker) {
     _classCallCheck(this, PickerHandler);
 
-    /**
-     * @type {Window}
-     */
-    this.root = root;
     /**
      * @type {Colorpicker}
      */
@@ -5991,7 +6019,7 @@ var PickerHandler = function () {
     key: 'attach',
     value: function attach() {
       // Inject the colorpicker element into the DOM
-      var pickerParent = this.colorpicker.container ? this.colorpicker.container : this.options.popover && !this.options.inline ? null : this.root.document.body;
+      var pickerParent = this.colorpicker.container ? this.colorpicker.container : null;
 
       if (pickerParent) {
         this.picker.appendTo(pickerParent);

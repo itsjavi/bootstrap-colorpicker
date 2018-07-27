@@ -193,8 +193,8 @@ class Colorpicker {
     // Inject into the DOM (this may make it visible)
     this.pickerHandler.attach();
 
-    // Update widget, force if color is set manually in the options
-    this.update(this.options.color !== false);
+    // Update all components
+    this.update();
 
     if (this.inputHandler.isDisabled()) {
       this.disable();
@@ -325,19 +325,14 @@ class Colorpicker {
     let ch = this.colorHandler;
 
     if (
-      (ch.hasColor() && ch.color.equals(val)) ||
+      (ch.hasColor() && !!val && ch.color.equals(val)) ||
       (!ch.hasColor() && !val)
     ) {
       // same color or still empty
       return;
     }
 
-    let color = val ? ch.createColor(val, this.options.autoInputFallback) : null;
-
-    // force update if color is changed to empty
-    let forceUpdate = ch.hasColor() && !color;
-
-    ch.color = color;
+    ch.color = val ? ch.createColor(val, this.options.autoInputFallback) : null;
 
     /**
      * (Colorpicker) When the color is set programmatically with setValue().
@@ -347,24 +342,21 @@ class Colorpicker {
     this.trigger('colorpickerChange', ch.color, val);
 
     // force update if color has changed to empty
-    this.update(forceUpdate);
+    this.update();
   }
 
   /**
    * Updates the UI and the input color according to the internal color.
    *
-   * If force is true, it is updated anyway.
-   *
    * @fires Colorpicker#colorpickerUpdate
-   * @param {boolean} [force]
    */
-  update(force = false) {
-    if (!(this.colorHandler.hasColor() || (force === true)) || this.isDisabled()) {
-      // no need to update
-      return;
+  update() {
+    if (this.colorHandler.hasColor()) {
+      this.inputHandler.update();
+    } else {
+      this.colorHandler.assureColor();
     }
 
-    this.inputHandler.update();
     this.addonHandler.update();
     this.pickerHandler.update();
 

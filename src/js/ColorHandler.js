@@ -42,7 +42,7 @@ class ColorHandler {
       return this.color.format;
     }
 
-    return null;
+    return 'rgb';
   }
 
   /**
@@ -146,7 +146,7 @@ class ColorHandler {
   }
 
   getFallbackColor() {
-    if (this.fallback === this.color) {
+    if (this.fallback && (this.fallback === this.color)) {
       return this.color;
     }
 
@@ -158,6 +158,17 @@ class ColorHandler {
     }
 
     return color;
+  }
+
+  /**
+   * @returns {ColorItem}
+   */
+  assureColor() {
+    if (!this.hasColor()) {
+      this.color = this.getFallbackColor();
+    }
+
+    return this.color;
   }
 
   /**

@@ -146,6 +146,10 @@ var, code {
     max-width: 100%;
     width: 100%;
   }
+  .main-nav {
+    max-height: 400px;
+    overflow: hidden;
+  }
 }
 
 .section-examples {

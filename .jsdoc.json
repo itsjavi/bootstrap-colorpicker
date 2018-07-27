@@ -21,7 +21,7 @@
     "useLongnameInNav": false,
     "showInheritedInNav": true,
     "default": {
-      "tutorialsTitle": "Examples",
+      "tutorialsTitle": "Documentation",
       "searchBox": {
         "enabled": true,
         "algoliaApiKey": "2fbe42dafb0dca80b2422f5b0b2cd82c",

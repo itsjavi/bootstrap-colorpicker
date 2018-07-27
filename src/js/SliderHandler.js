@@ -169,6 +169,7 @@ class SliderHandler {
       top: e.pageY
     };
 
+    // TODO: fix moving outside the picker makes the guides to keep moving. The event needs to be bound to the window.
     /**
      * (window.document) Triggered on mousedown for the document object,
      * so the color adjustment guide is moved to the clicked position.

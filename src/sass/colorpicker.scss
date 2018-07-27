@@ -192,14 +192,15 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
 .colorpicker-hue .colorpicker-guide,
 .colorpicker-alpha .colorpicker-guide {
   display: block;
-  height: 1px;
-  background: rgba(0, 0, 0, 0.85);
-  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.85);
+  height: 4px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.4);
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  margin-top: -1px;
+  margin-left: -2px;
+  margin-top: -2px;
+  right: -2px;
   z-index: 1;
 }
 
@@ -293,16 +294,13 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
 
 .colorpicker.colorpicker-horizontal .colorpicker-hue .colorpicker-guide,
 .colorpicker.colorpicker-horizontal .colorpicker-alpha .colorpicker-guide {
-  display: block;
-  height: $bar-size-short;
-  background: rgba(0, 0, 0, 0.85);
-  box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.85);
   position: absolute;
-  top: 0;
+  display: block;
+  bottom: -2px;
   left: 0;
-  width: 1px;
-  border: none;
-  margin-top: 0;
+  right: auto;
+  height: auto;
+  width: 4px;
 }
 
 .colorpicker.colorpicker-horizontal .colorpicker-hue {

@@ -157,7 +157,8 @@ gulp.task('docs:compile', ['examples:compile', 'docs:replace-data'], shell.task(
 gulp.task('docs:add-dist', shell.task([
   'echo "Adding dist files to docs..."',
   `mkdir -p ${distDir} && mkdir -p ${docsDir}`,
-  `cp -R ${distDir} ${docsDir}/dist`
+  `cp -R ${distDir} ${docsDir}/dist`,
+  `mkdir -p ${docsDir}/src && cp -R src/js ${docsDir}/src/js`
 ]));
 
 gulp.task('docs:add-v2-docs', shell.task([

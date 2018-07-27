@@ -40,5 +40,59 @@
         </script>
       {{/content}}
     {{/extend}}
+
+
+    {{#extend "example"}}
+      {{#content "title"}} Using events with a custom template element {{/content}}
+      {{#content "description"}}
+        <p>This example shows how to use a custom template with an input inside, that is able to set the color.</p>
+      {{/content}}
+      {{#content "code"}}
+        <div id="cp3" data-color="#305AA2"></div>
+        <script>
+          $(function () {
+            $('#cp3').colorpicker({
+                  inline: true,
+                  container: true,
+                  template: '<div class="colorpicker">' +
+                  '<div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>' +
+                  '<div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>' +
+                  '<div class="colorpicker-alpha">' +
+                  '   <div class="colorpicker-alpha-color"></div>' +
+                  '   <i class="colorpicker-guide"></i>' +
+                  '</div>' +
+                  '<div class="colorpicker-bar">' +
+                  '   <div class="input-group">' +
+                  '       <input class="form-control input-block color-io" />' +
+                  '   </div>' +
+                  '</div>' +
+                  '</div>'
+                })
+                .on('colorpickerCreate', function (e) {
+                  // initialize the input on colorpicker creation
+                  var io = e.colorpicker.element.find('.color-io');
+
+                  io.val(e.color.string());
+
+                  io.on('change keyup', function () {
+                    e.colorpicker.setValue(io.val());
+                  });
+                })
+                .on('colorpickerChange', function (e) {
+                  var io = e.colorpicker.element.find('.color-io');
+
+                  if (e.value === io.val() || !e.color || !e.color.isValid()) {
+                    // do not replace the input value if the color is invalid or equals
+                    return;
+                  }
+
+                  io.val(e.color.string());
+                });
+          });
+        </script>
+      {{/content}}
+    {{/extend}}
+
+
   {{/content}}
 {{/extend}}

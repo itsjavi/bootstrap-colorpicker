@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.
  * @package bootstrap-colorpicker
- * @version v3.0.2
+ * @version v3.0.3
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -3841,6 +3841,7 @@ var SliderHandler = function () {
         top: e.pageY
       };
 
+      // TODO: fix moving outside the picker makes the guides to keep moving. The event needs to be bound to the window.
       /**
        * (window.document) Triggered on mousedown for the document object,
        * so the color adjustment guide is moved to the clicked position.

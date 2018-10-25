@@ -1,8 +1,8 @@
 $outline-color: rgba(0, 0, 0, 0.2);
 $box-shadow-outline: 0 0 0 1px $outline-color;
-$bar-size-short: 16px;
-$base-margin: 6px;
-$columns: 6; // this affects the number of swatches per row and the width of the color picker, saturation, etc.
+$bar-size-short: 16px !default;
+$base-margin: 6px !default;
+$columns: 6 !default; // this affects the number of swatches per row and the width of the color picker, saturation, etc.
 $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
 
 @mixin bgCheckerBox($size: 10px) {

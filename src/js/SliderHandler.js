@@ -58,10 +58,10 @@ class SliderHandler {
 
     // Adjust the color
     if (slider.callLeft) {
-      color[slider.callLeft].call(color, left / slider.maxLeft);
+      color[slider.callLeft](left / slider.maxLeft);
     }
     if (slider.callTop) {
-      color[slider.callTop].call(color, top / slider.maxTop);
+      color[slider.callTop](top / slider.maxTop);
     }
 
     // Set the new color

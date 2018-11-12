@@ -21,3 +21,5 @@ gulpfile.js_*
 webpack.config.js
 composer.json
 gulpfile.js
+/docker
+docker-compose.yml

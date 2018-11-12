@@ -99,7 +99,7 @@ class ColorItem {
    * @example color.replace(hsvaColorData);
    */
   replace(color, format = null) {
-    let fallback = null;
+    let fallback = '#000000';
 
     format = ColorItem.sanitizeFormat(format);
 

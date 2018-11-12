@@ -17,7 +17,7 @@ class InputHandler {
      */
     this.colorpicker = colorpicker;
     /**
-     * @type {jQuery|false}
+     * @type {jquery|false}
      */
     this.input = this.colorpicker.element.is('input') ? this.colorpicker.element : (this.colorpicker.options.input ?
       this.colorpicker.element.find(this.colorpicker.options.input) : false);

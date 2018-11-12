@@ -14,7 +14,7 @@ class AddonHandler {
      */
     this.colorpicker = colorpicker;
     /**
-     * @type {jQuery}
+     * @type {jquery}
      */
     this.addon = null;
   }
@@ -25,7 +25,7 @@ class AddonHandler {
 
   bind() {
     /**
-     * @type {*|jQuery}
+     * @type {*|jquery}
      */
     this.addon = this.colorpicker.options.addon ?
       this.colorpicker.element.find(this.colorpicker.options.addon) : null;

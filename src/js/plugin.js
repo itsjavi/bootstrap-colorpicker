@@ -7,7 +7,7 @@ let plugin = 'colorpicker';
 
 $[plugin] = Colorpicker;
 
-// Colorpicker jQuery Plugin API
+// Colorpicker jquery Plugin API
 $.fn[plugin] = function (option) {
   let fnArgs = Array.prototype.slice.call(arguments, 1),
     isSingleElement = (this.length === 1),

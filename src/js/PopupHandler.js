@@ -22,11 +22,11 @@ class PopupHandler {
      */
     this.colorpicker = colorpicker;
     /**
-     * @type {jQuery}
+     * @type {jquery}
      */
     this.popoverTarget = null;
     /**
-     * @type {jQuery}
+     * @type {jquery}
      */
     this.popoverTip = null;
 
@@ -47,7 +47,7 @@ class PopupHandler {
 
   /**
    * @private
-   * @returns {jQuery|false}
+   * @returns {jquery|false}
    */
   get input() {
     return this.colorpicker.inputHandler.input;
@@ -63,7 +63,7 @@ class PopupHandler {
 
   /**
    * @private
-   * @returns {jQuery|false}
+   * @returns {jquery|false}
    */
   get addon() {
     return this.colorpicker.addonHandler.addon;

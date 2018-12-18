@@ -1,3 +1,6 @@
 .github
 .editorconfig
+build/
+dist/
 docker-compose.yml
+node_modules/

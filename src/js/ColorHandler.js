@@ -23,7 +23,7 @@ class ColorHandler {
    */
   get fallback() {
     return this.colorpicker.options.fallbackColor ?
-      this.colorpicker.options.fallbackColor : (this.hasColor() ? this.color : null);
+      this.colorpicker.options.fallbackColor : (this.hasColor() ? this.color : '#000000');
   }
 
   /**

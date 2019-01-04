@@ -60,7 +60,7 @@ class Colorpicker {
   /**
    * Getter of the picker element
    *
-   * @returns {jquery|HTMLElement}
+   * @returns {jQuery|HTMLElement}
    */
   get picker() {
     return this.pickerHandler.picker;
@@ -93,7 +93,7 @@ class Colorpicker {
     /**
      * The element that the colorpicker is bound to
      *
-     * @type {*|jquery}
+     * @type {*|jQuery}
      */
     this.element = $(element)
       .addClass('colorpicker-element')
@@ -119,7 +119,7 @@ class Colorpicker {
 
     /**
      * The element where the
-     * @type {*|jquery}
+     * @type {*|jQuery}
      */
     this.container = (
       this.options.container === true ||

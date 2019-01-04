@@ -99,6 +99,7 @@ class ColorItem {
    * @example color.replace(hsvaColorData);
    */
   replace(color, format = null) {
+    let fallback = null;
 
     format = ColorItem.sanitizeFormat(format);
 
@@ -118,7 +119,7 @@ class ColorItem {
     this._color = ColorItem.parse(color);
 
     if (this._color === null) {
-      this._color = QixColor();
+      this._color = QixColor(fallback);
       this._original.valid = false;
       return;
     }

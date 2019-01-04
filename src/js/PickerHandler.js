@@ -16,7 +16,7 @@ class PickerHandler {
      */
     this.colorpicker = colorpicker;
     /**
-     * @type {jquery}
+     * @type {jQuery}
      */
     this.picker = null;
   }
@@ -31,7 +31,7 @@ class PickerHandler {
 
   bind() {
     /**
-     * @type {jquery|HTMLElement}
+     * @type {jQuery|HTMLElement}
      */
     let picker = this.picker = $(this.options.template);
 

@@ -42,7 +42,12 @@ module.exports = {
     ]
   },
   externals: {
-    'jquery': 'jquery'
+    'jquery': {
+      root: 'jQuery',
+      commonjs2: 'jquery',
+      commonjs: 'jquery',
+      amd: 'jquery'
+    }
   },
   plugins: [
     new webpack.ProvidePlugin({

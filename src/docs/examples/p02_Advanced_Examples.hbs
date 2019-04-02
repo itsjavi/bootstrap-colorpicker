@@ -67,7 +67,7 @@
       {{#content "code"}}
         <div id="cp2" data-color="#6D2781"></div>
         <style>
-          .colorpicker-2x.colorpicker-with-alpha {
+          .colorpicker.colorpicker-2x {
             width: 272px;
           }
 
@@ -107,6 +107,7 @@
             $('#cp2').colorpicker({
               inline: true,
               container: true,
+              format: null,
               customClass: 'colorpicker-2x',
               sliders: {
                 saturation: {

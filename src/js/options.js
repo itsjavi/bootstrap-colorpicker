@@ -46,9 +46,9 @@ export default {
    * rgba excepting if the alpha channel is disabled (see useAlpha).
    *
    * @type {('rgb'|'hex'|'hsl'|'auto'|null)}
-   * @default null
+   * @default 'auto'
    */
-  format: null,
+  format: 'auto',
   /**
    * Horizontal mode layout.
    *

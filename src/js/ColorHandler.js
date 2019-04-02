@@ -154,7 +154,8 @@ class ColorHandler {
     let color = new ColorItem(fallback, this.format);
 
     if (!color.isValid()) {
-      throw new Error('The fallback color is invalid.');
+      console.warn('The fallback color is invalid. Falling back to the previous color or black if any.');
+      return this.color ? this.color : new ColorItem('#000000', this.format);
     }
 
     return color;

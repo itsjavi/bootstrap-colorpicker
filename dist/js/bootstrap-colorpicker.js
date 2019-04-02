@@ -1,18 +1,18 @@
 /*!
  * Bootstrap Colorpicker - Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.
  * @package bootstrap-colorpicker
- * @version v3.0.3
+ * @version v3.1.0
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("jQuery"));
+		module.exports = factory(require("jquery"));
 	else if(typeof define === 'function' && define.amd)
-		define("bootstrap-colorpicker", ["jQuery"], factory);
+		define("bootstrap-colorpicker", ["jquery"], factory);
 	else if(typeof exports === 'object')
-		exports["bootstrap-colorpicker"] = factory(require("jQuery"));
+		exports["bootstrap-colorpicker"] = factory(require("jquery"));
 	else
 		root["bootstrap-colorpicker"] = factory(root["jQuery"]);
 })(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_0__) {
@@ -447,8 +447,6 @@ var ColorItem = function () {
     value: function replace(color) {
       var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-      var fallback = null;
-
       format = ColorItem.sanitizeFormat(format);
 
       /**
@@ -467,7 +465,7 @@ var ColorItem = function () {
       this._color = ColorItem.parse(color);
 
       if (this._color === null) {
-        this._color = (0, _color2.default)(fallback);
+        this._color = (0, _color2.default)();
         this._original.valid = false;
         return;
       }
@@ -969,6 +967,10 @@ var ColorItem = function () {
         color = ColorItem.sanitizeString(color);
       }
 
+      if (color === null) {
+        return null;
+      }
+
       if (Array.isArray(color)) {
         format = 'hsv';
       }
@@ -1148,9 +1150,9 @@ exports.default = {
    * rgba excepting if the alpha channel is disabled (see useAlpha).
    *
    * @type {('rgb'|'hex'|'hsl'|'auto'|null)}
-   * @default null
+   * @default 'auto'
    */
-  format: null,
+  format: 'auto',
   /**
    * Horizontal mode layout.
    *
@@ -1559,7 +1561,10 @@ exports.default = Palette;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 module.exports = {
 	"aliceblue": [240, 248, 255],
@@ -1711,6 +1716,7 @@ module.exports = {
 	"yellow": [255, 255, 0],
 	"yellowgreen": [154, 205, 50]
 };
+
 
 /***/ }),
 /* 6 */
@@ -3724,10 +3730,10 @@ var SliderHandler = function () {
 
       // Adjust the color
       if (slider.callLeft) {
-        color[slider.callLeft].call(color, left / slider.maxLeft);
+        color[slider.callLeft](left / slider.maxLeft);
       }
       if (slider.callTop) {
-        color[slider.callTop].call(color, top / slider.maxTop);
+        color[slider.callTop](top / slider.maxTop);
       }
 
       // Set the new color
@@ -4747,7 +4753,7 @@ function Color(obj, model) {
 	var i;
 	var channels;
 
-	if (!obj) {
+	if (typeof obj === 'undefined') {
 		this.model = 'rgb';
 		this.color = [0, 0, 0];
 		this.valpha = 1;
@@ -5205,7 +5211,8 @@ for (var name in colorNames) {
 }
 
 var cs = module.exports = {
-	to: {}
+	to: {},
+	get: {}
 };
 
 cs.get = function (string) {
@@ -5321,12 +5328,12 @@ cs.get.hsl = function (string) {
 		return null;
 	}
 
-	var hsl = /^hsla?\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+	var hsl = /^hsla?\(\s*([+-]?(?:\d*\.)?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
 	var match = string.match(hsl);
 
 	if (match) {
 		var alpha = parseFloat(match[4]);
-		var h = ((parseFloat(match[1]) % 360) + 360) % 360;
+		var h = (parseFloat(match[1]) + 360) % 360;
 		var s = clamp(parseFloat(match[2]), 0, 100);
 		var l = clamp(parseFloat(match[3]), 0, 100);
 		var a = clamp(isNaN(alpha) ? 1 : alpha, 0, 1);
@@ -5811,7 +5818,8 @@ var ColorHandler = function () {
       var color = new _ColorItem2.default(fallback, this.format);
 
       if (!color.isValid()) {
-        throw new Error('The fallback color is invalid.');
+        console.warn('The fallback color is invalid. Falling back to the previous color or black if any.');
+        return this.color ? this.color : new _ColorItem2.default('#000000', this.format);
       }
 
       return color;

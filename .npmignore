@@ -13,6 +13,8 @@ gulpfile.js_*
 /build
 /docs
 /tests
+/vendor
+.idea
 .*
 *.html
 /src/docs

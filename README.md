@@ -10,8 +10,6 @@
 
 [![Build Status](https://img.shields.io/travis/farbelous/bootstrap-colorpicker/master.svg?style=flat-square)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
 [![npm](https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square)](https://www.npmjs.com/package/bootstrap-colorpicker)
-[![Donate](https://img.shields.io/badge/%E2%9D%A4-Donate%20to%20this%20project-e0a61d.svg?longCache=true&style=flat-square)](https://github.com/itsjavi/itsjavi.github.io/blob/master/BACKERS.md#sponsors--backers)
-[![Supporters](https://img.shields.io/badge/%F0%9F%92%AA-Supporters-333333.svg?longCache=true&style=flat-square)](https://github.com/itsjavi/itsjavi.github.io/blob/master/BACKERS.md#sponsors)
 
 ## Install
 You can get the latest version in many different ways:

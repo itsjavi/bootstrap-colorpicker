@@ -6,9 +6,9 @@
 
 <!--version-->
 
-[Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) is a modular color picker plugin for Bootstrap 4.
+[Bootstrap Colorpicker](https://github.com/skullwritter/bootstrap-colorpicker/) is a modular color picker plugin for Bootstrap 4.
 
-[![Build Status](https://img.shields.io/travis/farbelous/bootstrap-colorpicker/master.svg?style=flat-square)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
+[![Build Status](https://img.shields.io/travis/skullwritter/bootstrap-colorpicker/master.svg?style=flat-square)](https://travis-ci.org/skullwritter/bootstrap-colorpicker)
 [![npm](https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square)](https://www.npmjs.com/package/bootstrap-colorpicker)
 
 ## Install
@@ -38,7 +38,7 @@ and then building the code using `npm run build`.
   <tbody>
     <tr>
         <td>
-          <a href="https://github.com/farbelous/bootstrap-colorpicker/tree/v2.x">v2.x</a> <br>
+          <a href="https://github.com/skullwritter/bootstrap-colorpicker/tree/v2.x">v2.x</a> <br>
           <a href="https://farbelous.github.io/bootstrap-colorpicker/v2">Documentation</a>
         </td>
         <td>(any)</td>
@@ -51,7 +51,7 @@ and then building the code using `npm run build`.
     </tr>
     <tr>
         <td>
-          <a href="https://github.com/farbelous/bootstrap-colorpicker">v3.x</a> <br>
+          <a href="https://github.com/skullwritter/bootstrap-colorpicker">v3.x</a> <br>
           <a href="https://farbelous.github.io/bootstrap-colorpicker">Documentation</a>
         </td>
         <td>Bootstrap 4</td>

@@ -19,6 +19,6 @@
   "minimum-stability": "dev",
   "require": {
     "components/jquery": ">=2.1.0",
-    "twbs/bootstrap": "^4.0"
+    "twbs/bootstrap": ">=4.0"
   }
 }

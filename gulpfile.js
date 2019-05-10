@@ -15,6 +15,7 @@ const cleanCss = require('gulp-clean-css');
 const fs = require('fs');
 const pkg = JSON.parse(fs.readFileSync('./package.json'));
 const replace = require('gulp-string-replace');
+const sequence = require('run-sequence');
 
 handlebars.Handlebars.registerHelper(handlebarsLayouts(handlebars.Handlebars));
 
@@ -29,18 +30,6 @@ let banner = `/*!
 `;
 
 let distDir = 'dist', buildDir = 'build', docsDir = buildDir + '/docs';
-
-/**
- * Returns a callback that runs the given tasks programmatically
- * @returns {Function}
- */
-let tasksCb = function () {
-  let tasks = Array.prototype.slice.call(arguments);
-
-  return function () {
-    return gulp.start(tasks);
-  };
-};
 
 gulp.task('clean', function () {
   return del([
@@ -60,11 +49,8 @@ gulp.task('js:clean', function () {
 gulp.task('js:compile', function () {
   return gulp.src([])
     .pipe(webpack(require('./webpack.config.js')))
-    .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest(distDir + '/js/'));
 });
-
-gulp.task('js', ['js:clean'], tasksCb('js:compile'));
 
 // ##########################
 // SASS files
@@ -77,7 +63,6 @@ gulp.task('css:clean', function () {
 gulp.task('css:compile', function () {
   return gulp.src('./src/sass/colorpicker.scss')
     .pipe(sourcemaps.init())
-    .pipe(header(banner, {pkg: pkg}))
     .pipe(sass({style: 'expanded'}).on('error', sass.logError))
     .pipe(autoprefixer())
     .pipe(rename('bootstrap-colorpicker.css'))
@@ -85,7 +70,7 @@ gulp.task('css:compile', function () {
     .pipe(gulp.dest(distDir + '/css/'));
 });
 
-gulp.task('css:minify', ['css:compile'], function () {
+gulp.task('css:minify', function () {
   return gulp.src(distDir + '/css/bootstrap-colorpicker.css')
     .pipe(sourcemaps.init())
     .pipe(cleanCss())
@@ -94,7 +79,11 @@ gulp.task('css:minify', ['css:compile'], function () {
     .pipe(gulp.dest(distDir + '/css/'));
 });
 
-gulp.task('css', ['css:clean'], tasksCb('css:minify'));
+gulp.task('add-header', function () {
+  return gulp.src(distDir + '/**/*.{css,js}')
+    .pipe(header(banner, {pkg: pkg}))
+    .pipe(gulp.dest(distDir));
+});
 
 // ##########################
 // Examples written in handlebars
@@ -111,7 +100,7 @@ gulp.task('examples:compile', function () {
           '<': '&lt;',
           '>': '&gt;',
           '"': '&quot;',
-          "'": '&#39;',
+          '\'': '&#39;',
           '/': '&#x2F;'
         };
 
@@ -140,7 +129,7 @@ gulp.task('docs:clean', function () {
 });
 
 gulp.task('docs:replace-data', function () {
-  gulp.src(['./README.md'])
+  return gulp.src(['./README.md'])
     .pipe(
       replace(
         new RegExp('<!--version-->', 'g'),
@@ -173,7 +162,9 @@ gulp.task('docs:add-v2-docs', shell.task([
   'rm -rf build/tmp/*'
 ]));
 
-gulp.task('docs', ['docs:clean'], tasksCb('docs:compile', 'docs:add-dist'));
+gulp.task('docs', function (cb) {
+  sequence('docs:clean', 'docs:compile', 'docs:add-dist', cb);
+});
 
 // ##########################
 // Publish tools
@@ -207,7 +198,16 @@ gulp.task('watch', ['default'], function () {
   gulp.watch('src/js/**/*.js', ['js']);
 });
 
-gulp.task('dist', ['js', 'css']);
+gulp.task('dist', function (cb) {
+  sequence(
+    ['js:clean', 'css:clean'],
+    ['js:compile', 'css:compile'],
+    'css:minify',
+    'add-header',
+    cb
+  );
+});
+
 gulp.task('default', ['dist']);
 
 // To list all tasks run "gulp --tasks" or "gulp --tasks-simple"

@@ -23,7 +23,7 @@
 
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
 
-  <link href="dist/css/bootstrap-colorpicker.css?v=1554243603340" rel="stylesheet" />
+  <link href="dist/css/bootstrap-colorpicker.css?v=1557529536844" rel="stylesheet" />
 
   <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
   <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
@@ -38,7 +38,7 @@
 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 
-  <script src="dist/js/bootstrap-colorpicker.js?v=1554243603340"></script>
+  <script src="dist/js/bootstrap-colorpicker.js?v=1557529536844"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -69,14 +69,16 @@
 
 
     <section class="readme">
-        <article><p><a class="readme-logo" href="https://farbelous.io/bootstrap-colorpicker">
+        <article><a class="readme-logo" href="https://farbelous.io/bootstrap-colorpicker">
     <img alt="Logo by @reallinfo" src="logo.png" width="128px" />
-</a></p>
-<h1>Bootstrap Colorpicker</h1><!--googleoff: index--><h2 class="pkg-version">v3.1.1</h2><!--googleon: index-->
+</a>
+<h1>Bootstrap Colorpicker</h1>
+<!--googleoff: index--><h2 class="pkg-version">v3.1.2</h2><!--googleon: index-->
 <p><a href="https://github.com/farbelous/bootstrap-colorpicker/">Bootstrap Colorpicker</a> is a modular color picker plugin for Bootstrap 4.</p>
 <p><a href="https://travis-ci.org/farbelous/bootstrap-colorpicker"><img src="https://img.shields.io/travis/farbelous/bootstrap-colorpicker/master.svg?style=flat-square" alt="Build Status"></a>
 <a href="https://www.npmjs.com/package/bootstrap-colorpicker"><img src="https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square" alt="npm"></a></p>
-<h2>Install</h2><p>You can get the latest version in many different ways:</p>
+<h2>Install</h2>
+<p>You can get the latest version in many different ways:</p>
 <ul>
 <li>Downloading <a href="https://github.com/farbelous/bootstrap-colorpicker/releases">a ZIP file from the releases</a></li>
 <li>Cloning using Git: <code>git clone https://github.com/farbelous/bootstrap-colorpicker.git</code></li>
@@ -87,7 +89,8 @@
 <p>Note that the <code>dist</code> files are only distributed via the NPM and Yarn installations.</p>
 <p>For the rest methods, you will need to generate the files initializing the project with <code>yarn install</code>
 and then building the code using <code>npm run build</code>.</p>
-<h2>Versions</h2><table class="table table-bordered table-striped">
+<h2>Versions</h2>
+<table class="table table-bordered table-striped">
   <thead>
     <tr>
         <th>Colorpicker version</th>
@@ -104,7 +107,7 @@ and then building the code using <code>npm run build</code>.</p>
         <td>(any)</td>
         <td>
           <ul>
-            <li>jQuery &gt;= 1.10</li>
+            <li>jQuery >= 1.10</li>
             <li>Bootstrap CSS (input addon)</li>
           </ul>
         </td>
@@ -117,7 +120,7 @@ and then building the code using <code>npm run build</code>.</p>
         <td>Bootstrap 4</td>
         <td>
           <ul>
-            <li>jQuery &gt;= 2.1.0</li>
+            <li>jQuery >= 2.1.0</li>
             <li>Bootstrap CSS (input addon, popover)</li>
             <li>Bootstrap JS Bundle (popover)</li>
           </ul>
@@ -125,11 +128,10 @@ and then building the code using <code>npm run build</code>.</p>
     </tr>
   </thead>
 </table>
-
-
 <p>Note that the plugin may work without Bootstrap if your code is not using any of the mentioned Bootstrap
 dependencies.</p>
-<h2>Basic example</h2><pre class="prettyprint source lang-html"><code>&lt;!DOCTYPE html>
+<h2>Basic example</h2>
+<pre class="prettyprint source lang-html"><code>&lt;!DOCTYPE html>
 &lt;html lang=&quot;en&quot;>
 &lt;head>
   &lt;meta charset=&quot;utf-8&quot;>
@@ -148,25 +150,30 @@ dependencies.</p>
     $(function () {
       // Basic instantiation:
       $('#demo').colorpicker();
-
+      
       // Example using an event, to change the color of the .jumbotron background:
       $('#demo').on('colorpickerChange', function(event) {
         $('.jumbotron').css('background-color', event.color.toString());
       });
     });
   &lt;/script>
-&lt;/body></code></pre><h2>Contributions</h2><ul>
+&lt;/body>
+</code></pre>
+<h2>Contributions</h2>
+<ul>
 <li><a href="https://github.com/farbelous/bootstrap-colorpicker/issues">Issues</a></li>
 <li><a href="https://github.com/farbelous/bootstrap-colorpicker/pulls">Pull Requests</a></li>
 <li><a href="https://github.com/farbelous/bootstrap-colorpicker/milestones">Milestones</a></li>
 <li><a href="https://github.com/farbelous/bootstrap-colorpicker/projects">Planned Features</a></li>
 </ul>
 <p>This project exists thanks to all the <a href="https://github.com/farbelous/bootstrap-colorpicker/graphs/contributors">people who contribute</a>.</p>
-<p>Please read <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md">CONTRIBUTING</a> 
+<p>Please read <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md">CONTRIBUTING</a>
 before sending a pull request or issue.</p>
-<h2>License</h2><p>The MIT License (MIT).
+<h2>License</h2>
+<p>The MIT License (MIT).
 Please see the <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/LICENSE">License File</a> for more information.</p>
-<h2>Credits</h2><p>Written and maintained by <a href="https://itsjavi.com">Javi Aguilar</a> and all other contributors.</p>
+<h2>Credits</h2>
+<p>Written and maintained by <a href="https://itsjavi.com">Javi Aguilar</a> and all other contributors.</p>
 <p><em>Based on Stefan Petre's color picker (2013).</em></p>
 <p><em>Thanks to JetBrains for supporting this project.</em></p></article>
     </section>
@@ -182,14 +189,14 @@ Please see the <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/
   <div class="row">
     <footer class="col-md-12 main-footer">
       Generated by <a
-      href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+      href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.1</a>
       
-      on Wed Apr 03 2019 00:20:03 GMT+0200 (Central European Summer Time) using a custom Minami theme. Search powered by Algolia.
+      on Sat May 11 2019 01:05:36 GMT+0200 (Central European Summer Time) using a custom Minami theme. Search powered by Algolia.
     </footer>
   </div>
 </div>
 
-<script src="dist/js/bootstrap-colorpicker.js?v=1554243603340"></script>
+<script src="dist/js/bootstrap-colorpicker.js?v=1557529536844"></script>
 
 
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
@@ -207,6 +214,6 @@ Please see the <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/
 
 <script src="scripts/prettify/prettify.js"></script>
 <script src="scripts/prettify/lang-css.js"></script>
-<script src="scripts/jsdoc.js?v=1554243603340"></script>
+<script src="scripts/jsdoc.js?v=1557529536844"></script>
 </body>
 </html>

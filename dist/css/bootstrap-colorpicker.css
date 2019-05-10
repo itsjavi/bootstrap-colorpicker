@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.
  * @package bootstrap-colorpicker
- * @version v3.1.1
+ * @version v3.1.2
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -280,6 +280,14 @@
 .colorpicker-popup.colorpicker-bs-popover-content:after {
   content: none;
   display: none; }
+
+.colorpicker-alpha,
+.colorpicker-saturation,
+.colorpicker-hue {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
 
 .colorpicker.colorpicker-visible,
 .colorpicker-alpha.colorpicker-visible,

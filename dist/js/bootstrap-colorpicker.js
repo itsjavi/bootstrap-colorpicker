@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Colorpicker - Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.
  * @package bootstrap-colorpicker
- * @version v3.1.1
+ * @version v3.1.2
  * @license MIT
  * @link https://farbelous.github.io/bootstrap-colorpicker/
  * @link https://github.com/farbelous/bootstrap-colorpicker.git
@@ -5080,6 +5080,9 @@ Color.prototype = {
 	mix: function (mixinColor, weight) {
 		// ported from sass implementation in C
 		// https://github.com/sass/libsass/blob/0e6b4a2850092356aa3ece07c6b249f0221caced/functions.cpp#L209
+		if (!mixinColor || !mixinColor.rgb) {
+			throw new Error('Argument to "mix" was not a Color instance, but rather an instance of ' + typeof mixinColor);
+		}
 		var color1 = mixinColor.rgb();
 		var color2 = this.rgb();
 		var p = weight === undefined ? 0.5 : weight;

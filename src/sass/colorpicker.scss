@@ -151,6 +151,7 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
   float: left;
   box-shadow: $box-shadow-outline;
   margin-bottom: $base-margin;
+
   .colorpicker-guide {
     display: block;
     height: 6px;
@@ -222,6 +223,7 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
   line-height: normal;
   max-width: 100%;
   box-shadow: $box-shadow-outline;
+
   &:before {
     content: "";
     display: table;
@@ -325,6 +327,13 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
   display: none;
 }
 
+
+.colorpicker-alpha,
+.colorpicker-saturation,
+.colorpicker-hue {
+  user-select: none;
+}
+
 .colorpicker,
 .colorpicker-alpha,
 .colorpicker-saturation,
@@ -423,6 +432,7 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
   .colorpicker-swatch:nth-of-type(#{$columns + 1}n+0) {
     margin-right: $base-margin;
   }
+
   .colorpicker-swatch:nth-of-type(#{$columns + 2}n+0) {
     margin-right: 0;
   }
@@ -433,9 +443,11 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
   .colorpicker-swatch:nth-of-type(#{$columns}n+0) {
     margin-right: 0;
   }
+
   .colorpicker-swatch:nth-of-type(#{$columns + 1}n+0) {
     margin-right: $base-margin;
   }
+
   .colorpicker-swatch:nth-of-type(#{$columns + 2}n+0) {
     margin-right: $base-margin;
   }

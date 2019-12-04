@@ -91,6 +91,7 @@ gulp.task('add-header', function () {
 
 gulp.task('examples:compile', function () {
   let data = {banner: banner, package: pkg};
+
   let options = {
     batch: ['./src/docs', './src/docs/examples'],
     helpers: {

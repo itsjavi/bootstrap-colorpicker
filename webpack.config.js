@@ -2,12 +2,15 @@
 const path = require('path');
 const webpack = require('webpack');
 const libraryName = 'bootstrap-colorpicker';
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 let entries = {};
 
 entries[libraryName] = './src/js/plugin.js';
 entries[libraryName + '.min'] = './src/js/plugin.js';
 
 module.exports = {
+  mode: 'production',
   entry: entries,
   output: {
     filename: '[name].js',
@@ -23,7 +26,7 @@ module.exports = {
     ]
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /(\.jsx|\.js)$/,
         loader: 'babel-loader',
@@ -55,11 +58,21 @@ module.exports = {
       jQuery: 'jquery',
       'window.$': 'jquery',
       'window.jQuery': 'jquery'
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      include: /\.min\.js$/,
-      minimize: true,
-      sourceMap: true
     })
-  ]
+  ],
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        include: /\.min\.js$/,
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: false,
+          ecma: 6,
+          mangle: false
+        },
+        sourceMap: true
+      })
+    ]
+  }
 };

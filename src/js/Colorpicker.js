@@ -13,6 +13,7 @@ import AddonHandler from './AddonHandler';
 import ColorItem from './ColorItem';
 
 let colorPickerIdCounter = 0;
+
 let root = (typeof self !== 'undefined' ? self : this); // window
 
 /**

@@ -51,6 +51,7 @@ class AddonHandler {
     }
 
     let colorStr = this.colorpicker.colorHandler.getColorString();
+
     let styles = {'background': colorStr};
 
     let icn = this.addon.find('i').eq(0);

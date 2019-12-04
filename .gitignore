@@ -9,7 +9,7 @@ Thumbs.db
 /nbproject/
 /gh-pages/
 .idea
-/package-lock.json
+/yarn.lock
 gulpfile.js_*
 /build
 /dist

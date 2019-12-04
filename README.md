@@ -41,7 +41,7 @@ and then building the code using `npm run build`.
           <a href="https://github.com/itsjavi/bootstrap-colorpicker/tree/v2.x">v2.x</a> <br>
           <a href="https://itsjavi.com/bootstrap-colorpicker/v2">Documentation</a>
         </td>
-        <td>(any)</td>
+        <td>Bootstrap 3 or 4</td>
         <td>
           <ul>
             <li>jQuery >= 1.10</li>
@@ -54,7 +54,7 @@ and then building the code using `npm run build`.
           <a href="https://github.com/itsjavi/bootstrap-colorpicker">v3.x</a> <br>
           <a href="https://itsjavi.com/bootstrap-colorpicker">Documentation</a>
         </td>
-        <td>Bootstrap 4</td>
+        <td>Bootstrap 4 or without Bootstrap</td>
         <td>
           <ul>
             <li>jQuery >= 2.1.0</li>

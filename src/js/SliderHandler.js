@@ -75,6 +75,7 @@ class SliderHandler {
   bind() {
     let sliders = this.colorpicker.options.horizontal ? this.colorpicker
       .options.slidersHorz : this.colorpicker.options.sliders;
+
     let sliderClasses = [];
 
     for (let sliderName in sliders) {
@@ -126,6 +127,7 @@ class SliderHandler {
 
     // detect the slider and set the limits and callbacks
     let zone = target.closest('div');
+
     let sliders = this.colorpicker.options.horizontal ? this.colorpicker
       .options.slidersHorz : this.colorpicker.options.sliders;
 

@@ -109,6 +109,7 @@ class PickerHandler {
 
     // Set alpha color gradient
     let hexColor = this.color.toHexString();
+
     let alphaBg = '';
 
     if (this.options.horizontal) {

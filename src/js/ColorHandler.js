@@ -151,6 +151,7 @@ class ColorHandler {
     }
 
     let fallback = this.resolveColorDelegate(this.fallback);
+
     let color = new ColorItem(fallback, this.format);
 
     if (!color.isValid()) {

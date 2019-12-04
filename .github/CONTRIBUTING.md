@@ -28,8 +28,8 @@ section of this document.
 Pull Requests fixing existing issues are really appreciated, but you can also add a new features.
 If your new feature works and receives the approval of the community, it will be merged.
 
-- Your working environment will need `node` (at least v6) with `npm` and `yarn`, `gulp` and `ava`.
-- After a fresh clone for your fork, you need to run `yarn install` inside the project's root folder.
+- Your working environment will need `node` v10.x with `npm`, `gulp` and `ava`.
+- After a fresh clone for your fork, you need to run `npm install` inside the project's root folder.
 - Before committing your changes to Github you have to assure that the tests are green and the build is successful.
   
   - Run the build process and make sure it doesn't produce any error: `npm run build`.

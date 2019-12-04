@@ -39,7 +39,7 @@
         </p>
         <p class="alert alert-warning">
             <b>NOTE</b> That this is an older version of the library documentation, please check
-            the project <a href="https://github.com/farbelous/bootstrap-colorpicker/blob/master/README.md">README</a>
+            the project <a href="https://github.com/itsjavi/bootstrap-colorpicker/blob/master/README.md">README</a>
             to find the documentation for the newer and latest versions.
         </p>
     </article>
@@ -48,15 +48,15 @@
     <article class="col-md-12">
         <hr>
         <div class="social">
-            <a href="https://github.com/farbelous/bootstrap-colorpicker/" target="_blank"
+            <a href="https://github.com/itsjavi/bootstrap-colorpicker/" target="_blank"
                class="btn btn-default btn-sm"><span class="octicon octicon-mark-github"></span>
                 Source code
             </a>
-            <a href="https://github.com/farbelous/bootstrap-colorpicker/releases" target="_blank"
+            <a href="https://github.com/itsjavi/bootstrap-colorpicker/releases" target="_blank"
                class="btn btn-default btn-sm">
                 Latest Releases
             </a>
-            <a href="https://github.com/farbelous/bootstrap-colorpicker/archive/2.5.2.zip" target="_blank"
+            <a href="https://github.com/itsjavi/bootstrap-colorpicker/archive/2.5.2.zip" target="_blank"
                class="btn btn-success btn-sm"><i class="glyphicon glyphicon-download-alt"></i>
                 Download v2.5.2
             </a>
@@ -446,8 +446,8 @@
 &lt;script&gt;
     $(function() {
         $(&#39;#cp4&#39;).colorpicker().on(&#39;changeColor&#39;, function(e) {
-            $(&#39;body&#39;)[0].style.backgroundColor = e.color.toString(
-                &#39;rgba&#39;);
+            $(&#39;body&#39;)[0].style.backgroundColor = e.color
+                .toString(&#39;rgba&#39;);
         });
     });
 &lt;&#x2F;script&gt;</div>    </div>
@@ -755,11 +755,12 @@
       </script>
         </div>
         <button type="button" class="btn btn-link btn-xs example-code-toggle" data-toggle="button">View source</button>
-<div class="example-code">&lt;button class=&quot;btn btn-primary btn-md&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;
-            Show modal
-        &lt;&#x2F;button&gt;
-&lt;div class=&quot;modal fade&quot; id=&quot;myModal&quot; tabindex=&quot;-1&quot; role=&quot;dialog&quot; aria-labelledby=&quot;myModalLabel&quot;
-    aria-hidden=&quot;true&quot;&gt;
+<div class="example-code">&lt;button class=&quot;btn btn-primary btn-md&quot; data-toggle=&quot;modal&quot;
+    data-target=&quot;#myModal&quot;&gt;
+    Show modal
+&lt;&#x2F;button&gt;
+&lt;div class=&quot;modal fade&quot; id=&quot;myModal&quot; tabindex=&quot;-1&quot; role=&quot;dialog&quot;
+    aria-labelledby=&quot;myModalLabel&quot; aria-hidden=&quot;true&quot;&gt;
     &lt;div class=&quot;modal-dialog&quot;&gt;
         &lt;div class=&quot;modal-content&quot;&gt;
             &lt;div class=&quot;modal-body&quot;&gt;

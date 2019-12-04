@@ -5,7 +5,7 @@ All contributions are welcome!
 ## Support
 
 If you get stuck with this library you can search or ask in the project 
-[issues](https://github.com/farbelous/bootstrap-colorpicker/issues) or in
+[issues](https://github.com/itsjavi/bootstrap-colorpicker/issues) or in
 [StackOverflow](http://stackoverflow.com/).
 
 [Describe your problem or questions in detail](./ISSUE_TEMPLATE.md) and follow the steps mentioned in the "Issues"

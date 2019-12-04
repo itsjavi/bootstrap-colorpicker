@@ -1,4 +1,4 @@
-<a class="readme-logo" href="https://farbelous.io/bootstrap-colorpicker">
+<a class="readme-logo" href="https://itsjavi.com/bootstrap-colorpicker">
     <img alt="Logo by @reallinfo" src="logo.png" width="128px" />
 </a>
 
@@ -6,16 +6,16 @@
 
 <!--version-->
 
-[Bootstrap Colorpicker](https://github.com/farbelous/bootstrap-colorpicker/) is a modular color picker plugin for Bootstrap 4.
+[Bootstrap Colorpicker](https://github.com/itsjavi/bootstrap-colorpicker/) is a modular color picker plugin for Bootstrap 4.
 
-[![Build Status](https://img.shields.io/travis/farbelous/bootstrap-colorpicker/master.svg?style=flat-square)](https://travis-ci.org/farbelous/bootstrap-colorpicker)
+[![Build Status](https://img.shields.io/travis/itsjavi/bootstrap-colorpicker/master.svg?style=flat-square)](https://travis-ci.org/itsjavi/bootstrap-colorpicker)
 [![npm](https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square)](https://www.npmjs.com/package/bootstrap-colorpicker)
 
 ## Install
 You can get the latest version in many different ways:
 
-- Downloading [a ZIP file from the releases](https://github.com/farbelous/bootstrap-colorpicker/releases)
-- Cloning using Git: `git clone https://github.com/farbelous/bootstrap-colorpicker.git`
+- Downloading [a ZIP file from the releases](https://github.com/itsjavi/bootstrap-colorpicker/releases)
+- Cloning using Git: `git clone https://github.com/itsjavi/bootstrap-colorpicker.git`
 - Installing via NPM: `npm install bootstrap-colorpicker`
 - Installing via Yarn: `yarn add bootstrap-colorpicker`
 - Installing via Composer: `composer require itsjavi/bootstrap-colorpicker`
@@ -38,8 +38,8 @@ and then building the code using `npm run build`.
   <tbody>
     <tr>
         <td>
-          <a href="https://github.com/farbelous/bootstrap-colorpicker/tree/v2.x">v2.x</a> <br>
-          <a href="https://farbelous.github.io/bootstrap-colorpicker/v2">Documentation</a>
+          <a href="https://github.com/itsjavi/bootstrap-colorpicker/tree/v2.x">v2.x</a> <br>
+          <a href="https://itsjavi.com/bootstrap-colorpicker/v2">Documentation</a>
         </td>
         <td>(any)</td>
         <td>
@@ -51,8 +51,8 @@ and then building the code using `npm run build`.
     </tr>
     <tr>
         <td>
-          <a href="https://github.com/farbelous/bootstrap-colorpicker">v3.x</a> <br>
-          <a href="https://farbelous.github.io/bootstrap-colorpicker">Documentation</a>
+          <a href="https://github.com/itsjavi/bootstrap-colorpicker">v3.x</a> <br>
+          <a href="https://itsjavi.com/bootstrap-colorpicker">Documentation</a>
         </td>
         <td>Bootstrap 4</td>
         <td>
@@ -104,19 +104,19 @@ dependencies.
 ```
 
 ## Contributions
-* [Issues](https://github.com/farbelous/bootstrap-colorpicker/issues)
-* [Pull Requests](https://github.com/farbelous/bootstrap-colorpicker/pulls)
-* [Milestones](https://github.com/farbelous/bootstrap-colorpicker/milestones)
-* [Planned Features](https://github.com/farbelous/bootstrap-colorpicker/projects)
+* [Issues](https://github.com/itsjavi/bootstrap-colorpicker/issues)
+* [Pull Requests](https://github.com/itsjavi/bootstrap-colorpicker/pulls)
+* [Milestones](https://github.com/itsjavi/bootstrap-colorpicker/milestones)
+* [Planned Features](https://github.com/itsjavi/bootstrap-colorpicker/projects)
 
-This project exists thanks to all the [people who contribute](https://github.com/farbelous/bootstrap-colorpicker/graphs/contributors).
+This project exists thanks to all the [people who contribute](https://github.com/itsjavi/bootstrap-colorpicker/graphs/contributors).
 
-Please read [CONTRIBUTING](https://github.com/farbelous/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md) 
+Please read [CONTRIBUTING](https://github.com/itsjavi/bootstrap-colorpicker/blob/master/.github/CONTRIBUTING.md) 
 before sending a pull request or issue.
 
 ## License
 The MIT License (MIT).
-Please see the [License File](https://github.com/farbelous/bootstrap-colorpicker/blob/master/LICENSE) for more information.
+Please see the [License File](https://github.com/itsjavi/bootstrap-colorpicker/blob/master/LICENSE) for more information.
 
 ## Credits
 

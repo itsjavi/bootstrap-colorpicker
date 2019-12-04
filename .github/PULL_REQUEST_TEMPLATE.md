@@ -18,5 +18,5 @@ Please fill this check list before submitting a pull request:
 - [ ] All tests are green after running `npm run test`.
 - [ ] New tests have been added or modified for the introduced changes.
 - [ ] New examples have been added for the newly introduced features.
-- [ ] All the examples are still working as expected compared to the [official website](https://farbelous.io/bootstrap-colorpicker).
+- [ ] All the examples are still working as expected compared to the [official website](https://itsjavi.com/bootstrap-colorpicker).
 - [ ] This PR follows all other [`CONTRIBUTING.md`](.github/CONTRIBUTING.md#pull-requests) guidelines for Pull Requests.

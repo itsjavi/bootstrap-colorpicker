@@ -14,7 +14,7 @@
 ## Install
 You can get the latest version in many different ways:
 
-- Downloading [the tarball from npm the registry](https://registry.npmjs.org/bootstrap-colorpicker/latest), e.g. `https://registry.npmjs.org/bootstrap-colorpicker/-/bootstrap-colorpicker-3.2.0.tgz`
+- Downloading the tarball from npm the registry: https://registry.npmjs.org/bootstrap-colorpicker/-/bootstrap-colorpicker-3.2.0.tgz  (you can change the version in the url to any released tag)
 - Cloning using Git: `git clone https://github.com/itsjavi/bootstrap-colorpicker.git`
 - Installing via NPM: `npm install bootstrap-colorpicker`
 - Installing via Yarn: `yarn add bootstrap-colorpicker`

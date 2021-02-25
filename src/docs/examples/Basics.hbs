@@ -366,6 +366,36 @@
     {{/extend}}
 
     {{#extend "example"}}
+          {{#content "title"}} Disable HEX change from #RGB to #RRGGBB {{/content}}
+          {{#content "description"}}
+            <p>
+              By default, if the <code>autoInputFallback</code> option is enabled, even when you will
+              change input to HEX3 (#RGB), it will automatically convert to hex6 (#RRGGBB)
+              <br>
+              You can stop this by setting this option to false. That way, when someone will type
+              color to input, that is identified as HEX color, it will convert to #RRGGBB only if it will
+              be a valid HEX6 color.
+            </p>
+          {{/content}}
+          {{#content "code"}}
+            <div id="cp14" class="input-group">
+              <input type="text" class="form-control input-lg" value="I am an invalid color"/>
+              <span class="input-group-append">
+                <span class="input-group-text colorpicker-input-addon"><i></i></span>
+              </span>
+            </div>
+            <script>
+              $(function () {
+                $('#cp14').colorpicker({
+                  autoInputFallback: false,
+                  autoHexInputFallback: false,
+                });
+              });
+            </script>
+          {{/content}}
+        {{/extend}}
+
+    {{#extend "example"}}
       {{#content "title"}} Adjust the popover options{{/content}}
       {{#content "description"}}
         <p>
@@ -374,7 +404,7 @@
         </p>
       {{/content}}
       {{#content "code"}}
-        <div id="cp14" class="input-group">
+        <div id="cp15" class="input-group">
           <input type="text" class="form-control input-lg" value="hsl(103, 70%, 64%)"/>
           <span class="input-group-append">
             <span class="input-group-text colorpicker-input-addon"><i></i></span>
@@ -382,7 +412,7 @@
         </div>
         <script>
           $(function () {
-            $('#cp14').colorpicker({
+            $('#cp15').colorpicker({
               popover: {
                 title: 'Adjust the color',
                 placement: 'top'
@@ -414,7 +444,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <input id="cp15" type="text" class="form-control input-lg" value="rgb(130, 44, 29)"/>
+                <input id="cp16" type="text" class="form-control input-lg" value="rgb(130, 44, 29)"/>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -425,7 +455,7 @@
         </div>
         <script>
           $(function () {
-            $('#cp15').colorpicker();
+            $('#cp16').colorpicker();
           });
         </script>
       {{/content}}

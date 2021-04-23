@@ -1,0 +1,11 @@
+version: '3'
+services:
+  app: # by default, it serves the docs pages, unless you specify a different command
+    restart: always
+    build:
+      context: ./
+      target: dev
+    ports:
+      - 5000:80
+    volumes:
+      - ./:/usr/src/app:delegated

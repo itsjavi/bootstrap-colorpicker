@@ -23,3 +23,8 @@ gulpfile.js_*
 webpack.config.js
 composer.json
 gulpfile.js
+Makefile
+docker-compose.yml
+docker-compose.override.yml
+Dockerfile
+.dockerignore

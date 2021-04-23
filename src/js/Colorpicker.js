@@ -252,7 +252,8 @@ class Colorpicker {
 
     this.element
       .removeClass('colorpicker-element')
-      .removeData('colorpicker', 'color')
+      .removeData('colorpicker')
+      .removeData('color')
       .off('.colorpicker');
 
     /**

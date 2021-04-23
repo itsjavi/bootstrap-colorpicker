@@ -19,7 +19,7 @@ section of this document.
   in front of the title when it is not related to a possible bug.
 - When the issue is related to a possible bug, please always fill the [suggested template](./ISSUE_TEMPLATE.md) 
   where applicable.
-- It is mandatory to provide live examples using [JSFiddle](http://jsfiddle.net/0vopxm13/157/) if applicable,
+- It is mandatory to provide live examples using [JSFiddle](https://jsfiddle.net/3paut4qn/1/) when applicable,
   that's the quickest and most efficient way for everyone to help you.
 
 

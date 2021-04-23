@@ -84,9 +84,10 @@ class ColorItem {
   /**
    * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
    * @param {String|null} format Color model to convert to by default. Supported: 'rgb', 'hsl', 'hex'.
+   * @param {boolean} disableHexInputFallback Disable fixing hex3 format
    */
-  constructor(color = null, format = null) {
-    this.replace(color, format);
+  constructor(color = null, format = null, disableHexInputFallback = false) {
+    this.replace(color, format, disableHexInputFallback);
   }
 
   /**
@@ -95,10 +96,11 @@ class ColorItem {
    *
    * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data to be parsed (if needed)
    * @param {String|null} format Color model to convert to by default. Supported: 'rgb', 'hsl', 'hex'.
+   * @param {boolean} disableHexInputFallback Disable fixing hex3 format
    * @example color.replace('rgb(255,0,0)', 'hsl');
    * @example color.replace(hsvaColorData);
    */
-  replace(color, format = null) {
+  replace(color, format = null, disableHexInputFallback = false) {
     format = ColorItem.sanitizeFormat(format);
 
     /**
@@ -114,7 +116,7 @@ class ColorItem {
      * @type {QixColor}
      * @private
      */
-    this._color = ColorItem.parse(color);
+    this._color = ColorItem.parse(color, disableHexInputFallback);
 
     if (this._color === null) {
       this._color = QixColor();
@@ -135,11 +137,12 @@ class ColorItem {
    * parsed.
    *
    * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
+   * @param {boolean} disableHexInputFallback Disable fixing hex3 format
    * @example let qColor = ColorItem.parse('rgb(255,0,0)');
    * @static
    * @returns {QixColor|null}
    */
-  static parse(color) {
+  static parse(color, disableHexInputFallback = false) {
     if (color instanceof QixColor) {
       return color;
     }
@@ -162,6 +165,10 @@ class ColorItem {
 
     if (Array.isArray(color)) {
       format = 'hsv';
+    }
+
+    if (ColorItem.isHex(color) && (color.length !== 6 && color.length !== 7) && disableHexInputFallback) {
+      return null;
     }
 
     try {

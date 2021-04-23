@@ -23,7 +23,7 @@
 
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
 
-  <link href="dist/css/bootstrap-colorpicker.css?v=1575468400921" rel="stylesheet" />
+  <link href="dist/css/bootstrap-colorpicker.css?v=1619216178952" rel="stylesheet" />
 
   <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
   <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
@@ -38,7 +38,7 @@
 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 
-  <script src="dist/js/bootstrap-colorpicker.js?v=1575468400921"></script>
+  <script src="dist/js/bootstrap-colorpicker.js?v=1619216178952"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -768,6 +768,62 @@
 
 <div class="example">
   <div class="card card-default">
+      <div class="card-header example-title"><h2> Disable HEX change from #RGB to #RRGGBB </h2></div>
+    <div class="card-body">
+        <div class="example-description">
+                      <p>
+              By default, if the <code>autoInputFallback</code> option is enabled, even when you will
+              change input to HEX3 (#RGB), it will automatically convert to hex6 (#RRGGBB)
+              <br>
+              You can stop this by setting this option to false. That way, when someone will type
+              color to input, that is identified as HEX color, it will convert to #RRGGBB only if it will
+              be a valid HEX6 color.
+            </p>
+
+        </div>
+      <div class="example-demo">
+                    <div id="cp14" class="input-group">
+              <input type="text" class="form-control input-lg" value="I am an invalid color"/>
+              <span class="input-group-append">
+                <span class="input-group-text colorpicker-input-addon"><i></i></span>
+              </span>
+            </div>
+            <script>
+              $(function () {
+                $('#cp14').colorpicker({
+                  autoInputFallback: false,
+                  autoHexInputFallback: false,
+                });
+              });
+            </script>
+
+      </div>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-outline-secondary btn-sm example-code-trigger">Show code</button>
+      <div class="example-code-container">
+        <div class="card-footer--legend">Code</div>
+        <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp14&quot; class=&quot;input-group&quot;&gt;
+      &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;I am an invalid color&quot;&#x2F;&gt;
+      &lt;span class=&quot;input-group-append&quot;&gt;
+        &lt;span class=&quot;input-group-text colorpicker-input-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
+      &lt;&#x2F;span&gt;
+    &lt;&#x2F;div&gt;
+    &lt;script&gt;
+      $(function () {
+        $(&#39;#cp14&#39;).colorpicker({
+          autoInputFallback: false,
+          autoHexInputFallback: false,
+        });
+      });
+    &lt;&#x2F;script&gt;</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="example">
+  <div class="card card-default">
       <div class="card-header example-title"><h2> Adjust the popover options</h2></div>
     <div class="card-body">
         <div class="example-description">
@@ -778,7 +834,7 @@
 
         </div>
       <div class="example-demo">
-                <div id="cp14" class="input-group">
+                <div id="cp15" class="input-group">
           <input type="text" class="form-control input-lg" value="hsl(103, 70%, 64%)"/>
           <span class="input-group-append">
             <span class="input-group-text colorpicker-input-addon"><i></i></span>
@@ -786,7 +842,7 @@
         </div>
         <script>
           $(function () {
-            $('#cp14').colorpicker({
+            $('#cp15').colorpicker({
               popover: {
                 title: 'Adjust the color',
                 placement: 'top'
@@ -801,7 +857,7 @@
       <button class="btn btn-outline-secondary btn-sm example-code-trigger">Show code</button>
       <div class="example-code-container">
         <div class="card-footer--legend">Code</div>
-        <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp14&quot; class=&quot;input-group&quot;&gt;
+        <pre class="example-code prettyprint lang-html">&lt;div id=&quot;cp15&quot; class=&quot;input-group&quot;&gt;
   &lt;input type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;hsl(103, 70%, 64%)&quot;&#x2F;&gt;
   &lt;span class=&quot;input-group-append&quot;&gt;
     &lt;span class=&quot;input-group-text colorpicker-input-addon&quot;&gt;&lt;i&gt;&lt;&#x2F;i&gt;&lt;&#x2F;span&gt;
@@ -809,7 +865,7 @@
 &lt;&#x2F;div&gt;
 &lt;script&gt;
   $(function () {
-    $(&#39;#cp14&#39;).colorpicker({
+    $(&#39;#cp15&#39;).colorpicker({
       popover: {
         title: &#39;Adjust the color&#39;,
         placement: &#39;top&#39;
@@ -847,7 +903,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <input id="cp15" type="text" class="form-control input-lg" value="rgb(130, 44, 29)"/>
+                <input id="cp16" type="text" class="form-control input-lg" value="rgb(130, 44, 29)"/>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -858,7 +914,7 @@
         </div>
         <script>
           $(function () {
-            $('#cp15').colorpicker();
+            $('#cp16').colorpicker();
           });
         </script>
 
@@ -885,7 +941,7 @@
         &lt;&#x2F;button&gt;
       &lt;&#x2F;div&gt;
       &lt;div class=&quot;modal-body&quot;&gt;
-        &lt;input id=&quot;cp15&quot; type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;rgb(130, 44, 29)&quot;&#x2F;&gt;
+        &lt;input id=&quot;cp16&quot; type=&quot;text&quot; class=&quot;form-control input-lg&quot; value=&quot;rgb(130, 44, 29)&quot;&#x2F;&gt;
       &lt;&#x2F;div&gt;
       &lt;div class=&quot;modal-footer&quot;&gt;
         &lt;button type=&quot;button&quot; class=&quot;btn btn-secondary&quot; data-dismiss=&quot;modal&quot;&gt;Close&lt;&#x2F;button&gt;
@@ -896,7 +952,7 @@
 &lt;&#x2F;div&gt;
 &lt;script&gt;
   $(function () {
-    $(&#39;#cp15&#39;).colorpicker();
+    $(&#39;#cp16&#39;).colorpicker();
   });
 &lt;&#x2F;script&gt;</pre>
       </div>
@@ -921,12 +977,12 @@
       Generated by <a
       href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a>
       
-      on Wed Dec 04 2019 15:06:40 GMT+0100 (Central European Standard Time) using a custom Minami theme. Search powered by Algolia.
+      on Fri Apr 23 2021 22:16:18 GMT+0000 (Coordinated Universal Time) using a custom Minami theme. Search powered by Algolia.
     </footer>
   </div>
 </div>
 
-<script src="dist/js/bootstrap-colorpicker.js?v=1575468400921"></script>
+<script src="dist/js/bootstrap-colorpicker.js?v=1619216178952"></script>
 
 
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
@@ -944,6 +1000,6 @@
 
 <script src="scripts/prettify/prettify.js"></script>
 <script src="scripts/prettify/lang-css.js"></script>
-<script src="scripts/jsdoc.js?v=1575468400921"></script>
+<script src="scripts/jsdoc.js?v=1619216178952"></script>
 </body>
 </html>

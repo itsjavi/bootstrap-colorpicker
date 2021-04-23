@@ -252,7 +252,8 @@ class Colorpicker {
 
     this.element
       .removeClass('colorpicker-element')
-      .removeData('colorpicker', 'color')
+      .removeData('colorpicker')
+      .removeData('color')
       .off('.colorpicker');
 
     /**
@@ -333,7 +334,7 @@ class Colorpicker {
       return;
     }
 
-    ch.color = val ? ch.createColor(val, this.options.autoInputFallback) : null;
+    ch.color = val ? ch.createColor(val, this.options.autoInputFallback, this.options.autoHexInputFallback) : null;
 
     /**
      * (Colorpicker) When the color is set programmatically with setValue().

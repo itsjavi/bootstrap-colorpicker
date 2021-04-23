@@ -141,7 +141,6 @@ you will usually need to set inline to `true` and a `container` selector option.
 * [Issues](https://github.com/itsjavi/bootstrap-colorpicker/issues)
 * [Pull Requests](https://github.com/itsjavi/bootstrap-colorpicker/pulls)
 * [Milestones](https://github.com/itsjavi/bootstrap-colorpicker/milestones)
-* [Planned Features](https://github.com/itsjavi/bootstrap-colorpicker/projects)
 
 This project exists thanks to all the [people who contribute](https://github.com/itsjavi/bootstrap-colorpicker/graphs/contributors).
 

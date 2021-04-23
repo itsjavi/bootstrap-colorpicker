@@ -119,10 +119,13 @@ class ColorHandler {
    * @fires Colorpicker#colorpickerInvalid
    * @param {*} val
    * @param {boolean} fallbackOnInvalid
+   * @param {boolean} autoHexInputFallback
    * @returns {ColorItem}
    */
-  createColor(val, fallbackOnInvalid = true) {
-    let color = new ColorItem(this.resolveColorDelegate(val), this.format);
+  createColor(val, fallbackOnInvalid = true, autoHexInputFallback = false) {
+    let disableHexInputFallback = !fallbackOnInvalid && !autoHexInputFallback;
+
+    let color = new ColorItem(this.resolveColorDelegate(val), this.format, disableHexInputFallback);
 
     if (!color.isValid()) {
       if (fallbackOnInvalid) {

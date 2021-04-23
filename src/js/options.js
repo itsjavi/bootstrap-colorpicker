@@ -123,6 +123,18 @@ export default {
    */
   autoInputFallback: true,
   /**
+   * If true, valid HEX3 colors will be converted to HEX6, even with
+   *    autoInputFallback set to false
+   * if false, HEX3 colors will not be converted to HEX6, when autoInputFallback is false
+   *    (this has been an issue, when using HEX6 colors with
+   *    autoInputFallback set to false, HEX3 colors were
+   *    automatically converting to HEX6)
+   *
+   * @type {boolean}
+   * @default false
+   */
+  autoHexInputFallback: true,
+  /**
    * If true a hash will be prepended to hexadecimal colors.
    * If false, the hash will be removed.
    * This only affects the input values in hexadecimal format.

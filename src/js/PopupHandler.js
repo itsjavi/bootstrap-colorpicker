@@ -227,8 +227,12 @@ class PopupHandler {
       )
     );
 
-    // Bootstrap 5 requires a newer version of popper.js
-    this.popoverTip =  window.bootstrap ?
+    // Bootstrap 5 added an official method to get the popover instance
+    const useGetInstance = window.bootstrap && 
+      window.bootstrap.Popover && 
+      window.bootstrap.Popover.getInstance;
+    
+    this.popoverTip =  useGetInstance ?
       $(bootstrap.Popover.getInstance(this.popoverTarget[0]).getTipElement()) :
       $(this.popoverTarget.popover('getTipElement').data('bs.popover').tip);
 

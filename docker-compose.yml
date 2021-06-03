@@ -9,3 +9,4 @@ services:
       - 5000:80
     volumes:
       - ./:/usr/src/app:delegated
+      - '~/.ssh:/root/.ssh' # required to install private packages or publish

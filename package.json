@@ -31,7 +31,7 @@
     "build-dist": "gulp dist",
     "build-docs": "gulp dist && gulp docs && gulp docs:add-v2-docs",
     "build-npm": "npm run build && gulp npm-prepublish",
-    "publish-docs": "npm run build && npm run test && gulp publish-gh-pages"
+    "publish-docs": "gh-pages -d build/docs"
   },
   "devDependencies": {
     "ava": "^0.23.0",
@@ -44,7 +44,7 @@
     "del": "^3.0.0",
     "eslint": "^6.7.2",
     "eslint-loader": "^3.0.2",
-    "gh-pages": "^1.0.0",
+    "gh-pages": "^1.2.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-clean-css": "^3.9.4",

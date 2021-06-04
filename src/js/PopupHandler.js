@@ -227,7 +227,16 @@ class PopupHandler {
       )
     );
 
-    this.popoverTip = $(this.popoverTarget.popover('getTipElement').data('bs.popover').tip);
+    /* Bootstrap 5 added an official method to get the popover instance */
+    /* global bootstrap */
+    const useGetInstance = window.bootstrap &&
+      window.bootstrap.Popover &&
+      window.bootstrap.Popover.getInstance;
+
+    this.popoverTip = useGetInstance ?
+      $(bootstrap.Popover.getInstance(this.popoverTarget[0]).getTipElement()) :
+      $(this.popoverTarget.popover('getTipElement').data('bs.popover').tip);
+
     this.popoverTip.addClass('colorpicker-bs-popover');
 
     this.popoverTarget.on('shown.bs.popover', $.proxy(this.fireShow, this));

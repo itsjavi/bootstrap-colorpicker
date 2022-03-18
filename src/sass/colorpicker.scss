@@ -10,7 +10,7 @@ $bar-size-large: ($bar-size-short * $columns) + ($base-margin * ($columns - 1));
   linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 0),
   rgb(255, 255, 255);
   background-size: $size $size;
-  background-position: 0 0, $size/2 $size/2;
+  background-position: 0 0, calc(#{$size} / 2) calc(#{$size} / 2);
 }
 
 @mixin bgSaturation() {

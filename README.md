@@ -1,6 +1,6 @@
-<a class="readme-logo" href="https://itsjavi.com/bootstrap-colorpicker">
+<!--<a class="readme-logo" href="https://itsjavi.com/bootstrap-colorpicker">
     <img alt="Logo by @reallinfo" src="logo.png" width="128px" />
-</a>
+</a>-->
 
 # Bootstrap Colorpicker
 
@@ -10,6 +10,12 @@
 
 [![Build Status](https://img.shields.io/travis/itsjavi/bootstrap-colorpicker/master.svg?style=flat-square)](https://travis-ci.org/itsjavi/bootstrap-colorpicker)
 [![npm](https://img.shields.io/npm/v/bootstrap-colorpicker.svg?style=flat-square)](https://www.npmjs.com/package/bootstrap-colorpicker)
+
+
+> THIS PROJECT IS NOT MAINTAINED ANYMORE.
+> After almost 10 years, it won't receive any further update. I recommend you using more modern solutions like [React Color](https://casesandberg.github.io/react-color/). You are still free to adapt this project and create forks and variants of it.
+
+
 
 ## Install
 You can get the latest version in many different ways:
